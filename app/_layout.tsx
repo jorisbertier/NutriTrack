@@ -34,7 +34,9 @@ export default function RootLayout() {
 
   return (
     <NavigationContainer independent={true}>
-      <Stack.Navigator>
+      <Stack.Navigator
+      screenOptions={{ headerShown: false}}
+      >
         <Stack.Screen name="auth" component={AuthScreen} />
         <Stack.Screen name="home" component={HomeScreen} />
         <Stack.Screen name="registration" component={Registration} />

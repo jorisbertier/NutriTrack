@@ -10,23 +10,11 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
 // import auth from '@react-native-firebase/auth';
 import { useState, useEffect } from 'react';
-
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  firstName: string;
-  dateOfBirth: string;
-  height: number;
-  weight: number; 
-  activityLevel: string;
-  profilPicture: string;
-}
+import { User } from '@/interface/User';
 
 export default function HomeScreen() {
 
   const navigation = useNavigation();
-  const [email, setEmail] = useState<string | null>(null)
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;
@@ -36,15 +24,11 @@ export default function HomeScreen() {
       if (user !== null) {
         // The user object has basic properties su
         const email = user.email;
-      
-        // The user's ID, unique to the Firebase project. Do NOT use
-        // this value to authenticate with your backend server, if
-        // you have one. Use User.getToken() instead.
         const uid = user.uid;
-        console.log(user)
-        setEmail(user.email)
+
         const userCollection = collection(firestore, 'User');
         const userSnapshot = await getDocs(userCollection);
+
         const userList = userSnapshot.docs.map(doc => ({
           id: doc.id,
           email: doc.data().email,
@@ -56,10 +40,9 @@ export default function HomeScreen() {
           activityLevel: doc.data().activityLevel,
           profilPicture: doc.data().profilPicture,
         }));
+
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
         setUserData(sortByUniqueUserConnected)
-        console.log("User trie", typeof sortByUniqueUserConnected)
-        console.log(sortByUniqueUserConnected)
       }
     }
     fetchUserData()
@@ -76,14 +59,10 @@ export default function HomeScreen() {
   };
   
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
+    // <ParallaxScrollView
+    //   headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+    // >
+    <>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome! {userData[0]?.name}</ThemedText>
         <ThemedText type="title">Weight: {userData[0]?.weight} kg</ThemedText>
@@ -104,8 +83,8 @@ export default function HomeScreen() {
       <ThemedView style={styles.stepContainer}>
         <Button title="Se déconnecter" onPress={handleSignOut} />
       </ThemedView>
-
-    </ParallaxScrollView>
+      </>
+    // </ParallaxScrollView>
   );
 }
 
