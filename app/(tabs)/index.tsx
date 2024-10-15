@@ -1,11 +1,80 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
+import { Image, StyleSheet, Platform, Button, Alert } from 'react-native';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Auth, firestore } from '@/firebaseConfig';
+import { signOut } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs } from 'firebase/firestore';
+// import auth from '@react-native-firebase/auth';
+import { useState, useEffect } from 'react';
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  firstName: string;
+  dateOfBirth: string;
+  height: number;
+  weight: number; 
+  activityLevel: string;
+  profilPicture: string;
+}
 
 export default function HomeScreen() {
+
+  const navigation = useNavigation();
+  const [email, setEmail] = useState<string | null>(null)
+  const [userData, setUserData] = useState<User[]>([])
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user !== null) {
+        // The user object has basic properties su
+        const email = user.email;
+      
+        // The user's ID, unique to the Firebase project. Do NOT use
+        // this value to authenticate with your backend server, if
+        // you have one. Use User.getToken() instead.
+        const uid = user.uid;
+        console.log(user)
+        setEmail(user.email)
+        const userCollection = collection(firestore, 'User');
+        const userSnapshot = await getDocs(userCollection);
+        const userList = userSnapshot.docs.map(doc => ({
+          id: doc.id,
+          email: doc.data().email,
+          name: doc.data().name,
+          firstName: doc.data().firstName,
+          dateOfBirth: doc.data().dateOfBirth,
+          height: doc.data().height,
+          weight: doc.data().weight,
+          activityLevel: doc.data().activityLevel,
+          profilPicture: doc.data().profilPicture,
+        }));
+        const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
+        setUserData(sortByUniqueUserConnected)
+        console.log("User trie", typeof sortByUniqueUserConnected)
+        console.log(sortByUniqueUserConnected)
+      }
+    }
+    fetchUserData()
+  }, [])
+
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(Auth); // Déconnexion de l'utilisateur
+      navigation.navigate('auth'); // Redirige vers la page de connexion après la déconnexion
+    } catch (error) {
+      Alert.alert('Erreur de déconnexion', error.message);
+    }
+  };
+  
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -16,7 +85,9 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Welcome! {userData[0]?.name}</ThemedText>
+        <ThemedText type="title">Weight: {userData[0]?.weight} kg</ThemedText>
+        <ThemedText type="title">Height: {userData[0]?.name} cm</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
@@ -31,28 +102,16 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
+        <Button title="Se déconnecter" onPress={handleSignOut} />
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     gap: 8,
   },
