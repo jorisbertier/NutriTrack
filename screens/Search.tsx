@@ -58,6 +58,10 @@ export default function Search() {
         setIsOpen(!isOpen)
     }
 
+    const handleDeleteValue = () => {
+        onChangeText('')
+    }
+
     return (
         <SafeAreaView style={styles.header}>
             <Row>
@@ -84,9 +88,9 @@ export default function Search() {
                 </TextInput>
                     {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
                     {text !== '' ? (
-                        <View style={styles.wrapperDelete}>
+                        <TouchableOpacity style={styles.wrapperDelete} onPress={handleDeleteValue}>
                             <Image source={require('@/assets/images/delete.png')} style={styles.deleteSearch}/>
-                        </View>
+                        </TouchableOpacity>
                         ) : (
                         null
                     )}
