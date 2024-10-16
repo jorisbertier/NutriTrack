@@ -102,7 +102,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
                 <View style={styles.text}>
                     <ThemedText variant="title1">{capitalizeFirstLetter(name)}</ThemedText>
                     <ThemedText variant="title2" color="grayDark">
-                        {calories} cal, {name} {quantity} {unit}
+                        {calories} kcal, {name} {quantity} {unit}
                     </ThemedText>
                 </View>
                 <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
