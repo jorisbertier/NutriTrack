@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Alert } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Dimensions } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useNavigation } from "expo-router";
@@ -22,11 +22,19 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
         navigation.navigate("FoodDetails", { id });
     };
 
-    const handleOpenModal = () => {
-        addImageRef.current.measure((fx, fy, width, height, px, py) => {
-            setModalPosition({ top: py, left: px });
-            setModalVisible(true);
-        });
+    const handlePress = (event) => {
+        const { pageY } = event.nativeEvent;
+        const screenHeight = Dimensions.get('window').height;
+        console.log(screenHeight)
+
+        // Vérifie si l'élément est près du bas de l'écran
+        if (pageY > screenHeight - 200) { // Ajuste la valeur si nécessaire
+            setModalPosition({ top: pageY - 250, left: event.nativeEvent.pageX - 60 }); // Ouvre vers le haut
+        } else {
+            setModalPosition({ top: pageY -17, left: event.nativeEvent.pageX - 60 }); // Ouvre vers le bas
+        }
+
+        setModalVisible(true);
     };
 
     return (
@@ -38,7 +46,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
                         {calories} cal, {name} {quantity} {unit}
                     </ThemedText>
                 </View>
-                <Pressable ref={addImageRef} onPress={handleOpenModal}>
+                <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
                     <Image source={require("@/assets/images/add.png")} style={styles.add} />
                 </Pressable>
                 <Modal
@@ -49,15 +57,14 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
                 >
                     <Pressable style={styles.overlay} onPress={() => setModalVisible(false)} />
                     <View style={[styles.modalView, { top: modalPosition.top + 7, left: modalPosition.left - 100 }]}>
-
                         <Text style={styles.modalText}>{name}</Text>
                         <Text style={styles.modalText}>Breakfast</Text>
                         <Text style={styles.modalText}>Lunch</Text>
                         <Text style={styles.modalText}>Dinner</Text>
                         <Text style={styles.modalText}>Snack</Text>
-                        <Pressable style={[styles.button, styles.buttonClose]} onPress={() => setModalVisible(false)}>
+                        {/* <Pressable style={[styles.button, styles.buttonClose]} onPress={() => setModalVisible(false)}>
                             <Text style={styles.textStyle}>Hide Modal</Text>
-                        </Pressable>
+                        </Pressable> */}
                     </View>
                 </Modal>
             </View>
@@ -102,6 +109,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
+        width: '50%'
     },
     button: {
         borderRadius: 20,
@@ -120,6 +128,12 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: "center",
     },
+    wrapperAdd: {
+        height: '100%',
+        width: '20%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });
 
 export default CardFood; // Vérifie que tu as exporté ton composant ici
