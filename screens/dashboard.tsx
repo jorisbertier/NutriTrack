@@ -1,6 +1,6 @@
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, View, Image, TouchableOpacity, FlatList, ScrollView } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, FlatList, ScrollView, Text } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
@@ -9,8 +9,14 @@ import { UserMeals } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { UsersFoodData } from "@/data/usersFoodData";
 import CardFoodResume from "@/components/Screens/Dashboard/CardFoodResume";
+import { getAuth } from "firebase/auth";
+import { fetchUserDataConnected } from "@/functions/function";
 
 export default function Dashboard() {
+
+    const [userIdConnected, setUserIdConnected] = useState<number>();
+    const auth = getAuth();
+    const user = auth.currentUser;
 
     const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
@@ -30,16 +36,17 @@ export default function Dashboard() {
         if(date) {
             setSelectedDate(date);
             setIsOpen(false)
-            console.log(event)
+            // console.log(event)
         }
     };
-    console.log(foodData)
+    // console.log(foodData)
     /* API */
     useEffect(() => {
         try {
             setAllFoodData(foodData);
             setAllUserData(Users);
             setAllUsersFoodData(UsersFoodData)
+            fetchUserDataConnected(user, setUserIdConnected)
         } catch (e) {
             console.log('Error processing data', e);
         }
@@ -60,7 +67,8 @@ export default function Dashboard() {
         }
         // filter data foods user with Id = 1
         const result = allUsersFoodData.filter((allFoodByOneUser) =>
-        allFoodByOneUser.userId === 1 && allFoodByOneUser.date === selectedDate.toLocaleDateString());
+        allFoodByOneUser.userId === userIdConnected && allFoodByOneUser.date === selectedDate.toLocaleDateString());
+        console.log(result)
 
         const resultByBreakfast = result.filter((food) => food.mealType === 'Breakfast');
         const resultByLunch = result.filter((food) => food.mealType === 'Lunch');
@@ -94,7 +102,7 @@ export default function Dashboard() {
     // console.log(selectedDate.toLocaleDateString())
     // console.log('______________')
     // console.log(resultAllDataFood)
-    console.log('la')
+    // console.log('la')
 
     return (
         <ScrollView style={styles.header}>
@@ -134,6 +142,9 @@ export default function Dashboard() {
                 <ThemedText>Vous n'avez aucun aliment aujourd'hui</ThemedText>
             )} */}
             </Row>
+            <View>
+                <Text>#{userIdConnected}</Text>
+            </View>
             <View style={styles.wrapperMeals}>
                     {displayResultFoodByMeal(sortByBreakfast, 'Breakfast')}
                     {displayResultFoodByMeal(sortByLunch, 'Lunch')}

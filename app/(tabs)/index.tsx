@@ -2,7 +2,7 @@ import { Image, StyleSheet, Platform, Button, Alert, View } from 'react-native';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+// import { ThemedView } from '@/components/ThemedView';
 import { Auth, firestore } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -68,6 +68,7 @@ export default function HomeScreen() {
         <ThemedText>Welcome! {userData[0]?.name}</ThemedText>
         <ThemedText>Weight: {userData[0]?.weight} kg</ThemedText>
         <ThemedText>Height: {userData[0]?.name} cm</ThemedText>
+        <ThemedText>NumeroId: {userData[0]?.id} </ThemedText>
         <HelloWave />
       </View>
       <View style={styles.stepContainer}>
