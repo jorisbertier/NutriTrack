@@ -87,6 +87,9 @@ export default function HomeScreen() {
       <View>
         <Button title="Search" onPress={() => navigation.navigate('search')}/>
       </View>
+      <View>
+        <Button title="Dashboard" onPress={() => navigation.navigate('dashboard')}/>
+      </View>
       </>
     // </ParallaxScrollView>
   );

@@ -9,6 +9,7 @@ import AuthScreen from '../screens/AuthScreen';
 import Registration from '@/screens/Registration';
 import Search from '@/screens/Search';
 import DetailsFood from '@/screens/[id]';
+import Dashboard from '@/screens/dashboard';
 
 
 const Stack = createNativeStackNavigator();
@@ -45,6 +46,7 @@ export default function RootLayout() {
         <Stack.Screen name="registration" component={Registration} />
         <Stack.Screen name="search" component={Search} />
         <Stack.Screen name="FoodDetails" component={DetailsFood} />
+        <Stack.Screen name="dashboard" component={Dashboard} />
       </Stack.Navigator>
     </NavigationContainer>
   );
