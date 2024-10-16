@@ -1,12 +1,13 @@
 import { ThemedText } from "@/components/ThemedText";
 import useThemeColors from "@/hooks/useThemeColor";
-import { StyleSheet, TextInput, Image, View, FlatList} from "react-native";
+import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
 import { getData } from "@/services/api";
 import { foodData } from "@/data/food.js";
 import { useEffect, useState } from "react";
+import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
 interface FoodItem {
     id: number;
@@ -26,6 +27,16 @@ export default function Search() {
     const [data, setData] = useState<FoodItem[]>([]);
     const [error, setError] = useState("");
     const [text, onChangeText] = useState('');
+    const [isOpen, setIsOpen] = useState(true);
+    const [selectedDate, setSelectedDate]= useState<Date>(new Date());
+
+    const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
+        if(date) {
+            setSelectedDate(date);
+            setIsOpen(false)
+            // console.log(event)
+        }
+    };
 
     useEffect(() => {
         try {
@@ -41,21 +52,54 @@ export default function Search() {
     
     const colors = useThemeColors()
 
-    const filteredFood = data.filter(food => food.name.toLowerCase().includes(text.toLowerCase().trim()))
+    const filteredFood = data.filter(food => food.name.toLowerCase().includes(text.toLowerCase().trim()));
+
+    const handleOpenCalendar = () => {
+        setIsOpen(!isOpen)
+    }
 
     return (
         <SafeAreaView style={styles.header}>
-            <ThemedText>Voici ma page search</ThemedText>
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeText}
-                value={text}
-                placeholder="Search a food"
-                placeholderTextColor={'black'}
-            >
-                {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
-            </TextInput>
+            <Row>
+                <View style={styles.wrapperCalendar}>
+                <TouchableOpacity onPress={handleOpenCalendar}>
+                    <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
+                </TouchableOpacity>
+                    <ThemedText variant="title1">Today</ThemedText>
+                </View>
+                {isOpen && (<RNDateTimePicker
+                                onChange={setDate}
+                                value={selectedDate}
+                                timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
+                />)}
+            </Row>
+            <View style={styles.wrapperInput}>
+                <TextInput
+                    style={[styles.input, {backgroundColor: '#F6F6F6'}]}
+                    onChangeText={onChangeText}
+                    value={text}
+                    placeholder="Search"
+                    placeholderTextColor={'grey'}
+                >
+                </TextInput>
+                    {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
+                    {text !== '' ? (
+                        <View style={styles.wrapperDelete}>
+                            <Image source={require('@/assets/images/delete.png')} style={styles.deleteSearch}/>
+                        </View>
+                        ) : (
+                        null
+                    )}
+                    
+                    <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/>
 
+            </View>
+            {/* <Row>
+                <View style={styles.wrapperCreate}>
+                    <Image source={require('@/assets/images/grapes.png')} style={styles.imageCreate}/>
+                    <ThemedText variant="title1">Create a new aliment</ThemedText>
+                </View>
+            </Row> */}
             <Row style={styles.wrapperFood}>
                 <FlatList<FoodItem>
                     data={filteredFood}
@@ -85,21 +129,88 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1
     },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-        paddingLeft: 10,
+    wrapperInput :{
+        position: 'relative',
         justifyContent: 'center',
         alignItems: 'center'
     },
+    input: {
+        height: 50,
+        margin: 12,
+        borderRadius: 15,
+        padding: 10,
+        paddingLeft: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingStart: 40,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 3,
+        borderBlockColor: 'transparent',
+        width: '100%'
+    },
     iconSearch : {
-        width: 25,
-        height: 25
+        position: 'absolute',
+        left: 12,
+        top: '50%',
+        transform: [{ translateY: -9.5 }], 
+        width: 20,
+        height: 20,
+        tintColor: '#8a8a8a',
+        
+    },
+    wrapperDelete : {
+        position: 'absolute',
+        right: 30,
+        top: '50%',
+        transform: [{ translateY: -13 }],
+        backgroundColor: 'rgba(18, 18, 18, 0.08)',
+        padding: 7,
+        borderRadius: 8
+    },
+    deleteSearch : {
+        height: 15,
+        width: 15,
+        tintColor: '#8a8a8a',
+        
     },
     wrapperFood : {
         flexDirection: 'column',
         gap: 10
     },
+    wrapperCreate : {
+        height: 80,
+        width: 300,
+        backgroundColor : '#F6F6F6',
+        borderRadius: 30,
+        marginVertical: 10,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    imageCreate : {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 50,
+        height: 50,
+        zIndex: 2,
+    },
+    wrapperCalendar : {
+        gap: 10,
+        width: 175,
+        height: 50,
+        borderRadius: 15,
+        backgroundColor : '#F6F6F6',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 30,
+        marginBottom: 20,
+        paddingLeft: 15
+    },
+    calendar : {
+        height: 35,
+        width: 35
+    }
 })

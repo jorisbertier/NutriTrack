@@ -1,7 +1,9 @@
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useNavigation } from "expo-router";
+import { doc, deleteDoc } from "firebase/firestore";
+import { firestore } from "@/firebaseConfig";
 
 type Props = {
     id: number,
@@ -9,10 +11,28 @@ type Props = {
     calories: string,
     unit: string,
     quantity: number,
-    image: string
+    image: string,
+    userMealId: string | undefined
 }
 
-export default function CardFoodResume({name, id, calories, unit, quantity, image}: Props) {
+export default function CardFoodResume({name, id, calories, unit, quantity, image, userMealId}: Props) {
+
+    const handleDeleteFood = () => {
+        const deleteFromMeals = async () => {
+            if (userMealId) { // Verify is userMealId is defined
+                try {
+                    const mealDocRef = doc(firestore, "UserMeals", userMealId);
+                    await deleteDoc(mealDocRef);
+                    console.log('Document supprimé avec succès');
+                } catch (error) {
+                    console.error("Erreur lors de la suppression du document : ", error);
+                }
+            } else {
+                console.error("L'ID de l'utilisateur du repas est indéfini.");
+            }
+        };
+        deleteFromMeals()
+    }
 
     return (
             <View style={styles.cardFood}>
@@ -23,9 +43,9 @@ export default function CardFoodResume({name, id, calories, unit, quantity, imag
                         <ThemedText variant="title2" color={'grayDark'}>{calories} Kcal,{quantity} {unit}</ThemedText>
                     </View>
                 </View>
-                <View>
-                    <Image source={require('@/assets/images/add.png')} style={styles.add}/>
-                </View>
+                <TouchableOpacity  style={styles.test} onPress={() => handleDeleteFood()}>
+                    <Image source={require('@/assets/images/delete.png')} style={styles.deleteImage}/>
+                </TouchableOpacity>
             </View>
     )
 }
@@ -47,9 +67,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 16
     },
-    add : {
-        width: 35,
-        height: 35
+    deleteImage : {
+        width: 20,
+        height: 20
     },
     text: {
         gap: 5
@@ -58,5 +78,8 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20
+    },
+    test : {
+        padding: 10,
     }
 })

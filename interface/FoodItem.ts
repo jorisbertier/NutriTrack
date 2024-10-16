@@ -6,6 +6,7 @@ export interface FoodItem {
     description: string;
     category: string;
     notes: string;
+    userMealId?: string;
     nutrition: {
         calories: string;
         servingSize: {

@@ -32,7 +32,8 @@ export const Colors = {
       grayDark: '#A2A2A2',
       black: '#000000',
       white: '#ffffff',
-      greenLight: '#CBD77E'
+      greenLight: '#CBD77E',
+      grayPress: '#E0E0E0'
   },
   light: {
       blue: '#0066FF',
@@ -41,6 +42,7 @@ export const Colors = {
       grayDark: '#A2A2A2',
       black: '#000000',
       white: '#ffffff',
-      greenLight: '#CBD77E'
+      greenLight: '#CBD77E',
+      grayPress: '#E0E0E0'
   }
 }

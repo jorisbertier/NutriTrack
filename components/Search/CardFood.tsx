@@ -8,6 +8,7 @@ import { fetchUserDataConnected2, fetchUserDataConnected } from "@/functions/fun
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import useThemeColors from "@/hooks/useThemeColor";
 
 type Props = {
     id: number;
@@ -24,12 +25,16 @@ type UserConnected = {
 } | null;
 
 const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
-    const navigation = useNavigation<any>();
+
+    const colors = useThemeColors();
+
     const [modalVisible, setModalVisible] = useState(false);
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-    const addImageRef = useRef(null);
     const [userIdConnected, setUserIdConnected] = useState<number>();
-
+    const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+    
+    const navigation = useNavigation<any>(); 
+    const addImageRef = useRef(null);
     const auth = getAuth();
     const user = auth.currentUser;
 
@@ -54,30 +59,24 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
         const screenHeight = Dimensions.get('window').height;
         console.log(screenHeight)
 
-        // Vérifie si l'élément est près du bas de l'écran
-        if (pageY > screenHeight - 200) { // Ajuste la valeur si nécessaire
-            setModalPosition({ top: pageY - 250, left: event.nativeEvent.pageX - 60 }); // Ouvre vers le haut
+        // Verify is element es near of bottom at the screen
+        if (pageY > screenHeight - 200) {
+            setModalPosition({ top: pageY - 250, left: event.nativeEvent.pageX - 60 }); // Open to the top
         } else {
-            setModalPosition({ top: pageY -17, left: event.nativeEvent.pageX - 60 }); // Ouvre vers le bas
+            setModalPosition({ top: pageY -17, left: event.nativeEvent.pageX - 60 }); //Open to the bottom
         }
 
         setModalVisible(true);
     };
 
-    const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+    
     const generateUniqueId = () => {
         return Date.now().toString(36) + Math.random().toString(36).substring(2);
     };
-    // const generateUniqueId = () => crypto.randomUUID();
 
     const handleValue = (valueMeal: string, idFood: number) =>{
-        // console.log(valueMeal)
-        // console.log('Id food:',idFood)
         try {
             const date = new Date();
-            // console.log(date.toLocaleDateString())
-            // console.log(userIdConnected)
-            // console.log('test')
             const newId = generateUniqueId()
             console.log(typeof newId)
     
@@ -90,6 +89,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
                 });
             }
             addAliment()
+            setModalVisible(false)
             console.log("Document successfully written with ID: ", newId)
         } catch(e) {
             console.log('Error add aliment to database UserMeals', e)
@@ -98,7 +98,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
 
     return (
         <TouchableOpacity onPress={navigateToDetails}>
-            <View style={styles.cardFood}>
+            <View style={[styles.cardFood, {backgroundColor: colors.gray}]}>
                 <View style={styles.text}>
                     <ThemedText variant="title1">{capitalizeFirstLetter(name)}</ThemedText>
                     <ThemedText variant="title2" color="grayDark">
@@ -116,13 +116,26 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
                 >
                     <Pressable style={styles.overlay} onPress={() => setModalVisible(false)} />
                     <View style={[styles.modalView, { top: modalPosition.top + 7, left: modalPosition.left - 100 }]}>
-                        <Text style={styles.modalText}>{name}</Text>
+                        {/* <Text style={styles.modalText}>{name}</Text> */}
                         {meals.map((meal, index) => (
-                            <Text key={`${index}-${meal}`} onPress={() => handleValue(meal, id)}>{meal}</Text>
+                            <Pressable 
+                                style={({ pressed }) => [
+                                    styles.blocMeal, 
+                                    {
+                                        backgroundColor: pressed ? `${colors.grayPress}` : 'transparent' ,
+                                        borderTopEndRadius: index === 0 ? 20 : 0,
+                                        borderTopStartRadius: index === 0 ? 20 : 0,
+                                        borderBottomEndRadius: index === 3 ? 20 : 0,
+                                        borderBottomStartRadius: index === 3 ? 20 : 0,
+                                        borderBottomWidth: index === 3 ? 0 :1,
+                                        borderBlockColor: `${colors.grayPress}`}
+                                ]}
+                                key={`${index}-${meal}`} 
+                                onPress={() => handleValue(meal, id)}
+                            >
+                                <Text style={styles.textMeal}>{meal}</Text>
+                            </Pressable>
                         ))}
-                        {/* <Pressable style={[styles.button, styles.buttonClose]} onPress={() => setModalVisible(false)}>
-                            <Text style={styles.textStyle}>Hide Modal</Text>
-                        </Pressable> */}
                     </View>
                 </Modal>
             </View>
@@ -136,7 +149,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "#F5F5F5",
         height: 80,
         borderRadius: 15,
         width: "100%",
@@ -160,23 +172,14 @@ const styles = StyleSheet.create({
         position: "absolute",
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 20,
-        gap: 20,
+        gap: 0,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        width: '50%'
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
+        width: '50%',
     },
     textStyle: {
         color: "white",
@@ -192,7 +195,16 @@ const styles = StyleSheet.create({
         width: '20%',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    blocMeal : {
+        width: '100%',
+        padding: 10,
+        paddingLeft: 25
+    },
+    textMeal : {
+        fontSize: 16,
+        fontWeight: '400'
     }
 });
 
-export default CardFood; // Vérifie que tu as exporté ton composant ici
+export default CardFood;

@@ -77,12 +77,17 @@ export default function Dashboard() {
         // function qui permet de filter les données recus et de recuperer les details
         const filterAndSetFoodData = (filteredData: UserMeals[], setData: React.Dispatch<React.SetStateAction<FoodItem[]>>) => {
             if (filteredData.length > 0) {
-                const foodIds = filteredData.map(item => item.foodId); //// the result to extract all the food IDs
-                const filteredFoodData = foodIds.flatMap(foodId => { // For each foodId get details food data from allFoodData
-                    return allFoodData.filter(food => food.id === foodId);
+                // Conservez les deux propriétés : foodId et userMealId
+                const filteredFoodData = filteredData.flatMap(item => {
+                    const foodDetails = allFoodData.filter(food => food.id === item.foodId);
+                    // Ajoutez l'ID du document UserMeals à chaque objet de données filtrées
+                    return foodDetails.map(food => ({
+                        ...food,
+                        userMealId: item.id // Ajoutez ici l'ID du document UserMeals
+                    }));
                 });
                 setData(filteredFoodData); // Update state with filtered data search
-            } else {
+            }  else {
                 setData([])
             }
         }
@@ -90,7 +95,6 @@ export default function Dashboard() {
         if (allFoodData.length > 0 && allUsersFoodData.length > 0) {
             const result = allUsersFoodData.filter((allFoodByOneUser) =>
             allFoodByOneUser.userId === userIdConnected && allFoodByOneUser.date === selectedDate.toLocaleDateString());
-            // console.log(result);
 
             const resultByBreakfast = result.filter((food) => food.mealType === 'Breakfast');
             const resultByLunch = result.filter((food) => food.mealType === 'Lunch');
@@ -105,29 +109,21 @@ export default function Dashboard() {
             // } else {
             //     setResultAllDataFood([])
             // }
-
+            console.log('test')
+            console.log(resultByBreakfast);
             filterAndSetFoodData(result, setResultAllDataFood)
             filterAndSetFoodData(resultByBreakfast, setSortByBreakfast)
             filterAndSetFoodData(resultByLunch, setSortByLunch)
             filterAndSetFoodData(resultByDinner, setSortByDinner)
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
-    }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
+    }, [selectedDate,allUsersFoodData, userIdConnected]);
+    // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
     }
 
-    // console.log(selectedDate.toLocaleDateString("fr-Fr"))
-    // console.log('___________')
-    // console.log(date.toLocaleDateString())
-    // console.log(selectedDate.toLocaleDateString())
-    // console.log('______________')
-    // console.log(resultAllDataFood)
-    // console.log('la')
-    // if (isLoading) {
-    //     return <ThemedText>Chargement...</ThemedText>;
-    // }
     return (
         <ScrollView style={styles.header}>
             <ThemedText>Voici ma page dashboard</ThemedText>
@@ -220,6 +216,7 @@ const styles = StyleSheet.create({
 
 
 function displayResultFoodByMeal(resultMeal: any, meal: string) {
+    console.log(resultMeal)
     return (
         <View style={styles.wrapper}>
             <Row style={styles.row}>
@@ -232,7 +229,14 @@ function displayResultFoodByMeal(resultMeal: any, meal: string) {
                     data={resultMeal}
                     renderItem={({ item }) => (
                         // <ThemedText>{item.name}</ThemedText>
-                        <CardFoodResume name={item.name} quantity={item.nutrition.servingSize.quantity} unit={item.nutrition.servingSize.unit} image={item.image} id={item.id} calories={item.nutrition.calories}/>
+                        <CardFoodResume
+                        name={item.name}
+                        quantity={item.nutrition.servingSize.quantity}
+                        unit={item.nutrition.servingSize.unit}
+                        image={item.image}
+                        id={item.id}
+                        userMealId={item.userMealId}
+                        calories={item.nutrition.calories}/>
                     )}
                     showsVerticalScrollIndicator={false}
                     scrollEnabled={false}
