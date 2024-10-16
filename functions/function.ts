@@ -7,7 +7,7 @@ export function capitalizeFirstLetter(name: string) {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
 
-export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser: React.Dispatch<React.SetStateAction<number>>) => {
+export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser: React.Dispatch<React.SetStateAction<number | undefined>>) => {
     if (user !== null) {
         const email = user.email;
         const userCollection = collection(firestore, 'User');

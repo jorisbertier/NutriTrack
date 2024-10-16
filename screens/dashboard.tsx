@@ -11,6 +11,8 @@ import { UsersFoodData } from "@/data/usersFoodData";
 import CardFoodResume from "@/components/Screens/Dashboard/CardFoodResume";
 import { getAuth } from "firebase/auth";
 import { fetchUserDataConnected } from "@/functions/function";
+import { firestore } from "@/firebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function Dashboard() {
 
@@ -20,7 +22,7 @@ export default function Dashboard() {
 
     const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
-    const [allUsersFoodData, setAllUsersFoodData] = useState([]);  // all UsersFoodData
+    const [allUsersFoodData, setAllUsersFoodData] = useState<UserMeals[]>([]);  // all UsersFoodData
     const [resultAllDataFood, setResultAllDataFood] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortByBreakfast, setSortByBreakfast] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortByLunch, setSortByLunch] = useState<FoodItem[]>([]); //State for stock search filtered
@@ -43,15 +45,33 @@ export default function Dashboard() {
     /* API */
     useEffect(() => {
         try {
+            const fetch = async () => {
+                /** TEST */
+                const userMealsCollection = collection(firestore, 'UserMeals');
+                const userMealsSnapshot = await getDocs(userMealsCollection);
+                const userMealsList = userMealsSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    foodId: doc.data().foodId as number,
+                    userId: doc.data().userId as number,
+                    mealType: doc.data().mealType as string,
+                    date: doc.data().date as string,
+                }));
+                console.log(userMealsList)
+                setAllUsersFoodData(userMealsList)
+                /** TEST */
+            }
+            fetch()
             setAllFoodData(foodData);
             setAllUserData(Users);
-            setAllUsersFoodData(UsersFoodData)
+            // setAllUsersFoodData(UsersFoodData)
             fetchUserDataConnected(user, setUserIdConnected)
         } catch (e) {
             console.log('Error processing data', e);
         }
     }, []);
-
+    
+    console.log('test 2')
+    console.log(allUsersFoodData)
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
         const filterAndSetFoodData = (filteredData: UserMeals[], setData: React.Dispatch<React.SetStateAction<FoodItem[]>>) => {
@@ -68,7 +88,7 @@ export default function Dashboard() {
         // filter data foods user with Id = 1
         const result = allUsersFoodData.filter((allFoodByOneUser) =>
         allFoodByOneUser.userId === userIdConnected && allFoodByOneUser.date === selectedDate.toLocaleDateString());
-        console.log(result)
+        // console.log(result);
 
         const resultByBreakfast = result.filter((food) => food.mealType === 'Breakfast');
         const resultByLunch = result.filter((food) => food.mealType === 'Lunch');

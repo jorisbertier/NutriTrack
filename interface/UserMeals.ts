@@ -1,5 +1,5 @@
 export interface UserMeals {
-    id: number;
+    id: string;
     userId: number;
     foodId: number;
     date: string;
