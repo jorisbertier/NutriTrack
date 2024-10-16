@@ -29,6 +29,7 @@ export default function Search() {
     const [text, onChangeText] = useState('');
     const [isOpen, setIsOpen] = useState(true);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date());
+    const date = new Date();
 
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         if(date) {
@@ -69,12 +70,14 @@ export default function Search() {
                 <TouchableOpacity onPress={handleOpenCalendar}>
                     <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
                 </TouchableOpacity>
-                    <ThemedText variant="title1">Today</ThemedText>
+                    <ThemedText variant="title1">
+                        {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': selectedDate.toLocaleDateString()}
+                        </ThemedText>
                 </View>
                 {isOpen && (<RNDateTimePicker
-                                onChange={setDate}
-                                value={selectedDate}
-                                timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
+                    onChange={setDate}
+                    value={selectedDate}
+                    timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
                 />)}
             </Row>
             <View style={styles.wrapperInput}>
@@ -203,8 +206,8 @@ const styles = StyleSheet.create({
     },
     wrapperCalendar : {
         gap: 10,
-        width: 175,
-        height: 50,
+        width: 200,
+        height: 60,
         borderRadius: 15,
         backgroundColor : '#F6F6F6',
         flexDirection: 'row',
