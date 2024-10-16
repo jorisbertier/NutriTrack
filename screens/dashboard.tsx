@@ -70,7 +70,6 @@ export default function Dashboard() {
         }
     }, []);
     
-    console.log('test 2')
     console.log(allUsersFoodData)
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details

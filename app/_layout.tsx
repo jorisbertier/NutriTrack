@@ -41,10 +41,10 @@ export default function RootLayout() {
       <Stack.Navigator
       screenOptions={{ headerShown: false}}
       >
+        <Stack.Screen name="search" component={Search} />
         <Stack.Screen name="auth" component={AuthScreen} />
         <Stack.Screen name="home" component={HomeScreen} />
         <Stack.Screen name="registration" component={Registration} />
-        <Stack.Screen name="search" component={Search} />
         <Stack.Screen name="FoodDetails" component={DetailsFood} />
         <Stack.Screen name="dashboard" component={Dashboard} />
       </Stack.Navigator>
