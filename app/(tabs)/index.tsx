@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Button, Alert } from 'react-native';
+import { Image, StyleSheet, Platform, Button, Alert, View } from 'react-native';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -11,6 +11,7 @@ import { collection, getDocs } from 'firebase/firestore';
 // import auth from '@react-native-firebase/auth';
 import { useState, useEffect } from 'react';
 import { User } from '@/interface/User';
+import Search from '@/screens/Search';
 
 export default function HomeScreen() {
 
@@ -63,26 +64,29 @@ export default function HomeScreen() {
     //   headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
     // >
     <>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome! {userData[0]?.name}</ThemedText>
-        <ThemedText type="title">Weight: {userData[0]?.weight} kg</ThemedText>
-        <ThemedText type="title">Height: {userData[0]?.name} cm</ThemedText>
+      <View style={styles.titleContainer}>
+        <ThemedText>Welcome! {userData[0]?.name}</ThemedText>
+        <ThemedText>Weight: {userData[0]?.weight} kg</ThemedText>
+        <ThemedText>Height: {userData[0]?.name} cm</ThemedText>
         <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+      </View>
+      <View style={styles.stepContainer}>
+        <ThemedText>Step 1: Try it</ThemedText>
         <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
+          Edit <ThemedText>app/(tabs)/index.tsx</ThemedText> to see changes.
           Press{' '}
-          <ThemedText type="defaultSemiBold">
+          <ThemedText>
             {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
           </ThemedText>{' '}
           to open developer tools.
         </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
+      </View>
+      <View style={styles.stepContainer}>
         <Button title="Se déconnecter" onPress={handleSignOut} />
-      </ThemedView>
+      </View>
+      <View>
+        <Button title="Search" onPress={() => navigation.navigate('search')}/>
+      </View>
       </>
     // </ParallaxScrollView>
   );

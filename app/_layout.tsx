@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '../screens/AuthScreen';
 import Registration from '@/screens/Registration';
+import Search from '@/screens/Search';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ export default function RootLayout() {
         <Stack.Screen name="auth" component={AuthScreen} />
         <Stack.Screen name="home" component={HomeScreen} />
         <Stack.Screen name="registration" component={Registration} />
+        <Stack.Screen name="search" component={Search} />
       </Stack.Navigator>
     </NavigationContainer>
   );
