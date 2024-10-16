@@ -30,7 +30,7 @@ export default function Dashboard() {
     const [sortBySnack, setSortBySnack] = useState<FoodItem[]>([]); //State for stock search filtered
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
-
+    const [isLoading, setIsLoading] = useState(true);
     /* Date */
     const date = new Date();
 
@@ -67,6 +67,8 @@ export default function Dashboard() {
             fetchUserDataConnected(user, setUserIdConnected)
         } catch (e) {
             console.log('Error processing data', e);
+        } finally {
+            setIsLoading(false);
         }
     }, []);
     
@@ -85,31 +87,32 @@ export default function Dashboard() {
             }
         }
         // filter data foods user with Id = 1
-        const result = allUsersFoodData.filter((allFoodByOneUser) =>
-        allFoodByOneUser.userId === userIdConnected && allFoodByOneUser.date === selectedDate.toLocaleDateString());
-        // console.log(result);
+        if (allFoodData.length > 0 && allUsersFoodData.length > 0) {
+            const result = allUsersFoodData.filter((allFoodByOneUser) =>
+            allFoodByOneUser.userId === userIdConnected && allFoodByOneUser.date === selectedDate.toLocaleDateString());
+            // console.log(result);
 
-        const resultByBreakfast = result.filter((food) => food.mealType === 'Breakfast');
-        const resultByLunch = result.filter((food) => food.mealType === 'Lunch');
-        const resultByDinner = result.filter((food) => food.mealType === 'Dinner');
-        const resultBySnack = result.filter((food) => food.mealType === 'Snack');
-        // if (result.length > 0) {
-        //     const foodIds = result.map(item => item.foodId); //// the result to extract all the food IDs
-        //     const filteredFoodData = foodIds.flatMap(foodId => { // For each foodId get details food data from allFoodData
-        //         return allFoodData.filter(food => food.id === foodId);
-        //     });
-        //     setResultAllDataFood(filteredFoodData); // Update state with filtered data search
-        // } else {
-        //     setResultAllDataFood([])
-        // }
+            const resultByBreakfast = result.filter((food) => food.mealType === 'Breakfast');
+            const resultByLunch = result.filter((food) => food.mealType === 'Lunch');
+            const resultByDinner = result.filter((food) => food.mealType === 'Dinner');
+            const resultBySnack = result.filter((food) => food.mealType === 'Snack');
+            // if (result.length > 0) {
+            //     const foodIds = result.map(item => item.foodId); //// the result to extract all the food IDs
+            //     const filteredFoodData = foodIds.flatMap(foodId => { // For each foodId get details food data from allFoodData
+            //         return allFoodData.filter(food => food.id === foodId);
+            //     });
+            //     setResultAllDataFood(filteredFoodData); // Update state with filtered data search
+            // } else {
+            //     setResultAllDataFood([])
+            // }
 
-        filterAndSetFoodData(result, setResultAllDataFood)
-        filterAndSetFoodData(resultByBreakfast, setSortByBreakfast)
-        filterAndSetFoodData(resultByLunch, setSortByLunch)
-        filterAndSetFoodData(resultByDinner, setSortByDinner)
-        filterAndSetFoodData(resultBySnack, setSortBySnack)
-
-    }, [allUsersFoodData, allFoodData, selectedDate]);
+            filterAndSetFoodData(result, setResultAllDataFood)
+            filterAndSetFoodData(resultByBreakfast, setSortByBreakfast)
+            filterAndSetFoodData(resultByLunch, setSortByLunch)
+            filterAndSetFoodData(resultByDinner, setSortByDinner)
+            filterAndSetFoodData(resultBySnack, setSortBySnack)
+        }
+    }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
@@ -122,7 +125,9 @@ export default function Dashboard() {
     // console.log('______________')
     // console.log(resultAllDataFood)
     // console.log('la')
-
+    // if (isLoading) {
+    //     return <ThemedText>Chargement...</ThemedText>;
+    // }
     return (
         <ScrollView style={styles.header}>
             <ThemedText>Voici ma page dashboard</ThemedText>
@@ -164,12 +169,14 @@ export default function Dashboard() {
             <View>
                 <Text>#{userIdConnected}</Text>
             </View>
+            {isLoading ? <ThemedText>Chargement...</ThemedText> :(
             <View style={styles.wrapperMeals}>
                     {displayResultFoodByMeal(sortByBreakfast, 'Breakfast')}
                     {displayResultFoodByMeal(sortByLunch, 'Lunch')}
                     {displayResultFoodByMeal(sortByDinner, 'Dinner')}
                     {displayResultFoodByMeal(sortBySnack, 'Snack')}
             </View>
+            )}
         </ScrollView>
     )
 }
@@ -229,7 +236,7 @@ function displayResultFoodByMeal(resultMeal: any, meal: string) {
                     )}
                     showsVerticalScrollIndicator={false}
                     scrollEnabled={false}
-                    keyExtractor={(item) => item.id.toString() + Math.random()}
+                    keyExtractor={(item) => item.id.toString()}
                 />
                 ) : (
                     <ThemedText>Don't have any food for {meal}</ThemedText>

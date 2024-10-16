@@ -3,6 +3,11 @@ import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Dime
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useNavigation } from "expo-router";
+import { useEffect } from "react";
+import { fetchUserDataConnected2, fetchUserDataConnected } from "@/functions/function";
+import { getAuth } from "firebase/auth";
+import { firestore } from "@/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 
 type Props = {
     id: number;
@@ -12,11 +17,33 @@ type Props = {
     quantity: number;
 };
 
+type UserConnected = {
+    index: number;
+    id: string;
+    email: string;
+} | null;
+
 const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
     const navigation = useNavigation<any>();
     const [modalVisible, setModalVisible] = useState(false);
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
     const addImageRef = useRef(null);
+    const [userIdConnected, setUserIdConnected] = useState<number>();
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    useEffect(() => {
+        try {
+            const fetch = async () => {
+                fetchUserDataConnected(user, setUserIdConnected)
+            }
+            fetch()
+        } catch (e) {
+            console.log('Error processing data', e);
+        }
+    }, [user]);
+    
 
     const navigateToDetails = () => {
         navigation.navigate("FoodDetails", { id });
@@ -36,6 +63,38 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
 
         setModalVisible(true);
     };
+
+    const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+    const generateUniqueId = () => {
+        return Date.now().toString(36) + Math.random().toString(36).substring(2);
+    };
+    // const generateUniqueId = () => crypto.randomUUID();
+
+    const handleValue = (valueMeal: string, idFood: number) =>{
+        // console.log(valueMeal)
+        // console.log('Id food:',idFood)
+        try {
+            const date = new Date();
+            // console.log(date.toLocaleDateString())
+            // console.log(userIdConnected)
+            // console.log('test')
+            const newId = generateUniqueId()
+            console.log(typeof newId)
+    
+            const addAliment = async() => {
+                await setDoc(doc(firestore, "UserMeals", newId), {
+                    foodId: idFood,
+                    userId: userIdConnected,
+                    date: date.toLocaleDateString(),
+                    mealType: valueMeal,
+                });
+            }
+            addAliment()
+            console.log("Document successfully written with ID: ", newId)
+        } catch(e) {
+            console.log('Error add aliment to database UserMeals', e)
+        }
+    }
 
     return (
         <TouchableOpacity onPress={navigateToDetails}>
@@ -58,10 +117,9 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
                     <Pressable style={styles.overlay} onPress={() => setModalVisible(false)} />
                     <View style={[styles.modalView, { top: modalPosition.top + 7, left: modalPosition.left - 100 }]}>
                         <Text style={styles.modalText}>{name}</Text>
-                        <Text style={styles.modalText}>Breakfast</Text>
-                        <Text style={styles.modalText}>Lunch</Text>
-                        <Text style={styles.modalText}>Dinner</Text>
-                        <Text style={styles.modalText}>Snack</Text>
+                        {meals.map((meal, index) => (
+                            <Text key={`${index}-${meal}`} onPress={() => handleValue(meal, id)}>{meal}</Text>
+                        ))}
                         {/* <Pressable style={[styles.button, styles.buttonClose]} onPress={() => setModalVisible(false)}>
                             <Text style={styles.textStyle}>Hide Modal</Text>
                         </Pressable> */}
@@ -103,6 +161,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 20,
         padding: 20,
+        gap: 20,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
