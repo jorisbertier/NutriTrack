@@ -117,11 +117,11 @@ export default function Search() {
                             calories={item.nutrition.calories}
                             unit={item.nutrition.servingSize.unit}
                             quantity={item.nutrition.servingSize.quantity}
-                            
+                            selectedDate={selectedDate.toLocaleDateString()}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item, index) => `${item.id}-${index}`}
                     contentContainerStyle={styles.wrapperFood}
                 />
             </Row>

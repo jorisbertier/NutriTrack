@@ -16,6 +16,7 @@ type Props = {
     calories: string;
     unit: string;
     quantity: number;
+    selectedDate: string
 };
 
 type UserConnected = {
@@ -24,7 +25,7 @@ type UserConnected = {
     email: string;
 } | null;
 
-const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
+const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate }) => {
 
     const colors = useThemeColors();
 
@@ -79,12 +80,14 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
             const date = new Date();
             const newId = generateUniqueId()
             console.log(typeof newId)
+            console.log("ici")
+            console.log(selectedDate)
     
             const addAliment = async() => {
                 await setDoc(doc(firestore, "UserMeals", newId), {
                     foodId: idFood,
                     userId: userIdConnected,
-                    date: date.toLocaleDateString(),
+                    date: selectedDate,
                     mealType: valueMeal,
                 });
             }
@@ -130,7 +133,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity }) => {
                                         borderBottomWidth: index === 3 ? 0 :1,
                                         borderBlockColor: `${colors.grayPress}`}
                                 ]}
-                                key={`${index}-${meal}`} 
+                                key={`${index}-${meal}-${Math.random()}`} 
                                 onPress={() => handleValue(meal, id)}
                             >
                                 <Text style={styles.textMeal}>{meal}</Text>
