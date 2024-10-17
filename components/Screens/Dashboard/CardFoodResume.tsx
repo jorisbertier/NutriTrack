@@ -2,8 +2,8 @@ import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useNavigation } from "expo-router";
-import { doc, deleteDoc } from "firebase/firestore";
-import { firestore } from "@/firebaseConfig";
+// import { doc, deleteDoc } from "firebase/firestore";
+// import { firestore } from "@/firebaseConfig";
 
 type Props = {
     id: number,
@@ -12,27 +12,28 @@ type Props = {
     unit: string,
     quantity: number,
     image: string,
-    userMealId: string | undefined
+    userMealId: string | undefined,
+    handleDelete: any
 }
 
-export default function CardFoodResume({name, id, calories, unit, quantity, image, userMealId}: Props) {
+export default function CardFoodResume({name, id, calories, unit, quantity, image, userMealId, handleDelete}: Props) {
 
-    const handleDeleteFood = () => {
-        const deleteFromMeals = async () => {
-            if (userMealId) { // Verify is userMealId is defined
-                try {
-                    const mealDocRef = doc(firestore, "UserMeals", userMealId);
-                    await deleteDoc(mealDocRef);
-                    console.log('Document supprimé avec succès');
-                } catch (error) {
-                    console.error("Erreur lors de la suppression du document : ", error);
-                }
-            } else {
-                console.error("L'ID de l'utilisateur du repas est indéfini.");
-            }
-        };
-        deleteFromMeals()
-    }
+    // const handleDeleteFood = () => {
+    //     const deleteFromMeals = async () => {
+    //         if (userMealId) { // Verify is userMealId is defined
+    //             try {
+    //                 const mealDocRef = doc(firestore, "UserMeals", userMealId);
+    //                 await deleteDoc(mealDocRef);
+    //                 console.log('Document supprimé avec succès');
+    //             } catch (error) {
+    //                 console.error("Erreur lors de la suppression du document : ", error);
+    //             }
+    //         } else {
+    //             console.error("L'ID de l'utilisateur du repas est indéfini.");
+    //         }
+    //     };
+    //     deleteFromMeals()
+    // }
 
     return (
             <View style={styles.cardFood}>
@@ -43,7 +44,7 @@ export default function CardFoodResume({name, id, calories, unit, quantity, imag
                         <ThemedText variant="title2" color={'grayDark'}>{calories} Kcal,{quantity} {unit}</ThemedText>
                     </View>
                 </View>
-                <TouchableOpacity  style={styles.test} onPress={() => handleDeleteFood()}>
+                <TouchableOpacity  style={styles.test} onPress={handleDelete}>
                     <Image source={require('@/assets/images/delete.png')} style={styles.deleteImage}/>
                 </TouchableOpacity>
             </View>

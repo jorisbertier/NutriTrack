@@ -12,7 +12,7 @@ import CardFoodResume from "@/components/Screens/Dashboard/CardFoodResume";
 import { getAuth } from "firebase/auth";
 import { fetchUserDataConnected } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 
 export default function Dashboard() {
 
@@ -31,6 +31,7 @@ export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
+    const [update, setUpdate] = useState<any>(0)
     /* Date */
     const date = new Date();
 
@@ -45,7 +46,7 @@ export default function Dashboard() {
     /* API */
     useEffect(() => {
         try {
-            const fetch = async () => {
+            const fetchData = async () => {
                 /** TEST */
                 const userMealsCollection = collection(firestore, 'UserMeals');
                 const userMealsSnapshot = await getDocs(userMealsCollection);
@@ -60,7 +61,7 @@ export default function Dashboard() {
                 setAllUsersFoodData(userMealsList)
                 /** TEST */
             }
-            fetch()
+            fetchData()
             setAllFoodData(foodData);
             setAllUserData(Users);
             // setAllUsersFoodData(UsersFoodData)
@@ -72,7 +73,7 @@ export default function Dashboard() {
         }
     }, []);
     
-    console.log(allUsersFoodData)
+    
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
         const filterAndSetFoodData = (filteredData: UserMeals[], setData: React.Dispatch<React.SetStateAction<FoodItem[]>>) => {
@@ -109,19 +110,38 @@ export default function Dashboard() {
             // } else {
             //     setResultAllDataFood([])
             // }
-            console.log('test')
-            console.log(resultByBreakfast);
             filterAndSetFoodData(result, setResultAllDataFood)
             filterAndSetFoodData(resultByBreakfast, setSortByBreakfast)
             filterAndSetFoodData(resultByLunch, setSortByLunch)
             filterAndSetFoodData(resultByDinner, setSortByDinner)
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
+        console.log(update)
     }, [selectedDate,allUsersFoodData, userIdConnected]);
     // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
+    }
+
+    const handleDeleteFood = (userMealId: any) => {
+        console.log(`Deleting food with ID: ${userMealId}`);
+        const deleteFromMeals = async () => {
+            if (userMealId) { // Verify is userMealId is defined
+                try {
+                    const mealDocRef = doc(firestore, "UserMeals", userMealId);
+                    await deleteDoc(mealDocRef);
+                    setAllUsersFoodData(prevData => prevData.filter(item => item.id !== userMealId));
+                    // setUpdate(update + 1)
+                    console.log('Document supprimé avec succès');
+                } catch (error) {
+                    console.error("Erreur lors de la suppression du document : ", error);
+                }
+            } else {
+                console.error("L'ID de l'utilisateur du repas est indéfini.");
+            }
+        };
+        deleteFromMeals()
     }
 
     return (
@@ -167,10 +187,10 @@ export default function Dashboard() {
             </View>
             {isLoading ? <ThemedText>Chargement...</ThemedText> :(
             <View style={styles.wrapperMeals}>
-                    {displayResultFoodByMeal(sortByBreakfast, 'Breakfast')}
-                    {displayResultFoodByMeal(sortByLunch, 'Lunch')}
-                    {displayResultFoodByMeal(sortByDinner, 'Dinner')}
-                    {displayResultFoodByMeal(sortBySnack, 'Snack')}
+                    {displayResultFoodByMeal(sortByBreakfast, 'Breakfast', handleDeleteFood)}
+                    {displayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
+                    {displayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
+                    {displayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
             </View>
             )}
         </ScrollView>
@@ -215,8 +235,8 @@ const styles = StyleSheet.create({
 })
 
 
-function displayResultFoodByMeal(resultMeal: any, meal: string) {
-    console.log(resultMeal)
+function displayResultFoodByMeal(resultMeal: any, meal: string,handleDeleteFood: (userMealId: string) => void) {
+
     return (
         <View style={styles.wrapper}>
             <Row style={styles.row}>
@@ -236,7 +256,9 @@ function displayResultFoodByMeal(resultMeal: any, meal: string) {
                         image={item.image}
                         id={item.id}
                         userMealId={item.userMealId}
-                        calories={item.nutrition.calories}/>
+                        calories={item.nutrition.calories}
+                        handleDelete={()=> handleDeleteFood(item.userMealId)}
+                        />
                     )}
                     showsVerticalScrollIndicator={false}
                     scrollEnabled={false}
