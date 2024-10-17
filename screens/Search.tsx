@@ -27,7 +27,7 @@ export default function Search() {
     const [data, setData] = useState<FoodItem[]>([]);
     const [error, setError] = useState("");
     const [text, onChangeText] = useState('');
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date());
     const date = new Date();
 
