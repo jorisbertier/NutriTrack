@@ -16,7 +16,8 @@ type Props = {
     calories: string;
     unit: string;
     quantity: number;
-    selectedDate: string
+    selectedDate: string,
+    setNotification: any
 };
 
 type UserConnected = {
@@ -25,11 +26,12 @@ type UserConnected = {
     email: string;
 } | null;
 
-const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate }) => {
+const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
     const colors = useThemeColors();
 
     const [modalVisible, setModalVisible] = useState(false);
+    
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
     const [userIdConnected, setUserIdConnected] = useState<number>();
     const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
@@ -77,12 +79,8 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
 
     const handleValue = (valueMeal: string, idFood: number) =>{
         try {
-            const date = new Date();
             const newId = generateUniqueId()
-            console.log(typeof newId)
-            console.log("ici")
-            console.log(selectedDate)
-    
+            
             const addAliment = async() => {
                 await setDoc(doc(firestore, "UserMeals", newId), {
                     foodId: idFood,
@@ -91,8 +89,14 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                     mealType: valueMeal,
                 });
             }
-            addAliment()
+            // addAliment()
             setModalVisible(false)
+            setNotification(true)
+
+            setTimeout(() => {
+                setNotification(false)
+            }, 1500);
+
             console.log("Document successfully written with ID: ", newId)
         } catch(e) {
             console.log('Error add aliment to database UserMeals', e)

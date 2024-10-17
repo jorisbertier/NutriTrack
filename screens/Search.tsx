@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import useThemeColors from "@/hooks/useThemeColor";
-import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity} from "react-native";
+import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
@@ -29,15 +29,20 @@ export default function Search() {
     const [text, onChangeText] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date());
+    const [notificationVisible, setNotificationVisible] = useState(false); 
     const date = new Date();
 
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
+        console.log(event)
         if(date) {
             setSelectedDate(date);
             setIsOpen(false)
-            // console.log(event)
         }
+        console.log('Calendar close')
     };
+    useEffect(() => {
+
+    }, [selectedDate])
 
     useEffect(() => {
         try {
@@ -57,12 +62,12 @@ export default function Search() {
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
+        console.log("Calendar opened:", !isOpen);
     }
 
     const handleDeleteValue = () => {
         onChangeText('')
     }
-
     return (
         <SafeAreaView style={styles.header}>
             <Row>
@@ -77,7 +82,8 @@ export default function Search() {
                 {isOpen && (<RNDateTimePicker
                     onChange={setDate}
                     value={selectedDate}
-                    timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
+                    timeZoneOffsetInMinutes={new Date().getTimezoneOffset()}
+                    onDismiss={() => setIsOpen(false)}
                 />)}
             </Row>
             <View style={styles.wrapperInput}>
@@ -118,6 +124,7 @@ export default function Search() {
                             unit={item.nutrition.servingSize.unit}
                             quantity={item.nutrition.servingSize.quantity}
                             selectedDate={selectedDate.toLocaleDateString()}
+                            setNotification={setNotificationVisible}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
@@ -125,6 +132,14 @@ export default function Search() {
                     contentContainerStyle={styles.wrapperFood}
                 />
             </Row>
+            {notificationVisible &&
+                <View style={styles.notification}>
+                    <View style={styles.wrapperNotification}>
+                        <Text style={styles.notificationText}>Added Food</Text>
+                        <Image style={styles.verify} source={require('@/assets/images/verify2.png')} />
+                    </View>
+                </View>
+            }
         </SafeAreaView>
     );
 }
@@ -134,7 +149,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingBottom: 8,
         backgroundColor: 'white',
-        flex: 1
+        flex: 1,
+        position: 'relative',
     },
     wrapperInput :{
         position: 'relative',
@@ -219,5 +235,36 @@ const styles = StyleSheet.create({
     calendar : {
         height: 35,
         width: 35
+    },
+    notification: {
+        position: "absolute",
+        bottom: 20,
+        width: '100%',
+        alignSelf: 'center'
+    },
+    wrapperNotification : {
+        backgroundColor: "#8592F2",
+        flexDirection: 'row',
+        justifyContent:'center',
+        gap: 20,
+        padding: 10,
+        borderRadius: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2, 
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.5,
+        elevation: 5,
+    },
+    notificationText: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+    },
+    verify : {
+        width: 20,
+        height: 20
     }
 })
