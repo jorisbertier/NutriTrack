@@ -13,6 +13,7 @@ import { getAuth } from "firebase/auth";
 import { fetchUserDataConnected } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
 
 export default function Dashboard() {
 
@@ -101,15 +102,7 @@ export default function Dashboard() {
             const resultByLunch = result.filter((food) => food.mealType === 'Lunch');
             const resultByDinner = result.filter((food) => food.mealType === 'Dinner');
             const resultBySnack = result.filter((food) => food.mealType === 'Snack');
-            // if (result.length > 0) {
-            //     const foodIds = result.map(item => item.foodId); //// the result to extract all the food IDs
-            //     const filteredFoodData = foodIds.flatMap(foodId => { // For each foodId get details food data from allFoodData
-            //         return allFoodData.filter(food => food.id === foodId);
-            //     });
-            //     setResultAllDataFood(filteredFoodData); // Update state with filtered data search
-            // } else {
-            //     setResultAllDataFood([])
-            // }
+
             filterAndSetFoodData(result, setResultAllDataFood)
             filterAndSetFoodData(resultByBreakfast, setSortByBreakfast)
             filterAndSetFoodData(resultByLunch, setSortByLunch)
@@ -167,30 +160,15 @@ export default function Dashboard() {
                     <Image source={require('@/assets/images/navbar/home.png')} style={styles.next} />
                 </View>
             </Row>
-            <Row>
-            {/* { resultAllDataFood.length !== 0 ? (
-                <FlatList<FoodItem>
-                    data={resultAllDataFood}
-                    renderItem={({ item }) => (
-                        <ThemedText>{item.name}</ThemedText>
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item) => item.id.toString() + Math.random()}
-                    // contentContainerStyle={styles.foodData}
-                />
-            ) : (
-                <ThemedText>Vous n'avez aucun aliment aujourd'hui</ThemedText>
-            )} */}
-            </Row>
             <View>
                 <Text>#{userIdConnected}</Text>
             </View>
             {isLoading ? <ThemedText>Chargement...</ThemedText> :(
             <View style={styles.wrapperMeals}>
-                    {displayResultFoodByMeal(sortByBreakfast, 'Breakfast', handleDeleteFood)}
-                    {displayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
-                    {displayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
-                    {displayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
+                    {DisplayResultFoodByMeal(sortByBreakfast, 'Breakfast', handleDeleteFood)}
+                    {DisplayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
+                    {DisplayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
+                    {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
             </View>
             )}
         </ScrollView>
@@ -220,54 +198,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width: '100%',
     },
-    wrapper: {
-        gap: 10,
-    },
     wrapperFood : {
         marginBottom: 16,
     },
-    row: {
-        width: '100%',
-        justifyContent: 'space-between',
-        borderBottomColor: 'gray',
-        borderBottomWidth: 1
-    }
 })
-
-
-function displayResultFoodByMeal(resultMeal: any, meal: string,handleDeleteFood: (userMealId: string) => void) {
-
-    return (
-        <View style={styles.wrapper}>
-            <Row style={styles.row}>
-                <ThemedText variant="title">{meal}</ThemedText>
-                <ThemedText>0 Kcal</ThemedText>
-            </Row>
-            <Row>
-            { resultMeal.length !== 0 ? (
-                <FlatList<FoodItem>
-                    data={resultMeal}
-                    renderItem={({ item }) => (
-                        // <ThemedText>{item.name}</ThemedText>
-                        <CardFoodResume
-                        name={item.name}
-                        quantity={item.nutrition.servingSize.quantity}
-                        unit={item.nutrition.servingSize.unit}
-                        image={item.image}
-                        id={item.id}
-                        userMealId={item.userMealId}
-                        calories={item.nutrition.calories}
-                        handleDelete={()=> handleDeleteFood(item.userMealId)}
-                        />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    scrollEnabled={false}
-                    keyExtractor={(item) => item.id.toString()}
-                />
-                ) : (
-                    <ThemedText>Don't have any food for {meal}</ThemedText>
-            )}
-            </Row>
-        </View>
-    )
-}

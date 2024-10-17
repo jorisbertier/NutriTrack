@@ -89,7 +89,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                     mealType: valueMeal,
                 });
             }
-            // addAliment()
+            addAliment()
             setModalVisible(false)
             setNotification(true)
 

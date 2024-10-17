@@ -83,7 +83,6 @@ export default function Search() {
                     onChange={setDate}
                     value={selectedDate}
                     timeZoneOffsetInMinutes={new Date().getTimezoneOffset()}
-                    onDismiss={() => setIsOpen(false)}
                 />)}
             </Row>
             <View style={styles.wrapperInput}>
