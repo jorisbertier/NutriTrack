@@ -2,13 +2,11 @@ import { Image, StyleSheet, Platform, Button, Alert, View, Text } from 'react-na
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
-// import { ThemedView } from '@/components/ThemedView';
 import { Auth, firestore } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
-// import auth from '@react-native-firebase/auth';
 import { useState, useEffect } from 'react';
 import { User } from '@/interface/User';
 import Search from '@/screens/Search';
@@ -17,11 +15,14 @@ import NutritionalCard from '@/components/NutritionCard';
 import Banner from '@/components/Banner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useThemeColors from '@/hooks/useThemeColor';
+import { calculAge, BasalMetabolicRate, calculProteins, calculFats } from '@/functions/function';
+import { calculCarbohydrates } from '../../functions/function';
 
 export default function HomeScreen() {
 
   const colors = useThemeColors()
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false)
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;
@@ -42,6 +43,7 @@ export default function HomeScreen() {
           name: doc.data().name,
           firstName: doc.data().firstName,
           dateOfBirth: doc.data().dateOfBirth,
+          gender: doc.data().gender,
           height: doc.data().height,
           weight: doc.data().weight,
           activityLevel: doc.data().activityLevel,
@@ -50,10 +52,12 @@ export default function HomeScreen() {
 
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
         setUserData(sortByUniqueUserConnected)
+        setIsLoading(true)
       }
     }
     fetchUserData()
   }, [])
+  console.log(userData)
 
 
   const handleSignOut = async () => {
@@ -64,6 +68,14 @@ export default function HomeScreen() {
       Alert.alert('Erreur de déconnexion', error.message);
     }
   };
+
+  const basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
+    Number(userData[0]?.weight),
+    Number(userData[0]?.height),
+    Number(calculAge(userData[0]?.dateOfBirth)),
+    userData[0]?.gender,
+    userData[0]?.activityLevel
+  ) : null;
   
   return (
     // <ParallaxScrollView
@@ -136,15 +148,37 @@ export default function HomeScreen() {
         <Row>
           {/* <ProgressBar progress={60}/> */}
         </Row>
-  <View style={styles.stepContainer}>
-         <Button title="Se déconnecter" onPress={handleSignOut} />
-       </View>
-      <View>
-         <Button title="Search" onPress={() => navigation.navigate('search')}/>
-       </View>
-       <View>
-         <Button title="Dashboard" onPress={() => navigation.navigate('dashboard')}/>
-       </View>
+        <View style={styles.stepContainer}>
+          <Button title="Se déconnecter" onPress={handleSignOut} />
+        </View>
+        <View>
+          <Button title="Search" onPress={() => navigation.navigate('search')}/>
+        </View>
+        <View>
+          <Button title="Dashboard" onPress={() => navigation.navigate('dashboard')}/>
+        </View>
+        {isLoading ? (
+        <View style={{flexDirection: 'column'}}>
+          
+          <ThemedText>Calories nedd:
+            {basalMetabolicRate}
+          </ThemedText>
+
+          <ThemedText>Height {userData[0]?.height}</ThemedText>
+          <ThemedText>Weight {userData[0]?.weight}</ThemedText>
+          <ThemedText>gender {userData[0]?.gender}</ThemedText>
+          <ThemedText>Activite {userData[0]?.activityLevel}</ThemedText>
+          <ThemedText>Proteins need: {calculProteins(Number(userData[0]?.weight))}</ThemedText>
+          <ThemedText>Carbohydrates need: {calculCarbohydrates(basalMetabolicRate)}</ThemedText>
+          <ThemedText>Fats need: {calculFats(basalMetabolicRate)}</ThemedText>
+          {/* <ThemedText>Age {userData[0]?.dateOfBirth}</ThemedText> */}
+          <ThemedText>Age {calculAge(userData[0]?.dateOfBirth)}</ThemedText>
+        </View>
+        ) : (
+          <View>
+            <ThemedText>Is loading....</ThemedText>
+          </View>
+        )}
         {/* <Navbar/> */}
 
     </SafeAreaView>
