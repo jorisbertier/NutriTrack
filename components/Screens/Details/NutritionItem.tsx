@@ -4,14 +4,15 @@ import { ThemedText } from "@/components/ThemedText";
 
 type Props = {
     name: string,
-    quantity: string
+    quantity: number,
+    unit: string
 }
 
-export default function NutritionItem({name, quantity}: Props) {
+export default function NutritionItem({name, quantity, unit}: Props) {
     return (
         <View style={styles.nutri}>
             <ThemedText variant="title1">{name}</ThemedText>
-            <ThemedText variant="title1">{quantity}</ThemedText>
+            <ThemedText variant="title1">{quantity} {unit}</ThemedText>
         </View>
     )
 }

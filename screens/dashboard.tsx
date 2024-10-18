@@ -154,7 +154,15 @@ export default function Dashboard() {
         userData[0]?.activityLevel
     ) : null;
 
-    
+    const [magnesium, setMagnesium] = useState(0)
+    const getTotalMagnesium = () => {
+        const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
+            console.log(item)
+            return acc + (item.magnesium || 0)
+        }, 0)
+        setMagnesium(result)
+    }
+    console.log('Magnesium', magnesium)
     
     const calculTotalKcalConsumeToday= () => {
         if (resultAllDataFood.length > 0) {
@@ -168,7 +176,8 @@ export default function Dashboard() {
         }
     }
     useEffect(() => {
-        calculTotalKcalConsumeToday(); 
+        calculTotalKcalConsumeToday();
+        getTotalMagnesium()
     }, [resultAllDataFood]);
     console.log('Tout les meals',totalKcalConsumeToday)
 
@@ -214,19 +223,19 @@ export default function Dashboard() {
             </View>
             )}
             <View>
-                <NutritionItem name={'fiber'} quantity={'200'} />
-                <NutritionItem name={'vitaminA'} quantity={'200'} />
-                <NutritionItem name={'vitaminB1'} quantity={'200'} />
-                <NutritionItem name={'vitaminB6'} quantity={'200'} />
-                <NutritionItem name={'vitaminB12'} quantity={'200'} />
-                <NutritionItem name={'vitaminC'} quantity={'200'} />
-                <NutritionItem name={'vitaminE'} quantity={'200'} />
-                <NutritionItem name={'vitaminK'} quantity={'200'} />
-                <NutritionItem name={'folate'} quantity={'200'} />
-                <NutritionItem name={'potassium'} quantity={'200'} />
-                <NutritionItem name={'magnesium'} quantity={'200'} />
-                <NutritionItem name={'calcium'} quantity={'200'} />
-                <NutritionItem name={'potassium'} quantity={'200'} />
+                <NutritionItem name={'Fiber'} quantity={0} unit={"g"}/>
+                <NutritionItem name={'Vitamin A'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Vitamin B1'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Vitamin B6'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Vitamin B12'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Vitamin C'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Vitamin E'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Vitamin K'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Folate'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Potassium'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Magnesium'} quantity={magnesium} unit={"g"} />
+                <NutritionItem name={'Calcium'} quantity={0} unit={"g"} />
+                <NutritionItem name={'Potassium'} quantity={0} unit={"g"} />
             </View>
         </ScrollView>
     )

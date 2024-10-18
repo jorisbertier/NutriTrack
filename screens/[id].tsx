@@ -83,27 +83,27 @@ export default function DetailsFood() {
                     />
                 </Row>
             </View> 
-            {/* <View>
+            <View>
 
-                {filterUniqueFood?.nutrition.macronutrients.proteins ? <NutritionItem name={'Proteins'} quantity={`${filterUniqueFood?.nutrition.macronutrients.proteins.total+ " " + filterUniqueFood?.nutrition.macronutrients.proteins.unit}`}/> : null}
-                {filterUniqueFood?.nutrition.macronutrients.carbohydrates ? <NutritionItem name={'Carbs'} quantity={`${filterUniqueFood?.nutrition.macronutrients.carbohydrates.total+ " " + filterUniqueFood?.nutrition.macronutrients.carbohydrates.unit +  ' - ' + filterUniqueFood?.nutrition.macronutrients.carbohydrates.fiber + ' Fibers'}`}/> : null}
-                {filterUniqueFood?.nutrition.macronutrients.fats ? <NutritionItem name={'Fats'} quantity={`${filterUniqueFood?.nutrition.macronutrients.fats.total+ " " + filterUniqueFood?.nutrition.macronutrients.fats.unit}`}/> : null}
+                {filterUniqueFood?.proteins ? <NutritionItem name={'Proteins'} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
+                {filterUniqueFood?.carbohydrates ? <NutritionItem name={'Carbs'} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
+                {filterUniqueFood?.fats ? <NutritionItem name={'Fats'} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
                 
-                {filterUniqueFood?.nutrition?.vitamins?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={`${filterUniqueFood?.nutrition.vitamins.vitaminA.amount+ " " + filterUniqueFood?.nutrition.vitamins.vitaminA.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.vitamins?.vitaminB1 ? <NutritionItem name={'Vitamins B1'} quantity={`${filterUniqueFood?.nutrition.vitamins.vitaminB1.amount+ " " + filterUniqueFood?.nutrition.vitamins.vitaminB1.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.vitamins?.vitaminB6 ? <NutritionItem name={'Vitamins B6'} quantity={`${filterUniqueFood?.nutrition.vitamins.vitaminB6.amount+ " " + filterUniqueFood?.nutrition.vitamins.vitaminB6.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.vitamins?.vitaminB12 ? <NutritionItem name={'Vitamins B12'} quantity={`${filterUniqueFood?.nutrition.vitamins.vitaminB12.amount+ " " + filterUniqueFood?.nutrition.vitamins.vitaminB12.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.vitamins?.vitaminC ? <NutritionItem name={'Vitamins C'} quantity={`${filterUniqueFood?.nutrition.vitamins.vitaminC.amount+ " " + filterUniqueFood?.nutrition.vitamins.vitaminC.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.vitamins?.vitaminD ? <NutritionItem name={'Vitamins D'} quantity={`${filterUniqueFood?.nutrition.vitamins.vitaminD.amount+ " " + filterUniqueFood?.nutrition.vitamins.vitaminD.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.vitamins?.vitaminE ? <NutritionItem name={'Vitamins E'} quantity={`${filterUniqueFood?.nutrition.vitamins.vitaminE.amount+ " " + filterUniqueFood?.nutrition.vitamins.vitaminE.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.vitamins?.vitaminK ? <NutritionItem name={'Vitamins K'} quantity={`${filterUniqueFood?.nutrition.vitamins.vitaminK.amount+ " " + filterUniqueFood?.nutrition.vitamins.vitaminK.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.vitamins?.folate ? <NutritionItem name={'Folate'} quantity={`${filterUniqueFood?.nutrition.vitamins.folate.amount+ " " + filterUniqueFood?.nutrition.vitamins.folate.unit}`}/> : null}
+                {filterUniqueFood?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={filterUniqueFood?.vitaminA} unit={'g'}/> : null}
+                {filterUniqueFood?.vitaminB1 ? <NutritionItem name={'Vitamins B1'} quantity={filterUniqueFood?.vitaminB1} unit={'g'}/> : null}
+                {filterUniqueFood?.vitaminB6 ? <NutritionItem name={'Vitamins B6'} quantity={filterUniqueFood?.vitaminB6} unit={'g'}/> : null}
+                {filterUniqueFood?.vitaminB12 ? <NutritionItem name={'Vitamins B12'} quantity={filterUniqueFood?.vitaminB12} unit={'g'}/> : null}
+                {filterUniqueFood?.vitaminC ? <NutritionItem name={'Vitamins C'} quantity={filterUniqueFood?.vitaminC} unit={'g'}/> : null}
+                {filterUniqueFood?.vitaminD ? <NutritionItem name={'Vitamins D'} quantity={filterUniqueFood?.vitaminD} unit={'g'}/> : null}
+                {filterUniqueFood?.vitaminE ? <NutritionItem name={'Vitamins E'} quantity={filterUniqueFood?.vitaminE} unit={'g'}/> : null}
+                {filterUniqueFood?.vitaminK ? <NutritionItem name={'Vitamins K'} quantity={filterUniqueFood?.vitaminK} unit={'g'}/> : null}
+                {filterUniqueFood?.folate ? <NutritionItem name={'Folate'} quantity={filterUniqueFood?.folate} unit={'g'}/> : null}
             
-                {filterUniqueFood?.nutrition?.minerals?.potassium ? <NutritionItem name={'Potassium'} quantity={`${filterUniqueFood?.nutrition.minerals.potassium.amount+ " " + filterUniqueFood?.nutrition.minerals.potassium.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.minerals?.magnesium ? <NutritionItem name={'Magnesium'} quantity={`${filterUniqueFood?.nutrition.minerals.magnesium.amount+ " " + filterUniqueFood?.nutrition.minerals.magnesium.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.minerals?.calcium ? <NutritionItem name={'Calcium'} quantity={`${filterUniqueFood?.nutrition.minerals.calcium.amount+ " " + filterUniqueFood?.nutrition.minerals.calcium.unit}`}/> : null}
-                {filterUniqueFood?.nutrition?.minerals?.iron ? <NutritionItem name={'Iron'} quantity={`${filterUniqueFood?.nutrition.minerals.iron.amount+ " " + filterUniqueFood?.nutrition.minerals.iron.unit}`}/> : null}
-            </View> */}
+                {filterUniqueFood?.potassium ? <NutritionItem name={'Potassium'} quantity={filterUniqueFood?.potassium} unit={'g'}/> : null}
+                {filterUniqueFood?.magnesium ? <NutritionItem name={'Magnesium'} quantity={filterUniqueFood?.magnesium} unit={'g'}/> : null}
+                {filterUniqueFood?.calcium ? <NutritionItem name={'Calcium'} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
+                {filterUniqueFood?.iron ? <NutritionItem name={'Iron'} quantity={filterUniqueFood?.iron} unit={'g'}/> : null}
+            </View>
         </View>
     </ScrollView>
     )
