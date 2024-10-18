@@ -10,12 +10,13 @@ import { Users } from "@/data/users";
 import { UsersFoodData } from "@/data/usersFoodData";
 import CardFoodResume from "@/components/Screens/Dashboard/CardFoodResume";
 import { getAuth } from "firebase/auth";
-import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge } from "@/functions/function";
+import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
 import { User } from "@/interface/User";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
+import NutritionList from "@/components/Screens/Dashboard/NutritionList";
 
 export default function Dashboard() {
 
@@ -155,14 +156,28 @@ export default function Dashboard() {
     ) : null;
 
     const [magnesium, setMagnesium] = useState(0)
-    const getTotalMagnesium = () => {
-        const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
-            console.log(item)
-            return acc + (item.magnesium || 0)
-        }, 0)
-        setMagnesium(result)
-    }
-    console.log('Magnesium', magnesium)
+    const [potassium, setPotassium] = useState(0);
+    const [calcium, setCalcium] = useState(0);
+    const [sodium, setSodium] = useState(0);
+    const [iron, setIron] = useState(0);
+    const [vitaminA, setVitaminA] = useState(0);
+    const [vitaminB1, setVitaminB1] = useState(0);
+    const [vitaminB5, setVitaminB5] = useState(0);
+    const [vitaminB6, setVitaminB6] = useState(0);
+    const [vitaminB12, setVitaminB12] = useState(0);
+    const [vitaminC, setVitaminC] = useState(0);
+    const [vitaminD, setVitaminD] = useState(0);
+    const [vitaminE, setVitaminE] = useState(0);
+    const [vitaminK, setVitaminK] = useState(0);
+    const [folate, setFolate] = useState(0);
+    const [sugar, setSugar] = useState(0);
+    // const getTotalMagnesium = () => {
+    //     const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
+    //         console.log(item)
+    //         return acc + (item.magnesium || 0)
+    //     }, 0)
+    //     setMagnesium(result)
+    // }
     
     const calculTotalKcalConsumeToday= () => {
         if (resultAllDataFood.length > 0) {
@@ -175,11 +190,47 @@ export default function Dashboard() {
             setTotalKcalConsumeToday(0);
         }
     }
+
     useEffect(() => {
         calculTotalKcalConsumeToday();
-        getTotalMagnesium()
+        getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium)
+        getTotalNutrient(resultAllDataFood, 'potassium', setPotassium)
+        getTotalNutrient(resultAllDataFood, 'calcium', setCalcium)
+        getTotalNutrient(resultAllDataFood, 'sodium', setSodium)
+        getTotalNutrient(resultAllDataFood, 'iron', setIron)
+        getTotalNutrient(resultAllDataFood, 'vitaminA', setVitaminA)
+        getTotalNutrient(resultAllDataFood, 'vitaminB1', setVitaminB1)
+        getTotalNutrient(resultAllDataFood, 'vitaminB5', setVitaminB5)
+        getTotalNutrient(resultAllDataFood, 'vitaminB6', setVitaminB6)
+        getTotalNutrient(resultAllDataFood, 'vitaminB12', setVitaminB12)
+        getTotalNutrient(resultAllDataFood, 'vitaminC', setVitaminC)
+        getTotalNutrient(resultAllDataFood, 'vitaminD', setVitaminD)
+        getTotalNutrient(resultAllDataFood, 'vitaminE', setVitaminE)
+        getTotalNutrient(resultAllDataFood, 'vitaminK', setVitaminK)
+        getTotalNutrient(resultAllDataFood, 'folate', setFolate)
+        getTotalNutrient(resultAllDataFood, 'sugar', setSugar)
     }, [resultAllDataFood]);
     console.log('Tout les meals',totalKcalConsumeToday)
+
+    const nutritionData = [
+        { name: 'Fiber', quantity: 0, unit: 'g' },
+        { name: 'Sugar', quantity: sugar, unit: 'g' },
+        { name: 'Vitamin A', quantity: vitaminA, unit: 'g' },
+        { name: 'Vitamin B1', quantity: vitaminB1, unit: 'g' },
+        { name: 'Vitamin B5', quantity: vitaminB5, unit: 'g' },
+        { name: 'Vitamin B6', quantity: vitaminB6, unit: 'g' },
+        { name: 'Vitamin B12', quantity: vitaminB12, unit: 'g' },
+        { name: 'Vitamin C', quantity: vitaminC, unit: 'g' },
+        { name: 'Vitamin D', quantity: vitaminD, unit: 'g' },
+        { name: 'Vitamin E', quantity: vitaminE, unit: 'g' },
+        { name: 'Vitamin K', quantity: vitaminK, unit: 'g' },
+        { name: 'Folate', quantity: folate, unit: 'g' },
+        { name: 'Potassium', quantity: potassium, unit: 'g' },
+        { name: 'Magnesium', quantity: magnesium, unit: 'g' },
+        { name: 'Calcium', quantity: calcium, unit: 'g' },
+        { name: 'Sodium', quantity: sodium, unit: 'g' },
+        { name: 'Iron', quantity: iron, unit: 'g' },
+    ];
 
     return (
         <ScrollView style={styles.header}>
@@ -222,25 +273,11 @@ export default function Dashboard() {
                     {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
             </View>
             )}
-            <View>
-                <NutritionItem name={'Fiber'} quantity={0} unit={"g"}/>
-                <NutritionItem name={'Vitamin A'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Vitamin B1'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Vitamin B6'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Vitamin B12'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Vitamin C'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Vitamin E'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Vitamin K'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Folate'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Potassium'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Magnesium'} quantity={magnesium} unit={"g"} />
-                <NutritionItem name={'Calcium'} quantity={0} unit={"g"} />
-                <NutritionItem name={'Potassium'} quantity={0} unit={"g"} />
-            </View>
+            <NutritionList data={nutritionData}/>
         </ScrollView>
     )
 }
-//
+
 const styles = StyleSheet.create({
     header: {
         position: 'relative',

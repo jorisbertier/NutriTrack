@@ -2,6 +2,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { User as FirebaseUser } from "firebase/auth"; // Import Firebase user type
 import { getAuth } from "firebase/auth";
+import { FoodItem } from '../interface/FoodItem';
 
 export function capitalizeFirstLetter(name: string) {
     if (!name) return '';
@@ -164,4 +165,66 @@ export function calculCarbohydrates(calories: number) {
     let carbs = 0.55 * calories
     carbs = carbs / 4
     return carbs.toFixed(1)
+}
+
+export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof FoodItem, setNutrient: any) => {
+    const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
+        const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
+        return acc + nutrientValue;
+    }, 0)
+
+    const formattedResult = parseFloat(result.toFixed(2));
+
+    switch (nutrientKey) {
+        case 'magnesium':
+            setNutrient(result);
+            break;
+        case 'potassium':
+            setNutrient(result);
+            break;
+        case 'calcium':
+            setNutrient(result);
+            break;
+        case 'sodium':
+            setNutrient(result);
+            break;
+        case 'iron':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminA':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminB1':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminB5':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminB6':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminB12':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminC':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminD':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminE':
+            setNutrient(formattedResult);
+            break;
+        case 'vitaminK':
+            setNutrient(formattedResult);
+            break;
+        case 'folate':
+            setNutrient(formattedResult);
+            break;
+        case 'sugar':
+            setNutrient(formattedResult);
+            break;
+        default:
+            break;
+    }
 }
