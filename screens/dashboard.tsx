@@ -10,14 +10,16 @@ import { Users } from "@/data/users";
 import { UsersFoodData } from "@/data/usersFoodData";
 import CardFoodResume from "@/components/Screens/Dashboard/CardFoodResume";
 import { getAuth } from "firebase/auth";
-import { fetchUserDataConnected } from "@/functions/function";
+import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
+import { User } from "@/interface/User";
 
 export default function Dashboard() {
 
     const [userIdConnected, setUserIdConnected] = useState<number>();
+    const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
 
@@ -29,6 +31,8 @@ export default function Dashboard() {
     const [sortByLunch, setSortByLunch] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortByDinner, setSortByDinner] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortBySnack, setSortBySnack] = useState<FoodItem[]>([]); //State for stock search filtered
+    const [totalKcalConsumeToday, setTotalKcalConsumeToday] = useState<number>(0)
+
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
@@ -66,13 +70,17 @@ export default function Dashboard() {
             setAllFoodData(foodData);
             setAllUserData(Users);
             // setAllUsersFoodData(UsersFoodData)
-            fetchUserDataConnected(user, setUserIdConnected)
+            fetchUserIdDataConnected(user, setUserIdConnected)
+            fetchUserDataConnected(user, setUserData)
         } catch (e) {
             console.log('Error processing data', e);
         } finally {
             setIsLoading(false);
         }
     }, []);
+    console.log('____')
+    console.log(userData)
+    console.log('____')
     
     
     useEffect(() => {
@@ -137,9 +145,42 @@ export default function Dashboard() {
         deleteFromMeals()
     }
 
+    const basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
+        Number(userData[0]?.weight),
+        Number(userData[0]?.height),
+        Number(calculAge(userData[0]?.dateOfBirth)),
+        userData[0]?.gender,
+        userData[0]?.activityLevel
+    ) : null;
+
+    
+    
+    const calculTotalKcalConsumeToday= () => {
+        if (resultAllDataFood.length > 0) {
+            const totalKcal = resultAllDataFood.reduce((acc: number, item: FoodItem) => {
+                // Ensure that item.nutrition and item.nutrition.calories exist
+                return acc + (item.nutrition?.calories || 0); // Use optional chaining and default to 0
+            }, 0);
+            setTotalKcalConsumeToday(totalKcal);
+        } else {
+            setTotalKcalConsumeToday(0);
+        }
+    }
+    useEffect(() => {
+        calculTotalKcalConsumeToday(); 
+    }, [resultAllDataFood]);
+    console.log('Tout les meals',totalKcalConsumeToday)
+
     return (
         <ScrollView style={styles.header}>
-            <ThemedText>Voici ma page dashboard</ThemedText>
+            <ThemedText variant="title" style={{marginTop: 50}}>Fitness metrics</ThemedText>
+            <Row>
+                {basalMetabolicRate - totalKcalConsumeToday > 0 ? (
+                    <ThemedText variant="title">{basalMetabolicRate - totalKcalConsumeToday} kcal restant</ThemedText>
+                ) : (
+                    <ThemedText variant="title">0 Kcal restant votre objectif est atteint</ThemedText>
+                )}
+            </Row>
             <Row style={styles.wrapperCalendar}>
                 <View>
                     <Image source={require('@/assets/images/navbar/home.png')} style={styles.next} />

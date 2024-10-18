@@ -9,7 +9,7 @@ export function capitalizeFirstLetter(name: string) {
 }
 
 //to use with useEffect
-export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser: React.Dispatch<React.SetStateAction<number | undefined>>) => {
+export const fetchUserIdDataConnected = async (user: FirebaseUser | null, setUser: React.Dispatch<React.SetStateAction<number | undefined>>) => {
     
     if (user !== null) {
         const email = user.email;
@@ -19,46 +19,79 @@ export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser:
             index: index + 1,
             id: doc.id,
             email: doc.data().email,
+            name: doc.data().name,
+            firstName: doc.data().firstName,
+            dateOfBirth: doc.data().dateOfBirth,
+            gender: doc.data().gender,
+            height: doc.data().height,
+            weight: doc.data().weight,
+            activityLevel: doc.data().activityLevel,
+            profilPicture: doc.data().profilPicture,
         }));
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
         setUser(sortByUniqueUserConnected[0].index)
     }
 }
-//to use with useEffect
-export const fetchUserDataConnected2 = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
 
+export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser: React.Dispatch<React.SetStateAction<any>>) => {
     if (user !== null) {
         const email = user.email;
-        try {
-            const userCollection = collection(firestore, 'User');
-            const userSnapshot = await getDocs(userCollection);
 
-            // Construire la liste des utilisateurs
-            const userList = userSnapshot.docs.map((doc, index) => ({
-                index: index + 1,
-                id: doc.id,
-                email: doc.data().email,
-            }));
+        const userCollection = collection(firestore, 'User');
+        const userSnapshot = await getDocs(userCollection);
 
-            const connectedUser = userList.find((u) => u.email === email);
-
-            if (connectedUser) {
-                return connectedUser;
-            } else {
-                console.log('Utilisateur connecté non trouvé dans la collection.');
-                return null;
-            }
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données utilisateur: ", error);
-            return null;
-        }
-    } else {
-        console.log("Aucun utilisateur n'est actuellement connecté.");
-        return null;
+        const userList = userSnapshot.docs.map((doc, index) => ({
+            index: index + 1,
+            id: doc.id,
+            email: doc.data().email,
+            name: doc.data().name,
+            firstName: doc.data().firstName,
+            dateOfBirth: doc.data().dateOfBirth,
+            gender: doc.data().gender,
+            height: doc.data().height,
+            weight: doc.data().weight,
+            activityLevel: doc.data().activityLevel,
+            profilPicture: doc.data().profilPicture,
+        }));
+        const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
+        setUser(sortByUniqueUserConnected)
     }
-};
+}
+//to use with useEffect
+// export const fetchUserDataConnected = async () => {
+//     const auth = getAuth();
+//     const user = auth.currentUser;
+
+//     if (user !== null) {
+//         const email = user.email;
+//         try {
+//             const userCollection = collection(firestore, 'User');
+//             const userSnapshot = await getDocs(userCollection);
+
+//             // Construire la liste des utilisateurs
+//             const userList = userSnapshot.docs.map((doc, index) => ({
+//                 index: index + 1,
+//                 id: doc.id,
+//                 email: doc.data().email,
+//             }));
+
+//             const connectedUser = userList.find((u) => u.email === email);
+
+//             if (connectedUser) {
+//                 return connectedUser;
+//             } else {
+//                 console.log('Utilisateur connecté non trouvé dans la collection.');
+//                 return null;
+//             }
+//         } catch (error) {
+//             console.error("Erreur lors de la récupération des données utilisateur: ", error);
+//             return null;
+//         }
+//     } else {
+//         console.log("Aucun utilisateur n'est actuellement connecté.");
+//         return null;
+//     }
+// };
 
 export function calculAge(dateOfBirthStr: string) {
     // Séparer la date en jour, mois et année

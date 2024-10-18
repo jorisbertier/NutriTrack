@@ -4,7 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { fetchUserDataConnected2, fetchUserDataConnected } from "@/functions/function";
+import { fetchUserDataConnected2, fetchUserIdDataConnected } from "@/functions/function";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
@@ -44,7 +44,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     useEffect(() => {
         try {
             const fetch = async () => {
-                fetchUserDataConnected(user, setUserIdConnected)
+                fetchUserIdDataConnected(user, setUserIdConnected)
             }
             fetch()
         } catch (e) {

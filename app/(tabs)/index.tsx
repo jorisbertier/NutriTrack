@@ -76,7 +76,7 @@ export default function HomeScreen() {
     userData[0]?.gender,
     userData[0]?.activityLevel
   ) : null;
-  
+
   return (
     // <ParallaxScrollView
     //   headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -117,14 +117,14 @@ export default function HomeScreen() {
         <Row gap={5} style={styles.rowTwoItems}>
           <NutritionalCard
           nutritionalName={'calories'}
-          nutrionalData={'2600'}
+          nutrionalData={basalMetabolicRate}
           icon={'burn'}
           backgroundcolor={colors.gray}
           indice={'g'}
           />
           <NutritionalCard
           nutritionalName={'protein'}
-          nutrionalData={'80'}
+          nutrionalData={calculProteins(Number(userData[0]?.weight))}
           backgroundcolor={colors.black}
           indice={'g'}
           icon={'protein'}
@@ -132,14 +132,14 @@ export default function HomeScreen() {
           />
           <NutritionalCard
           nutritionalName={'carbs'}
-          nutrionalData={'260'}
+          nutrionalData={calculCarbohydrates(basalMetabolicRate)}
           backgroundcolor={colors.blue}
           indice={'g'}
           icon={'carbs'}
           />
           <NutritionalCard
           nutritionalName={'fat'}
-          nutrionalData={'80'}
+          nutrionalData={calculFats(basalMetabolicRate)}
           backgroundcolor={colors.blueLight}
           indice={'g'}
           icon={'fat'}

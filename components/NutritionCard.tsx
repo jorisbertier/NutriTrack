@@ -8,7 +8,7 @@ type Props = {
     style?: ViewStyle,
     icon?: string | undefined,
     nutritionalName: string,
-    nutrionalData: string,
+    nutrionalData: string | null | number,
     backgroundcolor: string,
     indice: string,
     textColor?: string
