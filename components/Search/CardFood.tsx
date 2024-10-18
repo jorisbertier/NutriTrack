@@ -4,7 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { fetchUserDataConnected2, fetchUserIdDataConnected } from "@/functions/function";
+import { fetchUserIdDataConnected } from "@/functions/function";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
@@ -13,7 +13,7 @@ import useThemeColors from "@/hooks/useThemeColor";
 type Props = {
     id: number;
     name: string;
-    calories: number | string;
+    calories: number;
     unit: string;
     quantity: number;
     selectedDate: string,
@@ -51,7 +51,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         navigation.navigate("FoodDetails", { id });
     };
 
-    const handlePress = (event) => {
+    const handlePress = (event: any) => {
         const { pageY } = event.nativeEvent;
         const screenHeight = Dimensions.get('window').height;
         console.log(screenHeight)

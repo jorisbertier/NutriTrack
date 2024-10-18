@@ -7,7 +7,7 @@ export interface FoodItem {
     category: string;
     notes: string;
     userMealId?: string;
-    calories: number | string;
+    calories: number;
     unit: string;
     quantity: number;
     carbohydrates:number;
