@@ -3,8 +3,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, View, Image, TouchableOpacity, FlatList, ScrollView, Text } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import { useState, useEffect } from "react";
-import { foodData } from "@/data/food";
-import { FoodItem } from '@/interface/FoodItem';
+import { foodData, foodData2 } from "@/data/food";
+import { FoodItem, FoodItem2 } from '@/interface/FoodItem';
 import { UserMeals } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { UsersFoodData } from "@/data/usersFoodData";
@@ -15,6 +15,7 @@ import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
 import { User } from "@/interface/User";
+import NutritionItem from "@/components/Screens/Details/NutritionItem";
 
 export default function Dashboard() {
 
@@ -23,14 +24,14 @@ export default function Dashboard() {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
+    const [allFoodData, setAllFoodData] = useState<FoodItem2[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
     const [allUsersFoodData, setAllUsersFoodData] = useState<UserMeals[]>([]);  // all UsersFoodData
-    const [resultAllDataFood, setResultAllDataFood] = useState<FoodItem[]>([]); //State for stock search filtered
-    const [sortByBreakfast, setSortByBreakfast] = useState<FoodItem[]>([]); //State for stock search filtered
-    const [sortByLunch, setSortByLunch] = useState<FoodItem[]>([]); //State for stock search filtered
-    const [sortByDinner, setSortByDinner] = useState<FoodItem[]>([]); //State for stock search filtered
-    const [sortBySnack, setSortBySnack] = useState<FoodItem[]>([]); //State for stock search filtered
+    const [resultAllDataFood, setResultAllDataFood] = useState<FoodItem2[]>([]); //State for stock search filtered
+    const [sortByBreakfast, setSortByBreakfast] = useState<FoodItem2[]>([]); //State for stock search filtered
+    const [sortByLunch, setSortByLunch] = useState<FoodItem2[]>([]); //State for stock search filtered
+    const [sortByDinner, setSortByDinner] = useState<FoodItem2[]>([]); //State for stock search filtered
+    const [sortBySnack, setSortBySnack] = useState<FoodItem2[]>([]); //State for stock search filtered
     const [totalKcalConsumeToday, setTotalKcalConsumeToday] = useState<number>(0)
 
     const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +68,7 @@ export default function Dashboard() {
                 /** TEST */
             }
             fetchData()
-            setAllFoodData(foodData);
+            setAllFoodData(foodData2);
             setAllUserData(Users);
             // setAllUsersFoodData(UsersFoodData)
             fetchUserIdDataConnected(user, setUserIdConnected)
@@ -157,9 +158,9 @@ export default function Dashboard() {
     
     const calculTotalKcalConsumeToday= () => {
         if (resultAllDataFood.length > 0) {
-            const totalKcal = resultAllDataFood.reduce((acc: number, item: FoodItem) => {
+            const totalKcal = resultAllDataFood.reduce((acc: number, item: FoodItem2) => {
                 // Ensure that item.nutrition and item.nutrition.calories exist
-                return acc + (item.nutrition?.calories || 0); // Use optional chaining and default to 0
+                return acc + (item.calories || 0); // Use optional chaining and default to 0
             }, 0);
             setTotalKcalConsumeToday(totalKcal);
         } else {
@@ -212,6 +213,21 @@ export default function Dashboard() {
                     {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
             </View>
             )}
+            <View>
+                <NutritionItem name={'fiber'} quantity={'200'} />
+                <NutritionItem name={'vitaminA'} quantity={'200'} />
+                <NutritionItem name={'vitaminB1'} quantity={'200'} />
+                <NutritionItem name={'vitaminB6'} quantity={'200'} />
+                <NutritionItem name={'vitaminB12'} quantity={'200'} />
+                <NutritionItem name={'vitaminC'} quantity={'200'} />
+                <NutritionItem name={'vitaminE'} quantity={'200'} />
+                <NutritionItem name={'vitaminK'} quantity={'200'} />
+                <NutritionItem name={'folate'} quantity={'200'} />
+                <NutritionItem name={'potassium'} quantity={'200'} />
+                <NutritionItem name={'magnesium'} quantity={'200'} />
+                <NutritionItem name={'calcium'} quantity={'200'} />
+                <NutritionItem name={'potassium'} quantity={'200'} />
+            </View>
         </ScrollView>
     )
 }

@@ -8,7 +8,7 @@ import { useNavigation } from "expo-router";
 type Props = {
     id: number,
     name: string,
-    calories: string,
+    calories: string | number,
     unit: string,
     quantity: number,
     image: string,

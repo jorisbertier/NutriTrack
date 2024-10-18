@@ -8,8 +8,8 @@ import { Dimensions } from "react-native";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
 import { useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
-import { foodData } from "@/data/food";
-import { FoodItem } from "@/interface/FoodItem";
+import { foodData, foodData2 } from "@/data/food";
+import { FoodItem, FoodItem2 } from "@/interface/FoodItem";
 
 const { height } = Dimensions.get('window');
 
@@ -19,12 +19,12 @@ export default function DetailsFood() {
     const route = useRoute<any>();
     const { id } = route.params; 
 
-    const [data, setData] = useState<FoodItem[]>([]);
+    const [data, setData] = useState<FoodItem2[]>([]);
     // const [text, onChangeText] = useState('');
 
     useEffect(() => {
         try {
-                setData(foodData);
+                setData(foodData2);
         } catch (e) {
             console.log('Error processing data', e);
         }
@@ -32,8 +32,8 @@ export default function DetailsFood() {
 
     const filterUniqueFood = data.find((element) => element.id === id)
 
-    console.log(filterUniqueFood?.nutrition.macronutrients.proteins.total);
-    console.log(typeof filterUniqueFood?.nutrition.macronutrients.proteins.total);
+    console.log(filterUniqueFood?.proteins);
+    console.log(typeof filterUniqueFood?.proteins);
 
     return (
     <ScrollView>
@@ -52,38 +52,38 @@ export default function DetailsFood() {
                         <ThemedText style={[{borderColor: colors.grayDark}]}>{filterUniqueFood?.category}</ThemedText>
                     </View>
                     <View style={styles.block}>
-                        <ThemedText style={[{borderColor: colors.grayDark}]}>{filterUniqueFood?.nutrition.calories} kcal</ThemedText>
+                        <ThemedText style={[{borderColor: colors.grayDark}]}>{filterUniqueFood?.calories} kcal</ThemedText>
                     </View>
                 </View>
             </Row>
             <Row style={styles.wrapperTitle}>
                 <ThemedText variant="title" style={styles.title}>{filterUniqueFood?.name}</ThemedText>
-                <ThemedText style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.nutrition.servingSize.quantity + " " + filterUniqueFood?.nutrition.servingSize.unit}</ThemedText>
-                <ThemedText variant="title1" style={styles.title}>Good for diet - {filterUniqueFood?.nutrition.calories} kcal</ThemedText>
+                <ThemedText style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
+                <ThemedText variant="title1" style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
             </Row>
             <View style={[styles.container]}>
                 <Row gap={10}>
                     <NutritionStatCard
                         nutri={`proteins`}
-                        quantity={filterUniqueFood?.nutrition.macronutrients.proteins.total}
+                        quantity={filterUniqueFood?.proteins}
                         unit={'g'}
                         backgroundcolor={'#000000'}
                     />
                     <NutritionStatCard
                         nutri={'carbs'}
-                        quantity={filterUniqueFood?.nutrition.macronutrients.carbohydrates.total}
+                        quantity={filterUniqueFood?.carbohydrates}
                         unit={'g'}
                         backgroundcolor={'#FF8400'}
                     />
                     <NutritionStatCard
                         nutri={'fats'}
-                        quantity={filterUniqueFood?.nutrition.macronutrients.fats.total}
+                        quantity={filterUniqueFood?.fats}
                         unit={'g'}
                         backgroundcolor={'#4A83D4'}
                     />
                 </Row>
             </View> 
-            <View>
+            {/* <View>
 
                 {filterUniqueFood?.nutrition.macronutrients.proteins ? <NutritionItem name={'Proteins'} quantity={`${filterUniqueFood?.nutrition.macronutrients.proteins.total+ " " + filterUniqueFood?.nutrition.macronutrients.proteins.unit}`}/> : null}
                 {filterUniqueFood?.nutrition.macronutrients.carbohydrates ? <NutritionItem name={'Carbs'} quantity={`${filterUniqueFood?.nutrition.macronutrients.carbohydrates.total+ " " + filterUniqueFood?.nutrition.macronutrients.carbohydrates.unit +  ' - ' + filterUniqueFood?.nutrition.macronutrients.carbohydrates.fiber + ' Fibers'}`}/> : null}
@@ -103,7 +103,7 @@ export default function DetailsFood() {
                 {filterUniqueFood?.nutrition?.minerals?.magnesium ? <NutritionItem name={'Magnesium'} quantity={`${filterUniqueFood?.nutrition.minerals.magnesium.amount+ " " + filterUniqueFood?.nutrition.minerals.magnesium.unit}`}/> : null}
                 {filterUniqueFood?.nutrition?.minerals?.calcium ? <NutritionItem name={'Calcium'} quantity={`${filterUniqueFood?.nutrition.minerals.calcium.amount+ " " + filterUniqueFood?.nutrition.minerals.calcium.unit}`}/> : null}
                 {filterUniqueFood?.nutrition?.minerals?.iron ? <NutritionItem name={'Iron'} quantity={`${filterUniqueFood?.nutrition.minerals.iron.amount+ " " + filterUniqueFood?.nutrition.minerals.iron.unit}`}/> : null}
-            </View>
+            </View> */}
         </View>
     </ScrollView>
     )

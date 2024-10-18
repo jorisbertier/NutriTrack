@@ -5,9 +5,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
 import { getData } from "@/services/api";
-import { foodData } from "@/data/food.js";
+import { foodData, foodData2 } from "@/data/food.js";
 import { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { FoodItem2 } from "@/interface/FoodItem";
 
 interface FoodItem {
     id: number;
@@ -24,7 +25,7 @@ interface FoodItem {
 
 export default function Search() {
 
-    const [data, setData] = useState<FoodItem[]>([]);
+    const [data, setData] = useState<FoodItem2[]>([]);
     const [error, setError] = useState("");
     const [text, onChangeText] = useState('');
     const [isOpen, setIsOpen] = useState(false);
@@ -46,8 +47,8 @@ export default function Search() {
 
     useEffect(() => {
         try {
-            if (foodData && foodData.length > 0) {
-                setData(foodData);
+            if (foodData2 && foodData2.length > 0) {
+                setData(foodData2);
             } else {
                 setError('No data found');
             }
@@ -113,15 +114,15 @@ export default function Search() {
                 </View>
             </Row> */}
             <Row style={styles.wrapperFood}>
-                <FlatList<FoodItem>
+                <FlatList<FoodItem2>
                     data={filteredFood}
                     renderItem={({ item }) => (
                         <CardFood
                             name={item.name}
                             id={item.id}
-                            calories={item.nutrition.calories}
-                            unit={item.nutrition.servingSize.unit}
-                            quantity={item.nutrition.servingSize.quantity}
+                            calories={item.calories}
+                            unit={item.unit}
+                            quantity={item.quantity}
                             selectedDate={selectedDate.toLocaleDateString()}
                             setNotification={setNotificationVisible}
                         />

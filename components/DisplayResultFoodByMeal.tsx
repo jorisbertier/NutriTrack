@@ -1,7 +1,7 @@
 
 import { ThemedText } from "./ThemedText";
 import Row from "./Row";
-import { FoodItem } from '../interface/FoodItem';
+import { FoodItem, FoodItem2 } from '../interface/FoodItem';
 import { FlatList, StyleSheet, View } from "react-native";
 import CardFoodResume from "./Screens/Dashboard/CardFoodResume";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDeleteFood: (userMealId: string) => void) {
     
     const totalCaloriesByMeal = resultMeal.reduce((accumulator, item) => {
-        return accumulator + item.nutrition.calories;
+        return accumulator + item.calories;
     }, 0);
 
     return (
@@ -20,18 +20,18 @@ export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDele
             </Row>
             <Row>
             { resultMeal.length !== 0 ? (
-                <FlatList<FoodItem>
+                <FlatList<FoodItem2>
                     data={resultMeal}
                     renderItem={({ item }) => (
                         // <ThemedText>{item.name}</ThemedText>
                         <CardFoodResume
                         name={item.name}
-                        quantity={item.nutrition.servingSize.quantity}
-                        unit={item.nutrition.servingSize.unit}
+                        quantity={item.quantity}
+                        unit={item.unit}
                         image={item.image}
                         id={item.id}
                         userMealId={item.userMealId}
-                        calories={item.nutrition.calories}
+                        calories={item.calories}
                         handleDelete={()=> handleDeleteFood(item.userMealId)}
                         />
                     )}
