@@ -37,7 +37,7 @@ export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDele
                     )}
                     showsVerticalScrollIndicator={false}
                     scrollEnabled={false}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item) => item.userMealId ? item.userMealId : item.id.toString()}
                 />
                 ) : (
                     <ThemedText>Don't have any food for {meal}</ThemedText>
