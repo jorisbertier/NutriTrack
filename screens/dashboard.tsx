@@ -3,8 +3,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, View, Image, TouchableOpacity, FlatList, ScrollView, Text } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import { useState, useEffect } from "react";
-import { foodData, foodData2 } from "@/data/food";
-import { FoodItem, FoodItem2 } from '@/interface/FoodItem';
+import { foodData } from "@/data/food";
+import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { UsersFoodData } from "@/data/usersFoodData";
@@ -24,14 +24,14 @@ export default function Dashboard() {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    const [allFoodData, setAllFoodData] = useState<FoodItem2[]>([]);  // all foods
+    const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
     const [allUsersFoodData, setAllUsersFoodData] = useState<UserMeals[]>([]);  // all UsersFoodData
-    const [resultAllDataFood, setResultAllDataFood] = useState<FoodItem2[]>([]); //State for stock search filtered
-    const [sortByBreakfast, setSortByBreakfast] = useState<FoodItem2[]>([]); //State for stock search filtered
-    const [sortByLunch, setSortByLunch] = useState<FoodItem2[]>([]); //State for stock search filtered
-    const [sortByDinner, setSortByDinner] = useState<FoodItem2[]>([]); //State for stock search filtered
-    const [sortBySnack, setSortBySnack] = useState<FoodItem2[]>([]); //State for stock search filtered
+    const [resultAllDataFood, setResultAllDataFood] = useState<FoodItem[]>([]); //State for stock search filtered
+    const [sortByBreakfast, setSortByBreakfast] = useState<FoodItem[]>([]); //State for stock search filtered
+    const [sortByLunch, setSortByLunch] = useState<FoodItem[]>([]); //State for stock search filtered
+    const [sortByDinner, setSortByDinner] = useState<FoodItem[]>([]); //State for stock search filtered
+    const [sortBySnack, setSortBySnack] = useState<FoodItem[]>([]); //State for stock search filtered
     const [totalKcalConsumeToday, setTotalKcalConsumeToday] = useState<number>(0)
 
     const [isOpen, setIsOpen] = useState(false);
@@ -68,7 +68,7 @@ export default function Dashboard() {
                 /** TEST */
             }
             fetchData()
-            setAllFoodData(foodData2);
+            setAllFoodData(foodData);
             setAllUserData(Users);
             // setAllUsersFoodData(UsersFoodData)
             fetchUserIdDataConnected(user, setUserIdConnected)
@@ -158,7 +158,7 @@ export default function Dashboard() {
     
     const calculTotalKcalConsumeToday= () => {
         if (resultAllDataFood.length > 0) {
-            const totalKcal = resultAllDataFood.reduce((acc: number, item: FoodItem2) => {
+            const totalKcal = resultAllDataFood.reduce((acc: number, item: FoodItem) => {
                 // Ensure that item.nutrition and item.nutrition.calories exist
                 return acc + (item.calories || 0); // Use optional chaining and default to 0
             }, 0);

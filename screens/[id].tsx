@@ -8,8 +8,8 @@ import { Dimensions } from "react-native";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
 import { useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
-import { foodData, foodData2 } from "@/data/food";
-import { FoodItem, FoodItem2 } from "@/interface/FoodItem";
+import { foodData } from "@/data/food";
+import { FoodItem } from "@/interface/FoodItem";
 
 const { height } = Dimensions.get('window');
 
@@ -19,12 +19,12 @@ export default function DetailsFood() {
     const route = useRoute<any>();
     const { id } = route.params; 
 
-    const [data, setData] = useState<FoodItem2[]>([]);
+    const [data, setData] = useState<FoodItem[]>([]);
     // const [text, onChangeText] = useState('');
 
     useEffect(() => {
         try {
-                setData(foodData2);
+                setData(foodData);
         } catch (e) {
             console.log('Error processing data', e);
         }

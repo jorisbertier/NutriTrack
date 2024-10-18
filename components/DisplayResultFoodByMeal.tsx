@@ -1,10 +1,9 @@
 
 import { ThemedText } from "./ThemedText";
 import Row from "./Row";
-import { FoodItem, FoodItem2 } from '../interface/FoodItem';
+import { FoodItem } from '../interface/FoodItem';
 import { FlatList, StyleSheet, View } from "react-native";
 import CardFoodResume from "./Screens/Dashboard/CardFoodResume";
-import { useEffect, useState } from "react";
 
 export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDeleteFood: (userMealId: string) => void) {
     
@@ -20,7 +19,7 @@ export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDele
             </Row>
             <Row>
             { resultMeal.length !== 0 ? (
-                <FlatList<FoodItem2>
+                <FlatList<FoodItem>
                     data={resultMeal}
                     renderItem={({ item }) => (
                         // <ThemedText>{item.name}</ThemedText>

@@ -5,27 +5,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
 import { getData } from "@/services/api";
-import { foodData, foodData2 } from "@/data/food.js";
+import { foodData } from "@/data/food.js";
 import { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { FoodItem2 } from "@/interface/FoodItem";
-
-interface FoodItem {
-    id: number;
-    name: string;
-    nutrition: {
-        calories: string;
-        servingSize: {
-            unit: string;
-            quantity: number;
-        };
-    };
-}
-
+import { FoodItem } from "@/interface/FoodItem";
 
 export default function Search() {
 
-    const [data, setData] = useState<FoodItem2[]>([]);
+    const [data, setData] = useState<FoodItem[]>([]);
     const [error, setError] = useState("");
     const [text, onChangeText] = useState('');
     const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +34,8 @@ export default function Search() {
 
     useEffect(() => {
         try {
-            if (foodData2 && foodData2.length > 0) {
-                setData(foodData2);
+            if (foodData && foodData.length > 0) {
+                setData(foodData);
             } else {
                 setError('No data found');
             }
@@ -114,7 +101,7 @@ export default function Search() {
                 </View>
             </Row> */}
             <Row style={styles.wrapperFood}>
-                <FlatList<FoodItem2>
+                <FlatList<FoodItem>
                     data={filteredFood}
                     renderItem={({ item }) => (
                         <CardFood

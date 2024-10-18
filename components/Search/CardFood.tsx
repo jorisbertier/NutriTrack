@@ -13,18 +13,12 @@ import useThemeColors from "@/hooks/useThemeColor";
 type Props = {
     id: number;
     name: string;
-    calories: string;
+    calories: number | string;
     unit: string;
     quantity: number;
     selectedDate: string,
     setNotification: any
 };
-
-type UserConnected = {
-    index: number;
-    id: string;
-    email: string;
-} | null;
 
 const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
