@@ -1,9 +1,6 @@
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
-import { useNavigation } from "expo-router";
-// import { doc, deleteDoc } from "firebase/firestore";
-// import { firestore } from "@/firebaseConfig";
 
 type Props = {
     id: number,
@@ -17,23 +14,6 @@ type Props = {
 }
 
 export default function CardFoodResume({name, id, calories, unit, quantity, image, userMealId, handleDelete}: Props) {
-
-    // const handleDeleteFood = () => {
-    //     const deleteFromMeals = async () => {
-    //         if (userMealId) { // Verify is userMealId is defined
-    //             try {
-    //                 const mealDocRef = doc(firestore, "UserMeals", userMealId);
-    //                 await deleteDoc(mealDocRef);
-    //                 console.log('Document supprimé avec succès');
-    //             } catch (error) {
-    //                 console.error("Erreur lors de la suppression du document : ", error);
-    //             }
-    //         } else {
-    //             console.error("L'ID de l'utilisateur du repas est indéfini.");
-    //         }
-    //     };
-    //     deleteFromMeals()
-    // }
 
     return (
             <View style={styles.cardFood}>

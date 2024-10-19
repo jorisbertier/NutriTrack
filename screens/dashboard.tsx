@@ -7,16 +7,15 @@ import { foodData } from "@/data/food";
 import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
-import { UsersFoodData } from "@/data/usersFoodData";
-import CardFoodResume from "@/components/Screens/Dashboard/CardFoodResume";
 import { getAuth } from "firebase/auth";
-import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient } from "@/functions/function";
+import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
 import { User } from "@/interface/User";
-import NutritionItem from "@/components/Screens/Details/NutritionItem";
 import NutritionList from "@/components/Screens/Dashboard/NutritionList";
+import ProgressBar from "@/components/ProgressBar";
+import { capitalizeFirstLetter } from "@/functions/function";
 
 export default function Dashboard() {
 
@@ -171,13 +170,9 @@ export default function Dashboard() {
     const [vitaminK, setVitaminK] = useState(0);
     const [folate, setFolate] = useState(0);
     const [sugar, setSugar] = useState(0);
-    // const getTotalMagnesium = () => {
-    //     const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
-    //         console.log(item)
-    //         return acc + (item.magnesium || 0)
-    //     }, 0)
-    //     setMagnesium(result)
-    // }
+    const [proteins, setProteins] = useState(0);
+    const [carbs, setCarbs] = useState(0);
+    const [fats, setFats] = useState(0);
     
     const calculTotalKcalConsumeToday= () => {
         if (resultAllDataFood.length > 0) {
@@ -209,6 +204,9 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'vitaminK', setVitaminK)
         getTotalNutrient(resultAllDataFood, 'folate', setFolate)
         getTotalNutrient(resultAllDataFood, 'sugar', setSugar)
+        getTotalNutrient(resultAllDataFood, 'proteins', setProteins)
+        getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs)
+        getTotalNutrient(resultAllDataFood, 'fats', setFats)
     }, [resultAllDataFood]);
     console.log('Tout les meals',totalKcalConsumeToday)
 
@@ -234,7 +232,13 @@ export default function Dashboard() {
 
     return (
         <ScrollView style={styles.header}>
-            <ThemedText variant="title" style={{marginTop: 50}}>Fitness metrics</ThemedText>
+            <ThemedText variant="title" style={{marginTop: 50}}>Your Nutri metrics</ThemedText>
+                <ProgressBar progress={proteins} nutri={'Proteins'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
+                <ProgressBar progress={carbs} nutri={'Carbs'} quantityGoal={calculCarbohydrates(basalMetabolicRate)}/>
+                <ProgressBar progress={fats} nutri={'Fats'} quantityGoal={calculFats(basalMetabolicRate)}/>
+                {/* <ProgressBar progress={magnesium} nutri={'Carbs'} quantityGoal={300}/>
+                <ProgressBar progress={magnesium} nutri={'Fats'} quantityGoal={300}/> */}
+ 
             <Row>
                 {basalMetabolicRate - totalKcalConsumeToday > 0 ? (
                     <ThemedText variant="title">{basalMetabolicRate - totalKcalConsumeToday} kcal restant</ThemedText>
@@ -255,7 +259,7 @@ export default function Dashboard() {
                                 />)}
                             <ThemedText>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Aujourd"hui': selectedDate.toLocaleDateString('fr-FR')}</ThemedText>
                             <ThemedText>{selectedDate.toLocaleString()}</ThemedText>
-                            <ThemedText>{selectedDate.toLocaleDateString()}</ThemedText>
+                            <ThemedText>{`${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDay()}, ${selectedDate.getFullYear()}`}</ThemedText>
                     </View>
                 </TouchableOpacity>
                 <View>

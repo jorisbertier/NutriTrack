@@ -9,6 +9,7 @@ import { foodData } from "@/data/food.js";
 import { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
+import { capitalizeFirstLetter } from "@/functions/function";
 
 export default function Search() {
 
@@ -64,7 +65,7 @@ export default function Search() {
                     <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
                 </TouchableOpacity>
                     <ThemedText variant="title1">
-                        {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': selectedDate.toLocaleDateString()}
+                        {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                         </ThemedText>
                 </View>
                 {isOpen && (<RNDateTimePicker
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 30,
-        marginBottom: 20,
+        marginBottom: 5,
         paddingLeft: 15
     },
     calendar : {

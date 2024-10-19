@@ -150,21 +150,20 @@ export function BasalMetabolicRate(weight:number, height:number, age: number, ge
 }
 
 export function calculProteins(weight: number) {
-    let proteins = (weight = weight * 1.6).toFixed(1)
-    return proteins
+    return parseFloat((weight * 1.6).toFixed(1));
 }
 
 //Lipides
 export function calculFats(calories: number) {
     let fats = 0.30 * calories
     fats = fats / 9
-    return fats.toFixed(1)
+    return parseFloat(fats.toFixed(1))
 }
 //Glucides
 export function calculCarbohydrates(calories: number) {
     let carbs = 0.55 * calories
     carbs = carbs / 4
-    return carbs.toFixed(1)
+    return parseFloat(carbs.toFixed(1))
 }
 
 export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof FoodItem, setNutrient: any) => {
@@ -222,6 +221,15 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
             setNutrient(formattedResult);
             break;
         case 'sugar':
+            setNutrient(formattedResult);
+            break;
+        case 'carbohydrates':
+            setNutrient(formattedResult);
+            break;
+        case 'proteins':
+            setNutrient(formattedResult);
+            break;
+        case 'fats':
             setNutrient(formattedResult);
             break;
         default:
