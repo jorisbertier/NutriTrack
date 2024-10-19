@@ -2,8 +2,10 @@
 import { ThemedText } from "./ThemedText";
 import Row from "./Row";
 import { FoodItem } from '../interface/FoodItem';
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, Image, StyleSheet, View } from "react-native";
 import CardFoodResume from "./Screens/Dashboard/CardFoodResume";
+import RowDrop from "./Screens/Dashboard/RowDrop";
+import { useState } from "react";
 
 export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDeleteFood: (userMealId: string) => void) {
     
@@ -15,7 +17,7 @@ export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDele
         <View style={styles.wrapper}>
             <Row style={styles.row}>
                 <ThemedText variant="title">{meal}</ThemedText>
-                <ThemedText>{totalCaloriesByMeal} Kcal</ThemedText>
+                    <ThemedText>{totalCaloriesByMeal} Kcal</ThemedText>
             </Row>
             <Row>
             { resultMeal.length !== 0 ? (

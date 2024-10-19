@@ -1,14 +1,14 @@
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, View, Image, TouchableOpacity, FlatList, ScrollView, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
-import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats } from "@/functions/function";
+import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, handleAnimation } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
@@ -16,6 +16,8 @@ import { User } from "@/interface/User";
 import NutritionList from "@/components/Screens/Dashboard/NutritionList";
 import ProgressBar from "@/components/ProgressBar";
 import { capitalizeFirstLetter } from "@/functions/function";
+import { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import RowDrop from "@/components/Screens/Dashboard/RowDrop";
 
 export default function Dashboard() {
 
@@ -230,6 +232,32 @@ export default function Dashboard() {
         { name: 'Iron', quantity: iron, unit: 'g' },
     ];
 
+         // Crée une référence à Animated.Value
+    // const rotateAnimation = useRef(new Animated.Value(0)).current;
+    // const [isOpenBreakfast, setIsOpenBreakfast] = useState(true)
+
+    // // Fonction pour déclencher l'animation
+    // const handleAnimation = () => {
+    //     // La valeur d'animation alterne entre 0 et 1
+    //     Animated.timing(rotateAnimation, {
+    //         toValue: rotateAnimation._value === 0 ? 1 : 0, // Alterne entre 0 et 1
+    //         duration: 400,
+    //         useNativeDriver: true,
+    //     }).start();
+    //     setIsOpenBreakfast(!isOpenBreakfast)
+    // };
+    
+    // // Interpoler la valeur pour transformer la rotation
+    // const rotateInterpolate = rotateAnimation.interpolate({
+    //     inputRange: [0, 1],
+    //     outputRange: ['0deg', '-180deg'], // Alterner entre 0 et 180 degrés
+    // });
+
+    // const animatedStyle = {
+    //     transform: [{ rotate: rotateInterpolate }],
+    // };
+    
+
     return (
         <ScrollView style={styles.header}>
             <ThemedText variant="title" style={{marginTop: 50}}>Your Nutri metrics</ThemedText>
@@ -271,7 +299,18 @@ export default function Dashboard() {
             </View>
             {isLoading ? <ThemedText>Chargement...</ThemedText> :(
             <View style={styles.wrapperMeals}>
-                    {DisplayResultFoodByMeal(sortByBreakfast, 'Breakfast', handleDeleteFood)}
+{/* 
+                <Row style={styles.row}>
+                    <ThemedText variant="title">Breakfast</ThemedText>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20}}>
+                        <ThemedText>100 Kcal</ThemedText>
+                        <TouchableOpacity onPress={handleAnimation}>
+                            <Animated.Image source={require('@/assets/images/chevron-bas.png')} style={[{width: 20, height: 20}, animatedStyle]}/>
+                        </TouchableOpacity>
+                    </View>
+                </Row> */}
+                
+                {DisplayResultFoodByMeal(sortByBreakfast, 'Breakfast', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
@@ -308,4 +347,10 @@ const styles = StyleSheet.create({
     wrapperFood : {
         marginBottom: 16,
     },
+    row: {
+        width: '100%',
+        justifyContent: 'space-between',
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+    }
 })

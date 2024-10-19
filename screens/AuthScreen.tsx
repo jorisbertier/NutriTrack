@@ -6,8 +6,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { useNavigation } from '@react-navigation/native';
 
 const AuthScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test2@gmail.com');
+  const [password, setPassword] = useState('rootroot');
   const navigation = useNavigation();
 
   const signIn = async () => {

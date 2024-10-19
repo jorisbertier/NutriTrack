@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { User as FirebaseUser } from "firebase/auth"; // Import Firebase user type
-import { getAuth } from "firebase/auth";
+import { Animated } from "react-native";
 import { FoodItem } from '../interface/FoodItem';
 
 export function capitalizeFirstLetter(name: string) {
@@ -236,3 +236,16 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
             break;
     }
 }
+
+
+/* ANIMATION */
+
+// export const handleAnimation = (isOpenDrop: any, setIsOpenDrop: any, rotate: any) => {
+//     // La valeur d'animation alterne entre 0 et 1
+//     Animated.timing(rotate, {
+//         toValue: rotate._value === 0 ? 1 : 0, // Alterne entre 0 et 1
+//         duration: 400,
+//         useNativeDriver: true,
+//     }).start();
+//     setIsOpenDrop(!isOpenDrop)
+// };
