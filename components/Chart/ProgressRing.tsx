@@ -126,6 +126,7 @@ const ProgressRing: React.FC<any> = ({progressProteins, proteinsGoal, progressCa
                     strokeDasharray={`${circumferenceOuter} ${circumferenceOuter}`}
                     strokeDashoffset={circumferenceOuter * (1 - percentageFats)} 
                     strokeLinecap="round"
+                    opacity={percentageFats}
                 />
                 {/* Cercle de fond pour les glucides */}
                 <Circle
@@ -147,6 +148,7 @@ const ProgressRing: React.FC<any> = ({progressProteins, proteinsGoal, progressCa
                     strokeDasharray={`${circumferenceMiddle} ${circumferenceMiddle}`}
                     strokeDashoffset={circumferenceMiddle * (1 - percentageCarbs)}
                     strokeLinecap="round"
+                    opacity={percentageCarbs}
                 />
                 {/* Cercle de fond pour les protéines */}
                 <Circle
@@ -162,12 +164,13 @@ const ProgressRing: React.FC<any> = ({progressProteins, proteinsGoal, progressCa
                     cx="75"
                     cy="75"
                     r={radiusInner}
-                    stroke="#D6E4FD"
+                    stroke="#8592F2"
                     strokeWidth="8"
                     fill="none"
                     strokeDasharray={`${circumferenceInner} ${circumferenceInner}`}
                     strokeDashoffset={circumferenceInner * (1 - percentageProteins)}
                     strokeLinecap="round"
+                    opacity={percentageProteins}
                 />
             </Svg>
             </View>
