@@ -1,6 +1,6 @@
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text, Dimensions } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import { useState, useEffect, useRef } from "react";
 import { foodData } from "@/data/food";
@@ -18,6 +18,10 @@ import ProgressBar from "@/components/ProgressBar";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import RowDrop from "@/components/Screens/Dashboard/RowDrop";
+import { ProgressBarKcal } from "@/components/ProgressBarKcal";
+import ProgressRing from "@/components/Chart/ProgressRing";
+import { ProgressChart } from "react-native-chart-kit";
+
 
 export default function Dashboard() {
 
@@ -256,14 +260,25 @@ export default function Dashboard() {
     // const animatedStyle = {
     //     transform: [{ rotate: rotateInterpolate }],
     // };
-    
+    const proteinsGoal = calculProteins(Number(userData[0]?.weight)) || 0;
+    const carbsGoal = calculCarbohydrates(basalMetabolicRate) || 0;
+    const fatsGoal = calculFats(basalMetabolicRate) || 0;
+    let percentageProteins = +(proteins / proteinsGoal).toFixed(2);
 
     return (
         <ScrollView style={styles.header}>
-            <ThemedText variant="title" style={{marginTop: 50}}>Your Nutri metrics</ThemedText>
-                <ProgressBar progress={proteins} nutri={'Proteins'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
+                <ThemedText variant="title" style={{marginTop: 50}}>Your Nutri metrics</ThemedText>
+                <View style={{flexDirection: 'column', justifyContent:'center', width: '100%'}}>
+                    <Image source={require('@/assets/images/nutritional/burn.png')} style={{width: 15, height: 15}}/>
+                    <ThemedText variant="title">{basalMetabolicRate} kcal</ThemedText>
+                    <ThemedText>{basalMetabolicRate - totalKcalConsumeToday} left </ThemedText>
+                    <ProgressBarKcal progress={proteins} nutri={'Kcal'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
+                </View>
+                <ProgressRing progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
+                {/* <ProgressRing progessProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/> */}
+                {/* <ProgressBar progress={proteins} nutri={'Proteins'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
                 <ProgressBar progress={carbs} nutri={'Carbs'} quantityGoal={calculCarbohydrates(basalMetabolicRate)}/>
-                <ProgressBar progress={fats} nutri={'Fats'} quantityGoal={calculFats(basalMetabolicRate)}/>
+                <ProgressBar progress={fats} nutri={'Fats'} quantityGoal={calculFats(basalMetabolicRate)}/> */}
                 {/* <ProgressBar progress={magnesium} nutri={'Carbs'} quantityGoal={300}/>
                 <ProgressBar progress={magnesium} nutri={'Fats'} quantityGoal={300}/> */}
  
@@ -310,7 +325,7 @@ export default function Dashboard() {
                     </View>
                 </Row> */}
                 
-                {DisplayResultFoodByMeal(sortByBreakfast, 'Breakfast', handleDeleteFood)}
+                    {DisplayResultFoodByMeal(sortByBreakfast, 'Breakfast', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}

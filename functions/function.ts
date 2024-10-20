@@ -236,7 +236,10 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
             break;
     }
 }
-
+export const calculatePercentage = (progress: number, goal: number) => {
+    const percentage = +(progress / goal).toFixed(2);
+    return percentage > 1 ? 1 : percentage;
+};
 
 /* ANIMATION */
 
