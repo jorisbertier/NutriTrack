@@ -92,7 +92,7 @@ const ProgressRing: React.FC<any> = ({progressProteins, proteinsGoal, progressCa
     let percentageProteins  = calculatePercentage(progressProteins, proteinsGoal)
     let percentageCarbs  = calculatePercentage(progressCarbs, carbsGoal)
     let percentageFats  = calculatePercentage(progressFats, fatsGoal)
-   
+
     const radiusOuter = 70;   // Rayon pour le cercle des graisses
     const radiusMiddle = 50;   // Rayon pour le cercle des glucides
     const radiusInner = 30;     // Rayon pour le cercle des protéines
@@ -202,6 +202,9 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingRight: 10,
         paddingLeft: 10,
+        backgroundColor: '#F5F5F5',
+        borderRadius: 20,
+        maxWidth: '100%'
     },
     title: {
         fontSize: 18,
@@ -211,7 +214,9 @@ const styles = StyleSheet.create({
         width: '50%',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        gap: 10
+        gap: 10,
+        borderTopRightRadius: 20,
+        borderBottomRightRadius: 20,
     },
     percentageText: {
         fontSize: 20,

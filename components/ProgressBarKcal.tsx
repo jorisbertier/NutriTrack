@@ -29,11 +29,11 @@ export const ProgressBarKcal: React.FC<ProgressBarProps> = ({ progress, nutri, q
                         { width: `${Math.min(percentage, 100)}%`, height },
                     ]}
                 />
-            {/* {progress < quantityGoal ? (
+            {progress < quantityGoal ? (
                 <ThemedText variant="title2" color="white" style={styles.textProgress}>Work in progress</ThemedText>
             ) : (
                 <ThemedText variant="title2" color="white" style={styles.textProgress}>Work done !</ThemedText>
-            )} */}
+            )}
             </View>
             <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
   <Text style={styles.buttonText}>

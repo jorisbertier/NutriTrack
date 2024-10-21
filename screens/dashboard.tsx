@@ -21,6 +21,7 @@ import RowDrop from "@/components/Screens/Dashboard/RowDrop";
 import { ProgressBarKcal } from "@/components/ProgressBarKcal";
 import ProgressRing from "@/components/Chart/ProgressRing";
 import { ProgressChart } from "react-native-chart-kit";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 
 export default function Dashboard() {
@@ -264,16 +265,20 @@ export default function Dashboard() {
     const carbsGoal = calculCarbohydrates(basalMetabolicRate) || 0;
     const fatsGoal = calculFats(basalMetabolicRate) || 0;
     let percentageProteins = +(proteins / proteinsGoal).toFixed(2);
+    const headerheight = useHeaderHeight();
 
     return (
-        <ScrollView style={styles.header}>
-                <ThemedText variant="title" style={{marginTop: 50}}>Your Nutri metrics</ThemedText>
-                <View style={{flexDirection: 'column', justifyContent:'center', width: '100%'}}>
-                    <Image source={require('@/assets/images/nutritional/burn.png')} style={{width: 15, height: 15}}/>
-                    <ThemedText variant="title">{basalMetabolicRate} kcal</ThemedText>
-                    <ThemedText>{basalMetabolicRate - totalKcalConsumeToday} left </ThemedText>
-                    <ProgressBarKcal progress={proteins} nutri={'Kcal'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
+        <ScrollView style={[styles.header, {paddingTop: headerheight}]}>
+                <View style={{flexDirection: 'column',height: 'auto', alignItems:'center', width: '100%', marginTop: 20, marginBottom: 20}}>
+                    <Image source={require('@/assets/images/nutritional/burn.png')} style={{width: 35, height: 35}}/>
+                    <Text style={{fontSize: 45, fontWeight: '700', marginTop: 15}}>{basalMetabolicRate}cal</Text>
+                    <ThemedText variant='title2'>{basalMetabolicRate - totalKcalConsumeToday} left for today</ThemedText>
                 </View>
+                <View style={{marginBottom: 20}}>
+                <ProgressBarKcal progress={proteins} nutri={'Kcal'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
+
+                </View>
+
                 <ProgressRing progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
                 {/* <ProgressRing progessProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/> */}
                 {/* <ProgressBar progress={proteins} nutri={'Proteins'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
@@ -341,6 +346,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         paddingHorizontal: 12,
         paddingBottom: 8,
+        backgroundColor: 'white'
     },
     wrapperCalendar: {
         marginTop: 200,

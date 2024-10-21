@@ -39,14 +39,15 @@ export default function RootLayout() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
-      screenOptions={{ headerShown: false}}
+      screenOptions={{ headerShown: true, headerTitleAlign: 'center'}}
       >
         <Stack.Screen name="auth" component={AuthScreen} />
         <Stack.Screen name="search" component={Search} />
-        <Stack.Screen name="home" component={HomeScreen} />
+        <Stack.Screen name="home" component={HomeScreen} options={{headerShown: false}}/>
         <Stack.Screen name="registration" component={Registration} />
         <Stack.Screen name="FoodDetails" component={DetailsFood} />
-        <Stack.Screen name="dashboard" component={Dashboard} />
+        <Stack.Screen name="dashboard" component={Dashboard} options={{headerTitle: 'Your nutrition metrics',
+          headerBlurEffect: 'regular', headerTransparent: true, headerStyle: { backgroundColor: 'rgba(255, 255, 255, 1)' }}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
