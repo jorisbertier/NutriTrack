@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginVertical: 3
+        marginVertical: 3,
     },
     progressBar1: {
         position: 'relative',
-        width: '95%',
+        width: '100%',
         backgroundColor: '#E0E0E0',
         borderRadius: 7,
         overflow: 'visible',

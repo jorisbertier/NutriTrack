@@ -36,7 +36,7 @@ export const Colors = {
       grayPress: '#E0E0E0'
   },
   light: {
-      blue: '#0066FF',
+      blue: '#8592F2',
       blueLight: '#D6E4FD',
       gray: '#F5F5F5',
       grayDark: '#A2A2A2',

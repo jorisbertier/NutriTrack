@@ -47,7 +47,7 @@ export default function RootLayout() {
         <Stack.Screen name="registration" component={Registration} />
         <Stack.Screen name="FoodDetails" component={DetailsFood} />
         <Stack.Screen name="dashboard" component={Dashboard} options={{headerTitle: 'Your nutrition metrics',
-          headerBlurEffect: 'regular', headerTransparent: true, headerStyle: { backgroundColor: 'rgba(255, 255, 255, 1)' }}}/>
+          headerBlurEffect: 'regular', headerStyle: { backgroundColor: 'rgba(255, 255, 255, 1)' }}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

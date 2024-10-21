@@ -105,7 +105,9 @@ type Props = TextProps & {
 export function ThemedText({variant, color, style,  ...rest}: Props) {
     const colors = useThemeColors()
     
+    const finalColor = typeof color === 'string' ? color : (colors[color as keyof typeof colors] ?? 'black');
+    // {color: colors[color ?? 'black']}
     return (
-        <Text style={[styles[variant ?? 'body'], {color: colors[color ?? 'black']}, style]} {...rest}/>
+        <Text style={[styles[variant ?? 'body'], {color: finalColor}, style]} {...rest}/>
     )
 }

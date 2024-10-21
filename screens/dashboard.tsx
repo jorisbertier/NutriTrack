@@ -22,6 +22,7 @@ import { ProgressBarKcal } from "@/components/ProgressBarKcal";
 import ProgressRing from "@/components/Chart/ProgressRing";
 import { ProgressChart } from "react-native-chart-kit";
 import { useHeaderHeight } from "@react-navigation/elements";
+import useThemeColors from "@/hooks/useThemeColor";
 
 
 export default function Dashboard() {
@@ -31,6 +32,7 @@ export default function Dashboard() {
     const auth = getAuth();
     const user = auth.currentUser;
 
+    const colors = useThemeColors()
     const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
     const [allUsersFoodData, setAllUsersFoodData] = useState<UserMeals[]>([]);  // all UsersFoodData
@@ -159,7 +161,7 @@ export default function Dashboard() {
         Number(calculAge(userData[0]?.dateOfBirth)),
         userData[0]?.gender,
         userData[0]?.activityLevel
-    ) : null;
+    ) : 0;
 
     const [magnesium, setMagnesium] = useState(0)
     const [potassium, setPotassium] = useState(0);
@@ -266,13 +268,32 @@ export default function Dashboard() {
     const fatsGoal = calculFats(basalMetabolicRate) || 0;
     let percentageProteins = +(proteins / proteinsGoal).toFixed(2);
     const headerheight = useHeaderHeight();
+    const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
 
     return (
-        <ScrollView style={[styles.header, {paddingTop: headerheight}]}>
-                <View style={{flexDirection: 'column',height: 'auto', alignItems:'center', width: '100%', marginTop: 20, marginBottom: 20}}>
+        <>
+        <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableOpacity onPress={handleOpenCalendar}>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
+                    <ThemedText variant="title1" style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
+                        'Today':
+                        `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
+                    </ThemedText>
+                    <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
+                </View>
+            </TouchableOpacity>
+        </View>
+        <ScrollView style={[styles.header, {paddingTop: 30}]}>
+                <View style={{flexDirection: 'column',height: 'auto', alignItems:'center', width: '100%', marginBottom: 20}}>
+                    {isOpen && (<RNDateTimePicker
+                                onChange={setDate}
+                                value={selectedDate}
+                                timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
+                    />)}
                     <Image source={require('@/assets/images/nutritional/burn.png')} style={{width: 35, height: 35}}/>
-                    <Text style={{fontSize: 45, fontWeight: '700', marginTop: 15}}>{basalMetabolicRate}cal</Text>
-                    <ThemedText variant='title2'>{basalMetabolicRate - totalKcalConsumeToday} left for today</ThemedText>
+                    <Text style={{fontSize: 45, fontWeight: '700', marginTop: 15}}>{totalCaloriesGoal}cal</Text>
+                    <ThemedText variant='title2' color={colors.blue}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
+                    <ThemedText variant='title2' style={{marginTop: 5}} color={colors.blue}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
                 </View>
                 <View style={{marginBottom: 20}}>
                 <ProgressBarKcal progress={proteins} nutri={'Kcal'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
@@ -287,14 +308,14 @@ export default function Dashboard() {
                 {/* <ProgressBar progress={magnesium} nutri={'Carbs'} quantityGoal={300}/>
                 <ProgressBar progress={magnesium} nutri={'Fats'} quantityGoal={300}/> */}
  
-            <Row>
+            {/* <Row>
                 {basalMetabolicRate - totalKcalConsumeToday > 0 ? (
                     <ThemedText variant="title">{basalMetabolicRate - totalKcalConsumeToday} kcal restant</ThemedText>
                 ) : (
                     <ThemedText variant="title">0 Kcal restant votre objectif est atteint</ThemedText>
                 )}
-            </Row>
-            <Row style={styles.wrapperCalendar}>
+            </Row> */}
+            {/* <Row style={styles.wrapperCalendar}>
                 <View>
                     <Image source={require('@/assets/images/navbar/home.png')} style={styles.next} />
                 </View>
@@ -313,10 +334,10 @@ export default function Dashboard() {
                 <View>
                     <Image source={require('@/assets/images/navbar/home.png')} style={styles.next} />
                 </View>
-            </Row>
-            <View>
+            </Row> */}
+            {/* <View>
                 <Text>#{userIdConnected}</Text>
-            </View>
+            </View> */}
             {isLoading ? <ThemedText>Chargement...</ThemedText> :(
             <View style={styles.wrapperMeals}>
 {/* 
@@ -338,6 +359,7 @@ export default function Dashboard() {
             )}
             <NutritionList data={nutritionData}/>
         </ScrollView>
+        </>
     )
 }
 
@@ -346,7 +368,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         paddingHorizontal: 12,
         paddingBottom: 8,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
     },
     wrapperCalendar: {
         marginTop: 200,

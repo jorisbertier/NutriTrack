@@ -204,7 +204,8 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         backgroundColor: '#F5F5F5',
         borderRadius: 20,
-        maxWidth: '100%'
+        maxWidth: '100%',
+        marginBottom: 20
     },
     title: {
         fontSize: 18,
