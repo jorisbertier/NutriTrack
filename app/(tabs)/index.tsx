@@ -15,7 +15,7 @@ import NutritionalCard from '@/components/NutritionCard';
 import Banner from '@/components/Banner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useThemeColors from '@/hooks/useThemeColor';
-import { calculAge, BasalMetabolicRate, calculProteins, calculFats } from '@/functions/function';
+import { calculAge, BasalMetabolicRate, calculProteins, calculFats, capitalizeFirstLetter } from '@/functions/function';
 import { calculCarbohydrates } from '../../functions/function';
 
 export default function HomeScreen() {
@@ -26,6 +26,7 @@ export default function HomeScreen() {
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;
+  const date = new Date();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -110,10 +111,32 @@ export default function HomeScreen() {
     //     <Button title="Dashboard" onPress={() => navigation.navigate('dashboard')}/>
     //   </View>
     //   </>
+    <>
+    <View style={styles.wrapperBanner}>
+      <View style={styles.banner}>
+        <Row style={{justifyContent: 'space-between', width: '90%'}}>
+          <ThemedText color="#FFFF" style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
+          <ThemedText style={[styles.circle]}>
+            <Image source={require('@/assets/images/notification.png')} style={styles.image3} />
+          </ThemedText>
+        </Row>
+        <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%'}}>
+            <Image source={require('@/assets/images/profil/profil.webp')} style={styles.image2} />
+            <View style={{flexDirection: 'column'}}>
+              <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2}}>Hello, {userData[0]?.name} !</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Image source={require('@/assets/images/star.png')} style={styles.image3} />
+                <ThemedText color="#FFFF">Free account</ThemedText>
+              </View>
+            </View>
+        </View>
+            {/* <ThemedText color={"white"}> Logo</ThemedText>
+            <Image source={require('@/assets/images/profil/profil.webp')} style={styles.image2} /> */}
+        </View>
+      <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.image}/>
+    </View>
     <SafeAreaView style={styles.header}>
-      <Text>Edit app/index.tsx to edit this screen.esbbtrdff</Text>
-      <ThemedText variant={"title1"} color={"white"}>ddddd</ThemedText>
-      <Banner/>
+      {/* <Banner/> */}
         <Row gap={5} style={styles.rowTwoItems}>
           <NutritionalCard
           nutritionalName={'calories'}
@@ -182,6 +205,7 @@ export default function HomeScreen() {
         {/* <Navbar/> */}
 
     </SafeAreaView>
+    </>
     // </ParallaxScrollView>
   );
 }
@@ -224,4 +248,52 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
+  wrapperBanner : {
+    position: 'relative',
+    height: 250,
+    borderBottomEndRadius: 30,
+    borderBottomStartRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+  },
+  banner : {
+    width: '100%',
+    height: 250,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderBottomEndRadius: 30,
+    borderBottomStartRadius: 30,
+    borderRadius: 100
+    
+  },
+  circle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#F5F5F5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center'
+  },
+  image2 : {
+      width: 60,
+      height: 60,
+      borderRadius: 30
+  },
+  image3 : {
+    width: 15,
+    height: 15
+  },
+  image : {
+    position: 'absolute',
+    width: '100%',
+    height: 250,
+    objectFit: 'fill',
+    zIndex: -1,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  }
 })
