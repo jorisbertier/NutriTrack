@@ -17,39 +17,36 @@ const Registration = () => {
     const [height, setHeight] = useState('');
     const [activityLevel, setActivityLevel] = useState('');
     const [profilPicture, setProfilPicture] = useState('');
-    const [gender, setGender] = useState('')
+    const [gender, setGender] = useState('');
 
     const signUp = async () => {
         try {
-        // Créer un utilisateur avec email et mot de passe
-        const userCredential = await createUserWithEmailAndPassword(Auth, email, password);
-        const user = userCredential.user;
+            const userCredential = await createUserWithEmailAndPassword(Auth, email, password);
+            const user = userCredential.user;
 
-        const weightNumber = parseFloat(weight);
-        const heightNumber = parseFloat(height);
+            const weightNumber = parseFloat(weight);
+            const heightNumber = parseFloat(height);
 
-        // Verify is Number
-        if (isNaN(weightNumber) || isNaN(heightNumber)) {
-            Alert.alert('Erreur', 'Veuillez entrer des valeurs numériques valides pour le poids et la taille.');
-            return;
-        }
+            if (isNaN(weightNumber) || isNaN(heightNumber)) {
+                Alert.alert('Error', 'Please enter valid numerical values for weight and height.');
+                return;
+            }
 
-        // Créer un document utilisateur dans Firestore avec les informations supplémentaires
-        await setDoc(doc(firestore, 'User', user.uid), {
-            name: name,
-            firstName: firstname,
-            dateOfBirth: dateOfBirthFormatted,
-            weight: weight,
-            height: height,
-            email: user.email,
-            activityLevel: activityLevel,
-            profilPicture: profilPicture,
-            gender: gender
-        });
-        Alert.alert('Inscription réussie!');
-        resetForm()
+            await setDoc(doc(firestore, 'User', user.uid), {
+                name: name,
+                firstName: firstname,
+                dateOfBirth: dateOfBirthFormatted,
+                weight: weight,
+                height: height,
+                email: user.email,
+                activityLevel: activityLevel,
+                profilPicture: profilPicture,
+                gender: gender
+            });
+            Alert.alert('Registration successful!');
+            resetForm();
         } catch (error) {
-        Alert.alert('Erreur d\'inscription', error.message);
+            Alert.alert('Registration Error', error.message);
         }
     };
 
@@ -65,57 +62,51 @@ const Registration = () => {
         setProfilPicture('');
         setGender('');
     };
+
     const onChangeDate = (event, selectedDate) => {
         const currentDate = selectedDate || dateOfBirth;
         setShowDatePicker(false);
         setDateOfBirth(currentDate);
-        
-        // Formater la date en DD/MM/YYYY
+
         const day = String(currentDate.getDate()).padStart(2, '0');
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
         const year = currentDate.getFullYear();
         setDateOfBirthFormatted(`${day}/${month}/${year}`);
     };
 
-  return (
-    <View style={styles.container}>
-        <Text>Page Inscription</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-        />
-        <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={setName}
-            placeholder="Name"
-        />
-        <TextInput
-            style={styles.input}
-            value={firstname}
-            onChangeText={setFirstname}
-            placeholder="firstName"
-        />
-        <TextInput
-            style={styles.input}
-            placeholder="Mot de passe"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-        />
-        {/* <TextInput
-            style={styles.input}
-            placeholder="Date de naissance (JJ/MM/AAAA)"
-            value={dateOfBirth}
-            onChangeText={setDateOfBirth}
-        /> */}
-        <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-            <Text style={styles.dateInput}>{dateOfBirthFormatted || 'Sélectionner une date'}</Text>
-        </TouchableOpacity>
-        {showDatePicker && (
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Registration Page</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+            />
+            <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+                placeholder="Name"
+            />
+            <TextInput
+                style={styles.input}
+                value={firstname}
+                onChangeText={setFirstname}
+                placeholder="First Name"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+            />
+            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                <Text style={styles.dateInput}>{dateOfBirthFormatted || 'Select a date'}</Text>
+            </TouchableOpacity>
+            {showDatePicker && (
                 <DateTimePicker
                     value={dateOfBirth}
                     mode="date"
@@ -123,33 +114,32 @@ const Registration = () => {
                     onChange={onChangeDate}
                 />
             )}
-        <TextInput
-            style={styles.input}
-            placeholder="Poids (kg)"
-            value={weight}
-            onChangeText={setWeight}
-            keyboardType="numeric"
-        />
-        <TextInput
-            style={styles.input}
-            placeholder="Taille (cm)"
-            value={height}
-            onChangeText={setHeight}
-            keyboardType="numeric"
-        />
-        <TextInput
-        placeholder="Activity level"
-            style={styles.input}
-            value={activityLevel}
-            onChangeText={setActivityLevel}
-        />
-        
-        <TextInput
-            placeholder="Profil picture"
-            style={styles.input}
-            value={profilPicture}
-            onChangeText={setProfilPicture}
-        />
+            <TextInput
+                style={styles.input}
+                placeholder="Weight (kg)"
+                value={weight}
+                onChangeText={setWeight}
+                keyboardType="numeric"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Height (cm)"
+                value={height}
+                onChangeText={setHeight}
+                keyboardType="numeric"
+            />
+            <TextInput
+                placeholder="Activity Level"
+                style={styles.input}
+                value={activityLevel}
+                onChangeText={setActivityLevel}
+            />
+            <TextInput
+                placeholder="Profile Picture URL"
+                style={styles.input}
+                value={profilPicture}
+                onChangeText={setProfilPicture}
+            />
             <View style={styles.genderContainer}>
                 <TouchableOpacity
                     style={[styles.genderButton, gender === 'male' && styles.selectedButton]}
@@ -164,7 +154,7 @@ const Registration = () => {
                     <Text style={styles.genderText}>Female</Text>
                 </TouchableOpacity>
             </View>
-        <Button title="S'inscrire" onPress={signUp} />
+            <Button title="Register" onPress={signUp} />
         </View>
     );
 };
@@ -174,36 +164,38 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 16,
+        backgroundColor: '#f0f0f0',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 20,
     },
     input: {
-        height: 40,
-        borderColor: 'gray',
+        height: 50,
+        borderColor: '#ccc',
         borderWidth: 1,
+        borderRadius: 5,
         marginBottom: 12,
-        paddingHorizontal: 8,
-    },
-    dateLabel: {
-        marginTop: 16,
-        marginBottom: 8,
-        fontWeight: 'bold',
+        paddingHorizontal: 10,
+        backgroundColor: '#fff',
     },
     dateInput: {
-        height: 40,
-        borderColor: 'gray',
+        height: 50,
+        borderColor: '#ccc',
         borderWidth: 1,
+        borderRadius: 5,
         marginBottom: 12,
-        paddingHorizontal: 8,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    genderLabel: {
-        marginTop: 16,
-        marginBottom: 8,
-        fontWeight: 'bold',
+        paddingHorizontal: 10,
+        backgroundColor: '#fff',
+        textAlign: 'center',
+        lineHeight: 50,
     },
     genderContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginVertical: 16,
     },
     genderButton: {
         flex: 1,
@@ -211,7 +203,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 4,
         borderColor: 'gray',
         borderWidth: 1,
-        borderRadius: 4,
+        borderRadius: 5,
         alignItems: 'center',
     },
     selectedButton: {
