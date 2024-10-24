@@ -1,4 +1,3 @@
-
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
@@ -11,14 +10,11 @@ import Search from './(tabs)/Search';
 import DetailsFood from '@/screens/[id]';
 import Dashboard from '@/screens/dashboard';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import TabLayout from './(tabs)/_layout';
-import HomeScreen from './(tabs)';
-
+import TabLayout from './(tabs)/_layout'; // Charge le layout des onglets
 
 const Stack = createNativeStackNavigator();
 
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// Empêche l'écran de démarrage de se cacher avant la fin du chargement des assets
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -40,17 +36,28 @@ export default function RootLayout() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
-      screenOptions={{ headerShown: true, headerTitleAlign: 'center'}}
+        screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}
       >
-        <Stack.Screen name="auth" component={AuthScreen} options={{headerShown: false}}/>
-        {/* <Stack.Screen name="home" component={TabLayout} options={{headerShown: false}}/> */}
+        {/* Écran d'authentification */}
+        <Stack.Screen name="auth" component={AuthScreen} options={{ headerShown: false }} />
+        
+        {/* Navigation par onglets (TabLayout) */}
+        <Stack.Screen name="home" component={TabLayout} options={{ headerShown: false }} />
+
+        {/* Autres écrans */}
         <Stack.Screen name="search" component={Search} />
-        <Stack.Screen name="home" component={HomeScreen} options={{headerShown: false}}/>
-        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
         <Stack.Screen name="registration" component={Registration} />
         <Stack.Screen name="FoodDetails" component={DetailsFood} />
-        <Stack.Screen name="dashboard" component={Dashboard} options={{headerTitle: 'Your nutrition metrics',
-          headerBlurEffect: 'regular', headerStyle: { backgroundColor: 'rgba(255, 255, 255, 1)' }}}/>
+        <Stack.Screen
+          name="dashboard"
+          component={Dashboard}
+          options={{
+            headerTitle: 'Your nutrition metrics',
+            headerBlurEffect: 'regular',
+            headerStyle: { backgroundColor: 'rgba(255, 255, 255, 1)' },
+            headerShown: true
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
