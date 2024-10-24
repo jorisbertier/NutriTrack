@@ -52,13 +52,14 @@ const AuthScreen = () => {
         secureTextEntry
       />
       <View style={styles.wrapperButton}>
-        <Button title="Se connecter" onPress={signIn} color="#8592F2" />
+        <Button title="Login" onPress={signIn} color="#8592F2" />
         {/* <Button title="Créer un compte" onPress={() => navigation.navigate('registration')} color="#2196F3" /> */}
       </View>
       <Text style={styles.footerText}>
-        Vous n'avez pas de compte? <Text style={styles.link} onPress={() => navigation.navigate('registration')}>Inscrivez-vous ici</Text>
+        Don't have an account? <Text style={styles.link} onPress={() => navigation.navigate('registration')}>Register here</Text>
       </Text>
-      <Svg style={styles.svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><Path fill="#8592F2" fill-opacity="1" d="M0,224L48,197.3C96,171,192,117,288,96C384,75,480,85,576,106.7C672,128,768,160,864,149.3C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></Path></Svg>
+      <Image source={require('@/assets/images/svg/wave.png')} style={styles.svg}/>
+      {/* <Svg style={styles.svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><Path fill="#8592F2" fill-opacity="1" d="M0,224L48,197.3C96,171,192,117,288,96C384,75,480,85,576,106.7C672,128,768,160,864,149.3C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></Path></Svg> */}
     </View>
   );
 };
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
-    backgroundColor: '#FFFF',
+    backgroundColor: '#F5F5F5',
     position: 'relative'
   },
   logo : {
@@ -107,15 +108,18 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   link: {
-    color: '#8592F2', // Couleur du lien
+    color: '#8592F2',
     fontWeight: 'bold',
   },
   svg: {
-    position: 'absolute', // Position absolue pour le SVG
-    bottom: 0, // Positionnez-le en bas, par exemple
-    left: 0, // Ou toute autre position souhaitée
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
     right: 0,
-    height: 100, // Ajustez la hauteur selon vos besoins
+    height: 500,
+    width: 'auto',
+    maxWidth: 500,
+    objectFit: 'fill'
   },
 });
 // service cloud.firestore {
