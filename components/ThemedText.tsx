@@ -95,6 +95,10 @@ const styles = StyleSheet.create({
         lineHeight: 16,
         fontWeight: "bold",
     },
+    subtitle: {
+        fontSize: 12,
+        lineHeight: 16,
+    },
 })
 
 type Props = TextProps & {

@@ -5,19 +5,25 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { useNavigation } from '@react-navigation/native';
 import Row from '@/components/Row';
 import { Path, Svg } from 'react-native-svg';
+import { ThemedText } from '@/components/ThemedText';
+import useThemeColors from '@/hooks/useThemeColor';
 
 const AuthScreen = () => {
   const [email, setEmail] = useState('test2@gmail.com');
   const [password, setPassword] = useState('rootroot');
   const navigation = useNavigation();
+  const colors = useThemeColors();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const signIn = async () => {
     try {
       await signInWithEmailAndPassword(Auth, email, password);
+      setErrorMessage('')
       Alert.alert('Connexion réussie!');
       navigation.navigate('home');
     } catch (error) {
-      Alert.alert('Erreur de connexion', error.message);
+      // Alert.alert('Erreur de connexion', error.message);
+      setErrorMessage('Incorrect email or password. Please try again.');
     }
   };
 
@@ -32,10 +38,11 @@ const AuthScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Row style={{justifyContent: 'center'}}>
-        <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
+      <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
+          <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
+        <ThemedText variant="title">Welcome !</ThemedText>
+        <ThemedText variant="subtitle" color={colors.grayDark}>Please enter your details.</ThemedText>
       </Row>
-      <Text style={styles.subtitle}>Connectez-vous à votre compte</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -51,6 +58,7 @@ const AuthScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       <View style={styles.wrapperButton}>
         <Button title="Login" onPress={signIn} color="#8592F2" />
         {/* <Button title="Créer un compte" onPress={() => navigation.navigate('registration')} color="#2196F3" /> */}
@@ -83,9 +91,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 50,
     textAlign: 'center',
-    color: '#666',
+    color: '#0000',
     marginBottom: 24,
   },
   input: {
@@ -119,14 +127,14 @@ const styles = StyleSheet.create({
     height: 500,
     width: 'auto',
     maxWidth: 500,
-    objectFit: 'fill'
+    objectFit: 'fill',
+    zIndex: -1
+  },
+  errorText: { 
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: 16,
   },
 });
-// service cloud.firestore {
-//   match /databases/{database}/documents {
-//     match /User/{userId} {
-//       allow read, write: if request.auth != null; // Autorise la lecture et l'écriture si l'utilisateur est authentifié
-//     }
-//   }
-// }
+
 export default AuthScreen;
