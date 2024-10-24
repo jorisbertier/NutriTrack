@@ -7,15 +7,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '../screens/AuthScreen';
 import Registration from '@/screens/Registration';
-import Search from '@/screens/Search';
+import Search from './(tabs)/Search';
 import DetailsFood from '@/screens/[id]';
 import Dashboard from '@/screens/dashboard';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import TabLayout from './(tabs)/_layout';
+import HomeScreen from './(tabs)';
 
 
 const Stack = createNativeStackNavigator();
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-import HomeScreen from './(tabs)';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -41,9 +42,11 @@ export default function RootLayout() {
       <Stack.Navigator
       screenOptions={{ headerShown: true, headerTitleAlign: 'center'}}
       >
-        <Stack.Screen name="auth" component={AuthScreen} />
+        <Stack.Screen name="auth" component={AuthScreen} options={{headerShown: false}}/>
+        {/* <Stack.Screen name="home" component={TabLayout} options={{headerShown: false}}/> */}
         <Stack.Screen name="search" component={Search} />
         <Stack.Screen name="home" component={HomeScreen} options={{headerShown: false}}/>
+        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
         <Stack.Screen name="registration" component={Registration} />
         <Stack.Screen name="FoodDetails" component={DetailsFood} />
         <Stack.Screen name="dashboard" component={Dashboard} options={{headerTitle: 'Your nutrition metrics',

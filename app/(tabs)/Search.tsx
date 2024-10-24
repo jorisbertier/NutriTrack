@@ -4,7 +4,6 @@ import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text} f
 import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
-import { getData } from "@/services/api";
 import { foodData } from "@/data/food.js";
 import { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";

@@ -14,6 +14,7 @@ import useThemeColors from '@/hooks/useThemeColor';
 import { calculAge, BasalMetabolicRate, calculProteins, calculFats } from '@/functions/function';
 import { calculCarbohydrates } from '../../functions/function';
 import Banner from '@/components/Banner';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
 
 export default function HomeScreen() {
 
@@ -75,157 +76,81 @@ export default function HomeScreen() {
   ) : null;
 
   return (
-    // <ParallaxScrollView
-    //   headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-    // >
-    // <>
-    //   <View style={styles.titleContainer}>
-    //     <ThemedText>Welcome! {userData[0]?.name}</ThemedText>
-    //     <ThemedText>Weight: {userData[0]?.weight} kg</ThemedText>
-    //     <ThemedText>Height: {userData[0]?.name} cm</ThemedText>
-    //     <ThemedText>NumeroId: {userData[0]?.id} </ThemedText>
-    //     <HelloWave />
-    //   </View>
-    //   <View style={styles.stepContainer}>
-    //     <ThemedText>Step 1: Try it</ThemedText>
-    //     <ThemedText>
-    //       Edit <ThemedText>app/(tabs)/index.tsx</ThemedText> to see changes.
-    //       Press{' '}
-    //       <ThemedText>
-    //         {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-    //       </ThemedText>{' '}
-    //       to open developer tools.
-    //     </ThemedText>
-    //   </View>
-    //   <View style={styles.stepContainer}>
-    //     <Button title="Se déconnecter" onPress={handleSignOut} />
-    //   </View>
-    //   <View>
-    //     <Button title="Search" onPress={() => navigation.navigate('search')}/>
-    //   </View>
-    //   <View>
-    //     <Button title="Dashboard" onPress={() => navigation.navigate('dashboard')}/>
-    //   </View>
-    //   </>
     <>
-    <StatusBar barStyle="light-content" />
-    <Banner name={userData[0]?.name}/>
-    {/* <View style={styles.wrapperBanner}>
-      <View style={styles.banner}>
-        <Row style={{justifyContent: 'space-between', width: '90%'}}>
-          <ThemedText color="#FFFF" style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
-          <View style={[styles.circle]}>
-            <Image source={require('@/assets/images/notification.png')} style={styles.image3} />
+      <StatusBar barStyle="light-content" />
+      <Banner name={userData[0]?.name}/>
+      
+      <SafeAreaView style={styles.header}>
+        {/* <Banner/> */}
+          <Row gap={5} style={styles.rowTwoItems}>
+            <NutritionalCard
+            nutritionalName={'calories'}
+            nutrionalData={basalMetabolicRate}
+            icon={'burn'}
+            backgroundcolor={colors.gray}
+            indice={'g'}
+            />
+            <NutritionalCard
+            nutritionalName={'protein'}
+            nutrionalData={calculProteins(Number(userData[0]?.weight))}
+            backgroundcolor={colors.black}
+            indice={'g'}
+            icon={'protein'}
+            textColor={'white'}
+            />
+            <NutritionalCard
+            nutritionalName={'carbs'}
+            nutrionalData={calculCarbohydrates(basalMetabolicRate)}
+            backgroundcolor={colors.blue}
+            indice={'g'}
+            icon={'carbs'}
+            />
+            <NutritionalCard
+            nutritionalName={'fat'}
+            nutrionalData={calculFats(basalMetabolicRate)}
+            backgroundcolor={colors.blueLight}
+            indice={'g'}
+            icon={'fat'}
+            />
+          </Row>
+          <Row>
+            {/* <ProgressBar progress={60}/> */}
+          </Row>
+          <View style={styles.stepContainer}>
+            <Button title="Se déconnecter" onPress={handleSignOut} />
           </View>
-        </Row>
-        <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
-            <Image source={require('@/assets/images/profil/profil.webp')} style={styles.image2} />
-            <View style={{flexDirection: 'column'}}>
-              <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2}}>Hello, {userData[0]?.name} !</Text>
-              <View style={{flexDirection: 'row'}}>
-                <Image source={require('@/assets/images/star.png')} style={styles.image3} />
-                <ThemedText color="#FFFF">Free account</ThemedText>
-              </View>
-            </View>
-        </View>
-      </View>
-      <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.image}/>
-    </View> */}
-    
-    <SafeAreaView style={styles.header}>
-      {/* <Banner/> */}
-        <Row gap={5} style={styles.rowTwoItems}>
-          <NutritionalCard
-          nutritionalName={'calories'}
-          nutrionalData={basalMetabolicRate}
-          icon={'burn'}
-          backgroundcolor={colors.gray}
-          indice={'g'}
-          />
-          <NutritionalCard
-          nutritionalName={'protein'}
-          nutrionalData={calculProteins(Number(userData[0]?.weight))}
-          backgroundcolor={colors.black}
-          indice={'g'}
-          icon={'protein'}
-          textColor={'white'}
-          />
-          <NutritionalCard
-          nutritionalName={'carbs'}
-          nutrionalData={calculCarbohydrates(basalMetabolicRate)}
-          backgroundcolor={colors.blue}
-          indice={'g'}
-          icon={'carbs'}
-          />
-          <NutritionalCard
-          nutritionalName={'fat'}
-          nutrionalData={calculFats(basalMetabolicRate)}
-          backgroundcolor={colors.blueLight}
-          indice={'g'}
-          icon={'fat'}
-          />
-        </Row>
-        <Row>
-          {/* <ProgressBar progress={60}/> */}
-        </Row>
-        <View style={styles.stepContainer}>
-          <Button title="Se déconnecter" onPress={handleSignOut} />
-        </View>
-        <View>
-          <Button title="Search" onPress={() => navigation.navigate('search')}/>
-        </View>
-        <View>
-          <Button title="Dashboard" onPress={() => navigation.navigate('dashboard')}/>
-        </View>
-        {isLoading ? (
-        <View style={{flexDirection: 'column'}}>
-          
-          <ThemedText>Calories nedd:
-            {basalMetabolicRate}
-          </ThemedText>
-
-          <ThemedText>Height {userData[0]?.height}</ThemedText>
-          <ThemedText>Weight {userData[0]?.weight}</ThemedText>
-          <ThemedText>gender {userData[0]?.gender}</ThemedText>
-          <ThemedText>Activite {userData[0]?.activityLevel}</ThemedText>
-          <ThemedText>Proteins need: {calculProteins(Number(userData[0]?.weight))}</ThemedText>
-          <ThemedText>Carbohydrates need: {calculCarbohydrates(basalMetabolicRate)}</ThemedText>
-          <ThemedText>Fats need: {calculFats(basalMetabolicRate)}</ThemedText>
-          {/* <ThemedText>Age {userData[0]?.dateOfBirth}</ThemedText> */}
-          <ThemedText>Age {calculAge(userData[0]?.dateOfBirth)}</ThemedText>
-        </View>
-        ) : (
           <View>
-            <ThemedText>Is loading....</ThemedText>
+            <Button title="Search" onPress={() => navigation.navigate('search')}/>
           </View>
-        )}
-        {/* <Navbar/> */}
+          <View>
+            <Button title="Dashboard" onPress={() => navigation.navigate('dashboard')}/>
+          </View>
+          {isLoading ? (
+          <View style={{flexDirection: 'column'}}>
+            
+            <ThemedText>Calories nedd:
+              {basalMetabolicRate}
+            </ThemedText>
 
-    </SafeAreaView>
+            <ThemedText>Height {userData[0]?.height}</ThemedText>
+            <ThemedText>Weight {userData[0]?.weight}</ThemedText>
+            <ThemedText>gender {userData[0]?.gender}</ThemedText>
+            <ThemedText>Activite {userData[0]?.activityLevel}</ThemedText>
+            <ThemedText>Proteins need: {calculProteins(Number(userData[0]?.weight))}</ThemedText>
+            <ThemedText>Carbohydrates need: {calculCarbohydrates(basalMetabolicRate)}</ThemedText>
+            <ThemedText>Fats need: {calculFats(basalMetabolicRate)}</ThemedText>
+            {/* <ThemedText>Age {userData[0]?.dateOfBirth}</ThemedText> */}
+            <ThemedText>Age {calculAge(userData[0]?.dateOfBirth)}</ThemedText>
+          </View>
+          ) : (
+            <View>
+              <ThemedText>Is loading....</ThemedText>
+            </View>
+          )}
+      </SafeAreaView>
     </>
-    // </ParallaxScrollView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   titleContainer: {
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//     gap: 8,
-//   },
-//   stepContainer: {
-//     gap: 8,
-//     marginBottom: 8,
-//   },
-//   reactLogo: {
-//     height: 178,
-//     width: 290,
-//     bottom: 0,
-//     left: 0,
-//     position: 'absolute',
-//   },
-// });
-
 
 const styles = StyleSheet.create({
   header: {
