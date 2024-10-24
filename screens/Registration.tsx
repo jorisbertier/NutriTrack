@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { Auth, firestore } from '../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
+import * as ImagePicker from 'expo-image-picker';
 
 const Registration = () => {
     const [email, setEmail] = useState('');
@@ -19,6 +20,27 @@ const Registration = () => {
     const [activityLevel, setActivityLevel] = useState('');
     const [profilPicture, setProfilPicture] = useState('');
     const [gender, setGender] = useState('');
+
+    const [profileImage, setProfileImage] = useState(null);
+    const pickImage = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+        // if (status !== 'granted') {
+        //     Alert.alert("Permission to access camera roll is required!");
+        //     return;
+        // }
+    
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+    
+        if (!result.canceled) {
+            setProfileImage(result.assets[0].uri);
+        }
+    };
 
     const signUp = async () => {
         try {
@@ -148,6 +170,12 @@ const Registration = () => {
                 value={profilPicture}
                 onChangeText={setProfilPicture}
             />
+            {/* <View>
+            <TouchableOpacity onPress={pickImage}>
+                <Text style={styles.imagePicker}>{profileImage ? 'Image Selected' : 'Select Profile Picture'}</Text>
+                {profileImage && <Image source={{ uri: profileImage }} style={styles.profileImage} />}
+            </TouchableOpacity>
+        </View> */}
             <View style={styles.genderContainer}>
                 <TouchableOpacity
                     style={[styles.genderButton, gender === 'male' && styles.selectedButton]}
@@ -231,6 +259,22 @@ const styles = StyleSheet.create({
     },
     genderText: {
         color: '#000',
+    },
+    profileImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginVertical: 10,
+    },
+    imagePicker: {
+        color: '#007BFF',
+        marginBottom: 12,
+        textAlign: 'center',
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        backgroundColor: '#f0f0f0',
     },
 });
 
