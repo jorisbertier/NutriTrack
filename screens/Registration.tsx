@@ -4,6 +4,7 @@ import { Auth, firestore } from '../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
 
 const Registration = () => {
     const [email, setEmail] = useState('');
@@ -73,6 +74,7 @@ const Registration = () => {
         const year = currentDate.getFullYear();
         setDateOfBirthFormatted(`${day}/${month}/${year}`);
     };
+    console.log(dateOfBirthFormatted)
 
     return (
         <View style={styles.container}>
@@ -128,12 +130,18 @@ const Registration = () => {
                 onChangeText={setHeight}
                 keyboardType="numeric"
             />
-            <TextInput
-                placeholder="Activity Level"
-                style={styles.input}
-                value={activityLevel}
-                onChangeText={setActivityLevel}
-            />
+            <Text style={styles.label}>Select your activity Level</Text>
+            <Picker
+                selectedValue={activityLevel}
+                style={styles.picker}
+                onValueChange={(itemValue) => setActivityLevel(itemValue)}
+            >
+                <Picker.Item label="Sedentary" value="sedentary" />
+                <Picker.Item label="Low Active" value="lowactive" />
+                <Picker.Item label="Moderate" value="moderate" />
+                <Picker.Item label="Active" value="active" />
+                <Picker.Item label="Super Active" value="superactive" />
+            </Picker>
             <TextInput
                 placeholder="Profile Picture URL"
                 style={styles.input}
@@ -180,6 +188,18 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         paddingHorizontal: 10,
         backgroundColor: '#fff',
+    },
+    label: {
+        marginTop: 16,
+        marginBottom: 8,
+        fontWeight: 'bold',
+    },
+    picker: {
+        height: 50,
+        width: '100%',
+        marginBottom: 12,
+        borderColor: 'gray',
+        borderWidth: 1,
     },
     dateInput: {
         height: 50,
