@@ -40,7 +40,7 @@ const AuthScreen = () => {
     <View style={styles.container}>
       <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
           <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
-        <ThemedText variant="title">Welcome !</ThemedText>
+        <ThemedText variant="title">Nutrition track !</ThemedText>
         <ThemedText variant="subtitle" color={colors.grayDark}>Please enter your details.</ThemedText>
       </Row>
       <TextInput
