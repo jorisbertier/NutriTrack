@@ -14,7 +14,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "L'application a besoin d'accéder à votre caméra pour prendre des photos.",
+        "NSPhotoLibraryUsageDescription": "L'application a besoin d'accéder à votre galerie pour choisir des photos."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +32,12 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "L'application a besoin d'accéder à votre galerie pour choisir une photo de profil."
+        }
+      ],
       "expo-router"
     ],
     "experiments": {

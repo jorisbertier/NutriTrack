@@ -6,6 +6,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
+import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 
 const Registration = () => {
     const [email, setEmail] = useState('');
@@ -20,15 +21,18 @@ const Registration = () => {
     const [activityLevel, setActivityLevel] = useState('');
     const [profilPicture, setProfilPicture] = useState('');
     const [gender, setGender] = useState('');
+    const storage = getStorage();  
+    
 
     const [profileImage, setProfileImage] = useState(null);
     const pickImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
-        // if (status !== 'granted') {
-        //     Alert.alert("Permission to access camera roll is required!");
-        //     return;
-        // }
+        
+        if (status !== 'granted') {
+            console.log("Camera permission status:", status);
+            Alert.alert("Permission to access camera roll is required!");
+            return;
+        }
     
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -37,9 +41,20 @@ const Registration = () => {
             quality: 1,
         });
     
-        if (!result.canceled) {
+        if (!result.canceled && result.assets.length > 0) {
             setProfileImage(result.assets[0].uri);
         }
+    };
+
+    const uploadImageToFirebase = async (uri) => {
+        console.log('uri', uri)
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        console.log('blob', blob)
+        const imageRef = ref(storage, `profileImages/${email}.jpg`); // Reference to the storage path
+        await uploadBytes(imageRef, blob); // Upload the image
+        const downloadURL = await getDownloadURL(imageRef); // Get the URL of the uploaded image
+        return downloadURL;
     };
 
     const signUp = async () => {
@@ -49,7 +64,15 @@ const Registration = () => {
 
             const weightNumber = parseFloat(weight);
             const heightNumber = parseFloat(height);
+            console.log(storage)
+            console.log(profilPicture)
 
+            let imageUrl = '';
+            if (profileImage) {
+                imageUrl = await uploadImageToFirebase(profileImage);
+            }
+
+            console.log(imageUrl)
             if (isNaN(weightNumber) || isNaN(heightNumber)) {
                 Alert.alert('Error', 'Please enter valid numerical values for weight and height.');
                 return;
@@ -63,7 +86,7 @@ const Registration = () => {
                 height: height,
                 email: user.email,
                 activityLevel: activityLevel,
-                profilPicture: profilPicture,
+                profilPicture: imageUrl,
                 gender: gender
             });
             Alert.alert('Registration successful!');
@@ -76,7 +99,7 @@ const Registration = () => {
     const resetForm = () => {
         setName('');
         setFirstname('');
-        setDateOfBirth('');
+        // setDateOfBirth('');
         setEmail('');
         setWeight('');
         setHeight('');
@@ -164,18 +187,18 @@ const Registration = () => {
                 <Picker.Item label="Active" value="active" />
                 <Picker.Item label="Super Active" value="superactive" />
             </Picker>
-            <TextInput
+            {/* <TextInput
                 placeholder="Profile Picture URL"
                 style={styles.input}
                 value={profilPicture}
                 onChangeText={setProfilPicture}
-            />
-            {/* <View>
+            /> */}
+            <View>
             <TouchableOpacity onPress={pickImage}>
                 <Text style={styles.imagePicker}>{profileImage ? 'Image Selected' : 'Select Profile Picture'}</Text>
                 {profileImage && <Image source={{ uri: profileImage }} style={styles.profileImage} />}
             </TouchableOpacity>
-        </View> */}
+        </View>
             <View style={styles.genderContainer}>
                 <TouchableOpacity
                     style={[styles.genderButton, gender === 'male' && styles.selectedButton]}

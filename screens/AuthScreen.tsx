@@ -60,7 +60,7 @@ const AuthScreen = () => {
       />
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       <View style={styles.wrapperButton}>
-        <Button title="Login" onPress={signIn} color="#8592F2" />
+        <Button title="Login" onPress={signIn} color={colors.primary} />
         {/* <Button title="Créer un compte" onPress={() => navigation.navigate('registration')} color="#2196F3" /> */}
       </View>
       <Text style={styles.footerText}>

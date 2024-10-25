@@ -47,22 +47,18 @@ export default function Dashboard() {
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
     const [update, setUpdate] = useState<any>(0)
-    /* Date */
     const date = new Date();
 
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         if(date) {
             setSelectedDate(date);
             setIsOpen(false)
-            // console.log(event)
         }
     };
-    // console.log(foodData)
     /* API */
     useEffect(() => {
         try {
             const fetchData = async () => {
-                /** TEST */
                 const userMealsCollection = collection(firestore, 'UserMeals');
                 const userMealsSnapshot = await getDocs(userMealsCollection);
                 const userMealsList = userMealsSnapshot.docs.map(doc => ({
@@ -74,12 +70,10 @@ export default function Dashboard() {
                 }));
                 console.log(userMealsList)
                 setAllUsersFoodData(userMealsList)
-                /** TEST */
             }
             fetchData()
             setAllFoodData(foodData);
             setAllUserData(Users);
-            // setAllUsersFoodData(UsersFoodData)
             fetchUserIdDataConnected(user, setUserIdConnected)
             fetchUserDataConnected(user, setUserData)
         } catch (e) {
@@ -88,10 +82,6 @@ export default function Dashboard() {
             setIsLoading(false);
         }
     }, []);
-    console.log('____')
-    console.log(userData)
-    console.log('____')
-    
     
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
@@ -127,9 +117,10 @@ export default function Dashboard() {
             filterAndSetFoodData(resultByDinner, setSortByDinner)
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
-        console.log(update)
-    }, [selectedDate,allUsersFoodData, userIdConnected]);
+        console.log('update', update)
+    }, [selectedDate,allUsersFoodData, userIdConnected, allFoodData]);
     // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
+    console.log(allFoodData)
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
