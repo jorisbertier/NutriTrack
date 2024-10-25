@@ -57,8 +57,20 @@ export default function Search() {
         onChangeText('')
     }
     return (
+        <>
+            <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.gray}}>
+            <TouchableOpacity onPress={handleOpenCalendar}>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
+                    <ThemedText variant="title1" style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
+                        'Today':
+                        `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
+                    </ThemedText>
+                    <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
+                </View>
+            </TouchableOpacity>
+        </View>
         <SafeAreaView style={styles.header}>
-            <Row>
+            {/* <Row>
                 <View style={styles.wrapperCalendar}>
                 <TouchableOpacity onPress={handleOpenCalendar}>
                     <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
@@ -66,13 +78,13 @@ export default function Search() {
                     <ThemedText variant="title1">
                         {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                         </ThemedText>
-                </View>
+                </View> */}
                 {isOpen && (<RNDateTimePicker
                     onChange={setDate}
                     value={selectedDate}
                     timeZoneOffsetInMinutes={new Date().getTimezoneOffset()}
                 />)}
-            </Row>
+            {/* </Row> */}
             <View style={styles.wrapperInput}>
                 <TextInput
                     style={[styles.input, {backgroundColor: '#F6F6F6'}]}
@@ -118,6 +130,8 @@ export default function Search() {
                     keyExtractor={(item, index) => `${item.id}-${index}`}
                     contentContainerStyle={styles.wrapperFood}
                 />
+                {filteredFood.length === 0 && <Text>
+                    No food matches with the search {text}.</Text>}
             </Row>
             {notificationVisible &&
                 <View style={styles.notification}>
@@ -128,6 +142,7 @@ export default function Search() {
                 </View>
             }
         </SafeAreaView>
+        </>
     );
 }
 
@@ -142,7 +157,8 @@ const styles = StyleSheet.create({
     wrapperInput :{
         position: 'relative',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: -20
     },
     input: {
         height: 50,

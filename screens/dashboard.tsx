@@ -281,10 +281,10 @@ export default function Dashboard() {
                                 value={selectedDate}
                                 timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
                     />)}
-                    <Image source={require('@/assets/images/nutritional/burn.png')} style={{width: 35, height: 35}}/>
-                    <Text style={{fontSize: 45, fontWeight: '700', marginTop: 15}}>{totalCaloriesGoal}cal</Text>
-                    <ThemedText variant='title2' color={colors.blue}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
-                    <ThemedText variant='title2' style={{marginTop: 5}} color={colors.blue}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
+                    <Image source={require('@/assets/images/nutritional/burnPrimary.png')} style={{width: 35, height: 35}}/>
+                    <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
+                    <ThemedText variant='title2' color={colors.grayDark}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
+                    <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
                 </View>
                 <View style={{marginBottom: 20}}>
                 <ProgressBarKcal progress={proteins} nutri={'Kcal'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>

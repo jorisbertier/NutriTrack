@@ -37,11 +37,15 @@ export default function TabLayout() {
       name="Search" 
       component={Search} 
       // options={{ tabBarLabel: 'Search', tabBarIcon: ({ color, size }) => (
-      options={{  tabBarLabel: ()=> null, tabBarIcon: ({ color, size }) => (
+      options={{ 
+        tabBarLabel: ()=> null,
+        tabBarIcon: ({ color, size }) => (
         <Feather name="compass" color={color} size={size} />
       ),
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
+      headerTitle: 'Search',
+      headerTitleAlign: 'center'
     }} 
     />
 
@@ -49,7 +53,9 @@ export default function TabLayout() {
     <Tab.Screen 
       name="Dashboard" 
       component={Dashboard}
-      options={{ tabBarLabel: ()=> null,  tabBarIcon: ({ color, size }) => (
+      options={{
+        tabBarLabel: ()=> null, 
+        tabBarIcon: ({ color, size }) => (
         <Feather name="bar-chart-2" color={color} size={size} />
       ),
       tabBarActiveTintColor : colors.primary,

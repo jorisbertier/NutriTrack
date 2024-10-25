@@ -21,12 +21,14 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Oswald: require('../assets/fonts/Oswald-VariableFont_wght.ttf'),
   });
 
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
+    console.log(loaded)
   }, [loaded]);
 
   if (!loaded) {
