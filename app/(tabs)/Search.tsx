@@ -90,7 +90,7 @@ export default function Search() {
                     style={[styles.input, {backgroundColor: '#F6F6F6'}]}
                     onChangeText={onChangeText}
                     value={text}
-                    placeholder="Search"
+                    placeholder="Search a food"
                     placeholderTextColor={'grey'}
                 >
                 </TextInput>

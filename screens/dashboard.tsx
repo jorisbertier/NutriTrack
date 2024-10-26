@@ -47,10 +47,15 @@ export default function Dashboard() {
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
     const [update, setUpdate] = useState<any>(0)
-    const date = new Date();
+    let date = new Date();
+    let newdate = date.toLocaleString()
+//     console.log('Date en UTC:', date.toUTCString()); // Affiche la date en UTC
+// console.log('Date locale:', date.toLocaleString()); // Affiche la date locale
+// console.log('Date locale:', date); // Affiche la date locale
 
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         if(date) {
+            console.log(event)
             setSelectedDate(date);
             setIsOpen(false)
         }
@@ -68,7 +73,6 @@ export default function Dashboard() {
                     mealType: doc.data().mealType as string,
                     date: doc.data().date as string,
                 }));
-                console.log(userMealsList)
                 setAllUsersFoodData(userMealsList)
             }
             fetchData()
@@ -120,7 +124,6 @@ export default function Dashboard() {
         console.log('update', update)
     }, [selectedDate,allUsersFoodData, userIdConnected, allFoodData]);
     // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
-    console.log(allFoodData)
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
@@ -260,6 +263,9 @@ export default function Dashboard() {
     let percentageProteins = +(proteins / proteinsGoal).toFixed(2);
     const headerheight = useHeaderHeight();
     const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
+    console.log('proteins', typeof proteins)
+    console.log('proteins', typeof totalKcalConsumeToday)
+    console.log('proteins', selectedDate.toLocaleString())
 
     return (
         <>
@@ -283,6 +289,7 @@ export default function Dashboard() {
                     />)}
                     <Image source={require('@/assets/images/nutritional/burnPrimary.png')} style={{width: 35, height: 35}}/>
                     <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
+
                     <ThemedText variant='title2' color={colors.grayDark}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
                     <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
                 </View>

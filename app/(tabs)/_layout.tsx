@@ -10,7 +10,7 @@ import Dashboard from '@/screens/dashboard';
 import { TabBar } from '@/components/TabBar';
 import { Feather } from '@expo/vector-icons';
 import useThemeColors from '@/hooks/useThemeColor';
-import ProfileScreen from '@/screens/ProfilScreen';
+import ProfileScreen from '@/screens/ProfileScreen';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function TabLayout() {
@@ -67,7 +67,7 @@ export default function TabLayout() {
     }} 
     />
     <Tab.Screen 
-      name="Profil" 
+      name="Profile" 
       component={ProfileScreen}
       options={{
         tabBarLabel: ()=> null, 
