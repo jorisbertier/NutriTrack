@@ -16,7 +16,6 @@ const { height } = Dimensions.get('window');
 
 export const ProgressBarKcal: React.FC<ProgressBarProps> = ({ progress, nutri, quantityGoal, color = '#F97216', height = 40 }) => {
 
-    console.log('quantity', quantityGoal)
     const percentage = (progress / quantityGoal) * 100;
 
     return (

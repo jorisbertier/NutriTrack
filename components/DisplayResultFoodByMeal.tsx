@@ -5,7 +5,6 @@ import { FoodItem } from '../interface/FoodItem';
 import { FlatList, Image, StyleSheet, View } from "react-native";
 import CardFoodResume from "./Screens/Dashboard/CardFoodResume";
 import RowDrop from "./Screens/Dashboard/RowDrop";
-import { useState } from "react";
 
 export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDeleteFood: (userMealId: string) => void) {
     

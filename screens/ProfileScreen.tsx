@@ -1,49 +1,79 @@
-import React from 'react';
+import { User } from '@/interface/User';
+import { getAuth } from 'firebase/auth';
+import { collection, getDocs } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import {  firestore } from '@/firebaseConfig';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
-  const user = {
-    id: '12345',
-    email: 'jane.doe@example.com',
-    name: 'Doe',
-    firstName: 'Jane',
-    dateOfBirth: '1994-07-16',
-    gender: 'Female',
-    height: 165,
-    weight: 60,
-    activityLevel: 'Active',
-    profilePicture: 'https://randomuser.me/api/portraits/women/44.jpg',
-  };
+  const [userData, setUserData] = useState<User[]>([])
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user !== null) {
+        // The user object has basic properties su
+        const email = user.email;
+        const uid = user.uid;
+
+        const userCollection = collection(firestore, 'User');
+        const userSnapshot = await getDocs(userCollection);
+
+        const userList = userSnapshot.docs.map(doc => ({
+          id: doc.id,
+          email: doc.data().email,
+          name: doc.data().name,
+          firstName: doc.data().firstName,
+          dateOfBirth: doc.data().dateOfBirth,
+          gender: doc.data().gender,
+          height: doc.data().height,
+          weight: doc.data().weight,
+          activityLevel: doc.data().activityLevel,
+          profilPicture: doc.data().profilPicture,
+        }));
+
+        const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
+        setUserData(sortByUniqueUserConnected)
+      }
+    }
+    fetchUserData()
+  }, [])
+  console.log(userData)
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileHeader}>
-        <Image source={{ uri: user.profilePicture }} style={styles.profileImage} />
-        <Text style={styles.name}>{user.firstName} {user.name}</Text>
-        <Text style={styles.email}>{user.email}</Text>
+        <Image source={{ uri: 'https://randomuser.me/api/portraits/women/44.jpg' }} style={styles.profileImage} />
+        <Text style={styles.name}>{userData[0]?.firstName} {userData[0]?.name}</Text>
+        <Text style={styles.email}>{userData[0]?.email}</Text>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Personal information</Text>
-        <Text style={styles.infoText}>Name: {user.name}</Text>
-        <Text style={styles.infoText}>Firstname: {user.firstName}</Text>
-        <Text style={styles.infoText}>Gender: {user.gender}</Text>
-        <Text style={styles.infoText}>Date of birth: {user.dateOfBirth}</Text>
+        <Text style={styles.infoText}>Name: {userData[0]?.name}</Text>
+        <Text style={styles.infoText}>Firstname: {userData[0]?.firstName}</Text>
+        <Text style={styles.infoText}>Gender: {userData[0]?.gender}</Text>
+        <Text style={styles.infoText}>Date of birth: {userData[0]?.dateOfBirth}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Health Details</Text>
-        <Text style={styles.infoText}>Height: {user.height} cm</Text>
-        <Text style={styles.infoText}>Weight: {user.weight} kg</Text>
+        <Text style={styles.infoText}>Height: {userData[0]?.height} cm</Text>
+        <Text style={styles.infoText}>Weight: {userData[0]?.weight} kg</Text>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Activity</Text>
-        <Text style={styles.infoText}>Activity level: {user.activityLevel}</Text>
+        <Text style={styles.infoText}>Activity level: {userData[0]?.activityLevel}</Text>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Options</Text>
-        <TouchableOpacity style={styles.optionButton}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
           <Text style={styles.optionText}>Edit profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton}>

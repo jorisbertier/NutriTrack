@@ -11,6 +11,8 @@ import DetailsFood from '@/screens/[id]';
 import Dashboard from '@/screens/dashboard';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import TabLayout from './(tabs)/_layout'; // Charge le layout des onglets
+import EditProfileScreen from '@/screens/EditProfileScreen';
+import { UserProvider } from '@/components/context/UserContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,31 +39,33 @@ export default function RootLayout() {
   }
 
   return (
+      <UserProvider>
     <NavigationContainer independent={true}>
       <Stack.Navigator
         screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}
       >
         {/* Écran d'authentification */}
         <Stack.Screen name="auth" component={AuthScreen} options={{ headerShown: false }} />
-        
-        {/* Navigation par onglets (TabLayout) */}
-        <Stack.Screen name="home" component={TabLayout} options={{ headerShown: false }} />
-
-        {/* Autres écrans */}
-        <Stack.Screen name="search" component={Search} />
         <Stack.Screen name="registration" component={Registration} />
-        <Stack.Screen name="FoodDetails" component={DetailsFood} />
-        <Stack.Screen
-          name="dashboard"
-          component={Dashboard}
-          options={{
-            headerTitle: 'Your nutrition metrics',
-            headerBlurEffect: 'regular',
-            headerStyle: { backgroundColor: 'rgba(255, 255, 255, 1)' },
-            headerShown: true
-          }}
-        />
+          {/* Navigation par onglets (TabLayout) */}
+          <Stack.Screen name="home" component={TabLayout} options={{ headerShown: false }} />
+
+          {/* Autres écrans */}
+          <Stack.Screen name="search" component={Search} />
+          <Stack.Screen name="FoodDetails" component={DetailsFood} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+          <Stack.Screen
+            name="dashboard"
+            component={Dashboard}
+            options={{
+              headerTitle: 'Your nutrition metrics',
+              headerBlurEffect: 'regular',
+              headerStyle: { backgroundColor: 'rgba(255, 255, 255, 1)' },
+              headerShown: true
+            }}
+          />
       </Stack.Navigator>
     </NavigationContainer>
+        </UserProvider>
   );
 }

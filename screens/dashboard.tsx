@@ -2,7 +2,7 @@ import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text, Dimensions } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals } from "@/interface/UserMeals";
@@ -49,9 +49,12 @@ export default function Dashboard() {
     const [update, setUpdate] = useState<any>(0)
     let date = new Date();
 
+    useEffect(()=> {
+
+    }, [sortByBreakfast])
+    
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         if(date) {
-            console.log(event)
             setSelectedDate(date);
             setIsOpen(false)
         }
@@ -118,7 +121,7 @@ export default function Dashboard() {
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
         console.log('update', update)
-    }, [selectedDate,allUsersFoodData, userIdConnected, allFoodData]);
+    }, [selectedDate, allUsersFoodData, userIdConnected, allFoodData]);
     // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
 
     const handleOpenCalendar = () => {
@@ -228,6 +231,8 @@ export default function Dashboard() {
         { name: 'Sodium', quantity: sodium, unit: 'g' },
         { name: 'Iron', quantity: iron, unit: 'g' },
     ];
+    console.log(allUsersFoodData)
+    console.log(allUsersFoodData.length)
 
          // Crée une référence à Animated.Value
     // const rotateAnimation = useRef(new Animated.Value(0)).current;
@@ -259,8 +264,11 @@ export default function Dashboard() {
     let percentageProteins = +(proteins / proteinsGoal).toFixed(2);
     const headerheight = useHeaderHeight();
     const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
-    console.log('consume', totalKcalConsumeToday)
-    console.log('consume', typeof totalKcalConsumeToday)
+
+    const displayDataBreakfast = useMemo(() => ({ data: sortByBreakfast }), [sortByBreakfast]);
+const displayDataLunch = useMemo(() => ({ data: sortByLunch }), [sortByLunch]);
+const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
+const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
 
     return (
         <>
