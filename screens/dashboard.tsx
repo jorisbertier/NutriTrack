@@ -48,10 +48,6 @@ export default function Dashboard() {
     const [isLoading, setIsLoading] = useState(true);
     const [update, setUpdate] = useState<any>(0)
     let date = new Date();
-    let newdate = date.toLocaleString()
-//     console.log('Date en UTC:', date.toUTCString()); // Affiche la date en UTC
-// console.log('Date locale:', date.toLocaleString()); // Affiche la date locale
-// console.log('Date locale:', date); // Affiche la date locale
 
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         if(date) {
@@ -263,9 +259,8 @@ export default function Dashboard() {
     let percentageProteins = +(proteins / proteinsGoal).toFixed(2);
     const headerheight = useHeaderHeight();
     const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
-    console.log('proteins', typeof proteins)
-    console.log('proteins', typeof totalKcalConsumeToday)
-    console.log('proteins', selectedDate.toLocaleString())
+    console.log('consume', totalKcalConsumeToday)
+    console.log('consume', typeof totalKcalConsumeToday)
 
     return (
         <>
@@ -294,7 +289,7 @@ export default function Dashboard() {
                     <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
                 </View>
                 <View style={{marginBottom: 20}}>
-                <ProgressBarKcal progress={proteins} nutri={'Kcal'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
+                <ProgressBarKcal progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
 
                 </View>
 
