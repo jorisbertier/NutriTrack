@@ -22,6 +22,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     Oswald: require('../assets/fonts/Oswald-VariableFont_wght.ttf'),
+    Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
   });
 
   useEffect(() => {

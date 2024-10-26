@@ -10,6 +10,8 @@ import Dashboard from '@/screens/dashboard';
 import { TabBar } from '@/components/TabBar';
 import { Feather } from '@expo/vector-icons';
 import useThemeColors from '@/hooks/useThemeColor';
+import ProfileScreen from '@/screens/ProfilScreen';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -61,6 +63,20 @@ export default function TabLayout() {
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
       headerTitle: 'Nutrition track',
+      headerTitleAlign: 'center'
+    }} 
+    />
+    <Tab.Screen 
+      name="Profil" 
+      component={ProfileScreen}
+      options={{
+        tabBarLabel: ()=> null, 
+        tabBarIcon: ({ color, size }) => (
+          <MaterialIcons name="account-circle" size={size} color={color} />
+      ),
+      tabBarActiveTintColor : colors.primary,
+      headerShown: true,
+      headerTitle: 'Profil',
       headerTitleAlign: 'center'
     }} 
     />
