@@ -1,8 +1,9 @@
 import useThemeColors from "@/hooks/useThemeColor";
-import { Image, StyleSheet, Text, View, ViewProps } from "react-native";
+import { Image, StyleSheet, Text, View, Modal, Alert, Pressable, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import Row from "./Row";
+import { useState } from "react";
 
 type Props = {
     name: string;
@@ -12,6 +13,12 @@ export default function Banner({name}: Props) {
 
     const date = new Date();
     const colors = useThemeColors();
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleBackgroundPress = () => {
+        setModalVisible(false);
+    };
     
     return (
         <View style={styles.wrapperBanner}>
@@ -21,9 +28,11 @@ export default function Banner({name}: Props) {
                     <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
                     <ThemedText color={colors.grayPress} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
                 </View>
-                <View style={[styles.circle]}>
-                    <Image source={require('@/assets/images/notificationLight.png')} style={styles.imageMini} />
-                </View>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <View style={[styles.circle]} >
+                        <Image source={require('@/assets/images/notificationLight.png')} style={styles.imageMini} />
+                    </View>
+                </TouchableOpacity>
             </Row>
             <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
                 <Image source={require('@/assets/images/profil/profil.webp')} style={styles.imageProfil} />
@@ -37,6 +46,25 @@ export default function Banner({name}: Props) {
             </View>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                <TouchableWithoutFeedback onPress={handleBackgroundPress}>
+                    <View style={stylesModal.modalBackground}>
+                        <View style={[stylesModal.modalContainer, {backgroundColor: colors.grayPress}]}>
+                            <Text style={stylesModal.modalHeader}>Notifications</Text>
+                            <Text style={stylesModal.modalText}>You have no notifications at the moment.</Text>
+                            {/* <TouchableOpacity onPress={() => setModalVisible(false)}>
+                                <Text style={stylesModal.closeText}>Close</Text>
+                            </TouchableOpacity> */}
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+                </Modal>
         </View>
     )
 }
@@ -90,4 +118,38 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
     }
+})
+
+const stylesModal = StyleSheet.create({
+    modalBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        position: 'relative'
+    },
+    modalContainer: {
+        width: 300,
+        top: -250,
+        left: 25,
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalHeader: {
+        fontSize: 20,
+        width: '90%',
+        textAlign: 'left',
+        fontWeight: 'bold',
+        marginBottom: 10,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        paddingBottom: 5
+    },
+    modalText: {
+        marginBottom: 20,
+        textAlign: 'center',
+        fontSize: 16,
+        color: '#333', // Couleur du texte
+    },
 })
