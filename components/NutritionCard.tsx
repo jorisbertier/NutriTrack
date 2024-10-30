@@ -26,7 +26,6 @@ export default function NutritionalCard({icon, textColor = 'black', nutritionalN
     const colors = useThemeColors();
     const imageSource = imageMapping[icon];
     
-    console.log(icon)
     return (
         <View style={[styles.card, {backgroundColor: backgroundcolor}]}>
             <View style={styles.block1}>

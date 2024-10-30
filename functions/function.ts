@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { User as FirebaseUser } from "firebase/auth"; // Import Firebase user type
 import { Animated } from "react-native";
@@ -58,6 +58,7 @@ export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser:
         setUser(sortByUniqueUserConnected)
     }
 }
+
 //to use with useEffect
 // export const fetchUserDataConnected = async () => {
 //     const auth = getAuth();

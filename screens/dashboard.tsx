@@ -210,7 +210,6 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs)
         getTotalNutrient(resultAllDataFood, 'fats', setFats)
     }, [resultAllDataFood]);
-    console.log('Tout les meals',totalKcalConsumeToday)
 
     const nutritionData = [
         { name: 'Fiber', quantity: 0, unit: 'g' },
@@ -231,8 +230,6 @@ export default function Dashboard() {
         { name: 'Sodium', quantity: sodium, unit: 'g' },
         { name: 'Iron', quantity: iron, unit: 'g' },
     ];
-    console.log(allUsersFoodData)
-    console.log(allUsersFoodData.length)
 
          // Crée une référence à Animated.Value
     // const rotateAnimation = useRef(new Animated.Value(0)).current;
@@ -266,9 +263,9 @@ export default function Dashboard() {
     const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
 
     const displayDataBreakfast = useMemo(() => ({ data: sortByBreakfast }), [sortByBreakfast]);
-const displayDataLunch = useMemo(() => ({ data: sortByLunch }), [sortByLunch]);
-const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
-const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
+    const displayDataLunch = useMemo(() => ({ data: sortByLunch }), [sortByLunch]);
+    const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
+    const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
 
     return (
         <>

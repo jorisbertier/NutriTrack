@@ -82,7 +82,7 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.optionButton}>
           <Text style={styles.optionText}>Premium Subscription</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
           <Text style={styles.optionText}>Change password</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton}>

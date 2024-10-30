@@ -13,6 +13,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import TabLayout from './(tabs)/_layout'; // Charge le layout des onglets
 import EditProfileScreen from '@/screens/EditProfileScreen';
 import { UserProvider } from '@/components/context/UserContext';
+import ChangePasswordScreen from '@/screens/ChangePasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,7 @@ export default function RootLayout() {
           <Stack.Screen name="search" component={Search} />
           <Stack.Screen name="FoodDetails" component={DetailsFood} />
           <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
           <Stack.Screen
             name="dashboard"
             component={Dashboard}

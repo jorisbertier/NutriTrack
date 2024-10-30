@@ -17,9 +17,12 @@ export default function Banner({name}: Props) {
         <View style={styles.wrapperBanner}>
             <View style={styles.banner}>
             <Row style={{justifyContent: 'space-between', width: '90%'}}>
-                <ThemedText color="#FFFF" style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
+                <View style={{flexDirection: 'row', gap: 10}}>
+                    <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
+                    <ThemedText color={colors.grayPress} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
+                </View>
                 <View style={[styles.circle]}>
-                <Image source={require('@/assets/images/notification.png')} style={styles.imageMini} />
+                    <Image source={require('@/assets/images/notificationLight.png')} style={styles.imageMini} />
                 </View>
             </Row>
             <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
@@ -27,8 +30,8 @@ export default function Banner({name}: Props) {
                 <View style={{flexDirection: 'column'}}>
                     <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2}}>Hello, {name} !</Text>
                     <View style={{flexDirection: 'row'}}>
-                    <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
-                    <ThemedText color="#FFFF">Free account</ThemedText>
+                        <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
+                        <ThemedText color="#FFFF">Free account</ThemedText>
                     </View>
                 </View>
             </View>
@@ -64,8 +67,8 @@ const styles = StyleSheet.create({
     circle: {
         width: 40,
         height: 40,
-        borderRadius: 20,
-        backgroundColor: '#F5F5F5',
+        borderRadius: 12,
+        backgroundColor: '#383B42',
         justifyContent: 'center',
         alignItems: 'center',
     },

@@ -204,7 +204,8 @@ const styles = StyleSheet.create({
     },
     wrapperFood : {
         flexDirection: 'column',
-        gap: 10
+        gap: 10,
+        paddingBottom: 30
     },
     wrapperCreate : {
         height: 80,
