@@ -71,6 +71,7 @@ export default function Banner({name}: Props) {
 
 const styles = StyleSheet.create({
     wrapperBanner : {
+        zIndex: 2,
         position: 'relative',
         height: 230,
         borderBottomEndRadius: 30,

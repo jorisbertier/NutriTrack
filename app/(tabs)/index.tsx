@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingBottom: 8,
     backgroundColor: 'white',
-    flex: 1
+    flex: 1,
+    marginTop: -25
   },
   rowTwoItems: {
     flexDirection: 'row',
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     stepContainer: {
     gap: 8,
     marginBottom: 8,
+    marginTop: 30
   },
 
 })
