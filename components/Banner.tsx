@@ -4,15 +4,18 @@ import { ThemedText } from "./ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import Row from "./Row";
 import { useState } from "react";
+import { Skeleton } from "moti/skeleton";
 
 type Props = {
     name: string;
+    isLoading: boolean
 }
 
-export default function Banner({name}: Props) {
+export default function Banner({name, isLoading}: Props) {
 
     const date = new Date();
     const colors = useThemeColors();
+    const colorMode: 'light' | 'dark' = 'light';
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -35,14 +38,22 @@ export default function Banner({name}: Props) {
                 </TouchableOpacity>
             </Row>
             <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
-                <Image source={require('@/assets/images/profil/profil.webp')} style={styles.imageProfil} />
-                <View style={{flexDirection: 'column'}}>
-                    <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2}}>Hello, {name} !</Text>
-                    <View style={{flexDirection: 'row'}}>
-                        <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
-                        <ThemedText color="#FFFF">Free account</ThemedText>
+                <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
+                    {isLoading ?
+                        <Image source={require('@/assets/images/profil/profil.webp')} style={styles.imageProfil} />
+                    : null}
+                </Skeleton>
+                <Skeleton colorMode={colorMode} width={200} height={50}>
+                    {isLoading ?
+                    <View style={{flexDirection: 'column'}}>
+                        <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2}}>Hello, {name} !</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
+                            <ThemedText color="#FFFF">Free account</ThemedText>
+                        </View>
                     </View>
-                </View>
+                    : null }
+                </Skeleton>
             </View>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>

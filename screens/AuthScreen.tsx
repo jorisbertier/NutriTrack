@@ -19,7 +19,7 @@ const AuthScreen = () => {
     try {
       await signInWithEmailAndPassword(Auth, email, password);
       setErrorMessage('')
-      Alert.alert('Connexion réussie!');
+      // Alert.alert('Connexion réussie!');
       navigation.navigate('home');
     } catch (error) {
       // Alert.alert('Erreur de connexion', error.message);

@@ -15,15 +15,20 @@ import { calculAge, BasalMetabolicRate, calculProteins, calculFats } from '@/fun
 import { calculCarbohydrates } from '../../functions/function';
 import Banner from '@/components/Banner';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { Skeleton } from 'moti/skeleton';
+
+
+
 
 export default function HomeScreen() {
 
   const colors = useThemeColors()
   const navigation = useNavigation();
-  const [isLoading, setIsLoading] = useState(false)
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;
+  const [isLoading, setIsLoading] = useState(false)
+  // const colorMode: 'light' | 'dark' = 'light';
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -85,7 +90,7 @@ export default function HomeScreen() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <Banner name={userData[0]?.name}/>
+      <Banner name={userData[0]?.name} isLoading={isLoading}/>
       
       <SafeAreaView style={styles.header}>
         {/* <Banner/> */}
@@ -96,6 +101,7 @@ export default function HomeScreen() {
             icon={'burn'}
             backgroundcolor={colors.gray}
             indice={'kcal'}
+            setState={isLoading}
             />
             <NutritionalCard
             nutritionalName={'protein'}
@@ -104,6 +110,7 @@ export default function HomeScreen() {
             indice={'g'}
             icon={'protein'}
             textColor={'white'}
+            setState={isLoading}
             />
             <NutritionalCard
             nutritionalName={'carbs'}
@@ -111,6 +118,7 @@ export default function HomeScreen() {
             backgroundcolor={colors.blue}
             indice={'g'}
             icon={'carbs'}
+            setState={isLoading}
             />
             <NutritionalCard
             nutritionalName={'fat'}
@@ -118,6 +126,7 @@ export default function HomeScreen() {
             backgroundcolor={colors.blueLight}
             indice={'g'}
             icon={'fat'}
+            setState={isLoading}
             />
           </Row>
           <Row>
