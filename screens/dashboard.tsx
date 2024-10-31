@@ -23,6 +23,7 @@ import ProgressRing from "@/components/Chart/ProgressRing";
 import { ProgressChart } from "react-native-chart-kit";
 import { useHeaderHeight } from "@react-navigation/elements";
 import useThemeColors from "@/hooks/useThemeColor";
+import { Skeleton } from "moti/skeleton";
 
 
 export default function Dashboard() {
@@ -45,9 +46,14 @@ export default function Dashboard() {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
-    const [isLoading, setIsLoading] = useState(true);
     const [update, setUpdate] = useState<any>(0)
+    const [isLoading, setIsLoading] = useState(false);
+    const colorMode: 'light' | 'dark' = 'light';
     let date = new Date();
+
+    console.log('-------')
+    console.log(isLoading, 'value')
+    console.log('-------')
 
     useEffect(()=> {
 
@@ -81,8 +87,10 @@ export default function Dashboard() {
             fetchUserDataConnected(user, setUserData)
         } catch (e) {
             console.log('Error processing data', e);
-        } finally {
-            setIsLoading(false);
+        }finally {
+            setTimeout(() => {
+                setIsLoading(true)
+            }, 1500)
         }
     }, []);
     
@@ -287,18 +295,34 @@ export default function Dashboard() {
                                 value={selectedDate}
                                 timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
                     />)}
-                    <Image source={require('@/assets/images/nutritional/burnPrimary.png')} style={{width: 35, height: 35}}/>
-                    <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
-
-                    <ThemedText variant='title2' color={colors.grayDark}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
-                    <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
+                    
+                    {isLoading ?
+                        <Image source={require('@/assets/images/nutritional/burnPrimary.png')} style={{width: 35, height: 35}}/>
+                    :
+                        <Skeleton width={40} height={40} radius={'round'} colorMode={colorMode} />
+                    }
+                    {isLoading ?
+                        <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
+                    :
+                        <View style={{ marginTop: 10 }}><Skeleton width={200} height={40} colorMode={colorMode} /></View>
+                    }
+                    {isLoading ?
+                        <ThemedText variant='title2' color={colors.grayDark}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
+                    :
+                        <View style={{ marginTop: 5 }}><Skeleton width={200} height={20} colorMode={colorMode} /></View>
+                    }
+                    {isLoading ?
+                        <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
+                    :
+                        <View style={{ marginTop: 5 }}><Skeleton width={200} height={20} colorMode={colorMode} /></View>
+                    }
                 </View>
                 <View style={{marginBottom: 20}}>
                 <ProgressBarKcal progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
 
                 </View>
 
-                <ProgressRing progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
+                <ProgressRing isLoading={isLoading} progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
                 {/* <ProgressRing progessProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/> */}
                 {/* <ProgressBar progress={proteins} nutri={'Proteins'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
                 <ProgressBar progress={carbs} nutri={'Carbs'} quantityGoal={calculCarbohydrates(basalMetabolicRate)}/>
@@ -336,7 +360,6 @@ export default function Dashboard() {
             {/* <View>
                 <Text>#{userIdConnected}</Text>
             </View> */}
-            {isLoading ? <ThemedText>Chargement...</ThemedText> :(
             <View style={styles.wrapperMeals}>
 {/* 
                 <Row style={styles.row}>
@@ -354,7 +377,6 @@ export default function Dashboard() {
                     {DisplayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
             </View>
-            )}
             <NutritionList data={nutritionData}/>
         </ScrollView>
         </>

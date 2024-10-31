@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter } from "@/functions/function";
+import { Skeleton } from "moti/skeleton";
 
 export default function Search() {
 
@@ -19,6 +20,8 @@ export default function Search() {
     const [selectedDate, setSelectedDate]= useState<Date>(new Date());
     const [notificationVisible, setNotificationVisible] = useState(false); 
     const date = new Date();
+    const [isLoading, setIsLoading] = useState(false);
+    const colorMode: 'light' | 'dark' = 'light';
 
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         console.log(event)
@@ -41,6 +44,8 @@ export default function Search() {
             }
         } catch (e) {
             setError('Error processing data');
+        } finally {
+            setIsLoading(true);
         }
     }, []);
     
@@ -113,23 +118,27 @@ export default function Search() {
                 </View>
             </Row> */}
             <Row style={styles.wrapperFood}>
-                <FlatList<FoodItem>
-                    data={filteredFood}
-                    renderItem={({ item }) => (
-                        <CardFood
-                            name={item.name}
-                            id={item.id}
-                            calories={item.calories}
-                            unit={item.unit}
-                            quantity={item.quantity}
-                            selectedDate={selectedDate.toLocaleDateString()}
-                            setNotification={setNotificationVisible}
-                        />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item, index) => `${item.id}-${index}`}
-                    contentContainerStyle={styles.wrapperFood}
-                />
+                <Skeleton colorMode={colorMode} width={200}>
+                {isLoading ?
+                    <FlatList<FoodItem>
+                        data={filteredFood}
+                        renderItem={({ item }) => (
+                            <CardFood
+                                name={item.name}
+                                id={item.id}
+                                calories={item.calories}
+                                unit={item.unit}
+                                quantity={item.quantity}
+                                selectedDate={selectedDate.toLocaleDateString()}
+                                setNotification={setNotificationVisible}
+                            />
+                        )}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={(item, index) => `${item.id}-${index}`}
+                        contentContainerStyle={styles.wrapperFood}
+                    />
+                    : null }
+                </Skeleton>
                 {filteredFood.length === 0 && <Text>
                     No food matches with the search {text}.</Text>}
             </Row>

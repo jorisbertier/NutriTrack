@@ -3,7 +3,6 @@ import { ThemedText } from "./ThemedText";
 import { Dimensions } from 'react-native';
 import { capitalizeFirstLetter } from "@/functions/function";
 import useThemeColors from "@/hooks/useThemeColor";
-import { useState } from "react";
 import { Skeleton } from "moti/skeleton";
 
 type Props = {
