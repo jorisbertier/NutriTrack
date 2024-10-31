@@ -49,10 +49,10 @@ export default function DetailsFood() {
             <Row>
                 <View style={styles.wrapperBlock}>
                     <View style={styles.block}>
-                        <ThemedText style={[{borderColor: colors.grayDark}]}>{filterUniqueFood?.category}</ThemedText>
+                        <ThemedText style={[{borderColor: colors.grayDark, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.category}</ThemedText>
                     </View>
                     <View style={styles.block}>
-                        <ThemedText style={[{borderColor: colors.grayDark}]}>{filterUniqueFood?.calories} kcal</ThemedText>
+                        <ThemedText style={[{borderColor: colors.grayDark, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
                     </View>
                 </View>
             </Row>
@@ -154,8 +154,9 @@ const styles = StyleSheet.create({
     block: {
         borderWidth: 2,
         borderRadius: 7,
-        padding: 6,
-        width: height *0.07,
+        padding: 8,
+        width: 'auto',
+        maxWidth: 120,
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -4,12 +4,15 @@ import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
 import { colorMode } from '@/constants/Colors';
+import useThemeColors from '@/hooks/useThemeColor';
 
 const ProfileScreen = () => {
+
+  const colors = useThemeColors();
+
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;
@@ -50,14 +53,22 @@ const ProfileScreen = () => {
     }, 1500)
   }, [])
 
+  const handleSignOut = async () => {
+    try {
+      await signOut(Auth); // Déconnexion de l'utilisateur
+      navigation.navigate('auth'); // Redirige vers la page de connexion après la déconnexion
+    } catch (error: any) {
+      Alert.alert('Erreur de déconnexion', error.message);
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileHeader}>
-      {isLoading ? <Image source={{ uri: 'https://randomuser.me/api/portraits/women/44.jpg' }} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> }
+      {isLoading ? <Image source={require('@/assets/images/profil/profil.webp')} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> }
         {isLoading ? <Text style={styles.name}>{userData[0]?.firstName} {userData[0]?.name}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {isLoading ? <Text style={styles.email}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
       </View>
-      {isLoading ? <Text>Test reusisi</Text> : <Text>Chargement</Text>}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Personal information</Text>
         {isLoading ? <Text style={styles.infoText}>Name: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
@@ -79,19 +90,19 @@ const ProfileScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Options</Text>
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
-          <Text style={styles.optionText}>Edit profile</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Edit profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.optionText}>Dark mode</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Dark mode</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.optionText}>Premium Subscription</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
-          <Text style={styles.optionText}>Change password</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Change password</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.optionText}>Logout</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.deleteButton}>
           <Text style={styles.deleteText}>Delete account</Text>
@@ -144,7 +155,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#333',
@@ -161,7 +172,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
-    color: '#007BFF',
+    fontWeight: '600'
   },
   deleteButton: {
     marginTop: 10,
