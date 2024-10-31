@@ -2,8 +2,8 @@ import { Image, StyleSheet, View, ViewProps, ViewStyle } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { Dimensions } from 'react-native';
 import { capitalizeFirstLetter } from "@/functions/function";
-import useThemeColors from "@/hooks/useThemeColor";
 import { Skeleton } from "moti/skeleton";
+import { colorMode } from "@/constants/Colors";
 
 type Props = {
     style?: ViewStyle,
@@ -25,10 +25,7 @@ const imageMapping: { [key: string ]: any } = {
 
 export default function NutritionalCard({icon, textColor = 'black', nutritionalName,setState, nutrionalData, indice, backgroundcolor, style, ...rest}: Props) {
 
-    const colors = useThemeColors();
     const imageSource = imageMapping[icon];
-    // const [isLoading, setIsLoading] = useState(false)
-    const colorMode: 'light' | 'dark' = 'light';
     
     return (
         <View style={[styles.card, {backgroundColor: backgroundcolor}]}>

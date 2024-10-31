@@ -28,7 +28,6 @@ export default function HomeScreen() {
   const auth = getAuth();
   const user = auth.currentUser;
   const [isLoading, setIsLoading] = useState(false)
-  // const colorMode: 'light' | 'dark' = 'light';
 
   useEffect(() => {
     const fetchUserData = async () => {

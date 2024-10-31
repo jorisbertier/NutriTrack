@@ -48,3 +48,5 @@ export const Colors = {
       grayPress: '#E0E0E0'
   }
 }
+
+export const colorMode: 'light' | 'dark' = 'light';

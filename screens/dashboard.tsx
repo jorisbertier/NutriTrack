@@ -24,6 +24,7 @@ import { ProgressChart } from "react-native-chart-kit";
 import { useHeaderHeight } from "@react-navigation/elements";
 import useThemeColors from "@/hooks/useThemeColor";
 import { Skeleton } from "moti/skeleton";
+import { colorMode } from "@/constants/Colors";
 
 
 export default function Dashboard() {
@@ -48,7 +49,6 @@ export default function Dashboard() {
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [update, setUpdate] = useState<any>(0)
     const [isLoading, setIsLoading] = useState(false);
-    const colorMode: 'light' | 'dark' = 'light';
     let date = new Date();
 
     console.log('-------')
@@ -318,7 +318,7 @@ export default function Dashboard() {
                     }
                 </View>
                 <View style={{marginBottom: 20}}>
-                <ProgressBarKcal progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
+                <ProgressBarKcal isLoading={isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
 
                 </View>
 

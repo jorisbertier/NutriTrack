@@ -6,18 +6,20 @@ import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'rea
 import {  firestore } from '@/firebaseConfig';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { useNavigation } from '@react-navigation/native';
+import { Skeleton } from 'moti/skeleton';
+import { colorMode } from '@/constants/Colors';
 
 const ProfileScreen = () => {
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigation = useNavigation()
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (user !== null) {
-        // The user object has basic properties su
         const email = user.email;
         const uid = user.uid;
 
@@ -42,33 +44,36 @@ const ProfileScreen = () => {
       }
     }
     fetchUserData()
+    setTimeout(() => {
+      setIsLoading(true)
+
+    }, 1500)
   }, [])
-  console.log(userData)
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileHeader}>
-        <Image source={{ uri: 'https://randomuser.me/api/portraits/women/44.jpg' }} style={styles.profileImage} />
-        <Text style={styles.name}>{userData[0]?.firstName} {userData[0]?.name}</Text>
-        <Text style={styles.email}>{userData[0]?.email}</Text>
+      {isLoading ? <Image source={{ uri: 'https://randomuser.me/api/portraits/women/44.jpg' }} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> }
+        {isLoading ? <Text style={styles.name}>{userData[0]?.firstName} {userData[0]?.name}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
+        {isLoading ? <Text style={styles.email}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
       </View>
-
+      {isLoading ? <Text>Test reusisi</Text> : <Text>Chargement</Text>}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Personal information</Text>
-        <Text style={styles.infoText}>Name: {userData[0]?.name}</Text>
-        <Text style={styles.infoText}>Firstname: {userData[0]?.firstName}</Text>
-        <Text style={styles.infoText}>Gender: {userData[0]?.gender}</Text>
-        <Text style={styles.infoText}>Date of birth: {userData[0]?.dateOfBirth}</Text>
+        {isLoading ? <Text style={styles.infoText}>Name: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
+        {isLoading ? <Text style={styles.infoText}>Firstname: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
+        {isLoading ? <Text style={styles.infoText}>Gender: {userData[0]?.gender}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
+        {isLoading ? <Text style={styles.infoText}>Date of birth: {userData[0]?.dateOfBirth}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Health Details</Text>
-        <Text style={styles.infoText}>Height: {userData[0]?.height} cm</Text>
-        <Text style={styles.infoText}>Weight: {userData[0]?.weight} kg</Text>
+        {isLoading ? <Text style={styles.infoText}>Height: {userData[0]?.height} cm</Text> : <Skeleton colorMode={colorMode} width={250}/> }
+        {isLoading ? <Text style={styles.infoText}>Weight: {userData[0]?.weight} kg</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Activity</Text>
-        <Text style={styles.infoText}>Activity level: {userData[0]?.activityLevel}</Text>
+        {isLoading ? <Text style={styles.infoText}>Activity level: {userData[0]?.activityLevel}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
       </View>
 
       <View style={styles.section}>

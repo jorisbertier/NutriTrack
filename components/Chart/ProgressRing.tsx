@@ -1,3 +1,4 @@
+import { colorMode } from '@/constants/Colors';
 import { calculatePercentage } from '@/functions/function';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
@@ -8,18 +9,18 @@ const screenWidth = Dimensions.get('window').width;
 
 const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal, progressCarbs, carbsGoal, progressFats, fatsGoal}) => {
 
-    const colorMode: 'light' | 'dark' = 'light';
     let percentageProteins = (typeof progressProteins === 'number' && typeof proteinsGoal === 'number' && proteinsGoal > 0)
-    ? calculatePercentage(progressProteins, proteinsGoal)
+        ? calculatePercentage(progressProteins, proteinsGoal)
     : 0;
 
-let percentageCarbs = (typeof progressCarbs === 'number' && typeof carbsGoal === 'number' && carbsGoal > 0)
-    ? calculatePercentage(progressCarbs, carbsGoal)
+    let percentageCarbs = (typeof progressCarbs === 'number' && typeof carbsGoal === 'number' && carbsGoal > 0)
+        ? calculatePercentage(progressCarbs, carbsGoal)
     : 0;
 
-let percentageFats = (typeof progressFats === 'number' && typeof fatsGoal === 'number' && fatsGoal > 0)
-    ? calculatePercentage(progressFats, fatsGoal)
+    let percentageFats = (typeof progressFats === 'number' && typeof fatsGoal === 'number' && fatsGoal > 0)
+        ? calculatePercentage(progressFats, fatsGoal)
     : 0;
+
     const radiusOuter = 70;   // Rayon pour le cercle des graisses
     const radiusMiddle = 50;   // Rayon pour le cercle des glucides
     const radiusInner = 30;     // Rayon pour le cercle des protéines

@@ -76,7 +76,7 @@ export default function TabLayout() {
       ),
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
-      headerTitle: 'Profil',
+      headerTitle: 'Profile',
       headerTitleAlign: 'center'
     }} 
     />
