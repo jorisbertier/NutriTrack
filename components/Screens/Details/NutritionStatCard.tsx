@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { ImageSourcePropType, StyleSheet } from "react-native";
 import { View, Image } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { Dimensions } from "react-native";
@@ -9,18 +9,19 @@ type Props = {
     nutri: string;
     quantity: number | undefined;
     unit: string;
-    height: number
+    height: number,
+    source: ImageSourcePropType
 }
 
 const { height } = Dimensions.get('window');
 
-export default function NutritionStatCard({nutri, height, quantity, unit}: Props) {
+export default function NutritionStatCard({nutri, height, quantity, unit, source}: Props) {
     const colors = useThemeColors();
 
     return (
         <View>
-            <View style={styles.statFirst}>
-                <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.iconNutri} />
+            <View style={[styles.statFirst, {backgroundColor: colors.gray}]}>
+                <Image source={source} style={styles.iconNutri} />
             <View style={[styles.statContainer, { backgroundColor: colors.primary, height: height}]}>
                 <ThemedText variant="title2" color={'white'} style={styles.statTitle}>{capitalizeFirstLetter(nutri)}</ThemedText>
                 <ThemedText variant="title1" color={'white'} style={styles.statValue}>{quantity} {unit}</ThemedText>
@@ -33,14 +34,22 @@ export default function NutritionStatCard({nutri, height, quantity, unit}: Props
 const styles = StyleSheet.create({
     statFirst :{
         padding: 20,
-        backgroundColor: '#DFDFE0',
         position: 'relative',
         alignItems: 'center',
         width: height * 0.13,
         height: 140,
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        marginBottom: 20
+        marginBottom: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     },
     iconNutri: {
         width: 25,

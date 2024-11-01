@@ -68,7 +68,7 @@ export default function DetailsFood() {
             <Row style={styles.wrapperTitle}>
                 <ThemedText variant="title" style={styles.title}>{filterUniqueFood?.name}</ThemedText>
                 <ThemedText style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
-                <ThemedText variant="title1" style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
+                <ThemedText variant="title1" color={colors} style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
             </Row>
             <View style={[styles.container]}>
                 <Row gap={10}>
@@ -77,18 +77,21 @@ export default function DetailsFood() {
                         quantity={filterUniqueFood?.proteins}
                         unit={'g'}
                         height={associatedValues["proteins"]}
+                        source={require('@/assets/images/nutritional/meat.png')}
                     />
                     <NutritionStatCard
                         nutri={'carbs'}
                         quantity={filterUniqueFood?.carbohydrates}
                         unit={'g'}
                         height={associatedValues["carbohydrates"]}
+                        source={require('@/assets/images/nutritional/cutlery.png')}
                     />
                     <NutritionStatCard
                         nutri={'fats'}
                         quantity={filterUniqueFood?.fats}
                         unit={'g'}
                         height={associatedValues["fats"]}
+                        source={require('@/assets/images/nutritional/water.png')}
                     />
                 </Row>
             </View> 
@@ -186,6 +189,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         padding: 20,
-        marginTop: -20
+        marginTop: -20,
+        paddingBottom: 40
     },
 })

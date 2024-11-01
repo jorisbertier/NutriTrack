@@ -50,17 +50,20 @@ export default function Dashboard() {
     const [update, setUpdate] = useState<any>(0)
     const [isLoading, setIsLoading] = useState(false);
     let date = new Date();
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     
-
     useEffect(()=> {
 
     }, [sortByBreakfast])
     
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
+        console.log(event);
         setIsOpen(false)
         if(date) {
-            const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-            setSelectedDate(adjustedDate);
+            // const offsetInMinutes = new Date().getTimezoneOffset();
+            // console.log(offsetInMinutes)
+            // const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+            setSelectedDate(date);
         }
     };
     /* API */
@@ -275,9 +278,11 @@ export default function Dashboard() {
     const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
 
     console.log('____')
-    console.log(selectedDate)
-    console.log(selectedDate.toLocaleString())
+    const timestamp = 1730131440000; 
+const date2 = new Date(timestamp);//get date with timestamp
+console.log(date2.toString())
     console.log('____')
+    
     return (
         <>
         <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center'}}>
@@ -296,13 +301,14 @@ export default function Dashboard() {
                     {isOpen && (<RNDateTimePicker
                                 onChange={setDate}
                                 value={selectedDate}
-                                timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
+                                timeZoneName={timeZone}
+                                // timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
                     />)}
                     
                     {isLoading ?
                         <Image source={require('@/assets/images/nutritional/burnPrimary.png')} style={{width: 35, height: 35}}/>
                     :
-                        <Skeleton width={40} height={40} radius={'round'} colorMode={colorMode} />
+                        <Skeleton width={80} height={80} radius={'round'} colorMode={colorMode} />
                     }
                     {isLoading ?
                         <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
@@ -380,7 +386,10 @@ export default function Dashboard() {
                     {DisplayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
             </View>
+            <View style={{marginBottom: 60}}>
             <NutritionList data={nutritionData}/>
+
+            </View>
         </ScrollView>
         </>
     )
