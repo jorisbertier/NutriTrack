@@ -47,20 +47,9 @@ const ProfileScreen = () => {
       }
     }
     fetchUserData()
-    setTimeout(() => {
-      setIsLoading(true)
-
-    }, 1500)
+      setIsLoading(true);
   }, [])
 
-  const handleSignOut = async () => {
-    try {
-      await signOut(Auth); // Déconnexion de l'utilisateur
-      navigation.navigate('auth'); // Redirige vers la page de connexion après la déconnexion
-    } catch (error: any) {
-      Alert.alert('Erreur de déconnexion', error.message);
-    }
-  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -71,14 +60,14 @@ const ProfileScreen = () => {
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Personal information</Text>
-        {isLoading ? <Text style={styles.infoText}>Name: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
-        {isLoading ? <Text style={styles.infoText}>Firstname: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
-        {isLoading ? <Text style={styles.infoText}>Gender: {userData[0]?.gender}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
+        {isLoading ? <Text style={styles.infoText}>Name: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={100}/> }
+        {isLoading ? <Text style={styles.infoText}>Firstname: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
+        {isLoading ? <Text style={styles.infoText}>Gender: {userData[0]?.gender}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={200}/></View> }
         {isLoading ? <Text style={styles.infoText}>Date of birth: {userData[0]?.dateOfBirth}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Health Details</Text>
-        {isLoading ? <Text style={styles.infoText}>Height: {userData[0]?.height} cm</Text> : <Skeleton colorMode={colorMode} width={250}/> }
+        {isLoading ? <Text style={styles.infoText}>Height: {userData[0]?.height} cm</Text> : <Skeleton colorMode={colorMode} width={200}/> }
         {isLoading ? <Text style={styles.infoText}>Weight: {userData[0]?.weight} kg</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
 

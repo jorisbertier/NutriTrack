@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Button, Alert, View, StatusBar } from 'react-native';
+import { Image, StyleSheet, Button, Alert, View, StatusBar, ScrollView, Text } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { Auth, firestore } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
@@ -16,6 +16,7 @@ import { calculCarbohydrates } from '../../functions/function';
 import Banner from '@/components/Banner';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { Skeleton } from 'moti/skeleton';
+import Challenge from '@/components/Challenge';
 
 
 
@@ -93,47 +94,62 @@ export default function HomeScreen() {
       
       <SafeAreaView style={styles.header}>
         {/* <Banner/> */}
-          <Row gap={5} style={styles.rowTwoItems}>
-            <NutritionalCard
-            nutritionalName={'calories'}
-            nutrionalData={basalMetabolicRate}
-            icon={'burn'}
-            backgroundcolor={colors.gray}
-            indice={'kcal'}
-            setState={isLoading}
-            />
-            <NutritionalCard
-            nutritionalName={'protein'}
-            nutrionalData={calculProteins(Number(userData[0]?.weight))}
-            backgroundcolor={colors.black}
-            indice={'g'}
-            icon={'protein'}
-            textColor={'white'}
-            setState={isLoading}
-            />
-            <NutritionalCard
-            nutritionalName={'carbs'}
-            nutrionalData={calculCarbohydrates(basalMetabolicRate)}
-            backgroundcolor={colors.blue}
-            indice={'g'}
-            icon={'carbs'}
-            setState={isLoading}
-            />
-            <NutritionalCard
-            nutritionalName={'fat'}
-            nutrionalData={calculFats(basalMetabolicRate)}
-            backgroundcolor={colors.blueLight}
-            indice={'g'}
-            icon={'fat'}
-            setState={isLoading}
-            />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Row style={{marginTop: 15, marginBottom: -15}}>
+            <ThemedText variant='title'>Nutri metrics</ThemedText>
           </Row>
-          <Row>
-            {/* <ProgressBar progress={60}/> */}
-          </Row>
-          <View style={styles.stepContainer}>
-            <Button color={colors.primary} title="Log out" onPress={handleSignOut} />
-          </View>
+            <Row gap={5} style={styles.rowTwoItems}>
+              <NutritionalCard
+              nutritionalName={'calories'}
+              nutrionalData={basalMetabolicRate}
+              icon={'burn'}
+              backgroundcolor={colors.gray}
+              indice={'kcal'}
+              setState={isLoading}
+              />
+              <NutritionalCard
+              nutritionalName={'protein'}
+              nutrionalData={calculProteins(Number(userData[0]?.weight))}
+              backgroundcolor={colors.black}
+              indice={'g'}
+              icon={'protein'}
+              textColor={'white'}
+              setState={isLoading}
+              />
+              <NutritionalCard
+              nutritionalName={'carbs'}
+              nutrionalData={calculCarbohydrates(basalMetabolicRate)}
+              backgroundcolor={colors.blue}
+              indice={'g'}
+              icon={'carbs'}
+              setState={isLoading}
+              />
+              <NutritionalCard
+              nutritionalName={'fat'}
+              nutrionalData={calculFats(basalMetabolicRate)}
+              backgroundcolor={colors.blueLight}
+              indice={'g'}
+              icon={'fat'}
+              setState={isLoading}
+              />
+            </Row>
+            <Row>
+              {/* <ProgressBar progress={60}/> */}
+            </Row>
+            <Row style={{marginTop: 15, marginBottom: 10}}>
+              <ThemedText variant='title'>Challenge</ThemedText>
+            </Row>
+              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollView}>
+                <Challenge data={'sugar'}source={require('@/assets/images/challenge/sugar.jpg')}/>
+                <Challenge data={'cigarette'} source={require('@/assets/images/challenge/cigarette.jpg')}/>
+                <Challenge data={'fast food'} source={require('@/assets/images/challenge/fastfood.jpg')}/>
+                <Challenge data={'chocolate'} source={require('@/assets/images/challenge/chocolate.jpg')}/>
+
+            </ScrollView>
+            <View style={styles.stepContainer}>
+              <Button color={colors.primary} title="Log out" onPress={handleSignOut} />
+            </View>
+          </ScrollView>
       </SafeAreaView>
     </>
   );
@@ -159,5 +175,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginTop: 30
   },
+  scrollView: {
+    padding: 10,
+},
 
 })

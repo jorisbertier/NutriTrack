@@ -46,7 +46,7 @@ export default function Banner({name, isLoading}: Props) {
                 <Skeleton colorMode={colorMode} width={200} height={50}>
                     {isLoading ?
                     <View style={{flexDirection: 'column'}}>
-                        <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2}}>Hello, {name} !</Text>
+                        <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2}}>Hello, {name}aaaaaaaaa !</Text>
                         <View style={{flexDirection: 'row'}}>
                             <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
                             <ThemedText color="#FFFF">Free account</ThemedText>
