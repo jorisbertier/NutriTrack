@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View, Modal, Alert, Pressable, TouchableOpacit
 import { ThemedText } from "./ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import Row from "./Row";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Skeleton } from "moti/skeleton";
 
 type Props = {
@@ -16,9 +16,18 @@ export default function Banner({name, isLoading}: Props) {
     const date = new Date();
     const colors = useThemeColors();
     const colorMode: 'light' | 'dark' = 'light';
+    const greetings = ['Hi','こんにちは','Hola', 'Bonjour' ];
 
+    const [currentGreeting, setCurrentGreeting] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentGreeting((currentGreeting) => (currentGreeting + 1) % greetings.length)
+        }, 8000)
+
+        return () => clearInterval(intervalId)
+    })
     const handleBackgroundPress = () => {
         setModalVisible(false);
     };
@@ -46,7 +55,7 @@ export default function Banner({name, isLoading}: Props) {
                 <Skeleton colorMode={colorMode} width={200} height={50}>
                     {isLoading ?
                     <View style={{flexDirection: 'column'}}>
-                        <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2}}>Hello, {name}aaaaaaaaa !</Text>
+                        <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2, flexWrap: 'wrap'}}>{greetings[currentGreeting]}, {name}!</Text>
                         <View style={{flexDirection: 'row'}}>
                             <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
                             <ThemedText color="#FFFF">Free account</ThemedText>
