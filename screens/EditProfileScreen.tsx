@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Modal } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getAuth, signOut } from 'firebase/auth';
 import { fetchUserDataConnected } from '@/functions/function';
 import { User } from '@/interface/User';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { Auth } from '@/firebaseConfig';
+import useThemeColors from '@/hooks/useThemeColor';
 
 const EditProfileScreen = ({ navigation, updateUserInfo }) => {
 
-
+  const colors = useThemeColors();
   const [modalVisible, setModalVisible] = useState(false);
-  const [userData, setUserData] = useState<User[]>([])
+  const [userData, setUserData] = useState<User[]>([]);
   const auth = getAuth();
   const user = auth.currentUser;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        fetchUserDataConnected(user, setUserData)
+        fetchUserDataConnected(user, setUserData);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -40,10 +40,8 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
     }
   }, [userData]);
 
-  console.log('userdata:', userData)
-
   const [formData, setFormData] = useState({
-    name: userData[0]?.name,
+    name: '',
     firstName: '',
     height: '',
     weight: '',
@@ -60,12 +58,11 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
   const handleSave = () => {
     setModalVisible(true);
   };
-  
-  /**MISE A JOUR DES DONNEES DANS CE SCREEN APRES CHANGEMENT */
-  const updateUserData = async (userId: any, updatedData: any) => {
+
+  const updateUserData = async (userId, updatedData) => {
     const db = getFirestore();
     const userDoc = doc(db, 'User', userId);
-  
+
     try {
       await updateDoc(userDoc, updatedData);
       console.log("User data updated successfully!", updatedData);
@@ -79,7 +76,7 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
       console.error('User not authenticated');
       return;
     }
-  
+
     try {
       await updateUserData(user.uid, {
         name: formData.name,
@@ -89,12 +86,8 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         activityLevel: formData.activityLevel,
       });
       updateUserInfo && updateUserInfo(formData);
-      try {
-        await signOut(Auth);
-        navigation.navigate('auth');
-      } catch (error: any) {
-        console.log('Erreur de déconnexion', error.message);
-      }
+      await signOut(Auth);
+      navigation.navigate('auth');
     } catch (error) {
       console.error('Error updating user info:', error);
     } finally {
@@ -140,18 +133,18 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Edit Profile</Text>
 
-        {keysOrder.map((key) => (
-          <View key={key}>
-            <TextInput
-              style={styles.input}
-              placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-              value={formData[key]}
-              onChangeText={(text) => validateInput(key, text)}
-            />
-            {errors[key] ? <Text style={styles.errorText}>{errors[key]}</Text> : null} 
-          </View>
-        ))
-      }
+      {keysOrder.map((key) => (
+        <View key={key} style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+            value={formData[key]}
+            onChangeText={(text) => validateInput(key, text)}
+          />
+          {errors[key] ? <Text style={styles.errorText}>{errors[key]}</Text> : null}
+        </View>
+      ))}
+
       <Text style={styles.label}>Activity Level</Text>
       <Picker
         selectedValue={formData.activityLevel}
@@ -167,7 +160,9 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         <Picker.Item label="Super Active" value="superactive" />
       </Picker>
 
-      <Button title="Save Changes" onPress={handleSave} />
+      <TouchableOpacity style={[styles.saveButton,{backgroundColor: colors.primary}]} onPress={handleSave}>
+        <Text style={[styles.saveButtonText]}>Save Changes</Text>
+      </TouchableOpacity>
 
       <Modal
         transparent={true}
@@ -177,11 +172,15 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              Your calorie and nutritional goals will be recalculated and all custom settings will be replaced with the new changes. Do you want to continue?
+              Your calorie and nutritional goals will be recalculated and all custom settings will be replaced with the new changes.{"\n"}REQUIERE a logout !{"\n"} Do you want to continue?
             </Text>
             <View style={styles.modalButtons}>
-              <Button title="Cancel" onPress={() => setModalVisible(false)} />
-              <Button title="Confirm" onPress={confirmSave} />
+              <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.confirmButton, {backgroundColor: colors.primary}]} onPress={confirmSave}>
+                <Text style={styles.confirmButtonText}>Confirm</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -194,58 +193,104 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#ffffff',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#333333',
+  },
+  inputContainer: {
+    marginBottom: 15,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 5,
+    borderColor: '#cccccc',
+    borderRadius: 8,
+    padding: 15,
+    backgroundColor: '#f9f9f9',
+    fontSize: 14,
   },
   label: {
     fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 10,
+    fontWeight: '600',
+    marginTop: 15,
     marginBottom: 5,
+    color: '#555555',
   },
   picker: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
+    borderColor: '#cccccc',
+    borderRadius: 8,
+    backgroundColor: '#f9f9f9',
     marginBottom: 15,
   },
   errorText: {
     color: 'red',
     fontSize: 12,
-    marginBottom: 10,
+    marginTop: 5,
+  },
+  saveButton: {
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  saveButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    height: 20
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   modalContent: {
     width: '80%',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
   },
   modalText: {
     marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#333333',
+    lineHeight: 25
   },
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+  },
+  cancelButton: {
+    flex: 1,
+    marginRight: 5,
+    backgroundColor: '#cccccc',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    color: '#333333',
+    fontWeight: '600',
+  },
+  confirmButton: {
+    flex: 1,
+    marginLeft: 5,
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  confirmButtonText: {
+    color: '#ffffff',
+    fontWeight: '600',
   },
 });
 
