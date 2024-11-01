@@ -47,7 +47,13 @@ export default function RootLayout() {
       >
         {/* Écran d'authentification */}
         <Stack.Screen name="auth" component={AuthScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="registration" component={Registration} />
+        <Stack.Screen name="registration" component={Registration}
+          options={{
+            headerShown: true,
+            headerTitle: 'Registration',
+            headerTitleAlign: 'center'
+          }}
+        />
           {/* Navigation par onglets (TabLayout) */}
           <Stack.Screen name="home" component={TabLayout} options={{ headerShown: false }} />
 

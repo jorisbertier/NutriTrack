@@ -46,8 +46,8 @@ const ProfileScreen = () => {
         setUserData(sortByUniqueUserConnected)
       }
     }
-    fetchUserData()
-      setIsLoading(true);
+    fetchUserData();
+    setIsLoading(true);
   }, [])
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Auth, firestore } from '../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -7,8 +7,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
+import useThemeColors from '@/hooks/useThemeColor';
 
 const Registration = () => {
+
+    const colors = useThemeColors();
+
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [firstname, setFirstname] = useState('');
@@ -122,8 +126,7 @@ const Registration = () => {
     console.log(dateOfBirthFormatted)
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Registration Page</Text>
+        <ScrollView style={styles.container}>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -213,23 +216,17 @@ const Registration = () => {
                     <Text style={styles.genderText}>Female</Text>
                 </TouchableOpacity>
             </View>
-            <Button title="Register" onPress={signUp} />
-        </View>
+            <Button title="Register" color={colors.black} onPress={signUp} />
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         padding: 16,
         backgroundColor: '#f0f0f0',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 20,
     },
     input: {
         height: 50,
