@@ -24,12 +24,10 @@ export default function Search() {
     const colorMode: 'light' | 'dark' = 'light';
 
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
-        console.log(event)
+        setIsOpen(false)
         if(date) {
             setSelectedDate(date);
-            setIsOpen(false)
         }
-        console.log('Calendar close')
     };
     useEffect(() => {
 
