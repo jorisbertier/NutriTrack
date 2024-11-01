@@ -50,19 +50,17 @@ export default function Dashboard() {
     const [update, setUpdate] = useState<any>(0)
     const [isLoading, setIsLoading] = useState(false);
     let date = new Date();
-
-    console.log('-------')
-    console.log(isLoading, 'value')
-    console.log('-------')
+    
 
     useEffect(()=> {
 
     }, [sortByBreakfast])
     
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
+        setIsOpen(false)
         if(date) {
-            setSelectedDate(date);
-            setIsOpen(false)
+            const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+            setSelectedDate(adjustedDate);
         }
     };
     /* API */
@@ -128,12 +126,13 @@ export default function Dashboard() {
             filterAndSetFoodData(resultByDinner, setSortByDinner)
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
-        console.log('update', update)
     }, [selectedDate, allUsersFoodData, userIdConnected, allFoodData]);
     // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
 
     const handleOpenCalendar = () => {
-        setIsOpen(!isOpen)
+        if (!isOpen) {
+            setIsOpen(true);
+        }
     }
 
     const handleDeleteFood = (userMealId: any) => {
@@ -275,6 +274,10 @@ export default function Dashboard() {
     const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
     const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
 
+    console.log('____')
+    console.log(selectedDate)
+    console.log(selectedDate.toLocaleString())
+    console.log('____')
     return (
         <>
         <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center'}}>

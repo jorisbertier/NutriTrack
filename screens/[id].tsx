@@ -32,9 +32,18 @@ export default function DetailsFood() {
 
     const filterUniqueFood = data.find((element) => element.id === id)
 
-    console.log(filterUniqueFood?.proteins);
-    console.log(typeof filterUniqueFood?.proteins);
+    const values = [filterUniqueFood?.proteins, filterUniqueFood?.carbohydrates, filterUniqueFood?.fats]
+    values.sort((a, b) => a - b);
+    
+    const associations = { [values[0]]: 65, [values[1]]: 90, [values[2]]: 120 };
 
+    const associatedValues = {
+    proteins: associations[filterUniqueFood?.proteins],
+    carbohydrates: associations[filterUniqueFood?.carbohydrates],
+    fats: associations[filterUniqueFood?.fats],
+    };
+
+    
     return (
     <ScrollView>
         <View style={styles.banner}>
@@ -67,19 +76,19 @@ export default function DetailsFood() {
                         nutri={`proteins`}
                         quantity={filterUniqueFood?.proteins}
                         unit={'g'}
-                        backgroundcolor={'#000000'}
+                        height={associatedValues["proteins"]}
                     />
                     <NutritionStatCard
                         nutri={'carbs'}
                         quantity={filterUniqueFood?.carbohydrates}
                         unit={'g'}
-                        backgroundcolor={'#FF8400'}
+                        height={associatedValues["carbohydrates"]}
                     />
                     <NutritionStatCard
                         nutri={'fats'}
                         quantity={filterUniqueFood?.fats}
                         unit={'g'}
-                        backgroundcolor={'#4A83D4'}
+                        height={associatedValues["fats"]}
                     />
                 </Row>
             </View> 

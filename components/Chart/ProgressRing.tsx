@@ -29,7 +29,6 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
     const circumferenceMiddle = 2 * Math.PI * radiusMiddle;
     const circumferenceInner = 2 * Math.PI * radiusInner;
 
-    console.log(isLoading, 'progressring')
     return (
         <View style={styles.container}>
             {/* <Text style={styles.title}>Macronutrients goal</Text> */}
