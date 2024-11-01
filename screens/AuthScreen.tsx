@@ -40,27 +40,35 @@ const AuthScreen = () => {
     <View style={styles.container}>
       <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
           <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
-        <ThemedText variant="title">Nutrition track !</ThemedText>
+        <ThemedText variant="title">SIGN IN</ThemedText>
         <ThemedText variant="subtitle" color={colors.grayDark}>Please enter your details.</ThemedText>
       </Row>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Mot de passe"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+      <View style={styles.formContainer}>
+        <Image source={require('@/assets/images/profil/user.png')} style={styles.logoForm} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+      <View style={styles.underline} />
+    </View>
+    <View style={styles.formContainer}>
+      <Image source={require('@/assets/images/profil/key.png')} style={styles.logoForm} />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+      <View style={styles.underline} />
+    </View>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       <View style={styles.wrapperButton}>
-        <Button title="Login" onPress={signIn} color={colors.primary} />
+        <Button title="Login" onPress={signIn} color={colors.black}/>
         {/* <Button title="Créer un compte" onPress={() => navigation.navigate('registration')} color="#2196F3" /> */}
       </View>
       <Text style={styles.footerText}>
@@ -96,19 +104,12 @@ const styles = StyleSheet.create({
     color: '#0000',
     marginBottom: 24,
   },
-  input: {
-    height: 50,
-    borderColor: '#BDBDBD',
-    borderWidth: 1,
-    borderRadius: 8, // Coins arrondis
-    marginBottom: 16,
-    paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF', // Couleur de fond blanche pour les champs
-  },
   wrapperButton: {
     marginVertical: 12,
     flexDirection: 'column',
     gap: 12,
+    width: '30%',
+    alignSelf: 'center',
   },
   footerText: {
     textAlign: 'center',
@@ -134,6 +135,31 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     marginBottom: 16,
+  },
+  formContainer: {
+    width: '80%',
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  logoForm: {
+    width: 24, 
+    height: 24,
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    padding: 10,
+    fontSize: 16,
+  },
+  underline: {
+    height: 2,
+    backgroundColor: 'black',
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
   },
 });
 

@@ -151,7 +151,7 @@ const Registration = () => {
                 secureTextEntry
             />
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                <Text style={styles.dateInput}>{dateOfBirthFormatted || 'Select a date'}</Text>
+                <Text style={styles.dateInput}>{dateOfBirthFormatted || 'Select a date of birth'}</Text>
             </TouchableOpacity>
             {showDatePicker && (
                 <DateTimePicker

@@ -131,7 +131,6 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Profile</Text>
 
       {keysOrder.map((key) => (
         <View key={key} style={styles.inputContainer}>

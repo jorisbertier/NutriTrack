@@ -55,13 +55,19 @@ export default function RootLayout() {
           <Stack.Screen name="search" component={Search} />
           <Stack.Screen name="FoodDetails" component={DetailsFood} />
           <Stack.Screen name="EditProfile" component={EditProfileScreen} 
-            option={{
+            options={{
               headerShown: true,
-              headerTitle: 'Profile',
+              headerTitle: 'Edit Profile',
               headerTitleAlign: 'center'
             }}
           />
-          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}
+            options={{
+              headerShown: true,
+              headerTitle: 'Change password',
+              headerTitleAlign: 'center'
+            }}
+          />
           <Stack.Screen
             name="dashboard"
             component={Dashboard}

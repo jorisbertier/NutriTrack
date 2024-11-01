@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useUser } from '@/components/context/UserContext';
 import { getAuth, updatePassword } from 'firebase/auth';
+import useThemeColors from '@/hooks/useThemeColor';
 
 const ChangePasswordScreen = ({ navigation }: any) => {
     const { user } = useUser();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const colors = useThemeColors()
 
     const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) {
@@ -33,25 +35,21 @@ const ChangePasswordScreen = ({ navigation }: any) => {
 
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>Change password</Text>
-        
-        <TextInput
-            style={styles.input}
-            placeholder="New password"
-            secureTextEntry
-            value={newPassword}
-            onChangeText={setNewPassword}
-        />
-
-        <TextInput
-            style={styles.input}
-            placeholder="Confirm new password"
-            secureTextEntry
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-        />
-
-        <Button title="Update password" onPress={handleChangePassword} />
+            <TextInput
+                style={styles.input}
+                placeholder="New password"
+                secureTextEntry
+                value={newPassword}
+                onChangeText={setNewPassword}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Confirm new password"
+                secureTextEntry
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+            />
+            <Button color={colors.primary} title="Update password" onPress={handleChangePassword} />
         </View>
     );
 };
