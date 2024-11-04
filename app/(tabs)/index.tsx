@@ -108,7 +108,7 @@ export default function HomeScreen() {
               setState={isLoading}
               />
               <NutritionalCard
-              nutritionalName={'protein'}
+              nutritionalName={'proteins'}
               nutrionalData={calculProteins(Number(userData[0]?.weight))}
               backgroundcolor={colors.black}
               indice={'g'}
@@ -125,7 +125,7 @@ export default function HomeScreen() {
               setState={isLoading}
               />
               <NutritionalCard
-              nutritionalName={'fat'}
+              nutritionalName={'fats'}
               nutrionalData={calculFats(basalMetabolicRate)}
               backgroundcolor={colors.blueLight}
               indice={'g'}

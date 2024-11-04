@@ -278,7 +278,7 @@ export default function Dashboard() {
     const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
 
     console.log('____')
-    const timestamp = 1730131440000; 
+    const timestamp = 1729992960000; 
 const date2 = new Date(timestamp);//get date with timestamp
 console.log(date2.toString())
     console.log('____')

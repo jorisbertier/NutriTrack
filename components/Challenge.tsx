@@ -14,8 +14,8 @@ const colors = useThemeColors()
         <View style={styles.firstBlock}>
             <Image source={source} style={styles.firstBlock}/>
         </View>
-        <View style={[{backgroundColor: colors.grayDark}, styles.secondBlock]}>
-            <Text style={styles.text}>No {data}</Text>
+        <View style={[{backgroundColor: colors.white}, styles.secondBlock]}>
+            <Text style={[styles.text, {color: colors.black}]}>No {data}</Text>
         </View>
     </View>
   )

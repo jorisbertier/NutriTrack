@@ -1883,7 +1883,7 @@ export const foodData = [
     "vitaminK": 0,
     "potassium": 0,
     "magnesium": 0,
-    "calcium": 0,
+    "calcium": 120,
     "sodium": 0,
     "iron": 0,
     "cholesterol": 0,

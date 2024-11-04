@@ -82,6 +82,7 @@ export default function Search() {
                         {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                         </ThemedText>
                 </View> */}
+                {}
                 {isOpen && (<RNDateTimePicker
                     onChange={setDate}
                     value={selectedDate}
@@ -116,8 +117,6 @@ export default function Search() {
                 </View>
             </Row> */}
             <Row style={styles.wrapperFood}>
-                <Skeleton colorMode={colorMode} width={200}>
-                {isLoading ?
                     <FlatList<FoodItem>
                         data={filteredFood}
                         renderItem={({ item }) => (
@@ -135,8 +134,6 @@ export default function Search() {
                         keyExtractor={(item, index) => `${item.id}-${index}`}
                         contentContainerStyle={styles.wrapperFood}
                     />
-                    : null }
-                </Skeleton>
                 {filteredFood.length === 0 && <Text>
                     No food matches with the search {text}.</Text>}
             </Row>

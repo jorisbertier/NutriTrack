@@ -77,7 +77,7 @@ export default function Banner({name, isLoading}: Props) {
                     <View style={stylesModal.modalBackground}>
                         <View style={[stylesModal.modalContainer, {backgroundColor: colors.grayPress}]}>
                             <Text style={stylesModal.modalHeader}>Notifications</Text>
-                            <Text style={stylesModal.modalText}>You have no notifications at the moment.</Text>
+                            <Text style={stylesModal.modalText}>You don't have notifications at the moment.</Text>
                             {/* <TouchableOpacity onPress={() => setModalVisible(false)}>
                                 <Text style={stylesModal.closeText}>Close</Text>
                             </TouchableOpacity> */}

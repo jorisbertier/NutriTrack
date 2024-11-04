@@ -20,7 +20,7 @@ const imageMapping: { [key: string ]: any } = {
     'burn': require('@/assets/images/nutritional/burn.png'),
     'protein': require('@/assets/images/nutritional/protein.png'),
     'carbs': require('@/assets/images/nutritional/carbs.png'),
-    'fat': require('@/assets/images/nutritional/fat.png'),
+    'fat': require('@/assets/images/nutritional/watermelon.png'),
 };
 
 export default function NutritionalCard({icon, textColor = 'black', nutritionalName,setState, nutrionalData, indice, backgroundcolor, style, ...rest}: Props) {
