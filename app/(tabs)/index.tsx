@@ -17,6 +17,7 @@ import Banner from '@/components/Banner';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { Skeleton } from 'moti/skeleton';
 import Challenge from '@/components/Challenge';
+import StopWatch from '@/components/StopWatch';
 
 
 
@@ -149,6 +150,7 @@ export default function HomeScreen() {
             <View style={styles.stepContainer}>
               <Button color={colors.primary} title="Log out" onPress={handleSignOut} />
             </View>
+            <StopWatch/>
           </ScrollView>
       </SafeAreaView>
     </>

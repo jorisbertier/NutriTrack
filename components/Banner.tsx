@@ -52,17 +52,23 @@ export default function Banner({name, isLoading}: Props) {
                         <Image source={require('@/assets/images/profil/profil.webp')} style={styles.imageProfil} />
                     : null}
                 </Skeleton>
-                <Skeleton colorMode={colorMode} width={200} height={50}>
-                    {isLoading ?
                     <View style={{flexDirection: 'column'}}>
+                    {isLoading ? 
                         <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2, flexWrap: 'wrap'}}>{greetings[currentGreeting]}, {name}!</Text>
+                    :
+                    <Skeleton colorMode={colorMode} width={200} height={30} />
+                    }
+                    {isLoading ?
                         <View style={{flexDirection: 'row'}}>
                             <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
-                            <ThemedText color="#FFFF">Free account</ThemedText>
+                            <ThemedText color="#FFFF"> Free account</ThemedText>
                         </View>
+                    :
+                        <View style={{ marginTop: 10 }}>
+                            <Skeleton colorMode="light" width={150} height={20} />
+                        </View>
+                    }
                     </View>
-                    : null }
-                </Skeleton>
             </View>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>

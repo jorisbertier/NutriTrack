@@ -26,7 +26,7 @@
 // };
 export const Colors = {
   dark: {
-      primary : '#8592F2',
+      primary : '#00000',
       blue: '#a1a1d7',
       blueLight: '#D6E4FD',
       gray: '#F5F5F5',
