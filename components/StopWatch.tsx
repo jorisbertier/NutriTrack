@@ -65,7 +65,11 @@ export default function StopWatch() {
                         <Image source={require('@/assets/images/challenge/clock.png')} style={styles.image} />
                     </View>
                     <View style={{backgroundColor: '#383B42', padding: 10, borderRadius: 10}}>
-                        <ThemedText variant="title3" color="white">Challenge in progress</ThemedText>
+                        {running ?
+                            <ThemedText variant="title3" color="white">Challenge in progress</ThemedText>
+                        :
+                            <ThemedText variant="title3" color="white">Start the challenge</ThemedText>
+                        }
                     </View>
                 </Row>
                 <Row style={styles.buttonContainer}>
