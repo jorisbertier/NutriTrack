@@ -18,13 +18,14 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { Skeleton } from 'moti/skeleton';
 import Challenge from '@/components/Challenge';
 import StopWatch from '@/components/StopWatch';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 
 
 
 export default function HomeScreen() {
 
-  const colors = useThemeColors()
+  const { colors, toggleTheme } = useTheme();
   const navigation = useNavigation();
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
@@ -93,9 +94,12 @@ export default function HomeScreen() {
       <StatusBar barStyle="light-content" />
       <Banner name={userData[0]?.name} isLoading={isLoading}/>
       
-      <SafeAreaView style={styles.header}>
+      <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
         {/* <Banner/> */}
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Row>
+            <Button title='Change dark mode'  onPress={toggleTheme}/>
+          </Row>
           <Row style={{marginTop: 15, marginBottom: -15}}>
             <ThemedText variant='title'>Nutri metrics</ThemedText>
           </Row>
@@ -162,9 +166,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     paddingHorizontal: 12,
     paddingBottom: 8,
-    backgroundColor: 'white',
     flex: 1,
-    marginTop: -25
+    marginTop: -35
   },
   rowTwoItems: {
     flexDirection: 'row',

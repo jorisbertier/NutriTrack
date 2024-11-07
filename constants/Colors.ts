@@ -26,13 +26,13 @@
 // };
 export const Colors = {
   dark: {
-      primary : '#00000',
+      primary : '#8592F2',
       blue: '#a1a1d7',
       blueLight: '#D6E4FD',
       gray: '#F5F5F5',
       grayDark: '#A2A2A2',
-      black: '#000000',
-      white: '#ffffff',
+      black: '#ffffff',
+      white: '#111419',
       greenLight: '#CBD77E',
       grayPress: '#E0E0E0'
   },

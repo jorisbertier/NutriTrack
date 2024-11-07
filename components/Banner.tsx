@@ -1,10 +1,10 @@
-import useThemeColors from "@/hooks/useThemeColor";
 import { Image, StyleSheet, Text, View, Modal, Alert, Pressable, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import Row from "./Row";
 import { useEffect, useState } from "react";
 import { Skeleton } from "moti/skeleton";
+import { useTheme } from "@/hooks/ThemeProvider";
 
 type Props = {
     name: string;
@@ -14,7 +14,7 @@ type Props = {
 export default function Banner({name, isLoading}: Props) {
 
     const date = new Date();
-    const colors = useThemeColors();
+    const {colors} = useTheme();
     const colorMode: 'light' | 'dark' = 'light';
     const greetings = ['Hi','こんにちは','Hola', 'Bonjour' ];
 
@@ -33,43 +33,43 @@ export default function Banner({name, isLoading}: Props) {
     };
     
     return (
-        <View style={styles.wrapperBanner}>
-            <View style={styles.banner}>
-            <Row style={{justifyContent: 'space-between', width: '90%'}}>
-                <View style={{flexDirection: 'row', gap: 10}}>
-                    <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
-                    <ThemedText color={colors.grayPress} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
+        <View style={[styles.wrapperBanner, {backgroundColor: colors.white}]}>
+            <View style={[styles.banner]}>
+                <Row style={{justifyContent: 'space-between', width: '90%'}}>
+                    <View style={{flexDirection: 'row', gap: 10}}>
+                        <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
+                        <ThemedText color={colors.grayPress} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
+                    </View>
+                    <TouchableOpacity onPress={() => setModalVisible(true)}>
+                        <View style={[styles.circle]} >
+                            <Image source={require('@/assets/images/notificationLight.png')} style={styles.imageMini} />
+                        </View>
+                    </TouchableOpacity>
+                </Row>
+                <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
+                    <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
+                        {isLoading ?
+                            <Image source={require('@/assets/images/profil/profil.webp')} style={styles.imageProfil} />
+                        : null}
+                    </Skeleton>
+                        <View style={{flexDirection: 'column'}}>
+                        {isLoading ? 
+                            <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2, flexWrap: 'wrap'}}>{greetings[currentGreeting]}, {name}!</Text>
+                        :
+                        <Skeleton colorMode={colorMode} width={200} height={30} />
+                        }
+                        {isLoading ?
+                            <View style={{flexDirection: 'row'}}>
+                                <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
+                                <ThemedText color="#FFFF"> Free account</ThemedText>
+                            </View>
+                        :
+                            <View style={{ marginTop: 10 }}>
+                                <Skeleton colorMode="light" width={150} height={20} />
+                            </View>
+                        }
+                        </View>
                 </View>
-                <TouchableOpacity onPress={() => setModalVisible(true)}>
-                    <View style={[styles.circle]} >
-                        <Image source={require('@/assets/images/notificationLight.png')} style={styles.imageMini} />
-                    </View>
-                </TouchableOpacity>
-            </Row>
-            <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
-                <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
-                    {isLoading ?
-                        <Image source={require('@/assets/images/profil/profil.webp')} style={styles.imageProfil} />
-                    : null}
-                </Skeleton>
-                    <View style={{flexDirection: 'column'}}>
-                    {isLoading ? 
-                        <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2, flexWrap: 'wrap'}}>{greetings[currentGreeting]}, {name}!</Text>
-                    :
-                    <Skeleton colorMode={colorMode} width={200} height={30} />
-                    }
-                    {isLoading ?
-                        <View style={{flexDirection: 'row'}}>
-                            <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
-                            <ThemedText color="#FFFF"> Free account</ThemedText>
-                        </View>
-                    :
-                        <View style={{ marginTop: 10 }}>
-                            <Skeleton colorMode="light" width={150} height={20} />
-                        </View>
-                    }
-                    </View>
-            </View>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>
             <Modal
@@ -90,7 +90,7 @@ export default function Banner({name, isLoading}: Props) {
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-                </Modal>
+            </Modal>
         </View>
     )
 }
@@ -100,11 +100,10 @@ const styles = StyleSheet.create({
         zIndex: 2,
         position: 'relative',
         height: 230,
-        borderBottomEndRadius: 30,
-        borderBottomStartRadius: 30,
+        borderBottomEndRadius: 35,
+        borderBottomStartRadius: 35,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
     },
     banner : {
         width: '100%',
@@ -177,6 +176,6 @@ const stylesModal = StyleSheet.create({
         marginBottom: 20,
         textAlign: 'center',
         fontSize: 16,
-        color: '#333', // Couleur du texte
+        color: '#333',
     },
 })

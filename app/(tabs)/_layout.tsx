@@ -12,10 +12,11 @@ import { Feather } from '@expo/vector-icons';
 import useThemeColors from '@/hooks/useThemeColor';
 import ProfileScreen from '@/screens/ProfileScreen';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const colors = useThemeColors();
+  const {colors} = useTheme();
   const Tab = createBottomTabNavigator();
 
   return (

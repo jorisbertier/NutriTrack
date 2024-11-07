@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { NavigationContainer, ThemeProvider } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '../screens/AuthScreen';
 import Registration from '@/screens/Registration';
@@ -14,6 +14,7 @@ import TabLayout from './(tabs)/_layout'; // Charge le layout des onglets
 import EditProfileScreen from '@/screens/EditProfileScreen';
 import { UserProvider } from '@/components/context/UserContext';
 import ChangePasswordScreen from '@/screens/ChangePasswordScreen';
+import { ThemeProvider } from '@/hooks/ThemeProvider';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ export default function RootLayout() {
   }
 
   return (
+    <ThemeProvider>
     <UserProvider>
     <NavigationContainer independent={true}>
       <Stack.Navigator
@@ -87,5 +89,6 @@ export default function RootLayout() {
       </Stack.Navigator>
     </NavigationContainer>
         </UserProvider>
+        </ThemeProvider>
   );
 }

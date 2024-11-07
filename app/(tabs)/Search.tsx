@@ -10,8 +10,11 @@ import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/d
 import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { Skeleton } from "moti/skeleton";
+import { useTheme } from "@/hooks/ThemeProvider";
 
 export default function Search() {
+
+    const {colors} = useTheme();
 
     const [data, setData] = useState<FoodItem[]>([]);
     const [error, setError] = useState("");
@@ -47,7 +50,6 @@ export default function Search() {
         }
     }, []);
     
-    const colors = useThemeColors()
 
     const filteredFood = data.filter(food => food.name.toLowerCase().includes(text.toLowerCase().trim()));
 
@@ -72,9 +74,9 @@ export default function Search() {
                 </View>
             </TouchableOpacity>
         </View>
-        <SafeAreaView style={styles.header}>
+        <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
             {/* <Row>
-                <View style={styles.wrapperCalendar}>
+                <View style={[styles.wrapperCalendar, backgroundColor : '#F6F6F6']}>
                 <TouchableOpacity onPress={handleOpenCalendar}>
                     <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
                 </TouchableOpacity>
@@ -91,7 +93,7 @@ export default function Search() {
             {/* </Row> */}
             <View style={styles.wrapperInput}>
                 <TextInput
-                    style={[styles.input, {backgroundColor: '#F6F6F6'}]}
+                    style={[styles.input, {backgroundColor: colors.gray}]}
                     onChangeText={onChangeText}
                     value={text}
                     placeholder="Search a food"
@@ -111,12 +113,12 @@ export default function Search() {
 
             </View>
             {/* <Row>
-                <View style={styles.wrapperCreate}>
+                <View style={[styles.wrapperCreate, {backgroundColor : '#F6F6F6'}]}>
                     <Image source={require('@/assets/images/grapes.png')} style={styles.imageCreate}/>
                     <ThemedText variant="title1">Create a new aliment</ThemedText>
                 </View>
             </Row> */}
-            <Row style={styles.wrapperFood}>
+            <Row style={[styles.wrapperFood]}>
                     <FlatList<FoodItem>
                         data={filteredFood}
                         renderItem={({ item }) => (
@@ -139,7 +141,7 @@ export default function Search() {
             </Row>
             {notificationVisible &&
                 <View style={styles.notification}>
-                    <View style={styles.wrapperNotification}>
+                    <View style={[styles.wrapperNotification, {backgroundColor: "#8592F2"}]}>
                         <Text style={styles.notificationText}>Added Food</Text>
                         <Image style={styles.verify} source={require('@/assets/images/verify2.png')} />
                     </View>
@@ -214,7 +216,6 @@ const styles = StyleSheet.create({
     wrapperCreate : {
         height: 80,
         width: 300,
-        backgroundColor : '#F6F6F6',
         borderRadius: 30,
         marginVertical: 10,
         justifyContent: 'space-around',
@@ -233,7 +234,6 @@ const styles = StyleSheet.create({
         width: 200,
         height: 60,
         borderRadius: 15,
-        backgroundColor : '#F6F6F6',
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 30,
@@ -251,7 +251,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     wrapperNotification : {
-        backgroundColor: "#8592F2",
         flexDirection: 'row',
         justifyContent:'center',
         gap: 20,
