@@ -47,16 +47,14 @@ const styles = StyleSheet.create({
 
 type Props = TextProps & {
     variant?: keyof typeof styles,
-    color?: keyof typeof Colors["light"] | string
+    color?: keyof typeof Colors["light"] | keyof typeof Colors["dark"] | string
 }
 
 export function ThemedText({variant, color, style,  ...rest}: Props) {
     
     const {colors} = useTheme();
 
-    const finalColor = color && colors[color as keyof typeof colors] 
-    ? colors[color as keyof typeof colors] 
-    : colors.black;
+    const finalColor = colors[color as keyof typeof colors] ?? color;
     // {color: colors[color ?? 'black']}
     return (
         <Text style={[styles[variant ?? 'body'], {color: finalColor}, style]} {...rest}/>

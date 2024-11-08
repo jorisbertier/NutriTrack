@@ -21,7 +21,7 @@ export default function TabLayout() {
 
   return (
     // <Tab.Navigator tabBar={(props) => <TabBar {...props} />} screenOptions={{ headerShown: false }}>
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle : { backgroundColor: colors.white} }}>
     {/* Onglet 1 : Home */}
     <Tab.Screen 
       name="Home" 

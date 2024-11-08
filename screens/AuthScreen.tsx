@@ -37,7 +37,7 @@ const AuthScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: '#F5F5F5'}]}>
       <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
           <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
         <ThemedText variant="title">SIGN IN</ThemedText>
@@ -68,7 +68,7 @@ const AuthScreen = () => {
     </View>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       <View style={styles.wrapperButton}>
-        <Button title="Login" onPress={signIn} color={colors.black}/>
+        <Button title="Login" onPress={signIn} color={colors.blackFix}/>
         {/* <Button title="Créer un compte" onPress={() => navigation.navigate('registration')} color="#2196F3" /> */}
       </View>
       <Text style={styles.footerText}>
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
-    backgroundColor: '#F5F5F5',
     position: 'relative'
   },
   logo : {

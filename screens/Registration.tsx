@@ -123,7 +123,6 @@ const Registration = () => {
         const year = currentDate.getFullYear();
         setDateOfBirthFormatted(`${day}/${month}/${year}`);
     };
-    console.log(dateOfBirthFormatted)
 
     return (
         <ScrollView style={styles.container}>
@@ -216,7 +215,7 @@ const Registration = () => {
                     <Text style={styles.genderText}>Female</Text>
                 </TouchableOpacity>
             </View>
-            <Button title="Register" color={colors.black} onPress={signUp} />
+            <Button title="Register" color={colors.blackFix} onPress={signUp} />
         </ScrollView>
     );
 };

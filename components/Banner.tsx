@@ -38,7 +38,7 @@ export default function Banner({name, isLoading}: Props) {
                 <Row style={{justifyContent: 'space-between', width: '90%'}}>
                     <View style={{flexDirection: 'row', gap: 10}}>
                         <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
-                        <ThemedText color={colors.grayPress} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
+                        <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
                     </View>
                     <TouchableOpacity onPress={() => setModalVisible(true)}>
                         <View style={[styles.circle]} >
@@ -61,7 +61,7 @@ export default function Banner({name, isLoading}: Props) {
                         {isLoading ?
                             <View style={{flexDirection: 'row'}}>
                                 <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
-                                <ThemedText color="#FFFF"> Free account</ThemedText>
+                                <ThemedText color={colors.gray}> Free account</ThemedText>
                             </View>
                         :
                             <View style={{ marginTop: 10 }}>

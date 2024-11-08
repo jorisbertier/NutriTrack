@@ -101,7 +101,7 @@ export default function HomeScreen() {
             <Button title='Change dark mode'  onPress={toggleTheme}/>
           </Row>
           <Row style={{marginTop: 15, marginBottom: -15}}>
-            <ThemedText variant='title'>Nutri metrics</ThemedText>
+            <ThemedText variant='title' color={colors.black}>Nutri metrics</ThemedText>
           </Row>
             <Row gap={5} style={styles.rowTwoItems}>
               <NutritionalCard
@@ -142,7 +142,7 @@ export default function HomeScreen() {
               {/* <ProgressBar progress={60}/> */}
             </Row>
             <Row style={{marginTop: 15, marginBottom: 10}}>
-              <ThemedText variant='title'>Challenge</ThemedText>
+              <ThemedText variant='title' color={colors.black}>Challenge</ThemedText>
             </Row>
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollView}>
                 <Challenge data={'sugar'}source={require('@/assets/images/challenge/sugar.jpg')}/>

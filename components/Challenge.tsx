@@ -9,16 +9,16 @@ type Props = {
 export default function Challenge({source, data}: Props) {
 
 const colors = useThemeColors()
-  return (
-    <View style={[styles.block, {backgroundColor: colors.grayPress}]}>
-        <View style={styles.firstBlock}>
-            <Image source={source} style={styles.firstBlock}/>
+    return (
+        <View style={[styles.block, {backgroundColor: colors.grayPress}]}>
+            <View style={styles.firstBlock}>
+                <Image source={source} style={styles.firstBlock}/>
+            </View>
+            <View style={[{backgroundColor: colors.white}, styles.secondBlock]}>
+                <Text style={[styles.text, {color: colors.black}]}>No {data}</Text>
+            </View>
         </View>
-        <View style={[{backgroundColor: colors.white}, styles.secondBlock]}>
-            <Text style={[styles.text, {color: colors.black}]}>No {data}</Text>
-        </View>
-    </View>
-  )
+    )
 }
 
 const styles = StyleSheet.create({
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10,
-        borderRadius: 15,
+        borderRadius: 25,
         marginBottom: 10, 
         marginLeft: 5, 
         shadowColor: "#000",
