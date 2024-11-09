@@ -7,12 +7,11 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
-import useThemeColors from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 const Registration = () => {
 
-    const colors = useThemeColors();
-
+    const {colors} = useTheme();
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [firstname, setFirstname] = useState('');
@@ -51,10 +50,10 @@ const Registration = () => {
     };
 
     const uploadImageToFirebase = async (uri) => {
-        console.log('uri', uri)
+
         const response = await fetch(uri);
         const blob = await response.blob();
-        console.log('blob', blob)
+
         const imageRef = ref(storage, `profileImages/${email}.jpg`); // Reference to the storage path
         await uploadBytes(imageRef, blob); // Upload the image
         const downloadURL = await getDownloadURL(imageRef); // Get the URL of the uploaded image
@@ -125,35 +124,35 @@ const Registration = () => {
     };
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]}>
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Email"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor : colors.grayPress}]}
                 value={name}
                 onChangeText={setName}
                 placeholder="Name"
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor : colors.grayPress}]}
                 value={firstname}
                 onChangeText={setFirstname}
                 placeholder="First Name"
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Password"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
             />
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                <Text style={styles.dateInput}>{dateOfBirthFormatted || 'Select a date of birth'}</Text>
+                <Text style={[styles.dateInput, {backgroundColor: colors.grayPress}]}>{dateOfBirthFormatted || 'Select a date of birth'}</Text>
             </TouchableOpacity>
             {showDatePicker && (
                 <DateTimePicker
@@ -164,23 +163,23 @@ const Registration = () => {
                 />
             )}
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Weight (kg)"
                 value={weight}
                 onChangeText={setWeight}
                 keyboardType="numeric"
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Height (cm)"
                 value={height}
                 onChangeText={setHeight}
                 keyboardType="numeric"
             />
-            <Text style={styles.label}>Select your activity Level</Text>
+            <Text style={[styles.label, {color : colors.black}]}>Select your activity Level</Text>
             <Picker
                 selectedValue={activityLevel}
-                style={styles.picker}
+                style={[styles.picker, { backgroundColor : colors.grayPress}]}
                 onValueChange={(itemValue) => setActivityLevel(itemValue)}
             >
                 <Picker.Item label="Sedentary" value="sedentary" />
@@ -197,7 +196,7 @@ const Registration = () => {
             /> */}
             <View>
             <TouchableOpacity onPress={pickImage}>
-                <Text style={styles.imagePicker}>{profileImage ? 'Image Selected' : 'Select Profile Picture'}</Text>
+                <Text style={[styles.imagePicker, { color: colors.blackFix}]}>{profileImage ? 'Image Selected' : 'Select Profile Picture'}</Text>
                 {profileImage && <Image source={{ uri: profileImage }} style={styles.profileImage} />}
             </TouchableOpacity>
         </View>
@@ -215,7 +214,19 @@ const Registration = () => {
                     <Text style={styles.genderText}>Female</Text>
                 </TouchableOpacity>
             </View>
-            <Button title="Register" color={colors.blackFix} onPress={signUp} />
+            {/* <Button title="Register" color={colors.blackFix} onPress={signUp} /> */}
+            <TouchableOpacity
+                onPress={signUp}
+                style={{
+                backgroundColor: colors.black,
+                padding: 10,
+                marginBottom: 15,
+                borderRadius: 3,
+                alignItems: 'center',
+                }}
+            >
+                <Text style={{ color: colors.white }}>Login</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
@@ -225,7 +236,6 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         padding: 16,
-        backgroundColor: '#f0f0f0',
     },
     input: {
         height: 50,
@@ -234,7 +244,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 12,
         paddingHorizontal: 10,
-        backgroundColor: '#fff',
     },
     label: {
         marginTop: 16,
@@ -255,7 +264,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 12,
         paddingHorizontal: 10,
-        backgroundColor: '#fff',
         textAlign: 'center',
         lineHeight: 50,
     },
@@ -272,6 +280,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         alignItems: 'center',
+        backgroundColor: '#F5F5F5'
     },
     selectedButton: {
         backgroundColor: '#8592F2',

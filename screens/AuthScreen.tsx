@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, Image } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { Auth } from '../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import Row from '@/components/Row';
 import { Path, Svg } from 'react-native-svg';
 import { ThemedText } from '@/components/ThemedText';
-import useThemeColors from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 const AuthScreen = () => {
   const [email, setEmail] = useState('test2@gmail.com');
   const [password, setPassword] = useState('rootroot');
   const navigation = useNavigation();
-  const colors = useThemeColors();
+  const {theme, colors} = useTheme();
   const [errorMessage, setErrorMessage] = useState('');
 
   const signIn = async () => {
@@ -31,44 +31,62 @@ const AuthScreen = () => {
     try {
       await createUserWithEmailAndPassword(Auth, email, password);
       Alert.alert('Inscription réussie!');
-    } catch (error) {
+    } catch (error: any) {
       Alert.alert('Erreur d\'inscription', error.message);
     }
   };
 
   return (
-    <View style={[styles.container, {backgroundColor: '#F5F5F5'}]}>
+    <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
       <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
           <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
-        <ThemedText variant="title">SIGN IN</ThemedText>
+        <ThemedText variant="title" color={colors.black}>SIGN IN</ThemedText>
         <ThemedText variant="subtitle" color={colors.grayDark}>Please enter your details.</ThemedText>
       </Row>
       <View style={styles.formContainer}>
-        <Image source={require('@/assets/images/profil/user.png')} style={styles.logoForm} />
+        {theme === "light" ?
+          <Image source={require('@/assets/images/profil/user.png')} style={styles.logoForm} />
+        :
+          <Image source={require('@/assets/images/profil/userWhite.png')} style={styles.logoForm} />
+        }
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: colors.black}]}
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
         />
-      <View style={styles.underline} />
+      <View style={[styles.underline, {backgroundColor: colors.black}]} />
     </View>
     <View style={styles.formContainer}>
-      <Image source={require('@/assets/images/profil/key.png')} style={styles.logoForm} />
+      {theme === "light" ?
+        <Image source={require('@/assets/images/profil/key.png')} style={styles.logoForm} />
+      :
+        <Image source={require('@/assets/images/profil/keyWhite.png')} style={styles.logoForm} />
+      }
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: colors.black}]}
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
-      <View style={styles.underline} />
+      <View style={[styles.underline, {backgroundColor: colors.black}]} />
     </View>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       <View style={styles.wrapperButton}>
-        <Button title="Login" onPress={signIn} color={colors.blackFix}/>
+      <TouchableOpacity
+        onPress={signIn}
+        style={{
+          backgroundColor: colors.black,
+          padding: 10,
+          borderRadius: 3,
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ color: colors.white }}>Login</Text>
+      </TouchableOpacity>
         {/* <Button title="Créer un compte" onPress={() => navigation.navigate('registration')} color="#2196F3" /> */}
       </View>
       <Text style={styles.footerText}>
@@ -100,7 +118,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 50,
     textAlign: 'center',
-    color: '#0000',
     marginBottom: 24,
   },
   wrapperButton: {
@@ -154,7 +171,6 @@ const styles = StyleSheet.create({
   },
   underline: {
     height: 2,
-    backgroundColor: 'black',
     width: '100%',
     position: 'absolute',
     bottom: 0,

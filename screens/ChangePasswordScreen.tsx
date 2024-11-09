@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useUser } from '@/components/context/UserContext';
 import { getAuth, updatePassword } from 'firebase/auth';
-import useThemeColors from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 const ChangePasswordScreen = ({ navigation }: any) => {
     const { user } = useUser();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const colors = useThemeColors()
+    const {colors} = useTheme();
 
     const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) {
@@ -34,16 +34,16 @@ const ChangePasswordScreen = ({ navigation }: any) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: colors.whiteMode}]}>
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor: colors.grayPress}]}
                 placeholder="New password"
                 secureTextEntry
                 value={newPassword}
                 onChangeText={setNewPassword}
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor: colors.grayPress}]}
                 placeholder="Confirm new password"
                 secureTextEntry
                 value={confirmPassword}
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#f0f0f0',
     },
     title: {
         fontSize: 24,

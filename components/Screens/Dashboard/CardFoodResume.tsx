@@ -28,7 +28,12 @@ export default function CardFoodResume({name, id, calories, unit, quantity, imag
                     </View>
                 </View>
                 <TouchableOpacity  style={styles.test} onPress={handleDelete}>
-                    <Image source={require('@/assets/images/delete.png')} style={styles.deleteImage}/>
+                    {theme === "light" ?
+                        <Image source={require('@/assets/images/delete.png')} style={styles.deleteImage}/>
+                    :
+                        <Image source={require('@/assets/images/deleteWhite.png')} style={styles.deleteImage}/>
+                    }
+
                 </TouchableOpacity>
             </View>
     )
