@@ -6,11 +6,12 @@ import { fetchUserDataConnected } from '@/functions/function';
 import { User } from '@/interface/User';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { Auth } from '@/firebaseConfig';
-import useThemeColors from '@/hooks/useThemeColor';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 const EditProfileScreen = ({ navigation, updateUserInfo }) => {
 
-  const colors = useThemeColors();
+  const {colors} = useTheme();
+
   const [modalVisible, setModalVisible] = useState(false);
   const [userData, setUserData] = useState<User[]>([]);
   const auth = getAuth();
@@ -130,12 +131,12 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
 
       {keysOrder.map((key) => (
         <View key={key} style={styles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, {backgroundColor: colors.grayPress}]}
             placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
             value={formData[key]}
             onChangeText={(text) => validateInput(key, text)}
@@ -144,10 +145,10 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         </View>
       ))}
 
-      <Text style={styles.label}>Activity Level</Text>
+      <Text style={[styles.label, {color : colors.black}]}>Activity Level</Text>
       <Picker
         selectedValue={formData.activityLevel}
-        style={styles.picker}
+        style={[styles.picker, { backgroundColor: colors.grayPress}]}
         onValueChange={(itemValue) =>
           setFormData((prev) => ({ ...prev, activityLevel: itemValue }))
         }
@@ -192,7 +193,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#ffffff',
   },
   title: {
     fontSize: 28,
@@ -208,7 +208,6 @@ const styles = StyleSheet.create({
     borderColor: '#cccccc',
     borderRadius: 8,
     padding: 15,
-    backgroundColor: '#f9f9f9',
     fontSize: 14,
   },
   label: {
@@ -216,14 +215,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 15,
     marginBottom: 5,
-    color: '#555555',
   },
   picker: {
     height: 50,
     borderWidth: 1,
     borderColor: '#cccccc',
     borderRadius: 8,
-    backgroundColor: '#f9f9f9',
     marginBottom: 15,
   },
   errorText: {
