@@ -35,9 +35,12 @@ export const Colors = {
       black: '#ffffff',
       blackFix: '#000000',
       white: '#111419',
+      whiteFix: '#ffffff',
       whiteMode: '#000000',
       greenLight: '#CBD77E',
-      grayPress: '#E0E0E0'
+      grayPress: '#E0E0E0',
+      morphism: '#383B42',
+      morphism2: '#383B42',
   },
   light: {
     primary : '#8592F2',
@@ -49,9 +52,12 @@ export const Colors = {
       black: '#000000',
       blackFix: '#000000',
       white: '#ffffff',
+      whiteFix: '#ffffff',
       whiteMode: '#ffffff',
       greenLight: '#CBD77E',
-      grayPress: '#E0E0E0'
+      grayPress: '#E0E0E0',
+      morphism: '#383B42',
+      morphism2: 'rgba(18, 18, 18, 0.08)',
   }
 }
 

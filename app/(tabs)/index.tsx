@@ -97,8 +97,9 @@ export default function HomeScreen() {
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
         {/* <Banner/> */}
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Row>
-            <Button title='Change dark mode'  onPress={toggleTheme}/>
+          <Row style={{gap: 10}}>
+            <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/>
+            <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
           </Row>
           <Row style={{marginTop: 15, marginBottom: -15}}>
             <ThemedText variant='title' color={colors.black}>Nutri metrics</ThemedText>
@@ -115,10 +116,10 @@ export default function HomeScreen() {
               <NutritionalCard
               nutritionalName={'proteins'}
               nutrionalData={calculProteins(Number(userData[0]?.weight))}
-              backgroundcolor={colors.black}
+              backgroundcolor={colors.greenLight}
               indice={'g'}
               icon={'protein'}
-              textColor={'white'}
+              // textColor={'white'}
               setState={isLoading}
               />
               <NutritionalCard
@@ -151,10 +152,10 @@ export default function HomeScreen() {
                 <Challenge data={'chocolate'} source={require('@/assets/images/challenge/chocolate.jpg')}/>
 
             </ScrollView>
+            <StopWatch/>
             <View style={styles.stepContainer}>
               <Button color={colors.primary} title="Log out" onPress={handleSignOut} />
             </View>
-            <StopWatch/>
           </ScrollView>
       </SafeAreaView>
     </>

@@ -4,6 +4,7 @@ import { Dimensions } from 'react-native';
 import { capitalizeFirstLetter } from "@/functions/function";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
+import { useTheme } from "@/hooks/ThemeProvider";
 
 type Props = {
     style?: ViewStyle,
@@ -12,7 +13,6 @@ type Props = {
     nutrionalData: string | null | number,
     backgroundcolor: string,
     indice: string,
-    textColor?: string,
     setState: any
 }
 
@@ -23,15 +23,17 @@ const imageMapping: { [key: string ]: any } = {
     'fat': require('@/assets/images/nutritional/watermelon.png'),
 };
 
-export default function NutritionalCard({icon, textColor = 'black', nutritionalName,setState, nutrionalData, indice, backgroundcolor, style, ...rest}: Props) {
 
+export default function NutritionalCard({icon, nutritionalName,setState, nutrionalData, indice, backgroundcolor, style, ...rest}: Props) {
+    
+    const { colors } = useTheme();
     const imageSource = imageMapping[icon];
     
     return (
         <View style={[styles.card, {backgroundColor: backgroundcolor}]}>
             <View style={styles.block1}>
             <Skeleton colorMode={colorMode} width={70}>
-                {setState && <ThemedText variant="title1" color={textColor}>{capitalizeFirstLetter(nutritionalName)}</ThemedText>}
+                {setState && <ThemedText variant="title1" color={colors.blackFix}>{capitalizeFirstLetter(nutritionalName)}</ThemedText>}
             </Skeleton>
                 <Skeleton colorMode={colorMode} height={30} width={30} radius={'round'}>
                 {setState && <View style={styles.wrapperImage}>
@@ -43,9 +45,9 @@ export default function NutritionalCard({icon, textColor = 'black', nutritionalN
             <View style={styles.block2}>
                 <Skeleton colorMode={colorMode} width={100}>
                     {setState && 
-                    <ThemedText variant="title1" color={textColor}>
+                    <ThemedText variant="title1" color={colors.blackFix}>
                         {nutrionalData} 
-                        <ThemedText variant="title1" color={'grayDark'}>
+                        <ThemedText variant="title1" color={colors.blackFix}>
                             {' ' + indice}
                         </ThemedText>
                         </ThemedText>

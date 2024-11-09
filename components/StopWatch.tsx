@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import React, { useState, useRef } from 'react';
-import useThemeColors from '@/hooks/useThemeColor';
 import Row from './Row';
 import { ThemedText } from './ThemedText';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 export default function StopWatch() {
     
@@ -11,7 +11,7 @@ export default function StopWatch() {
         const [running, setRunning] = useState(false);
         const intervalRef = useRef(null);
         const startTimeRef = useRef(0);
-        const colors = useThemeColors();
+        const {colors} = useTheme();
 
         const formatedTime = (seconds: number) => {
             const months = Math.floor(seconds / (30 * 24 * 3600));
@@ -64,11 +64,11 @@ export default function StopWatch() {
                     <View style={[styles.clock, {backgroundColor: colors.primary}]}>
                         <Image source={require('@/assets/images/challenge/clock.png')} style={styles.image} />
                     </View>
-                    <View style={{backgroundColor: '#383B42', padding: 10, borderRadius: 10}}>
+                    <View style={{backgroundColor: colors.morphism, padding: 10, borderRadius: 10}}>
                         {running ?
-                            <ThemedText variant="title3" color="white">Challenge in progress</ThemedText>
+                            <ThemedText variant="title3" color={colors.whiteFix}>Challenge in progress</ThemedText>
                         :
-                            <ThemedText variant="title3" color="white">Start the challenge</ThemedText>
+                            <ThemedText variant="title3" color={colors.whiteFix}>Start the challenge</ThemedText>
                         }
                     </View>
                 </Row>
@@ -92,7 +92,7 @@ export default function StopWatch() {
                     ) : (
                         <>
                             <TouchableOpacity
-                                style={[styles.button, styles.startButton]}
+                                style={[styles.button, styles.startButton,{ backgroundColor: colors.primary}]}
                                 onPress={startStopwatch}
                             >
                                 <Text style={styles.buttonText}>Start</Text>
@@ -188,7 +188,6 @@ export default function StopWatch() {
             borderRadius: 5,
         },
         startButton: {
-            backgroundColor: '#2ecc71',
             marginRight: 10,
         },
         resetButton: {

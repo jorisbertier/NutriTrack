@@ -101,7 +101,7 @@ export default function Search() {
                 {/* </Row> */}
                 <View style={styles.wrapperInput}>
                     <TextInput
-                        style={[styles.input, {backgroundColor: colors.grayMode}]}
+                        style={[styles.input, {backgroundColor: colors.grayMode, color: colors.black}]}
                         onChangeText={onChangeText}
                         value={text}
                         placeholder="Search a food"
@@ -110,7 +110,7 @@ export default function Search() {
                     </TextInput>
                         {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
                         {text !== '' ? (
-                            <TouchableOpacity style={styles.wrapperDelete} onPress={handleDeleteValue}>
+                            <TouchableOpacity style={[styles.wrapperDelete, { backgroundColor: colors.morphism2}]} onPress={handleDeleteValue}>
                                 <Image source={require('@/assets/images/delete.png')} style={styles.deleteSearch}/>
                             </TouchableOpacity>
                             ) : (
@@ -144,7 +144,7 @@ export default function Search() {
                             keyExtractor={(item, index) => `${item.id}-${index}`}
                             contentContainerStyle={styles.wrapperFood}
                         />
-                    {filteredFood.length === 0 && <Text>
+                    {filteredFood.length === 0 && <Text style={{color: colors.black}}>
                         No food matches with the search {text}.</Text>}
                 </Row>
                 {notificationVisible &&
@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
         right: 30,
         top: '50%',
         transform: [{ translateY: -13 }],
-        backgroundColor: 'rgba(18, 18, 18, 0.08)',
         padding: 7,
         borderRadius: 8
     },
