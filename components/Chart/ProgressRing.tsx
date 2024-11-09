@@ -1,5 +1,6 @@
 import { colorMode } from '@/constants/Colors';
 import { calculatePercentage } from '@/functions/function';
+import { useTheme } from '@/hooks/ThemeProvider';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
@@ -8,6 +9,8 @@ import { Svg, Circle } from 'react-native-svg';
 const screenWidth = Dimensions.get('window').width;
 
 const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal, progressCarbs, carbsGoal, progressFats, fatsGoal}) => {
+
+    const { colors } = useTheme();
 
     let percentageProteins = (typeof progressProteins === 'number' && typeof proteinsGoal === 'number' && proteinsGoal > 0)
         ? calculatePercentage(progressProteins, proteinsGoal)
@@ -30,7 +33,7 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
     const circumferenceInner = 2 * Math.PI * radiusInner;
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.grayMode}]}>
             {/* <Text style={styles.title}>Macronutrients goal</Text> */}
             <View style={{width: '50%'}}>
             <Svg height={150} width={150}>
@@ -106,24 +109,24 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
             <View style={styles.percentageContainer}>
                 {isLoading ?
                     <View>
-                        <Text style={styles.percentageText}>Proteins {(percentageProteins * 100).toFixed(0)} %</Text>
-                        <Text style={styles.percentageSubtext}>{progressProteins} / {proteinsGoal} g</Text>
+                        <Text style={[styles.percentageText, {color: colors.black}]}>Proteins {(percentageProteins * 100).toFixed(0)} %</Text>
+                        <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressProteins} / {proteinsGoal} g</Text>
                     </View>
                 :
                     <Skeleton colorMode={colorMode} width={150} />
                 }
                 {isLoading ?
                 <View>
-                    <Text style={styles.percentageText}>Carbs {(percentageCarbs * 100).toFixed(0)} %</Text>
-                    <Text style={styles.percentageSubtext}>{progressCarbs} / {carbsGoal} g</Text>
+                    <Text style={[styles.percentageText, {color: colors.black}]}>Carbs {(percentageCarbs * 100).toFixed(0)} %</Text>
+                    <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressCarbs} / {carbsGoal} g</Text>
                 </View>
                 :
                     <Skeleton colorMode={colorMode} width={150} />
                 }
                 {isLoading ?
                 <View>
-                    <Text style={styles.percentageText}>Fats {(percentageFats * 100).toFixed(0)} %</Text>
-                    <Text style={styles.percentageSubtext}>{progressFats} / {fatsGoal} g</Text>
+                    <Text style={[styles.percentageText, {color: colors.black}]}>Fats {(percentageFats * 100).toFixed(0)} %</Text>
+                    <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressFats} / {fatsGoal} g</Text>
                 </View>
                 :
                     <Skeleton colorMode={colorMode} width={150} />
@@ -142,7 +145,6 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingRight: 10,
         paddingLeft: 10,
-        backgroundColor: '#F5F5F5',
         borderRadius: 20,
         maxWidth: '100%',
         marginBottom: 20

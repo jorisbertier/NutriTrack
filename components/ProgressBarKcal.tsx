@@ -5,6 +5,7 @@ import { Dimensions } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { Skeleton } from 'moti/skeleton';
 import { colorMode } from '@/constants/Colors';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 type ProgressBarProps = {
     progress: number;
@@ -16,12 +17,13 @@ type ProgressBarProps = {
 };
 export const ProgressBarKcal: React.FC<ProgressBarProps> = ({isLoading, progress, nutri, quantityGoal, color = '#F97216', height = 40 }) => {
 
+    const { colors } = useTheme();
     const percentage = (progress / quantityGoal) * 100;
 
     return (
         <View style={styles.container}>
             {isLoading ?
-                <View style={styles.progressBar1}>
+                <View style={[styles.progressBar1, {backgroundColor: colors.grayMode}]}>
                 <LinearGradient
                         start={{x: 0, y: 0}} end={{x: 1, y: 0}}
                         colors={['#A9B8E3', '#8592F2', '#5B6FD2']}
@@ -31,9 +33,9 @@ export const ProgressBarKcal: React.FC<ProgressBarProps> = ({isLoading, progress
                         ]}
                     />
                 {progress < quantityGoal ? (
-                    <ThemedText variant="title2" color="white" style={styles.textProgress}>Work in progress</ThemedText>
+                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>Work in progress</ThemedText>
                 ) : (
-                    <ThemedText variant="title2" color="white" style={styles.textProgress}>Work done !</ThemedText>
+                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>Work done !</ThemedText>
                 )}
                 </View>
             :
@@ -53,7 +55,6 @@ const styles = StyleSheet.create({
     progressBar1: {
         position: 'relative',
         width: '100%',
-        backgroundColor: '#F5F5F5',
         borderRadius: 7,
         overflow: 'visible',
         height: 40
@@ -79,12 +80,5 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
         borderRadius: 5
-      },
-      buttonText: {
-        fontSize: 18,
-        textAlign: 'center',
-        margin: 10,
-        color: '#ffffff',
-        backgroundColor: 'transparent',
       },
 });

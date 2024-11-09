@@ -30,10 +30,12 @@ export const Colors = {
       blue: '#a1a1d7',
       blueLight: '#D6E4FD',
       gray: '#F5F5F5',
-      grayDark: '#A2A2A2',
+      grayMode: '#111419',
+      grayDark: '#F5F5F5',
       black: '#ffffff',
       blackFix: '#000000',
       white: '#111419',
+      whiteMode: '#000000',
       greenLight: '#CBD77E',
       grayPress: '#E0E0E0'
   },
@@ -42,10 +44,12 @@ export const Colors = {
       blue: '#8592F2',
       blueLight: '#D6E4FD',
       gray: '#F5F5F5',
+      grayMode: '#F5F5F5',
       grayDark: '#A2A2A2',
       black: '#000000',
       blackFix: '#000000',
       white: '#ffffff',
+      whiteMode: '#ffffff',
       greenLight: '#CBD77E',
       grayPress: '#E0E0E0'
   }

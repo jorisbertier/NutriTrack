@@ -25,6 +25,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import useThemeColors from "@/hooks/useThemeColor";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
+import { useTheme } from "@/hooks/ThemeProvider";
 
 
 export default function Dashboard() {
@@ -34,7 +35,7 @@ export default function Dashboard() {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    const colors = useThemeColors()
+    const {theme, colors} = useTheme();
     const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
     const [allUsersFoodData, setAllUsersFoodData] = useState<UserMeals[]>([]);  // all UsersFoodData
@@ -279,24 +280,28 @@ export default function Dashboard() {
 
     console.log('____')
     const timestamp = 1729992960000; 
-const date2 = new Date(timestamp);//get date with timestamp
-console.log(date2.toString())
+    const date2 = new Date(timestamp);//get date with timestamp
+    console.log(date2.toString())
     console.log('____')
     
     return (
         <>
-        <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
             <TouchableOpacity onPress={handleOpenCalendar}>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
-                    <ThemedText variant="title1" style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
+                    <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
                         'Today':
                         `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                     </ThemedText>
-                    <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
+                    {theme === "light" ?
+                        <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
+                        :
+                        <Image source={require('@/assets/images/chevronWhite.png')} style={{width: 20, height: 20}}/>
+                        }
                 </View>
             </TouchableOpacity>
         </View>
-        <ScrollView style={[styles.header, {paddingTop: 30}]}>
+        <ScrollView style={[styles.header, {paddingTop: 30, backgroundColor: colors.whiteMode}]}>
                 <View style={{flexDirection: 'column',height: 'auto', alignItems:'center', width: '100%', marginBottom: 20}}>
                     {isOpen && (<RNDateTimePicker
                                 onChange={setDate}
@@ -400,7 +405,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         paddingHorizontal: 12,
         paddingBottom: 8,
-        backgroundColor: 'white',
+        
     },
     wrapperCalendar: {
         marginTop: 200,
@@ -412,7 +417,6 @@ const styles = StyleSheet.create({
     },
     calendar : {
         padding: 40,
-        backgroundColor: 'yellow'
     },
     wrapperMeals : {
         gap: 16,

@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import useThemeColors from "@/hooks/useThemeColor";
-import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text} from "react-native";
+import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text, useColorScheme} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
@@ -14,7 +14,7 @@ import { useTheme } from "@/hooks/ThemeProvider";
 
 export default function Search() {
 
-    const {colors} = useTheme();
+    const {theme, colors} = useTheme();
 
     const [data, setData] = useState<FoodItem[]>([]);
     const [error, setError] = useState("");
@@ -22,10 +22,11 @@ export default function Search() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date());
     const [notificationVisible, setNotificationVisible] = useState(false); 
-    const date = new Date();
     const [isLoading, setIsLoading] = useState(false);
     const colorMode: 'light' | 'dark' = 'light';
-
+    
+    let date = new Date();
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         setIsOpen(false)
         if(date) {
@@ -61,93 +62,100 @@ export default function Search() {
     const handleDeleteValue = () => {
         onChangeText('')
     }
+
+    console.log("Current theme:", theme)
     return (
         <>
-            <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.gray}}>
-            <TouchableOpacity onPress={handleOpenCalendar}>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
-                    <ThemedText variant="title1" style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                        'Today':
-                        `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                    </ThemedText>
-                    <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
-                </View>
-            </TouchableOpacity>
-        </View>
-        <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
-            {/* <Row>
-                <View style={[styles.wrapperCalendar, backgroundColor : '#F6F6F6']}>
+            <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
                 <TouchableOpacity onPress={handleOpenCalendar}>
-                    <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
-                </TouchableOpacity>
-                    <ThemedText variant="title1">
-                        {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
+                        <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
+                            'Today':
+                            `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                         </ThemedText>
-                </View> */}
-                {}
-                {isOpen && (<RNDateTimePicker
-                    onChange={setDate}
-                    value={selectedDate}
-                    timeZoneOffsetInMinutes={new Date().getTimezoneOffset()}
-                />)}
-            {/* </Row> */}
-            <View style={styles.wrapperInput}>
-                <TextInput
-                    style={[styles.input, {backgroundColor: colors.gray}]}
-                    onChangeText={onChangeText}
-                    value={text}
-                    placeholder="Search a food"
-                    placeholderTextColor={'grey'}
-                >
-                </TextInput>
-                    {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
-                    {text !== '' ? (
-                        <TouchableOpacity style={styles.wrapperDelete} onPress={handleDeleteValue}>
-                            <Image source={require('@/assets/images/delete.png')} style={styles.deleteSearch}/>
-                        </TouchableOpacity>
-                        ) : (
-                        null
-                    )}
-                    
-                    <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/>
-
-            </View>
-            {/* <Row>
-                <View style={[styles.wrapperCreate, {backgroundColor : '#F6F6F6'}]}>
-                    <Image source={require('@/assets/images/grapes.png')} style={styles.imageCreate}/>
-                    <ThemedText variant="title1">Create a new aliment</ThemedText>
-                </View>
-            </Row> */}
-            <Row style={[styles.wrapperFood]}>
-                    <FlatList<FoodItem>
-                        data={filteredFood}
-                        renderItem={({ item }) => (
-                            <CardFood
-                                name={item.name}
-                                id={item.id}
-                                calories={item.calories}
-                                unit={item.unit}
-                                quantity={item.quantity}
-                                selectedDate={selectedDate.toLocaleDateString()}
-                                setNotification={setNotificationVisible}
-                            />
-                        )}
-                        showsVerticalScrollIndicator={false}
-                        keyExtractor={(item, index) => `${item.id}-${index}`}
-                        contentContainerStyle={styles.wrapperFood}
-                    />
-                {filteredFood.length === 0 && <Text>
-                    No food matches with the search {text}.</Text>}
-            </Row>
-            {notificationVisible &&
-                <View style={styles.notification}>
-                    <View style={[styles.wrapperNotification, {backgroundColor: "#8592F2"}]}>
-                        <Text style={styles.notificationText}>Added Food</Text>
-                        <Image style={styles.verify} source={require('@/assets/images/verify2.png')} />
+                        {theme === "light" ?
+                        <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
+                        :
+                        <Image source={require('@/assets/images/chevronWhite.png')} style={{width: 20, height: 20}}/>
+                        }
                     </View>
+                </TouchableOpacity>
+            </View>
+            <SafeAreaView style={[styles.header, {backgroundColor: colors.whiteMode}]}>
+                {/* <Row>
+                    <View style={[styles.wrapperCalendar, backgroundColor : '#F6F6F6']}>
+                    <TouchableOpacity onPress={handleOpenCalendar}>
+                        <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
+                    </TouchableOpacity>
+                        <ThemedText variant="title1">
+                            {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
+                            </ThemedText>
+                    </View> */}
+                    {}
+                    {isOpen && (<RNDateTimePicker
+                        onChange={setDate}
+                        value={selectedDate}
+                        timeZoneName={timeZone}
+                        // timeZoneOffsetInMinutes={new Date().getTimezoneOffset()}
+                    />)}
+                {/* </Row> */}
+                <View style={styles.wrapperInput}>
+                    <TextInput
+                        style={[styles.input, {backgroundColor: colors.grayMode}]}
+                        onChangeText={onChangeText}
+                        value={text}
+                        placeholder="Search a food"
+                        placeholderTextColor={'grey'}
+                    >
+                    </TextInput>
+                        {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
+                        {text !== '' ? (
+                            <TouchableOpacity style={styles.wrapperDelete} onPress={handleDeleteValue}>
+                                <Image source={require('@/assets/images/delete.png')} style={styles.deleteSearch}/>
+                            </TouchableOpacity>
+                            ) : (
+                            null
+                        )}
+                        
+                        <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/>
+
                 </View>
-            }
-        </SafeAreaView>
+                {/* <Row>
+                    <View style={[styles.wrapperCreate, {backgroundColor : '#F6F6F6'}]}>
+                        <Image source={require('@/assets/images/grapes.png')} style={styles.imageCreate}/>
+                        <ThemedText variant="title1">Create a new aliment</ThemedText>
+                    </View>
+                </Row> */}
+                <Row style={[styles.wrapperFood]}>
+                        <FlatList<FoodItem>
+                            data={filteredFood}
+                            renderItem={({ item }) => (
+                                <CardFood
+                                    name={item.name}
+                                    id={item.id}
+                                    calories={item.calories}
+                                    unit={item.unit}
+                                    quantity={item.quantity}
+                                    selectedDate={selectedDate.toLocaleDateString()}
+                                    setNotification={setNotificationVisible}
+                                />
+                            )}
+                            showsVerticalScrollIndicator={false}
+                            keyExtractor={(item, index) => `${item.id}-${index}`}
+                            contentContainerStyle={styles.wrapperFood}
+                        />
+                    {filteredFood.length === 0 && <Text>
+                        No food matches with the search {text}.</Text>}
+                </Row>
+                {notificationVisible &&
+                    <View style={styles.notification}>
+                        <View style={[styles.wrapperNotification, {backgroundColor: "#8592F2"}]}>
+                            <Text style={styles.notificationText}>Added Food</Text>
+                            <Image style={styles.verify} source={require('@/assets/images/verify2.png')} />
+                        </View>
+                    </View>
+                }
+            </SafeAreaView>
         </>
     );
 }

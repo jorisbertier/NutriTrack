@@ -46,7 +46,7 @@ export default function RootLayout() {
       <UserProvider>
         <NavigationContainer independent={true}>
           <Stack.Navigator
-            screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}
+            screenOptions={{ headerShown: false, headerTitleAlign: 'center'}}
           >
             {/* Écran d'authentification */}
             <Stack.Screen name="auth" component={AuthScreen} options={{ headerShown: false }} />
@@ -65,7 +65,7 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 headerStyle: {
-                  backgroundColor: 'black',
+                  backgroundColor: '#383B42',
                 },
               }}/>
               <Stack.Screen name="FoodDetails" component={DetailsFood} />

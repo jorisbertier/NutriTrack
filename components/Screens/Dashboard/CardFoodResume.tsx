@@ -1,6 +1,7 @@
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
+import { useTheme } from "@/hooks/ThemeProvider";
 
 type Props = {
     id: number,
@@ -15,13 +16,15 @@ type Props = {
 
 export default function CardFoodResume({name, id, calories, unit, quantity, image, userMealId, handleDelete}: Props) {
 
+    const { theme, colors } = useTheme();
+
     return (
-            <View style={styles.cardFood}>
+            <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
                 <View style={styles.wrapperText}>
                     <Image source={{uri: `${image}`}} style={styles.image}/>
                     <View style={styles.text}>
-                        <ThemedText variant="title1">{capitalizeFirstLetter(`${name}`)}</ThemedText>
-                        <ThemedText variant="title2" color={'grayDark'}>{calories} Kcal,{quantity} {unit}</ThemedText>
+                        <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(`${name}`)}</ThemedText>
+                        <ThemedText variant="title2" color={colors.grayDark}>{calories} Kcal,{quantity} {unit}</ThemedText>
                     </View>
                 </View>
                 <TouchableOpacity  style={styles.test} onPress={handleDelete}>
@@ -37,7 +40,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#F8F9FD',
         height: 60,
         borderRadius: 15,
         width: '100%',

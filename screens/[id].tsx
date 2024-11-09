@@ -2,7 +2,6 @@ import { ThemedText } from "@/components/ThemedText"
 import { Image, Pressable, StyleSheet, View, ScrollView } from "react-native";
 import { useNavigation } from "expo-router";
 import Row from "@/components/Row";
-import useThemeColors from "@/hooks/useThemeColor";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
 import { Dimensions } from "react-native";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
@@ -10,11 +9,14 @@ import { useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from "@/interface/FoodItem";
+import { useTheme } from "@/hooks/ThemeProvider";
 
 const { height } = Dimensions.get('window');
 
 export default function DetailsFood() {
-    const colors = useThemeColors() 
+
+    const {theme, colors} = useTheme();
+
     const navigation = useNavigation();
     const route = useRoute<any>();
     const { id } = route.params; 
@@ -48,27 +50,29 @@ export default function DetailsFood() {
     <ScrollView>
         <View style={styles.banner}>
             <Image source={{uri: `${filterUniqueFood?.image}`}} style={styles.image} />
-            <Pressable onPress={()=> navigation.goBack()} style={styles.back}>
-                
+            <Pressable onPress={()=> navigation.goBack()} style={[styles.back, {backgroundColor: colors.white}]}>
+                {theme === 'light' ?
                     <Image source={require('@/assets/images/back.png')} style={styles.icon} />
-                
+                :
+                    <Image source={require('@/assets/images/backWhite.png')} style={styles.icon} />
+                }
             </Pressable>
         </View>
         <View style={[styles.header, {backgroundColor: colors.white}]}>
             <Row>
                 <View style={styles.wrapperBlock}>
                     <View style={styles.block}>
-                        <ThemedText style={[{borderColor: colors.grayDark, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.category}</ThemedText>
+                        <ThemedText color={colors.black} style={[{borderColor: colors.black, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.category}</ThemedText>
                     </View>
                     <View style={styles.block}>
-                        <ThemedText style={[{borderColor: colors.grayDark, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
+                        <ThemedText color={colors.black} style={[{borderColor: colors.black, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
                     </View>
                 </View>
             </Row>
             <Row style={styles.wrapperTitle}>
-                <ThemedText variant="title" style={styles.title}>{filterUniqueFood?.name}</ThemedText>
-                <ThemedText style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
-                <ThemedText variant="title1" color={colors} style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
+                <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.name}</ThemedText>
+                <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
+                <ThemedText color={colors.black} variant="title1" style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
             </Row>
             <View style={[styles.container]}>
                 <Row gap={10}>
@@ -134,7 +138,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
         top: -35,
-        backgroundColor: 'white'
+        
     },
     image: {
         objectFit: 'fill',
@@ -146,7 +150,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 13,
-        backgroundColor: 'white',
         top: 100,
         left: 15,
         justifyContent: 'center',

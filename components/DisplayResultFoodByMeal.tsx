@@ -5,8 +5,11 @@ import { FoodItem } from '../interface/FoodItem';
 import { FlatList, Image, StyleSheet, View } from "react-native";
 import CardFoodResume from "./Screens/Dashboard/CardFoodResume";
 import RowDrop from "./Screens/Dashboard/RowDrop";
+import { useTheme } from "@/hooks/ThemeProvider";
 
 export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDeleteFood: (userMealId: string) => void) {
+
+    const {colors} = useTheme();
     
     const totalCaloriesByMeal = resultMeal.reduce((accumulator, item) => {
         return accumulator + item.calories;
@@ -15,8 +18,8 @@ export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDele
     return (
         <View style={styles.wrapper}>
             <Row style={styles.row}>
-                <ThemedText variant="title">{meal}</ThemedText>
-                    <ThemedText>{totalCaloriesByMeal} Kcal</ThemedText>
+                <ThemedText variant="title" color={colors.black}>{meal}</ThemedText>
+                    <ThemedText color={colors.black}>{totalCaloriesByMeal} Kcal</ThemedText>
             </Row>
             <Row>
             { resultMeal.length !== 0 ? (
@@ -40,7 +43,7 @@ export function DisplayResultFoodByMeal(resultMeal: any, meal: string,handleDele
                     keyExtractor={(item) => item.userMealId ? item.userMealId : item.id.toString()}
                 />
                 ) : (
-                    <ThemedText>Don't have any food for {meal}</ThemedText>
+                    <ThemedText color={colors.black}>Don't have any food for {meal}</ThemedText>
             )}
             </Row>
         </View>

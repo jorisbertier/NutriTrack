@@ -8,7 +8,7 @@ import { fetchUserIdDataConnected } from "@/functions/function";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-import useThemeColors from "@/hooks/useThemeColor";
+import { useTheme } from "@/hooks/ThemeProvider";
 
 type Props = {
     id: number;
@@ -22,7 +22,7 @@ type Props = {
 
 const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
-    const colors = useThemeColors();
+    const {colors} = useTheme();
 
     const [modalVisible, setModalVisible] = useState(false);
     
@@ -99,9 +99,9 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
 
     return (
         <TouchableOpacity onPress={navigateToDetails}>
-            <View style={[styles.cardFood, {backgroundColor: colors.gray}]}>
+            <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
                 <View style={styles.text}>
-                    <ThemedText variant="title1">{capitalizeFirstLetter(name)}</ThemedText>
+                    <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(name)}</ThemedText>
                     <ThemedText variant="title2" color="grayDark">
                         {calories} kcal, {name} {quantity} {unit}
                     </ThemedText>
