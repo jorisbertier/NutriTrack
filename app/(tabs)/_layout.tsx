@@ -48,7 +48,13 @@ export default function TabLayout() {
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
       headerTitle: 'Search',
-      headerTitleAlign: 'center'
+      headerTitleAlign: 'center',
+      headerStyle: {
+        backgroundColor: '#000',
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
     }} 
     />
 
@@ -64,7 +70,13 @@ export default function TabLayout() {
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
       headerTitle: 'Nutrition track',
-      headerTitleAlign: 'center'
+      headerTitleAlign: 'center',
+      headerStyle: {
+        backgroundColor: '#000',
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
     }} 
     />
     <Tab.Screen 
@@ -78,7 +90,13 @@ export default function TabLayout() {
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
       headerTitle: 'Profile',
-      headerTitleAlign: 'center'
+      headerTitleAlign: 'center',
+      headerStyle: {
+        backgroundColor: '#000',
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
     }} 
     />
   </Tab.Navigator>

@@ -35,6 +35,10 @@ const styles = StyleSheet.create({
         lineHeight: 16,
         fontWeight: "bold",
     },
+    banner: {
+        fontSize: 20,
+        fontWeight: "500",
+    },
     subtitle: {
         fontSize: 12,
         lineHeight: 16,

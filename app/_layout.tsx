@@ -40,7 +40,6 @@ export default function RootLayout() {
     return null;
   }
 
-
   return (
     <ThemeProvider>
       <UserProvider>
@@ -54,44 +53,53 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 headerTitle: 'Registration',
-                headerTitleAlign: 'center'
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: '#000',
+                },
+                headerTitleStyle: {
+                  color: 'white',
+                },
+                headerTintColor: '#ffffff'
               }}
             />
               {/* Navigation par onglets (TabLayout) */}
               <Stack.Screen name="home" component={TabLayout} options={{ headerShown: false }} />
 
               {/* Autres écrans */}
-              <Stack.Screen name="search" component={Search}
-              options={{
-                headerShown: true,
-                headerStyle: {
-                  backgroundColor: '#383B42',
-                },
-              }}/>
+              <Stack.Screen name="search" component={Search}/>
               <Stack.Screen name="FoodDetails" component={DetailsFood} />
               <Stack.Screen name="EditProfile" component={EditProfileScreen} 
                 options={{
                   headerShown: true,
                   headerTitle: 'Edit Profile',
                   headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
                 }}
               />
               <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}
                 options={{
                   headerShown: true,
                   headerTitle: 'Change password',
-                  headerTitleAlign: 'center'
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
                 }}
               />
               <Stack.Screen
                 name="dashboard"
                 component={Dashboard}
-                options={{
-                  headerTitle: 'Your nutrition metrics',
-                  headerBlurEffect: 'regular',
-                  headerStyle: { backgroundColor: 'rgba(255, 255, 255, 1)' },
-                  headerShown: true
-                }}
               />
           </Stack.Navigator>
         </NavigationContainer>

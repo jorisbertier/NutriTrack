@@ -22,20 +22,20 @@ import { ProgressBarKcal } from "@/components/ProgressBarKcal";
 import ProgressRing from "@/components/Chart/ProgressRing";
 import { ProgressChart } from "react-native-chart-kit";
 import { useHeaderHeight } from "@react-navigation/elements";
-import useThemeColors from "@/hooks/useThemeColor";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
 import { useTheme } from "@/hooks/ThemeProvider";
 
 
 export default function Dashboard() {
+    
+    const {theme, colors} = useTheme();
 
     const [userIdConnected, setUserIdConnected] = useState<number>();
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
 
-    const {theme, colors} = useTheme();
     const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
     const [allUsersFoodData, setAllUsersFoodData] = useState<UserMeals[]>([]);  // all UsersFoodData

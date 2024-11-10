@@ -225,7 +225,7 @@ const Registration = () => {
                 alignItems: 'center',
                 }}
             >
-                <Text style={{ color: colors.white }}>Login</Text>
+                <Text style={{ color: colors.white }}>Register</Text>
             </TouchableOpacity>
         </ScrollView>
     );

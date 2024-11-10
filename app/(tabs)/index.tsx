@@ -1,8 +1,8 @@
-import { Image, StyleSheet, Button, Alert, View, StatusBar, ScrollView, Text } from 'react-native';
+import { Image, StyleSheet, Button, Alert, View, StatusBar, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { getAuth } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
@@ -10,7 +10,6 @@ import { User } from '@/interface/User';
 import Row from '@/components/Row';
 import NutritionalCard from '@/components/NutritionCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import useThemeColors from '@/hooks/useThemeColor';
 import { calculAge, BasalMetabolicRate, calculProteins, calculFats } from '@/functions/function';
 import { calculCarbohydrates } from '../../functions/function';
 import Banner from '@/components/Banner';
@@ -112,17 +111,6 @@ export default function HomeScreen() {
 //     "production": {}
 //   }
 // }
-useFocusEffect(
-  React.useCallback(() => {
-    // Configuration de la StatusBar pour cet écran
-    StatusBar.setBarStyle('light-content');  // Style du texte
-
-    return () => {
-      StatusBar.setBarStyle('dark-content');
-    };
-  }, [])
-);
-
   return (
     <>
       <StatusBar barStyle="light-content" />
