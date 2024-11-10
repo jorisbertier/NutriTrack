@@ -1,12 +1,15 @@
 {
   "expo": {
     "name": "Nutri Track",
-    "slug": "Nutri Track",
+    "slug": "NutriTrack",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/realmLogo.png",
     "scheme": "myapp",
-    "permissions": ["camera", "mediaLibrary"],
+    "permissions": [
+      "camera",
+      "mediaLibrary"
+    ],
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -24,7 +27,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.kulte.NutriTrack"
     },
     "web": {
       "bundler": "metro",
@@ -42,6 +49,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4a77caca-0dec-4dac-bdf0-87ce51d6d291"
+      }
     }
   }
 }

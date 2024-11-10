@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { Auth } from '../firebaseConfig';
+import { auth } from '../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import Row from '@/components/Row';
@@ -17,7 +17,7 @@ const AuthScreen = () => {
 
   const signIn = async () => {
     try {
-      await signInWithEmailAndPassword(Auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       setErrorMessage('')
       // Alert.alert('Connexion réussie!');
       navigation.navigate('home');

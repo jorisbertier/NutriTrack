@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Button, Alert, View, StatusBar, ScrollView, Text } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { Auth, firestore } from '@/firebaseConfig';
+import { firestore } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth } from "firebase/auth";
@@ -19,8 +19,6 @@ import { Skeleton } from 'moti/skeleton';
 import Challenge from '@/components/Challenge';
 import StopWatch from '@/components/StopWatch';
 import { useTheme } from '@/hooks/ThemeProvider';
-
-
 
 
 export default function HomeScreen() {
@@ -65,9 +63,9 @@ export default function HomeScreen() {
 
   const handleSignOut = async () => {
     try {
-      await signOut(Auth); // Déconnexion de l'utilisateur
-      navigation.navigate('auth'); // Redirige vers la page de connexion après la déconnexion
-    } catch (error: any) {
+      await signOut(auth); // Déconnexion de l'utilisateur
+      navigation.navigate('auth'); // Redirection vers l'écran de connexion
+    } catch (error) {
       Alert.alert('Erreur de déconnexion', error.message);
     }
   };
@@ -88,6 +86,32 @@ export default function HomeScreen() {
   //     console.error('basalMetabolicRate is not a valid number');
   //   }
   // }, [basalMetabolicRate]); 
+// EAS.json pour builder sur la app
+  // {
+//   "cli": {
+//     "version": ">= 13.1.1",
+//     "appVersionSource": "remote"
+//   },
+//   "build": {
+//     "preview": {
+//       "android": {
+//         "buildType": "apk"
+//       }
+//     },
+//     "preview2": {
+//       "android": {
+//         "gradleCommand": ":app:assembleRelease"
+//       }
+//     },
+//     "preview3": {
+//       "developmentClient": true
+//     },
+//     "preview4": {
+//       "distribution": "internal"
+//     },
+//     "production": {}
+//   }
+// }
 
   return (
     <>
