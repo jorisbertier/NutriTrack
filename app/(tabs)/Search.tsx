@@ -10,10 +10,13 @@ import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
+import { useRoute } from "@react-navigation/native";
 
 export default function Search() {
 
     const {theme, colors} = useTheme();
+    const route = useRoute();
+    console.log(route)
 
     const [data, setData] = useState<FoodItem[]>([]);
     const [error, setError] = useState("");

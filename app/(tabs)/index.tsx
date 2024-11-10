@@ -2,7 +2,7 @@ import { Image, StyleSheet, Button, Alert, View, StatusBar, ScrollView } from 'r
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { signOut } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { getAuth } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
@@ -18,12 +18,15 @@ import { Skeleton } from 'moti/skeleton';
 import Challenge from '@/components/Challenge';
 import StopWatch from '@/components/StopWatch';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { BackHandler } from 'react-native';
 
 
 export default function HomeScreen() {
 
   const { colors, toggleTheme } = useTheme();
   const navigation = useNavigation();
+  const route = useRoute(); 
+  console.log('route', route)
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;
@@ -111,6 +114,33 @@ export default function HomeScreen() {
 //     "production": {}
 //   }
 // }
+useEffect(() => {
+  const backAction = () => {
+    if (user && route.name === 'Home') {
+      Alert.alert('Exit the application!', 'Are you sure you want to exit the application?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: 'YES',
+          onPress: () => BackHandler.exitApp(),
+        },
+      ]);
+      return true;
+    }
+    
+    navigation.goBack();
+    return true;
+  };
+
+  const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+  // Nettoyage de l'écouteur à la fermeture du composant
+  return () => backHandler.remove();
+}, [route, user]);
+
   return (
     <>
       <StatusBar barStyle="light-content" />
