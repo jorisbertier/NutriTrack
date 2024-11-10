@@ -1,11 +1,10 @@
 import { ThemedText } from "@/components/ThemedText";
-import useThemeColors from "@/hooks/useThemeColor";
-import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text, useColorScheme} from "react-native";
+import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
 import { foodData } from "@/data/food.js";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter } from "@/functions/function";
@@ -63,7 +62,7 @@ export default function Search() {
         onChangeText('')
     }
 
-    console.log("Current theme:", theme)
+
     return (
         <>
             <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
