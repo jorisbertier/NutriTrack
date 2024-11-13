@@ -30,7 +30,7 @@ export default function Banner({name, isLoading}: Props) {
     },[])
 
     const handleBackgroundPress = () => {
-        console.log(modalVisible)
+        console.log('modalset', modalVisible)
         setModalVisible(false);
     };
     
@@ -75,7 +75,6 @@ export default function Banner({name, isLoading}: Props) {
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>
             <Modal
-                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -154,7 +153,9 @@ const stylesModal = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        position: 'relative'
+        position: 'absolute',
+        top: 0, left: 0, right: 0, bottom: 0,
+        zIndex: 1000,
     },
     modalContainer: {
         width: 300,

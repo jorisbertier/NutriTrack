@@ -81,15 +81,15 @@ const AuthScreen = () => {
     </View>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       <View style={styles.wrapperButton}>
-      <TouchableOpacity
-        onPress={signIn}
-        style={{
-          backgroundColor: colors.black,
-          padding: 10,
-          borderRadius: 3,
-          alignItems: 'center',
-        }}
-      >
+        <TouchableOpacity
+          onPress={signIn}
+          style={{
+            backgroundColor: colors.black,
+            padding: 10,
+            borderRadius: 3,
+            alignItems: 'center',
+          }}
+        >
         <Text style={{ color: colors.white }}>Login</Text>
       </TouchableOpacity>
         {/* <Button title="Créer un compte" onPress={() => navigation.navigate('registration')} color="#2196F3" /> */}
@@ -97,7 +97,7 @@ const AuthScreen = () => {
       <Text style={styles.footerText}>
         Don't have an account? <Text style={[styles.link, {color: colors.primary}]} onPress={() => navigation.navigate('registration')}>Register here</Text>
       </Text>
-      <Image source={require('@/assets/images/svg/wave.png')} style={styles.svg}/>
+      <Image source={require('@/assets/images/svg/wave2.png')} style={styles.svg}/>
       {/* <Svg style={styles.svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><Path fill="#8592F2" fill-opacity="1" d="M0,224L48,197.3C96,171,192,117,288,96C384,75,480,85,576,106.7C672,128,768,160,864,149.3C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></Path></Svg> */}
     </View>
   );
@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
-    position: 'relative'
+    position: 'relative',
+    zIndex: 3
   },
   logo : {
     height: 75,
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
     gap: 12,
     width: '30%',
     alignSelf: 'center',
+    zIndex: 3
   },
   footerText: {
     textAlign: 'center',
@@ -145,11 +147,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 500,
+    height: 180,
     width: 'auto',
     maxWidth: 500,
     objectFit: 'fill',
-    zIndex: -1
+    zIndex: 1
   },
   errorText: { 
     color: 'red',
@@ -162,6 +164,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     marginBottom: 20,
+    zIndex: 3
   },
   logoForm: {
     width: 24, 
