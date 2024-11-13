@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Button, Alert, View, StatusBar, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
-import { signOut } from 'firebase/auth';
+import { browserSessionPersistence, setPersistence, signOut } from 'firebase/auth';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getAuth } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
@@ -65,6 +65,7 @@ export default function HomeScreen() {
 
   const handleSignOut = async () => {
     try {
+      // await setPersistence(auth, browserSessionPersistence);
       await signOut(auth); // Déconnexion de l'utilisateur
       navigation.navigate('auth'); // Redirection vers l'écran de connexion
     } catch (error) {

@@ -27,6 +27,7 @@
 export const Colors = {
   dark: {
       primary : '#8592F2',
+      primaryLoading : '#111419',
       blue: '#a1a1d7',
       blueLight: '#D6E4FD',
       gray: '#F5F5F5',
@@ -43,7 +44,8 @@ export const Colors = {
       morphism2: '#383B42',
   },
   light: {
-    primary : '#8592F2',
+      primary : '#8592F2',
+      primaryLoading : '#8592F2',
       blue: '#8592F2',
       blueLight: '#D6E4FD',
       gray: '#F5F5F5',

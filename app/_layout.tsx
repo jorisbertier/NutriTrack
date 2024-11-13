@@ -45,7 +45,7 @@ export default function RootLayout() {
       <UserProvider>
         <NavigationContainer independent={true}>
           <Stack.Navigator
-            screenOptions={{ headerShown: false, headerTitleAlign: 'center'}}
+            screenOptions={{ headerShown: false, headerTitleAlign: 'center', headerTitleStyle: {backgroundColor: '#6200EE'}}}
           >
             {/* Écran d'authentification */}
             <Stack.Screen name="auth" component={AuthScreen} options={{ headerShown: false }} />

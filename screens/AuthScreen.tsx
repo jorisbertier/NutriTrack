@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
 import { auth } from '../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { browserLocalPersistence, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import Row from '@/components/Row';
 import { Path, Svg } from 'react-native-svg';
@@ -9,14 +9,35 @@ import { ThemedText } from '@/components/ThemedText';
 import { useTheme } from '@/hooks/ThemeProvider';
 
 const AuthScreen = () => {
+
   const [email, setEmail] = useState('test2@gmail.com');
   const [password, setPassword] = useState('rootroot');
   const navigation = useNavigation();
   const {theme, colors} = useTheme();
   const [errorMessage, setErrorMessage] = useState('');
 
+  const [loading, isLoading] = useState(true)
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'home' }],
+        });
+      } else {
+        setTimeout(() => {
+
+          isLoading(false);
+        }, 3000)
+      }
+    });
+    return unsubscribe;
+  }, []);
+
   const signIn = async () => {
     try {
+
       await signInWithEmailAndPassword(auth, email, password);
       setErrorMessage('')
       // Alert.alert('Connexion réussie!');
@@ -35,6 +56,16 @@ const AuthScreen = () => {
       Alert.alert('Erreur d\'inscription', error.message);
     }
   };
+  if (loading) {
+    // Display a full-screen loading indicator while checking the authentication state
+    return (
+      <View style={[styles.loadingContainer, { backgroundColor: colors.primaryLoading, gap: 40}]}>
+        <StatusBar barStyle="light-content" />
+        <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
+        <ActivityIndicator size="large" color={colors.whiteFix} />
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
@@ -182,6 +213,11 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     bottom: 0,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
