@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
 import { auth } from '../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -38,6 +38,11 @@ const AuthScreen = () => {
 
   return (
     <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
+      {theme === "light" ?
+        <StatusBar barStyle="dark-content" />
+      :
+        <StatusBar barStyle="light-content" />
+      }
       <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
           <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
         <ThemedText variant="title" color={colors.black}>SIGN IN</ThemedText>

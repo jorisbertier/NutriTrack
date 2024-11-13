@@ -1,41 +1,47 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { Auth, firestore } from '../firebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { firestore } from '../firebaseConfig';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { useTheme } from '@/hooks/ThemeProvider';
+import * as FileSystem from 'expo-file-system';
 
+const cloudName = 'dawgdxmbo';  // Remplacez par le nom de votre cloud
+const uploadPreset = 'ml_default';  // Remplacez par le nom de votre preset d'upload
+const apiKey = '475469985882125';  // Remplacez par votre API Key
+const apiSecret = 'w4onDPi_w5C8nwTC7NG5zMzT_bM';  
 const Registration = () => {
 
+    const Auth = getAuth();
     const {colors} = useTheme();
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('test5@gmail.com');
+    const [name, setName] = useState('test');
+    const [firstname, setFirstname] = useState('test');
+    const [password, setPassword] = useState('rootroot');
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [dateOfBirthFormatted, setDateOfBirthFormatted] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [weight, setWeight] = useState('');
-    const [height, setHeight] = useState('');
-    const [activityLevel, setActivityLevel] = useState('');
-    const [profilPicture, setProfilPicture] = useState('');
-    const [gender, setGender] = useState('');
+    const [weight, setWeight] = useState('60');
+    const [height, setHeight] = useState('180');
+    const [activityLevel, setActivityLevel] = useState('active');
+    // const [profilPicture, setProfilPicture] = useState(null);
+    const [gender, setGender] = useState('male');
     const storage = getStorage();  
     
 
     const [profileImage, setProfileImage] = useState(null);
     const pickImage = async () => {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        
-        if (status !== 'granted') {
-            console.log("Camera permission status:", status);
-            Alert.alert("Permission to access camera roll is required!");
-            return;
-        }
+        // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        //     console.log(status)
+        // if (status !== 'granted') {
+        //     console.log("Camera permission status:", status);
+        //     Alert.alert("Permission to access camera roll is required!");
+        //     return;
+        // }
     
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -48,18 +54,55 @@ const Registration = () => {
             setProfileImage(result.assets[0].uri);
         }
     };
+    console.log('first', )
 
-    const uploadImageToFirebase = async (uri) => {
-
-        const response = await fetch(uri);
-        const blob = await response.blob();
-
-        const imageRef = ref(storage, `profileImages/${email}.jpg`); // Reference to the storage path
-        await uploadBytes(imageRef, blob); // Upload the image
-        const downloadURL = await getDownloadURL(imageRef); // Get the URL of the uploaded image
-        return downloadURL;
-    };
-
+    // const uploadImageToFirebase = async (uri) => {
+    //     try {
+    //         const response = await fetch(uri);
+    //         const blob = await response.blob();
+    
+    //         const imageRef = ref(storage, `images/${email}.jpg`);
+    //         await uploadBytes(imageRef, blob);
+    
+    //         const downloadURL = await getDownloadURL(imageRef);
+    //         console.log('Uploaded image URL:', downloadURL);
+    //         return downloadURL;
+    //     } catch (error) {
+    //         console.error('Error uploading image:', error);
+    //         throw error; // Throw the error so it can be handled in signUp
+    //     }
+    // };
+    const uploadImageToCloudinary = async (uri) => {
+        try {
+          const data = new FormData();
+          data.append('file', {
+            uri: uri,
+            type: 'image/jpeg',
+            name: 'image.jpg',
+          });
+          data.append('upload_preset', uploadPreset);
+          data.append('cloud_name', cloudName); 
+          data.append('api_key', apiKey);   
+      
+          const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+            method: 'POST',
+            body: data,
+          });
+      
+          const result = await response.json();
+          console.log(result)
+          if (result.secure_url) {
+              return result.secure_url; // Retourne l'URL si l'upload est réussi
+          } else {
+              console.error('No secure URL returned from Cloudinary');
+              return '';  // Retourne une chaîne vide si l'URL n'est pas présente
+          }
+      } catch (error) {
+          console.error('Erreur lors de l\'upload de l\'image :', error);
+          return '';  // Retourne une chaîne vide en cas d'erreur
+      }
+      };
+    
     const signUp = async () => {
         try {
             const userCredential = await createUserWithEmailAndPassword(Auth, email, password);
@@ -67,14 +110,17 @@ const Registration = () => {
 
             const weightNumber = parseFloat(weight);
             const heightNumber = parseFloat(height);
-            console.log(storage)
-            console.log(profilPicture)
+            // console.log(storage)
+            console.log(profileImage)
 
+            // let imageUrl = '';
+            // if (profileImage) {
+            //     imageUrl = await uploadImageToFirebase(profileImage);
+            // }
             let imageUrl = '';
             if (profileImage) {
-                imageUrl = await uploadImageToFirebase(profileImage);
+                imageUrl = await uploadImageToCloudinary(profileImage); // Télécharge l'image et récupère l'URL
             }
-
             console.log(imageUrl)
             if (isNaN(weightNumber) || isNaN(heightNumber)) {
                 Alert.alert('Error', 'Please enter valid numerical values for weight and height.');
@@ -89,28 +135,28 @@ const Registration = () => {
                 height: height,
                 email: user.email,
                 activityLevel: activityLevel,
-                profilPicture: imageUrl,
+                profilPicture: '',
                 gender: gender
             });
             Alert.alert('Registration successful!');
-            resetForm();
-        } catch (error) {
+            // resetForm();
+        } catch (error: any) {
             Alert.alert('Registration Error', error.message);
         }
     };
 
-    const resetForm = () => {
-        setName('');
-        setFirstname('');
-        // setDateOfBirth('');
-        setEmail('');
-        setWeight('');
-        setHeight('');
-        setPassword('');
-        setActivityLevel('');
-        setProfilPicture('');
-        setGender('');
-    };
+    // const resetForm = () => {
+    //     setName('');
+    //     setFirstname('');
+    //     // setDateOfBirth('');
+    //     setEmail('');
+    //     setWeight('');
+    //     setHeight('');
+    //     setPassword('');
+    //     setActivityLevel('');
+    //     setProfilPicture('');
+    //     setGender('');
+    // };
 
     const onChangeDate = (event, selectedDate) => {
         const currentDate = selectedDate || dateOfBirth;
@@ -122,6 +168,7 @@ const Registration = () => {
         const year = currentDate.getFullYear();
         setDateOfBirthFormatted(`${day}/${month}/${year}`);
     };
+    // console.log(profileImage)
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]}>
@@ -200,6 +247,7 @@ const Registration = () => {
                 {profileImage && <Image source={{ uri: profileImage }} style={styles.profileImage} />}
             </TouchableOpacity>
         </View>
+        <View></View>
             <View style={styles.genderContainer}>
                 <TouchableOpacity
                     style={[styles.genderButton, gender === 'male' && styles.selectedButton]}

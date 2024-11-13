@@ -8,11 +8,13 @@
     "scheme": "myapp",
     "permissions": [
       "camera",
-      "mediaLibrary"
+      "mediaLibrary",
+      "android.permission.READ_EXTERNAL_STORAGE",
+      "android.permission.WRITE_EXTERNAL_STORAGE"
     ],
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/realmLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -40,12 +42,13 @@
     },
     "plugins": [
       [
-        "expo-image-picker",
+        "expo-media-library",
         {
-          "photosPermission": "L'application a besoin d'accéder à votre galerie pour choisir une photo de profil."
+          "photosPermission": "The app accesses your photos to let you share them with your friends.",
+          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
+          "isAccessMediaLocationEnabled": true
         }
-      ],
-      "expo-router"
+      ]
     ],
     "experiments": {
       "typedRoutes": true
