@@ -27,8 +27,10 @@ export default function Banner({name, isLoading}: Props) {
         }, 8000)
 
         return () => clearInterval(intervalId)
-    })
+    },[])
+
     const handleBackgroundPress = () => {
+        console.log(modalVisible)
         setModalVisible(false);
     };
     

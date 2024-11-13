@@ -149,7 +149,7 @@ useEffect(() => {
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
         {/* <Banner/> */}
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Row style={{gap: 10}}>
+          <Row style={{gap: 10, marginTop: 100}}>
             <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/>
             <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
           </Row>
