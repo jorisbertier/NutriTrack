@@ -128,7 +128,7 @@ export default function Search() {
                         <ThemedText variant="title1">Create a new aliment</ThemedText>
                     </View>
                 </Row> */}
-                <Row style={[styles.wrapperFood]}>
+                <Row>
                         <FlatList<FoodItem>
                             data={filteredFood}
                             renderItem={({ item }) => (

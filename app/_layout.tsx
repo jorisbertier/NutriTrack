@@ -2,14 +2,13 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { NavigationContainer } from '@react-navigation/native';
+import { createNavigationContainerRef, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '../screens/AuthScreen';
 import Registration from '@/screens/Registration';
 import Search from './(tabs)/Search';
 import DetailsFood from '@/screens/[id]';
 import Dashboard from '@/screens/dashboard';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import TabLayout from './(tabs)/_layout'; // Charge le layout des onglets
 import EditProfileScreen from '@/screens/EditProfileScreen';
 import { UserProvider } from '@/components/context/UserContext';
@@ -17,6 +16,7 @@ import ChangePasswordScreen from '@/screens/ChangePasswordScreen';
 import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
 
 const Stack = createNativeStackNavigator();
+export const navigationRef = createNavigationContainerRef();
 
 // Empêche l'écran de démarrage de se cacher avant la fin du chargement des assets
 SplashScreen.preventAutoHideAsync();
@@ -40,12 +40,13 @@ export default function RootLayout() {
     return null;
   }
 
+  
   return (
     <ThemeProvider>
       <UserProvider>
-        <NavigationContainer independent={true}>
+        <NavigationContainer independent={true} ref={navigationRef}>
           <Stack.Navigator
-            screenOptions={{ headerShown: false, headerTitleAlign: 'center', headerTitleStyle: {backgroundColor: '#6200EE'}}}
+            screenOptions={{ headerShown: false, headerTitleAlign: 'center'}}
           >
             {/* Écran d'authentification */}
             <Stack.Screen name="auth" component={AuthScreen} options={{ headerShown: false }} />

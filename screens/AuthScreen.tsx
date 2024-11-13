@@ -18,22 +18,22 @@ const AuthScreen = () => {
 
   const [loading, isLoading] = useState(true)
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'home' }],
-        });
-      } else {
-        setTimeout(() => {
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       navigation.reset({
+  //         index: 0,
+  //         routes: [{ name: 'home' }],
+  //       });
+  //     } else {
+  //       setTimeout(() => {
 
-          isLoading(false);
-        }, 3000)
-      }
-    });
-    return unsubscribe;
-  }, []);
+  //         isLoading(false);
+  //       }, 3000)
+  //     }
+  //   });
+  //   return unsubscribe;
+  // }, []);
 
   const signIn = async () => {
     try {
@@ -56,16 +56,16 @@ const AuthScreen = () => {
       Alert.alert('Erreur d\'inscription', error.message);
     }
   };
-  if (loading) {
-    // Display a full-screen loading indicator while checking the authentication state
-    return (
-      <View style={[styles.loadingContainer, { backgroundColor: colors.primaryLoading, gap: 40}]}>
-        <StatusBar barStyle="light-content" />
-        <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
-        <ActivityIndicator size="large" color={colors.whiteFix} />
-      </View>
-    );
-  }
+  // if (loading) {
+  //   // Display a full-screen loading indicator while checking the authentication state
+  //   return (
+  //     <View style={[styles.loadingContainer, { backgroundColor: colors.primaryLoading, gap: 40}]}>
+  //       <StatusBar barStyle="light-content" />
+  //       <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
+  //       <ActivityIndicator size="large" color={colors.whiteFix} />
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>

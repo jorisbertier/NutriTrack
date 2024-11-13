@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
+import { navigationRef } from "@/app/_layout";
 
 const { height } = Dimensions.get('window');
 
@@ -32,6 +33,14 @@ export default function DetailsFood() {
         }
     }, []);
 
+    const handleGoBack = () => {
+        if (navigationRef.current?.isReady()) {
+          navigationRef.current.goBack();
+        } else {
+          console.log("Navigation is not ready yet");
+        }
+      };
+
     const filterUniqueFood = data.find((element) => element.id === id)
 
     const values = [filterUniqueFood?.proteins, filterUniqueFood?.carbohydrates, filterUniqueFood?.fats]
@@ -50,7 +59,7 @@ export default function DetailsFood() {
     <ScrollView>
         <View style={styles.banner}>
             <Image source={{uri: `${filterUniqueFood?.image}`}} style={styles.image} />
-            <Pressable onPress={()=> navigation.goBack()} style={[styles.back, {backgroundColor: colors.white}]}>
+            <Pressable onPress={handleGoBack} style={[styles.back, {backgroundColor: colors.white}]}>
                 {theme === 'light' ?
                     <Image source={require('@/assets/images/back.png')} style={styles.icon} />
                 :
