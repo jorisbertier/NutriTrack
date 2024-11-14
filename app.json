@@ -15,7 +15,7 @@
     ],
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/realmApp.png",
+      "image": "./assets/images/splashRealm.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
