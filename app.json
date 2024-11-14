@@ -4,7 +4,7 @@
     "slug": "NutriTrack",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/realmLogo.png",
+    "icon": "./assets/images/realmApp.png",
     "platforms": ["ios", "android"],
     "scheme": "myapp",
     "permissions": [
@@ -15,7 +15,7 @@
     ],
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/realmLogo.png",
+      "image": "./assets/images/realmApp.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
