@@ -62,8 +62,8 @@ const ProfileScreen = () => {
       </View>
       <View style={[styles.section, {backgroundColor: colors.white}]}>
         <Text style={[styles.sectionTitle, {color: colors.black}]}>Personal information</Text>
-        {isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Name: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={100}/> }
-        {isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Firstname: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
+        {isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Firstname: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={100}/> }
+        {isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Lastname: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Gender: {userData[0]?.gender}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={200}/></View> }
         {isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Date of birth: {userData[0]?.dateOfBirth}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
