@@ -14,7 +14,8 @@ import EditProfileScreen from '@/screens/EditProfileScreen';
 import { UserProvider } from '@/components/context/UserContext';
 import ChangePasswordScreen from '@/screens/ChangePasswordScreen';
 import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
-import { StatusBar } from 'expo-status-bar'; 
+import { StatusBar } from 'expo-status-bar';
+import * as NavigationBar from 'expo-navigation-bar';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -29,10 +30,13 @@ export default function RootLayout() {
     Oswald: require('../assets/fonts/Oswald-VariableFont_wght.ttf'),
     Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
   });
-
+  // const {theme} = useTheme();
+  // console.log(theme)
+  
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      NavigationBar.setBackgroundColorAsync('#111419'); 
     }
     console.log(loaded)
   }, [loaded]);
@@ -40,7 +44,6 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
-
   
   return (
     <ThemeProvider>

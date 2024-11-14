@@ -30,7 +30,7 @@ const AuthScreen = () => {
         setTimeout(() => {
 
           isLoading(false);
-        }, 1600)
+        }, 1700)
       }
     });
     return unsubscribe;
@@ -62,6 +62,23 @@ const AuthScreen = () => {
       Alert.alert('Erreur d\'inscription', error.message);
     }
   };
+
+const sentences = [
+  "Loading… Because good things take time!",
+  "It's not you. It's me.",
+  "Don't panic...",
+  "We're making you a cookie.",
+  "We're testing your patience",
+  "As if you had any other choice",
+  "Please wait as we count the last surviving dinosaurs...",
+  "Grabbing data from the virtual fridge!",
+  "If this takes too long, blame the internet.",
+  "The bits are flowing slowly today...",
+  "Spinning the hamster…",
+]
+console.log(sentences.length)
+console.log()
+const randomSentenceIndex = Math.floor(Math.random() * sentences.length);
   if (loading) {
     // Display a full-screen loading indicator while checking the authentication state
     return (
@@ -69,6 +86,7 @@ const AuthScreen = () => {
         {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" /> }
         <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
         <ActivityIndicator size="large" color={colors.whiteFix} />
+        <ThemedText style={{width: '90%', flexWrap: 'wrap', flexShrink: 1, textAlign: 'center'}} variant={"title1"} color={colors.whiteFix}>{sentences[randomSentenceIndex]}</ThemedText>
       </View>
     );
   }

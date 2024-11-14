@@ -19,6 +19,7 @@ import Challenge from '@/components/Challenge';
 import StopWatch from '@/components/StopWatch';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { BackHandler } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function HomeScreen() {
@@ -140,6 +141,7 @@ useEffect(() => {
     navigation.goBack();
     return true;
   };
+
 
   const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
 
