@@ -14,7 +14,7 @@ type Props = {
 export default function Banner({name, isLoading}: Props) {
 
     const date = new Date();
-    const {colors} = useTheme();
+    const {colors, toggleTheme, theme} = useTheme();
     const colorMode: 'light' | 'dark' = 'light';
     const greetings = ['Hi','こんにちは','Hola', 'Bonjour' ];
 
@@ -42,11 +42,20 @@ export default function Banner({name, isLoading}: Props) {
                         <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
                         <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
                     </View>
-                    <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <TouchableOpacity onPress={toggleTheme}>
+                        <View style={[styles.circle]} >
+                            {theme === "light" ?
+                                <Image source={require('@/assets/images/darkmode/sun.png')} style={styles.imageMini} />
+                            :
+                                <Image source={require('@/assets/images/darkmode/moon.png')} style={styles.imageMini} />
+                            }
+                        </View>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
                         <View style={[styles.circle]} >
                             <Image source={require('@/assets/images/notificationLight.png')} style={styles.imageMini} />
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </Row>
                 <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
                     <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
