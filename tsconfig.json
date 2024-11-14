@@ -14,5 +14,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "screens/AuthScreen.tsx"
-  ]
+, "firebaseConfig.js"  ]
 }

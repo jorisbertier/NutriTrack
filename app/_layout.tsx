@@ -14,6 +14,7 @@ import EditProfileScreen from '@/screens/EditProfileScreen';
 import { UserProvider } from '@/components/context/UserContext';
 import ChangePasswordScreen from '@/screens/ChangePasswordScreen';
 import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
+import { StatusBar } from 'expo-status-bar'; 
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -44,6 +45,8 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <UserProvider>
+        {/* <StatusBar backgroundColor="#000" barStyle="light-content"/> */}
+        <StatusBar style="light" />
         <NavigationContainer independent={true} ref={navigationRef}>
           <Stack.Navigator
             screenOptions={{ headerShown: false, headerTitleAlign: 'center'}}

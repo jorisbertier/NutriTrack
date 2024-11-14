@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { auth } from '../firebaseConfig';
 import { browserLocalPersistence, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import Row from '@/components/Row';
 import { Path, Svg } from 'react-native-svg';
 import { ThemedText } from '@/components/ThemedText';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { StatusBar } from 'expo-status-bar'; 
 
 const AuthScreen = () => {
 
@@ -18,22 +19,27 @@ const AuthScreen = () => {
 
   const [loading, isLoading] = useState(true)
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       navigation.reset({
-  //         index: 0,
-  //         routes: [{ name: 'home' }],
-  //       });
-  //     } else {
-  //       setTimeout(() => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'home' }],
+        });
+      } else {
+        setTimeout(() => {
 
-  //         isLoading(false);
-  //       }, 3000)
-  //     }
-  //   });
-  //   return unsubscribe;
-  // }, []);
+          isLoading(false);
+        }, 1600)
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  // useEffect(() => {
+  //   StatusBar.setBackgroundColor(theme === "light" ? "#000" : '#FFFF');
+  //   StatusBar.setBarStyle(theme === "light" ? "light-content" : "dark-content");
+  // }, [theme])
 
   const signIn = async () => {
     try {
@@ -56,24 +62,22 @@ const AuthScreen = () => {
       Alert.alert('Erreur d\'inscription', error.message);
     }
   };
-  // if (loading) {
-  //   // Display a full-screen loading indicator while checking the authentication state
-  //   return (
-  //     <View style={[styles.loadingContainer, { backgroundColor: colors.primaryLoading, gap: 40}]}>
-  //       <StatusBar barStyle="light-content" />
-  //       <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
-  //       <ActivityIndicator size="large" color={colors.whiteFix} />
-  //     </View>
-  //   );
-  // }
+  if (loading) {
+    // Display a full-screen loading indicator while checking the authentication state
+    return (
+      <View style={[styles.loadingContainer, { backgroundColor: colors.primaryLoading, gap: 40}]}>
+        {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" /> }
+        <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
+        <ActivityIndicator size="large" color={colors.whiteFix} />
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
-      {theme === "light" ?
-        <StatusBar barStyle="dark-content" />
-      :
-        <StatusBar barStyle="light-content" />
-      }
+      {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" /> }
+       {/* <StatusBar style="dark" /> */}
+      {/* <StatusBar barStyle={theme === "light" ? "dark-content" : "light-content"} backgroundColor={(theme === "light" ? "#ffff" : '#000')}/> */}
       <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
           <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
         <ThemedText variant="title" color={colors.black}>SIGN IN</ThemedText>
@@ -87,6 +91,7 @@ const AuthScreen = () => {
         }
         <TextInput
           style={[styles.input, { color: colors.black}]}
+          placeholderTextColor={colors.black}
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
@@ -103,6 +108,7 @@ const AuthScreen = () => {
       }
         <TextInput
           style={[styles.input, { color: colors.black}]}
+          placeholderTextColor={colors.black}
           placeholder="Password"
           value={password}
           onChangeText={setPassword}

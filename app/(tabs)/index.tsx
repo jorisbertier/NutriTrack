@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Button, Alert, View, StatusBar, ScrollView } from 'react-native';
+import { Image, StyleSheet, Button, Alert, View, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { browserSessionPersistence, setPersistence, signOut } from 'firebase/auth';
@@ -63,6 +63,7 @@ export default function HomeScreen() {
     fetchUserData()
   }, [])
 
+
   const handleSignOut = async () => {
     try {
       // await setPersistence(auth, browserSessionPersistence);
@@ -90,7 +91,7 @@ export default function HomeScreen() {
   //   }
   // }, [basalMetabolicRate]); 
 // EAS.json pour builder sur la app
-  // {
+// {
 //   "cli": {
 //     "version": ">= 13.1.1",
 //     "appVersionSource": "remote"
@@ -112,7 +113,11 @@ export default function HomeScreen() {
 //     "preview4": {
 //       "distribution": "internal"
 //     },
-//     "production": {}
+//     "production": {
+//       "android": {
+//         "buildType": "apk"
+//       }
+//     }
 //   }
 // }
 useEffect(() => {
@@ -144,17 +149,13 @@ useEffect(() => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" />
+      {/* <StatusBar barStyle="light-content" /> */}
       <Banner name={userData[0]?.name} isLoading={isLoading}/>
       
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
         {/* <Banner/> */}
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Row style={{gap: 10, marginTop: 100}}>
-            <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/>
-            <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
-          </Row>
-          <Row style={{marginTop: 15, marginBottom: -15}}>
+          <Row style={{marginTop: 50, marginBottom: -15}}>
             <ThemedText variant='title' color={colors.black}>Nutri metrics</ThemedText>
           </Row>
             <Row gap={5} style={styles.rowTwoItems}>
@@ -209,6 +210,10 @@ useEffect(() => {
             <View style={styles.stepContainer}>
               <Button color={colors.primary} title="Log out" onPress={handleSignOut} />
             </View>
+            <Row style={{gap: 10, marginTop: 100}}>
+            <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/>
+            <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
+          </Row>
           </ScrollView>
       </SafeAreaView>
     </>

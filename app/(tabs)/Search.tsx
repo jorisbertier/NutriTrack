@@ -128,7 +128,7 @@ export default function Search() {
                         <ThemedText variant="title1">Create a new aliment</ThemedText>
                     </View>
                 </Row> */}
-                <Row>
+                <Row style={[styles.wrapperFood]}>
                         <FlatList<FoodItem>
                             data={filteredFood}
                             renderItem={({ item }) => (
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: -20
+        marginTop: 0
     },
     input: {
         height: 50,

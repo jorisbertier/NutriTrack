@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/realmLogo.png",
+    "platforms": ["ios", "android"],
     "scheme": "myapp",
     "permissions": [
       "camera",
