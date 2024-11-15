@@ -49,7 +49,7 @@ export default function RootLayout() {
     <ThemeProvider>
       <UserProvider>
         {/* <StatusBar backgroundColor="#000" barStyle="light-content"/> */}
-        <StatusBar style="light" />
+        <StatusBar style="auto" />
         <NavigationContainer independent={true} ref={navigationRef}>
           <Stack.Navigator
             screenOptions={{ headerShown: false, headerTitleAlign: 'center'}}

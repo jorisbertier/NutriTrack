@@ -30,7 +30,7 @@
     "android": {
       "newArchEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/realmApp.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
