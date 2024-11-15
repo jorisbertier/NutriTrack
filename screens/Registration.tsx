@@ -247,7 +247,7 @@ const Registration = () => {
         setHeight('');
         setPassword('');
         setActivityLevel('');
-        setProfilPicture('');
+        // setProfilPicture('');
         setGender('');
     };
     const today = new Date();
