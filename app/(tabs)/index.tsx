@@ -209,9 +209,9 @@ useEffect(() => {
 
             </ScrollView>
             <StopWatch/>
-            <View style={styles.stepContainer}>
+            {/* <View style={styles.stepContainer}>
               <Button color={colors.primary} title="Log out" onPress={handleSignOut} />
-            </View>
+            </View> */}
             <Row style={{gap: 10, marginTop: 100}}>
             {/* <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/> */}
             <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
