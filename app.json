@@ -30,8 +30,7 @@
     "android": {
       "newArchEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/realmApp.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/realmApp.png"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"

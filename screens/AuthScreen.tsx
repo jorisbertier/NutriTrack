@@ -76,8 +76,7 @@ const sentences = [
   "The bits are flowing slowly today...",
   "Spinning the hamster…",
 ]
-console.log(sentences.length)
-console.log()
+
 const randomSentenceIndex = Math.floor(Math.random() * sentences.length);
   if (loading) {
     // Display a full-screen loading indicator while checking the authentication state

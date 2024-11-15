@@ -18,43 +18,53 @@ const Registration = () => {
 
     const Auth = getAuth();
     const {colors} = useTheme();
-    const [email, setEmail] = useState('test5@gmail.com');
-    const [name, setName] = useState('test');
-    const [firstname, setFirstname] = useState('test');
-    const [password, setPassword] = useState('rootroot');
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [password, setPassword] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [dateOfBirthFormatted, setDateOfBirthFormatted] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [weight, setWeight] = useState('60');
-    const [height, setHeight] = useState('180');
-    const [activityLevel, setActivityLevel] = useState('active');
+    const [weight, setWeight] = useState('');
+    const [height, setHeight] = useState('');
+    const [activityLevel, setActivityLevel] = useState('');
     // const [profilPicture, setProfilPicture] = useState(null);
-    const [gender, setGender] = useState('male');
+    const [gender, setGender] = useState('');
     const storage = getStorage();  
     
+    /**ERROR MESSAGE */
+    const [emailError, setEmailError] = useState('');
+    const [nameError, setNameError] = useState('');
+    const [firstnameError, setFirstnameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [weightError, setWeightError] = useState('');
+    const [heightError, setHeightError] = useState('');
+    const [activityError, setActivityError] = useState('');
+    const [genderError, setGenderError] = useState('');
+    /**ERROR MESSAGE */
 
-    const [profileImage, setProfileImage] = useState(null);
-    const pickImage = async () => {
-        // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        //     console.log(status)
-        // if (status !== 'granted') {
-        //     console.log("Camera permission status:", status);
-        //     Alert.alert("Permission to access camera roll is required!");
-        //     return;
-        // }
+    // const [profileImage, setProfileImage] = useState(null);
+    // const pickImage = async () => {
+    //     // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    //     //     console.log(status)
+    //     // if (status !== 'granted') {
+    //     //     console.log("Camera permission status:", status);
+    //     //     Alert.alert("Permission to access camera roll is required!");
+    //     //     return;
+    //     // }
     
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
+    //     const result = await ImagePicker.launchImageLibraryAsync({
+    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //         allowsEditing: true,
+    //         aspect: [4, 3],
+    //         quality: 1,
+    //     });
     
-        if (!result.canceled && result.assets.length > 0) {
-            setProfileImage(result.assets[0].uri);
-        }
-    };
-    console.log('first', )
+    //     if (!result.canceled && result.assets.length > 0) {
+    //         setProfileImage(result.assets[0].uri);
+    //     }
+    // };
+    // console.log('first', )
 
     // const uploadImageToFirebase = async (uri) => {
     //     try {
@@ -72,38 +82,121 @@ const Registration = () => {
     //         throw error; // Throw the error so it can be handled in signUp
     //     }
     // };
-    const uploadImageToCloudinary = async (uri) => {
-        try {
-          const data = new FormData();
-          data.append('file', {
-            uri: uri,
-            type: 'image/jpeg',
-            name: 'image.jpg',
-          });
-          data.append('upload_preset', uploadPreset);
-          data.append('cloud_name', cloudName); 
-          data.append('api_key', apiKey);   
+    // const uploadImageToCloudinary = async (uri) => {
+    //     try {
+    //       const data = new FormData();
+    //       data.append('file', {
+    //         uri: uri,
+    //         type: 'image/jpeg',
+    //         name: 'image.jpg',
+    //       });
+    //       data.append('upload_preset', uploadPreset);
+    //       data.append('cloud_name', cloudName); 
+    //       data.append('api_key', apiKey);   
       
-          const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: 'POST',
-            body: data,
-          });
+    //       const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    //         method: 'POST',
+    //         body: data,
+    //       });
       
-          const result = await response.json();
-          console.log(result)
-          if (result.secure_url) {
-              return result.secure_url; // Retourne l'URL si l'upload est réussi
-          } else {
-              console.error('No secure URL returned from Cloudinary');
-              return '';  // Retourne une chaîne vide si l'URL n'est pas présente
-          }
-      } catch (error) {
-          console.error('Erreur lors de l\'upload de l\'image :', error);
-          return '';  // Retourne une chaîne vide en cas d'erreur
-      }
-      };
+    //       const result = await response.json();
+    //       console.log(result)
+    //       if (result.secure_url) {
+    //           return result.secure_url; // Retourne l'URL si l'upload est réussi
+    //       } else {
+    //           console.error('No secure URL returned from Cloudinary');
+    //           return '';  // Retourne une chaîne vide si l'URL n'est pas présente
+    //       }
+    //   } catch (error) {
+    //       console.error('Erreur lors de l\'upload de l\'image :', error);
+    //       return '';  // Retourne une chaîne vide en cas d'erreur
+    //   }
+    //   };
+    const validateFields = () => {
+        let isValid = true;
+    
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+            setEmailError('Please enter a valid email.');
+            isValid = false;
+        } else {
+            setEmailError('');
+        }
+    
+        if (!name.trim()) {
+            setNameError('Name is required.');
+            isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+            setNameError('Name must contain only letters.');
+            isValid = false;
+        } else if(name.length > 15) {
+            setNameError('Name must contain 15 caracters maximum.');
+            isValid = false;
+        }
+        else {
+            setNameError('');
+        }
+        
+        if (!firstname.trim()) {
+            setFirstnameError('First name is required.');
+            isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(firstname)) {
+            setFirstnameError('First name must contain only letters.');
+            isValid = false;
+        }else if(firstname.length > 15) {
+            setNameError('First name must contain 15 caracters maximum.');
+            isValid = false;
+        }
+        else {
+            setFirstnameError('');
+        }
+    
+        if (!password || password.length < 6) {
+            setPasswordError('Password must be at least 6 characters.');
+            isValid = false;
+        } else {
+            setPasswordError('');
+        }
+    
+        const weightNumber = parseFloat(weight);
+        if (!weightNumber || isNaN(weightNumber) || weightNumber > 500) {
+            setWeightError('Please enter a valid weight in kilos. Max 500 kg');
+            isValid = false;
+        } else {
+            setWeightError('');
+        }
+    
+        const heightNumber = parseFloat(height);
+        if (!heightNumber || isNaN(heightNumber) || heightNumber > 300) {
+            setHeightError('Please enter in centimeters a valid height. Max 300 cm');
+            isValid = false;
+        } else {
+            setHeightError('');
+        }
+    
+        if (!activityLevel) {
+            setActivityError('Please select an activity level.');
+            isValid = false;
+        } else {
+            setActivityError('');
+        }
+
+        if (!gender) {
+            setGenderError('Please select an gender.');
+            isValid = false;
+        } else {
+            setGenderError('');
+        }
+    
+        return isValid;
+    };
+    
+    
     
     const signUp = async () => {
+
+        if(!validateFields()) {
+            return;
+        }
         try {
             const userCredential = await createUserWithEmailAndPassword(Auth, email, password);
             const user = userCredential.user;
@@ -111,17 +204,17 @@ const Registration = () => {
             const weightNumber = parseFloat(weight);
             const heightNumber = parseFloat(height);
             // console.log(storage)
-            console.log(profileImage)
+            // console.log(profileImage)
 
             // let imageUrl = '';
             // if (profileImage) {
             //     imageUrl = await uploadImageToFirebase(profileImage);
             // }
-            let imageUrl = '';
-            if (profileImage) {
-                imageUrl = await uploadImageToCloudinary(profileImage); // Télécharge l'image et récupère l'URL
-            }
-            console.log(imageUrl)
+            // let imageUrl = '';
+            // if (profileImage) {
+            //     imageUrl = await uploadImageToCloudinary(profileImage); // Télécharge l'image et récupère l'URL
+            // }
+            // console.log(imageUrl)
             if (isNaN(weightNumber) || isNaN(heightNumber)) {
                 Alert.alert('Error', 'Please enter valid numerical values for weight and height.');
                 return;
@@ -145,18 +238,21 @@ const Registration = () => {
         }
     };
 
-    // const resetForm = () => {
-    //     setName('');
-    //     setFirstname('');
-    //     // setDateOfBirth('');
-    //     setEmail('');
-    //     setWeight('');
-    //     setHeight('');
-    //     setPassword('');
-    //     setActivityLevel('');
-    //     setProfilPicture('');
-    //     setGender('');
-    // };
+    const resetForm = () => {
+        setName('');
+        setFirstname('');
+        // setDateOfBirth('');
+        setEmail('');
+        setWeight('');
+        setHeight('');
+        setPassword('');
+        setActivityLevel('');
+        setProfilPicture('');
+        setGender('');
+    };
+    const today = new Date();
+    const fiveYearsAgo = new Date();
+    fiveYearsAgo.setFullYear(today.getFullYear() - 5);
 
     const onChangeDate = (event, selectedDate) => {
         const currentDate = selectedDate || dateOfBirth;
@@ -179,18 +275,23 @@ const Registration = () => {
                 onChangeText={setEmail}
                 keyboardType="email-address"
             />
+            {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 value={name}
                 onChangeText={setName}
                 placeholder="Name"
+                autoCapitalize='words'
             />
+             {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 value={firstname}
                 onChangeText={setFirstname}
                 placeholder="First Name"
+                autoCapitalize='words'
             />
+            {firstnameError ? <Text style={styles.errorText}>{firstnameError}</Text> : null}
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Password"
@@ -198,6 +299,7 @@ const Registration = () => {
                 onChangeText={setPassword}
                 secureTextEntry
             />
+            {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
                 <Text style={[styles.dateInput, {backgroundColor: colors.grayPress}]}>{dateOfBirthFormatted || 'Select a date of birth'}</Text>
             </TouchableOpacity>
@@ -207,6 +309,7 @@ const Registration = () => {
                     mode="date"
                     display="default"
                     onChange={onChangeDate}
+                    maximumDate={fiveYearsAgo}
                 />
             )}
             <TextInput
@@ -216,6 +319,7 @@ const Registration = () => {
                 onChangeText={setWeight}
                 keyboardType="numeric"
             />
+            {weightError ? <Text style={styles.errorText}>{weightError}</Text> : null}
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Height (cm)"
@@ -223,6 +327,7 @@ const Registration = () => {
                 onChangeText={setHeight}
                 keyboardType="numeric"
             />
+            {heightError ? <Text style={styles.errorText}>{heightError}</Text> : null}
             <Text style={[styles.label, {color : colors.black}]}>Select your activity Level</Text>
             <Picker
                 selectedValue={activityLevel}
@@ -235,19 +340,20 @@ const Registration = () => {
                 <Picker.Item label="Active" value="active" />
                 <Picker.Item label="Super Active" value="superactive" />
             </Picker>
+            {activityError ? <Text style={styles.errorText}>{activityError}</Text> : null}
             {/* <TextInput
                 placeholder="Profile Picture URL"
                 style={styles.input}
                 value={profilPicture}
                 onChangeText={setProfilPicture}
             /> */}
-            <View>
-            <TouchableOpacity onPress={pickImage}>
-                <Text style={[styles.imagePicker, { color: colors.blackFix}]}>{profileImage ? 'Image Selected' : 'Select Profile Picture'}</Text>
-                {profileImage && <Image source={{ uri: profileImage }} style={styles.profileImage} />}
-            </TouchableOpacity>
-        </View>
-        <View></View>
+            {/* <View>
+                <TouchableOpacity onPress={pickImage}>
+                    <Text style={[styles.imagePicker, { color: colors.blackFix}]}>{profileImage ? 'Image Selected' : 'Select Profile Picture'}</Text>
+                    {profileImage && <Image source={{ uri: profileImage }} style={styles.profileImage} />}
+                </TouchableOpacity>
+            </View> */}
+        
             <View style={styles.genderContainer}>
                 <TouchableOpacity
                     style={[styles.genderButton, gender === 'male' && styles.selectedButton]}
@@ -262,6 +368,7 @@ const Registration = () => {
                     <Text style={styles.genderText}>Female</Text>
                 </TouchableOpacity>
             </View>
+            {genderError ? <Text style={styles.errorText}>{genderError}</Text> : null}
             {/* <Button title="Register" color={colors.blackFix} onPress={signUp} /> */}
             <TouchableOpacity
                 onPress={signUp}
@@ -351,6 +458,12 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 5,
         backgroundColor: '#f0f0f0',
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginTop: 0,
+        marginBottom: 8
     },
 });
 

@@ -16,7 +16,6 @@ export default function Search() {
 
     const {theme, colors} = useTheme();
     const route = useRoute();
-    console.log(route)
 
     const [data, setData] = useState<FoodItem[]>([]);
     const [error, setError] = useState("");

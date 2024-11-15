@@ -27,7 +27,6 @@ export default function HomeScreen() {
   const { colors, toggleTheme } = useTheme();
   const navigation = useNavigation();
   const route = useRoute(); 
-  console.log('route', route)
   const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;

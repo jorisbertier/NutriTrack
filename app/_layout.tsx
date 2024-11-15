@@ -14,8 +14,9 @@ import EditProfileScreen from '@/screens/EditProfileScreen';
 import { UserProvider } from '@/components/context/UserContext';
 import ChangePasswordScreen from '@/screens/ChangePasswordScreen';
 import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import * as NavigationBar from 'expo-navigation-bar';
+import { StatusBar } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -48,8 +49,8 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <UserProvider>
-        {/* <StatusBar backgroundColor="#000" barStyle="light-content"/> */}
-        <StatusBar style="auto" />
+        <StatusBar backgroundColor="#000" barStyle="light-content"/>
+        {/* <StatusBar style="auto" /> */}
         <NavigationContainer independent={true} ref={navigationRef}>
           <Stack.Navigator
             screenOptions={{ headerShown: false, headerTitleAlign: 'center'}}
