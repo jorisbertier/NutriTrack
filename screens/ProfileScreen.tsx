@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 20,
     marginTop: -10,
-    paddingTop: 10
+    paddingTop: 10,
   },
   profileHeader: {
     alignItems: 'center',
