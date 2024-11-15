@@ -1,8 +1,8 @@
 import { User } from '@/interface/User';
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
@@ -50,7 +50,19 @@ const ProfileScreen = () => {
     setIsLoading(true);
   }, [])
 
-  console.log(userData[0]?.profilPicture, 'image base 64')
+  const handleSignOut = async () => {
+    try {
+      // await setPersistence(auth, browserSessionPersistence);
+      await signOut(auth); // Déconnexion de l'utilisateur
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'auth' }],
+      });
+    } catch (error) {
+      Alert.alert('Erreur de déconnexion', error.message);
+    }
+  };
+
 
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.whiteMode}]}>
@@ -89,7 +101,7 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Change password</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
+        <TouchableOpacity style={styles.optionButton} onPress={handleSignOut}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.deleteButton}>
