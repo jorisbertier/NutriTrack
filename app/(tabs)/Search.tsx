@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 0
+        marginTop: - 20
     },
     input: {
         height: 50,

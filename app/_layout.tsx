@@ -107,6 +107,18 @@ export default function RootLayout() {
               <Stack.Screen
                 name="dashboard"
                 component={Dashboard}
+                options={{
+                  headerShown: true,
+                  headerTitle: 'Nutrition track',
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
               />
           </Stack.Navigator>
         </NavigationContainer>

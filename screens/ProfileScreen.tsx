@@ -84,9 +84,6 @@ const ProfileScreen = () => {
           <Text style={[styles.optionText, {color : colors.primary}]}>Edit profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Dark mode</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>

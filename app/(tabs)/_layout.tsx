@@ -59,7 +59,7 @@ export default function TabLayout() {
     />
 
     {/* Onglet 3 : Dashboard */}
-    <Tab.Screen 
+    {/* <Tab.Screen 
       name="Dashboard" 
       component={Dashboard}
       options={{
@@ -78,7 +78,7 @@ export default function TabLayout() {
         color: 'white',
       },
     }} 
-    />
+    /> */}
     <Tab.Screen 
       name="Profile" 
       component={ProfileScreen}
