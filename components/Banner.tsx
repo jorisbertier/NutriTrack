@@ -60,12 +60,12 @@ export default function Banner({name, isLoading}: Props) {
                 <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
                     <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
                         {isLoading ?
-                            <Image source={require('@/assets/images/profil/profil.webp')} style={styles.imageProfil} />
+                            <Image source={require('@/assets/images/profil/avatar.png')} style={styles.imageProfil} />
                         : null}
                     </Skeleton>
                         <View style={{flexDirection: 'column'}}>
                         {isLoading ? 
-                            <Text style={{color: 'white', fontSize: 30, fontWeight: 800, letterSpacing: 2, flexWrap: 'wrap'}}>{greetings[currentGreeting]}, {name}!</Text>
+                            <Text style={{color: 'white', fontSize: 30, maxWidth: 280, fontWeight: 800, letterSpacing: 2, flexWrap: 'wrap'}}>{greetings[currentGreeting]}, {name}!</Text>
                         :
                         <Skeleton colorMode={colorMode} width={200} height={30} />
                         }
