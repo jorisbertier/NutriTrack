@@ -157,6 +157,10 @@ useEffect(() => {
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
         {/* <Banner/> */}
         <ScrollView showsVerticalScrollIndicator={false}>
+        <Row style={{gap: 10, marginTop: 30}}>
+            {/* <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/> */}
+            <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
+          </Row>
           <Row style={{marginTop: 30, marginBottom: -15}}>
             <ThemedText variant='title' color={colors.black}>Nutri metrics</ThemedText>
           </Row>
@@ -212,10 +216,10 @@ useEffect(() => {
             {/* <View style={styles.stepContainer}>
               <Button color={colors.primary} title="Log out" onPress={handleSignOut} />
             </View> */}
-            <Row style={{gap: 10, marginTop: 100}}>
-            {/* <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/> */}
+            {/* <Row style={{gap: 10, marginTop: 100}}>
+            <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/>
             <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
-          </Row>
+          </Row> */}
           </ScrollView>
       </SafeAreaView>
     </>

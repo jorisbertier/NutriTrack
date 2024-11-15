@@ -318,17 +318,17 @@ export default function Dashboard() {
                     {isLoading ?
                         <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
                     :
-                        <View style={{ marginTop: 10 }}><Skeleton width={200} height={40} colorMode={colorMode} /></View>
+                        <View style={{ marginTop: 10 }}><Skeleton width={300} height={40} colorMode={colorMode} /></View>
                     }
                     {isLoading ?
                         <ThemedText variant='title2' color={colors.grayDark}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
                     :
-                        <View style={{ marginTop: 5 }}><Skeleton width={200} height={20} colorMode={colorMode} /></View>
+                        <View style={{ marginTop: 5 }}><Skeleton width={260} height={30} colorMode={colorMode} /></View>
                     }
                     {isLoading ?
                         <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
                     :
-                        <View style={{ marginTop: 5 }}><Skeleton width={200} height={20} colorMode={colorMode} /></View>
+                        <View style={{ marginTop: 5 }}><Skeleton width={230} height={30} colorMode={colorMode} /></View>
                     }
                 </View>
                 <View style={{marginBottom: 20}}>
