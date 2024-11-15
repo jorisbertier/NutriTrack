@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
 import { useTheme } from '@/hooks/ThemeProvider';
 import * as FileSystem from 'expo-file-system';
+import { ThemedText } from '@/components/ThemedText';
 
 const cloudName = 'dawgdxmbo';  // Remplacez par le nom de votre cloud
 const uploadPreset = 'ml_default';  // Remplacez par le nom de votre preset d'upload
@@ -312,6 +313,7 @@ const Registration = () => {
                     maximumDate={fiveYearsAgo}
                 />
             )}
+            <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* Registration reserved for those over 5 years old</ThemedText>
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Weight (kg)"
@@ -328,7 +330,7 @@ const Registration = () => {
                 keyboardType="numeric"
             />
             {heightError ? <Text style={styles.errorText}>{heightError}</Text> : null}
-            <Text style={[styles.label, {color : colors.black}]}>Select your activity Level</Text>
+            <Text style={[styles.label, {color : colors.black}]}>Select your activity Level -</Text>
             <Picker
                 selectedValue={activityLevel}
                 style={[styles.picker, { backgroundColor : colors.grayPress}]}
@@ -354,6 +356,7 @@ const Registration = () => {
                 </TouchableOpacity>
             </View> */}
         
+            <Text style={[styles.label, {color : colors.black}]}>Select your gender -</Text>
             <View style={styles.genderContainer}>
                 <TouchableOpacity
                     style={[styles.genderButton, gender === 'male' && styles.selectedButton]}
@@ -425,7 +428,8 @@ const styles = StyleSheet.create({
     genderContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 16,
+        marginTop: 5,
+        marginBottom: 20
     },
     genderButton: {
         flex: 1,
