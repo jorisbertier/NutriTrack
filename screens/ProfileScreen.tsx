@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
 import { colorMode } from '@/constants/Colors';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { getIdAvatarProfile } from '@/functions/function';
 
 const ProfileScreen = () => {
 
@@ -50,6 +51,8 @@ const ProfileScreen = () => {
     setIsLoading(true);
   }, [])
 
+  const avatar = getIdAvatarProfile(Number(userData[0]?.profilPicture))
+
   const handleSignOut = async () => {
     try {
       // await setPersistence(auth, browserSessionPersistence);
@@ -67,7 +70,7 @@ const ProfileScreen = () => {
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.whiteMode}]}>
       <View style={styles.profileHeader}>
-      {isLoading ? <Image source={require('@/assets/images/avatar/avatar.png')} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> }
+      {isLoading ? <Image source={avatar} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> }
       {/* {isLoading ? <Image source={{ uri: `data:image/jpeg;base64,${userData[0]?.profilPicture}` }} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> } */}
         {isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.firstName} {userData[0]?.name}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
@@ -118,11 +121,12 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    marginTop: -10,
+    marginTop: 0,
     paddingTop: 10,
   },
   profileHeader: {
     alignItems: 'center',
+    marginTop: 20,
     marginBottom: 20,
     paddingBottom: 20,
     borderBottomWidth: 1,
