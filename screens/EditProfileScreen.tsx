@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getAuth, signOut } from 'firebase/auth';
 import { fetchUserDataConnected } from '@/functions/function';
@@ -60,6 +60,19 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
     setModalVisible(true);
   };
 
+  const handleSignOut = async () => {
+    try {
+      // await setPersistence(auth, browserSessionPersistence);
+      await signOut(auth); // Déconnexion de l'utilisateur
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'auth' }],
+      });
+    } catch (error) {
+      Alert.alert('Erreur de déconnexion', error.message);
+    }
+  };
+
   const updateUserData = async (userId, updatedData) => {
     const db = getFirestore();
     const userDoc = doc(db, 'User', userId);
@@ -87,7 +100,7 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         activityLevel: formData.activityLevel,
       });
       updateUserInfo && updateUserInfo(formData);
-      await signOut(Auth);
+      handleSignOut();
       navigation.navigate('auth');
     } catch (error) {
       console.error('Error updating user info:', error);
