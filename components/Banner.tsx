@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View, Modal, Alert, Pressable, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { ThemedText } from "./ThemedText";
-import { capitalizeFirstLetter } from "@/functions/function";
+import { capitalizeFirstLetter, getIdAvatarProfile } from "@/functions/function";
 import Row from "./Row";
 import { useEffect, useState } from "react";
 import { Skeleton } from "moti/skeleton";
@@ -8,10 +8,13 @@ import { useTheme } from "@/hooks/ThemeProvider";
 
 type Props = {
     name: string;
-    isLoading: boolean
+    isLoading: boolean,
+    profilePictureId: number
 }
 
-export default function Banner({name, isLoading}: Props) {
+export default function Banner({name, isLoading, profilePictureId}: Props) {
+
+    const avatar = getIdAvatarProfile(profilePictureId)
 
     const date = new Date();
     const {colors, toggleTheme, theme} = useTheme();
@@ -60,7 +63,7 @@ export default function Banner({name, isLoading}: Props) {
                 <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
                     <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
                         {isLoading ?
-                            <Image source={require('@/assets/images/avatar/pinguin.png')} style={styles.imageProfil} />
+                            <Image source={avatar} style={styles.imageProfil} />
                         : null}
                     </Skeleton>
                         <View style={{flexDirection: 'column'}}>

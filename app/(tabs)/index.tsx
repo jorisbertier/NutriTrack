@@ -63,16 +63,15 @@ export default function HomeScreen() {
     fetchUserData()
   }, [])
 
-
-  const handleSignOut = async () => {
-    try {
-      // await setPersistence(auth, browserSessionPersistence);
-      await signOut(auth); // Déconnexion de l'utilisateur
-      navigation.navigate('auth'); // Redirection vers l'écran de connexion
-    } catch (error) {
-      Alert.alert('Erreur de déconnexion', error.message);
-    }
-  };
+  // const handleSignOut = async () => {
+  //   try {
+  //     // await setPersistence(auth, browserSessionPersistence);
+  //     await signOut(auth); // Déconnexion de l'utilisateur
+  //     navigation.navigate('auth'); // Redirection vers l'écran de connexion
+  //   } catch (error) {
+  //     Alert.alert('Erreur de déconnexion', error.message);
+  //   }
+  // };
 
   const basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
     Number(userData[0]?.weight),
@@ -151,7 +150,7 @@ useEffect(() => {
   return (
     <>
       {/* <StatusBar barStyle="light-content" /> */}
-      <Banner name={userData[0]?.name} isLoading={isLoading}/>
+      <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)}/>
       
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
         {/* <Banner/> */}
