@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Image, ScrollView, FlatList } from 'react-native';
 import { firestore } from '../firebaseConfig';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
-import * as ImagePicker from 'expo-image-picker';
-import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage';
+import {  getStorage } from 'firebase/storage';
 import { useTheme } from '@/hooks/ThemeProvider';
-import * as FileSystem from 'expo-file-system';
 import { ThemedText } from '@/components/ThemedText';
 
-const cloudName = 'dawgdxmbo';  // Remplacez par le nom de votre cloud
-const uploadPreset = 'ml_default';  // Remplacez par le nom de votre preset d'upload
-const apiKey = '475469985882125';  // Remplacez par votre API Key
-const apiSecret = 'w4onDPi_w5C8nwTC7NG5zMzT_bM';  
 const Registration = () => {
 
     const Auth = getAuth();
@@ -29,9 +23,8 @@ const Registration = () => {
     const [weight, setWeight] = useState('');
     const [height, setHeight] = useState('');
     const [activityLevel, setActivityLevel] = useState('');
-    // const [profilPicture, setProfilPicture] = useState(null);
     const [gender, setGender] = useState('');
-    const storage = getStorage();  
+    const [profileImage, setProfileImage] = useState(null);
     
     /**ERROR MESSAGE */
     const [emailError, setEmailError] = useState('');
@@ -42,77 +35,9 @@ const Registration = () => {
     const [heightError, setHeightError] = useState('');
     const [activityError, setActivityError] = useState('');
     const [genderError, setGenderError] = useState('');
+    const [profileImageError, setProfileImageError] = useState('');
     /**ERROR MESSAGE */
 
-    // const [profileImage, setProfileImage] = useState(null);
-    // const pickImage = async () => {
-    //     // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    //     //     console.log(status)
-    //     // if (status !== 'granted') {
-    //     //     console.log("Camera permission status:", status);
-    //     //     Alert.alert("Permission to access camera roll is required!");
-    //     //     return;
-    //     // }
-    
-    //     const result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //         aspect: [4, 3],
-    //         quality: 1,
-    //     });
-    
-    //     if (!result.canceled && result.assets.length > 0) {
-    //         setProfileImage(result.assets[0].uri);
-    //     }
-    // };
-    // console.log('first', )
-
-    // const uploadImageToFirebase = async (uri) => {
-    //     try {
-    //         const response = await fetch(uri);
-    //         const blob = await response.blob();
-    
-    //         const imageRef = ref(storage, `images/${email}.jpg`);
-    //         await uploadBytes(imageRef, blob);
-    
-    //         const downloadURL = await getDownloadURL(imageRef);
-    //         console.log('Uploaded image URL:', downloadURL);
-    //         return downloadURL;
-    //     } catch (error) {
-    //         console.error('Error uploading image:', error);
-    //         throw error; // Throw the error so it can be handled in signUp
-    //     }
-    // };
-    // const uploadImageToCloudinary = async (uri) => {
-    //     try {
-    //       const data = new FormData();
-    //       data.append('file', {
-    //         uri: uri,
-    //         type: 'image/jpeg',
-    //         name: 'image.jpg',
-    //       });
-    //       data.append('upload_preset', uploadPreset);
-    //       data.append('cloud_name', cloudName); 
-    //       data.append('api_key', apiKey);   
-      
-    //       const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-    //         method: 'POST',
-    //         body: data,
-    //       });
-      
-    //       const result = await response.json();
-    //       console.log(result)
-    //       if (result.secure_url) {
-    //           return result.secure_url; // Retourne l'URL si l'upload est réussi
-    //       } else {
-    //           console.error('No secure URL returned from Cloudinary');
-    //           return '';  // Retourne une chaîne vide si l'URL n'est pas présente
-    //       }
-    //   } catch (error) {
-    //       console.error('Erreur lors de l\'upload de l\'image :', error);
-    //       return '';  // Retourne une chaîne vide en cas d'erreur
-    //   }
-    //   };
     const validateFields = () => {
         let isValid = true;
     
@@ -181,6 +106,13 @@ const Registration = () => {
             setActivityError('');
         }
 
+        if(profileImage === null) {
+            setProfileImageError('Please select an avatar.');
+            isValid = false;
+        } else {
+            setActivityError('')
+        }
+
         if (!gender) {
             setGenderError('Please select an gender.');
             isValid = false;
@@ -191,6 +123,21 @@ const Registration = () => {
         return isValid;
     };
     
+    const avatars = [
+        { id: 1, uri: require('@/assets/images/avatar/pinguin.png') },
+        { id: 2, uri: require('@/assets/images/avatar/bubble.png') },
+        { id: 3, uri: require('@/assets/images/avatar/watermelon.png') },
+        { id: 4, uri: require('@/assets/images/avatar/avatar.png') },
+        { id: 5, uri: require('@/assets/images/avatar/banana.webp') },
+    ];
+    
+      // État pour l'avatar sélectionné
+    const [selectedAvatar, setSelectedAvatar] = useState(null);
+
+    const handleSelectAvatar = (id) => {
+        setProfileImage(id);
+    };
+    console.log(profileImage)
     
     
     const signUp = async () => {
@@ -204,18 +151,7 @@ const Registration = () => {
 
             const weightNumber = parseFloat(weight);
             const heightNumber = parseFloat(height);
-            // console.log(storage)
-            // console.log(profileImage)
 
-            // let imageUrl = '';
-            // if (profileImage) {
-            //     imageUrl = await uploadImageToFirebase(profileImage);
-            // }
-            // let imageUrl = '';
-            // if (profileImage) {
-            //     imageUrl = await uploadImageToCloudinary(profileImage); // Télécharge l'image et récupère l'URL
-            // }
-            // console.log(imageUrl)
             if (isNaN(weightNumber) || isNaN(heightNumber)) {
                 Alert.alert('Error', 'Please enter valid numerical values for weight and height.');
                 return;
@@ -265,10 +201,10 @@ const Registration = () => {
         const year = currentDate.getFullYear();
         setDateOfBirthFormatted(`${day}/${month}/${year}`);
     };
-    // console.log(profileImage)
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]}>
+            <Text style={[styles.label, {color : colors.black}]}>Email -</Text>
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Email"
@@ -277,6 +213,7 @@ const Registration = () => {
                 keyboardType="email-address"
             />
             {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+            <Text style={[styles.label, {color : colors.black}]}>Name -</Text>
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 value={name}
@@ -285,6 +222,7 @@ const Registration = () => {
                 autoCapitalize='words'
             />
              {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
+             <Text style={[styles.label, {color : colors.black}]}>Firstname -</Text>
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 value={firstname}
@@ -293,6 +231,7 @@ const Registration = () => {
                 autoCapitalize='words'
             />
             {firstnameError ? <Text style={styles.errorText}>{firstnameError}</Text> : null}
+            <Text style={[styles.label, {color : colors.black}]}>Password -</Text>
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Password"
@@ -301,6 +240,7 @@ const Registration = () => {
                 secureTextEntry
             />
             {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+            <Text style={[styles.label, {color : colors.black}]}>Date of birth -</Text>
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
                 <Text style={[styles.dateInput, {backgroundColor: colors.grayPress}]}>{dateOfBirthFormatted || 'Select a date of birth'}</Text>
             </TouchableOpacity>
@@ -314,6 +254,7 @@ const Registration = () => {
                 />
             )}
             <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* Registration reserved for those over 5 years old</ThemedText>
+            <Text style={[styles.label, {color : colors.black}]}>Weight -</Text>
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Weight (kg)"
@@ -322,6 +263,7 @@ const Registration = () => {
                 keyboardType="numeric"
             />
             {weightError ? <Text style={styles.errorText}>{weightError}</Text> : null}
+            <Text style={[styles.label, {color : colors.black}]}>Height -</Text>
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 placeholder="Height (cm)"
@@ -330,7 +272,7 @@ const Registration = () => {
                 keyboardType="numeric"
             />
             {heightError ? <Text style={styles.errorText}>{heightError}</Text> : null}
-            <Text style={[styles.label, {color : colors.black}]}>Select your activity Level -</Text>
+            <Text style={[styles.label, {color : colors.black}]}>Select your activity level -</Text>
             <Picker
                 selectedValue={activityLevel}
                 style={[styles.picker, { backgroundColor : colors.grayPress}]}
@@ -343,19 +285,25 @@ const Registration = () => {
                 <Picker.Item label="Super Active" value="superactive" />
             </Picker>
             {activityError ? <Text style={styles.errorText}>{activityError}</Text> : null}
-            {/* <TextInput
-                placeholder="Profile Picture URL"
-                style={styles.input}
-                value={profilPicture}
-                onChangeText={setProfilPicture}
-            /> */}
-            {/* <View>
-                <TouchableOpacity onPress={pickImage}>
-                    <Text style={[styles.imagePicker, { color: colors.blackFix}]}>{profileImage ? 'Image Selected' : 'Select Profile Picture'}</Text>
-                    {profileImage && <Image source={{ uri: profileImage }} style={styles.profileImage} />}
-                </TouchableOpacity>
-            </View> */}
-        
+            <Text style={[styles.label, {color : colors.black}]}>Select an avatar -</Text>
+            <FlatList
+                data={avatars}
+                keyExtractor={(item) => item.id.toString()}
+                horizontal
+                contentContainerStyle={styles.avatarList}
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                    style={[
+                        styles.avatarContainer,
+                        profileImage === item.id && {borderColor: colors.black},
+                    ]}
+                    onPress={() => handleSelectAvatar(item.id)}
+                    >
+                    <Image source={item.uri} style={styles.avatarImage} />
+                    </TouchableOpacity>
+                )}
+            />
+            {profileImageError ? <Text style={styles.errorText}>{profileImageError}</Text> : null}
             <Text style={[styles.label, {color : colors.black}]}>Select your gender -</Text>
             <View style={styles.genderContainer}>
                 <TouchableOpacity
@@ -378,12 +326,12 @@ const Registration = () => {
                 style={{
                 backgroundColor: colors.black,
                 padding: 10,
-                marginBottom: 15,
+                marginBottom: 50,
                 borderRadius: 3,
                 alignItems: 'center',
                 }}
             >
-                <Text style={{ color: colors.white }}>Register</Text>
+                <Text style={{ color: colors.white}}>Register</Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -453,22 +401,28 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginVertical: 10,
     },
-    imagePicker: {
-        color: '#007BFF',
-        marginBottom: 12,
-        textAlign: 'center',
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        backgroundColor: '#f0f0f0',
-    },
     errorText: {
         color: 'red',
         fontSize: 12,
         marginTop: 0,
         marginBottom: 8
     },
+    avatarList: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+      },
+      avatarContainer: {
+        marginHorizontal: 10,
+        borderRadius: 50,
+        borderWidth: 2,
+        borderColor: 'transparent',
+        overflow: 'hidden',
+      },
+      avatarImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 30
+      },
 });
 
 export default Registration;

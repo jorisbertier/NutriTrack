@@ -60,7 +60,7 @@ export default function Banner({name, isLoading}: Props) {
                 <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
                     <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
                         {isLoading ?
-                            <Image source={require('@/assets/images/avatar/watermelon.png')} style={styles.imageProfil} />
+                            <Image source={require('@/assets/images/avatar/pinguin.png')} style={styles.imageProfil} />
                         : null}
                     </Skeleton>
                         <View style={{flexDirection: 'column'}}>
