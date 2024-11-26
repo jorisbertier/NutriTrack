@@ -125,13 +125,13 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
       const regex = /^[A-Za-zÀ-ÿ]+$/;
       if (!regex.test(value)) {
         isValid = false;
-        errorMessage = 'Ce champ doit contenir uniquement des lettres.';
+        errorMessage = 'This field must contain only letters.';
       }
     } else if (key === 'weight' || key === 'height') {
       const regex = /^[0-9]+$/;
       if (!regex.test(value)) {
         isValid = false;
-        errorMessage = 'Ce champ doit contenir uniquement des chiffres.';
+        errorMessage = 'This field must contain only numbers.';
       }
     }
 

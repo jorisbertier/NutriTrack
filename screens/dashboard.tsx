@@ -309,12 +309,12 @@ export default function Dashboard() {
                                 timeZoneName={timeZone}
                                 // timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
                     />)}
-                    
+{/*                     
                     {isLoading ?
                         <Image source={require('@/assets/images/nutritional/burnPrimary.png')} style={{width: 35, height: 35}}/>
                     :
                         <Skeleton width={80} height={80} radius={'round'} colorMode={colorMode} />
-                    }
+                    } */}
                     {isLoading ?
                         <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
                     :

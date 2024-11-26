@@ -25,7 +25,7 @@ const ChangePasswordScreen = ({ navigation }: any) => {
             Alert.alert("Success", "Your password has been updated.")
             navigation.goBack();
         } else {
-            Alert.alert("Erreur", "Utilisateur non authentifié.");
+            Alert.alert("Erreur", "User not authenticated.");
         }
         } catch (error) {
         console.error("Error", "User not authenticated. :", error);
