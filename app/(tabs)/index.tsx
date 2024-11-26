@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Button, Alert, View, ScrollView } from 'react-native';
+import { Image, StyleSheet, Button, Alert, View, ScrollView, StatusBar } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { browserSessionPersistence, setPersistence, signOut } from 'firebase/auth';
@@ -149,17 +149,16 @@ useEffect(() => {
 
   return (
     <>
-      {/* <StatusBar barStyle="light-content" /> */}
+      <StatusBar barStyle="light-content" />
       <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)}/>
       
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
         {/* <Banner/> */}
         <ScrollView showsVerticalScrollIndicator={false}>
-        <Row style={{gap: 10, marginTop: 30}}>
-            {/* <Button title='Change dark mode' color={colors.primary} onPress={toggleTheme}/> */}
+        {/* <Row style={{gap: 10, marginTop: 30}}>
             <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
-          </Row>
-          <Row style={{marginTop: 30, marginBottom: -15}}>
+          </Row> */}
+          <Row style={{marginTop: 40, marginBottom: -15}}>
             <ThemedText variant='title' color={colors.black}>Nutri metrics</ThemedText>
           </Row>
             <Row gap={5} style={styles.rowTwoItems}>
