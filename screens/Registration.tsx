@@ -5,7 +5,6 @@ import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
-import {  getStorage } from 'firebase/storage';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { ThemedText } from '@/components/ThemedText';
 
@@ -24,7 +23,7 @@ const Registration = () => {
     const [height, setHeight] = useState('');
     const [activityLevel, setActivityLevel] = useState('');
     const [gender, setGender] = useState('');
-    const [profileImage, setProfileImage] = useState(null);
+    const [profileImage, setProfileImage] = useState<number | null>(null);
     
     /**ERROR MESSAGE */
     const [emailError, setEmailError] = useState('');
@@ -131,10 +130,7 @@ const Registration = () => {
         { id: 5, uri: require('@/assets/images/avatar/banana.webp') },
     ];
     
-      // État pour l'avatar sélectionné
-    const [selectedAvatar, setSelectedAvatar] = useState(null);
-
-    const handleSelectAvatar = (id) => {
+    const handleSelectAvatar = (id: number) => {
         setProfileImage(id);
     };
     console.log(profileImage)
@@ -165,11 +161,11 @@ const Registration = () => {
                 height: height,
                 email: user.email,
                 activityLevel: activityLevel,
-                profilPicture: '',
+                profilPicture: profileImage,
                 gender: gender
             });
             Alert.alert('Registration successful!');
-            // resetForm();
+            resetForm();
         } catch (error: any) {
             Alert.alert('Registration Error', error.message);
         }
@@ -178,13 +174,13 @@ const Registration = () => {
     const resetForm = () => {
         setName('');
         setFirstname('');
-        // setDateOfBirth('');
+        setDateOfBirth(new Date());
         setEmail('');
         setWeight('');
         setHeight('');
         setPassword('');
         setActivityLevel('');
-        // setProfilPicture('');
+        setProfileImage(0);
         setGender('');
     };
     const today = new Date();
@@ -221,8 +217,8 @@ const Registration = () => {
                 placeholder="Name"
                 autoCapitalize='words'
             />
-             {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
-             <Text style={[styles.label, {color : colors.black}]}>Firstname -</Text>
+            {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
+            <Text style={[styles.label, {color : colors.black}]}>Firstname -</Text>
             <TextInput
                 style={[styles.input, { backgroundColor : colors.grayPress}]}
                 value={firstname}
@@ -410,19 +406,19 @@ const styles = StyleSheet.create({
     avatarList: {
         flexDirection: 'row',
         justifyContent: 'center',
-      },
-      avatarContainer: {
+    },
+    avatarContainer: {
         marginHorizontal: 10,
         borderRadius: 50,
         borderWidth: 2,
         borderColor: 'transparent',
         overflow: 'hidden',
-      },
-      avatarImage: {
+    },
+    avatarImage: {
         width: 60,
         height: 60,
         borderRadius: 30
-      },
+    },
 });
 
 export default Registration;
