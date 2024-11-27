@@ -129,7 +129,7 @@ export default function Search() {
                     </View>
                 </Row> */}
                 <Row style={[styles.wrapperFood]}>
-                    <Row style={{justifyContent: 'space-around', width: '100%'}}>
+                    {/* <Row style={{justifyContent: 'space-around', width: '100%'}}>
                         <TouchableOpacity onPress={() => navigation.navigate("CreateAliment")}>
                             <View style={{backgroundColor: 'red', padding: 20, justifyContent: 'center', alignItems: 'center'}}>
                                 <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.deleteSearch} />
@@ -140,7 +140,7 @@ export default function Search() {
                             <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.deleteSearch} />
                             <Text>My aliments</Text>
                         </View>
-                    </Row>
+                    </Row> */}
                         <FlatList<FoodItem>
                             data={filteredFood}
                             renderItem={({ item }) => (
