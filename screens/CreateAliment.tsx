@@ -114,6 +114,10 @@ function CreateAliment() {
         return isValid;
     }
 
+    const generateManualId = () => {
+        return `ID-${Date.now()}`;
+    }
+
 
     const createAliment = async (event: any) => {
         event.preventDefault();
@@ -122,7 +126,7 @@ function CreateAliment() {
         }
 
         try {
-            await setDoc(doc(firestore, "UserCreatedFoods",  uuidv4()), {
+            await setDoc(doc(firestore, "UserCreatedFoods",  generateManualId()), {
                 title: title,
                 quantity: Number(quantity),
                 unit: unit,
@@ -132,9 +136,10 @@ function CreateAliment() {
                 fats: Number(fats),
                 idUser: Number(userIdConnected)
             });
+            Alert.alert('Aliment created')
 
         } catch(error: any) {
-            Alert.alert('Create an aliment error', error)
+            Alert.alert('Create an aliment error', error.message)
         }
     }
     return (
