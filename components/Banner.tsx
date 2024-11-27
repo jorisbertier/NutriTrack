@@ -33,7 +33,6 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
     },[])
 
     const handleBackgroundPress = () => {
-        console.log('modalset', modalVisible)
         setModalVisible(false);
     };
     

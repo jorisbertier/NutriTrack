@@ -32,15 +32,11 @@ export default function RootLayout() {
     Oswald: require('../assets/fonts/Oswald-VariableFont_wght.ttf'),
     Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
   });
-  // const {theme} = useTheme();
-  // console.log(theme)
-  
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
       NavigationBar.setBackgroundColorAsync('#111419'); 
     }
-    console.log(loaded)
   }, [loaded]);
 
   if (!loaded) {

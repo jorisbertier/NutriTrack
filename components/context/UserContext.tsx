@@ -21,7 +21,6 @@ export const UserProvider = ({ children }) => {
           ...doc.data(),
         }));
         const currentUser = userList.find((u) => u.email === email);
-        console.log("Current User Data:", currentUser);
         setUserData(currentUser);
       } else {
         console.log("No user is logged in."); // Ajoutez cette ligne

@@ -133,7 +133,6 @@ const Registration = () => {
     const handleSelectAvatar = (id: number) => {
         setProfileImage(id);
     };
-    console.log(profileImage)
     
     
     const signUp = async () => {
