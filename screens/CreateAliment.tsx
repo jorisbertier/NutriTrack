@@ -1,3 +1,4 @@
+import { ThemedText } from '@/components/ThemedText';
 import { useTheme } from '@/hooks/ThemeProvider'
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
@@ -40,6 +41,54 @@ function CreateAliment() {
         else {
             setTitleError('');
         }
+
+        if (!['g', 'cl', 'ml', 'cup', 'l'].includes(unit.toLowerCase())) {
+            isValid = false;
+            setUnitError('The unit must only contain g / cl / ml / l / cup');
+        } else {
+            setUnitError('');
+        }
+
+        const quantityNumber = parseFloat(quantity);
+        if (!quantityNumber || isNaN(quantityNumber) || quantityNumber > 1000 || quantityNumber < 0) {
+            setQuantityError('Please enter in centimeters a valid height. Max 1000');
+            isValid = false;
+        } else {
+            setQuantityError('');
+        }
+
+        const caloriesNumber = parseFloat(calories);
+        if (!caloriesNumber || isNaN(caloriesNumber) || caloriesNumber > 1500 || caloriesNumber < 0) {
+            setCaloriesError('Please enter in centimeters a valid height. Max 1000');
+            isValid = false;
+        } else {
+            setCaloriesError('');
+        }
+
+        const carbsNumber = parseFloat(carbs);
+        if (!carbsNumber || isNaN(carbsNumber) || carbsNumber > 200 || carbsNumber < 0) {
+            setCarbsError('Please enter a valid number of carbs. Max 1000');
+            isValid = false;
+        } else {
+            setCarbsError('');
+        }
+
+        const proteinsNumber = parseFloat(proteins);
+        if (!proteinsNumber || isNaN(proteinsNumber) || proteinsNumber > 200 || proteinsNumber < 0) {
+            setProteinsError('Please enter a valid number of calories. Max 200');
+            isValid = false;
+        } else {
+            setProteinsError('');
+        }
+
+        const fatsNumber = parseFloat(fats);
+        if (!fatsNumber || isNaN(fatsNumber) || fatsNumber > 600 || fatsNumber < 0) {
+            setFatsError('Please enter a valid number of fats. Max 600');
+            isValid = false;
+        } else {
+            setFatsError('');
+        }
+
         return isValid;
     }
 
@@ -69,6 +118,7 @@ function CreateAliment() {
                     onChangeText={setQuantity}
                     keyboardType="numeric"
                 />
+                {quantityError ? <Text style={styles.errorText}>{quantityError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Unit /g, ml, cup, slice -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
@@ -77,6 +127,8 @@ function CreateAliment() {
                     onChangeText={setUnit}
                     autoCapitalize='words'
                 />
+                <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* The unit must only contain g / cl / ml / l / cup</ThemedText>
+                {unitError ? <Text style={styles.errorText}>{unitError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Calories -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
@@ -85,6 +137,7 @@ function CreateAliment() {
                     onChangeText={setCalories}
                     keyboardType="numeric"
                 />
+                {caloriesError ? <Text style={styles.errorText}>{caloriesError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Proteins -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
@@ -93,6 +146,7 @@ function CreateAliment() {
                     onChangeText={setProteins}
                     keyboardType="numeric"
                 />
+                {proteinsError ? <Text style={styles.errorText}>{proteinsError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Carbohydrates -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
@@ -101,6 +155,7 @@ function CreateAliment() {
                     onChangeText={setCarbs}
                     keyboardType="numeric"
                 />
+                {carbsError ? <Text style={styles.errorText}>{carbsError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Fats -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
@@ -109,17 +164,18 @@ function CreateAliment() {
                     onChangeText={setFats}
                     keyboardType="numeric"
                 />
+                {fatsError ? <Text style={styles.errorText}>{fatsError}</Text> : null}
                 <TouchableOpacity
-                onPress={createAliment}
-                style={{
-                backgroundColor: colors.black,
-                padding: 10,
-                marginBottom: 100,
-                marginTop: 30,
-                borderRadius: 3,
-                alignItems: 'center',
-                }}
-            >
+                    onPress={createAliment}
+                    style={{
+                    backgroundColor: colors.black,
+                    padding: 10,
+                    marginBottom: 100,
+                    marginTop: 30,
+                    borderRadius: 3,
+                    alignItems: 'center',
+                    }}
+                >
                 <Text style={{ color: colors.white}}>Create aliment</Text>
             </TouchableOpacity>
         </ScrollView>
