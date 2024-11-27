@@ -17,6 +17,7 @@ import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
 // import { StatusBar } from 'expo-status-bar';
 import * as NavigationBar from 'expo-navigation-bar';
 import { StatusBar } from 'react-native';
+import CreateAliment from '@/screens/CreateAliment';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -111,6 +112,22 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerTitle: 'Nutrition track',
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
+              <Stack.Screen
+                name="CreateAliment"
+                component={CreateAliment}
+                options={{
+                  headerShown: true,
+                  headerTitle: 'Create Aliment',
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',

@@ -10,12 +10,12 @@ import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function Search() {
 
     const {theme, colors} = useTheme();
-    const route = useRoute();
+    const navigation = useNavigation();
 
     const [data, setData] = useState<FoodItem[]>([]);
     const [error, setError] = useState("");
@@ -100,6 +100,7 @@ export default function Search() {
                         // timeZoneOffsetInMinutes={new Date().getTimezoneOffset()}
                     />)}
                 {/* </Row> */}
+                
                 <View style={styles.wrapperInput}>
                     <TextInput
                         style={[styles.input, {backgroundColor: colors.grayMode, color: colors.black}]}
@@ -128,6 +129,18 @@ export default function Search() {
                     </View>
                 </Row> */}
                 <Row style={[styles.wrapperFood]}>
+                    <Row style={{justifyContent: 'space-around', width: '100%'}}>
+                        <TouchableOpacity onPress={() => navigation.navigate("CreateAliment")}>
+                            <View style={{backgroundColor: 'red', padding: 20, justifyContent: 'center', alignItems: 'center'}}>
+                                <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.deleteSearch} />
+                                <Text>Create a aliment</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={{backgroundColor: 'red', padding: 20, justifyContent: 'center', alignItems: 'center'}}>
+                            <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.deleteSearch} />
+                            <Text>My aliments</Text>
+                        </View>
+                    </Row>
                         <FlatList<FoodItem>
                             data={filteredFood}
                             renderItem={({ item }) => (
