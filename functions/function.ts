@@ -251,7 +251,8 @@ export function getIdAvatarProfile(number: number) {
         5: require('@/assets/images/avatar/banana.webp'),
     };
 
-    return avatars[number] || require('@/assets/images/avatar/avatar.png');
+    // return avatars[number] || require('@/assets/images/avatar/avatar.png');
+    return avatars[number];
 }
 
 /* ANIMATION */
