@@ -1,11 +1,18 @@
 import { ThemedText } from '@/components/ThemedText';
+import { fetchUserIdDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
-import { useState } from 'react';
+import { getAuth } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 function CreateAliment() {
 
     const {colors} = useTheme();
+
+    /*Get id user*/
+    const [userIdConnected, setUserIdConnected] = useState<number>();
+    const auth = getAuth();
+    const user = auth.currentUser;
 
     const [title, setTitle] = useState('');
     const [quantity, setQuantity] = useState('');
@@ -24,6 +31,19 @@ function CreateAliment() {
     const [carbsError, setCarbsError] = useState('');
     const [fatsError, setFatsError] = useState('');
     /**ERROR MESSAGE */
+
+    useEffect(() => {
+        try {
+            const fetch = async () => {
+                fetchUserIdDataConnected(user, setUserIdConnected)
+            }
+            fetch()
+        } catch (e) {
+            console.log('Error processing data', e);
+        }
+    }, [user]);
+
+    console.log('get id', userIdConnected)
 
     const validateFields = () => {
         let isValid = true;
@@ -88,7 +108,6 @@ function CreateAliment() {
         } else {
             setFatsError('');
         }
-
         return isValid;
     }
 
