@@ -3,7 +3,10 @@ import { fetchUserIdDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
 import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { doc, setDoc } from "firebase/firestore"; 
+import { firestore } from '@/firebaseConfig';
+import { v4 as uuidv4 } from 'uuid';
 
 function CreateAliment() {
 
@@ -112,10 +115,26 @@ function CreateAliment() {
     }
 
 
-    const createAliment = (event: any) => {
+    const createAliment = async (event: any) => {
         event.preventDefault();
         if(!validateFields()) {
             return;
+        }
+
+        try {
+            await setDoc(doc(firestore, "UserCreatedFoods",  uuidv4()), {
+                title: title,
+                quantity: Number(quantity),
+                unit: unit,
+                calories: Number(calories),
+                proteins: Number(proteins),
+                carbs: Number(carbs),
+                fats: Number(fats),
+                idUser: Number(userIdConnected)
+            });
+
+        } catch(error: any) {
+            Alert.alert('Create an aliment error', error)
         }
     }
     return (
