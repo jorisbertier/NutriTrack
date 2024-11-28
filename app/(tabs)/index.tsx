@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Button, Alert, View, ScrollView, StatusBar } from 'react-native';
+import { Image, StyleSheet, Button, Alert, View, ScrollView, StatusBar, Text } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { browserSessionPersistence, setPersistence, signOut } from 'firebase/auth';
@@ -20,6 +20,7 @@ import StopWatch from '@/components/StopWatch';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Pressable } from 'react-native';
 
 
 export default function HomeScreen() {
@@ -158,7 +159,27 @@ useEffect(() => {
         {/* <Row style={{gap: 10, marginTop: 30}}>
             <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
           </Row> */}
-          <Row style={{marginTop: 40, marginBottom: -15}}>
+          <Row style={{marginTop: 40}}>
+            <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
+          </Row>
+          <Row style={{marginTop: 20}} >
+          <Pressable onPress={() => navigation.navigate('dashboard')} style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingVertical: 12,
+            borderRadius: 4,
+            elevation: 3,
+            backgroundColor: colors.blackFix,
+            width: '100%'
+          }}>
+            <Text style={{fontSize: 16,
+            lineHeight: 21,
+            fontWeight: 'bold',
+            letterSpacing: 0.25,
+            color: colors.whiteFix,}}>Dashboard</Text>
+          </Pressable>
+          </Row>
+          <Row style={{marginTop: 20, marginBottom: -15}}>
             <ThemedText variant='title' color={colors.black}>Nutri metrics</ThemedText>
           </Row>
             <Row gap={5} style={styles.rowTwoItems}>
@@ -243,7 +264,8 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   scrollView: {
-    padding: 10,
+    padding: 0,
+    paddingVertical: 10
 },
 
 })
