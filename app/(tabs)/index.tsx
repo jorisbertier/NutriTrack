@@ -221,7 +221,7 @@ useEffect(() => {
               {/* <ProgressBar progress={60}/> */}
             </Row>
             <Row style={{marginTop: 15, marginBottom: 10}}>
-              <ThemedText variant='title' color={colors.black}>Challenge</ThemedText>
+              <ThemedText variant='title' color={colors.black}>Nutri challenge</ThemedText>
             </Row>
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollView}>
                 <Challenge data={'sugar'}source={require('@/assets/images/challenge/sugar.jpg')}/>
