@@ -19,7 +19,7 @@ type Props = {
 const imageMapping: { [key: string ]: any } = {
     'burn': require('@/assets/images/nutritional/burn.png'),
     'protein': require('@/assets/images/nutritional/protein.png'),
-    'carbs': require('@/assets/images/nutritional/carbs.png'),
+    'carbs': require('@/assets/images/nutritional/house.png'),
     'fat': require('@/assets/images/nutritional/watermelon.png'),
 };
 
