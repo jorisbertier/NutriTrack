@@ -83,16 +83,16 @@ const Registration = () => {
         }
     
         const weightNumber = parseFloat(weight);
-        if (!weightNumber || isNaN(weightNumber) || weightNumber > 500) {
-            setWeightError('Please enter a valid weight in kilos. Max 500 kg');
+        if (!weightNumber || isNaN(weightNumber) || weightNumber > 250 || weightNumber < 15) {
+            setWeightError('Please enter a valid weight in kilos.Min 15 Max 250 kg');
             isValid = false;
-        } else {
+        } else { 
             setWeightError('');
         }
     
         const heightNumber = parseFloat(height);
-        if (!heightNumber || isNaN(heightNumber) || heightNumber > 300) {
-            setHeightError('Please enter in centimeters a valid height. Max 300 cm');
+        if (!heightNumber || isNaN(heightNumber) || heightNumber > 250 || heightNumber < 50) {
+            setHeightError('Please enter in centimeters a valid height. Min 50 Max 250 cm');
             isValid = false;
         } else {
             setHeightError('');
