@@ -32,9 +32,9 @@ export default function NutritionalCard({icon, nutritionalName,setState, nutrion
     return (
         <View style={[styles.card, {backgroundColor: backgroundcolor}]}>
             <View style={styles.block1}>
-            <Skeleton colorMode={colorMode} width={70}>
-                {setState && <ThemedText variant="title1" color={colors.blackFix}>{capitalizeFirstLetter(nutritionalName)}</ThemedText>}
-            </Skeleton>
+            {/* <Skeleton colorMode={colorMode} width={70}> */}
+                <ThemedText variant="title1" color={colors.blackFix}>{capitalizeFirstLetter(nutritionalName)}</ThemedText>
+            {/* </Skeleton> */}
                 <Skeleton colorMode={colorMode} height={30} width={30} radius={'round'}>
                 {setState && <View style={styles.wrapperImage}>
                     <Image source={imageSource} style={styles.icon}/>
