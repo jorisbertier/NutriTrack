@@ -147,16 +147,7 @@ function SearchAlimentCreated() {
             </TouchableOpacity>
         </View>
         <SafeAreaView style={[styles.header, {backgroundColor: colors.whiteMode}]}>
-            {/* <Row>
-                <View style={[styles.wrapperCalendar, backgroundColor : '#F6F6F6']}>
-                <TouchableOpacity onPress={handleOpenCalendar}>
-                    <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
-                </TouchableOpacity>
-                    <ThemedText variant="title1">
-                        {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                        </ThemedText>
-                </View> */}
-                {}
+
                 {isOpen && (<RNDateTimePicker
                     onChange={setDate}
                     value={selectedDate}
@@ -186,13 +177,10 @@ function SearchAlimentCreated() {
                     <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/>
 
             </View>
-            {/* <Row>
-                <View style={[styles.wrapperCreate, {backgroundColor : '#F6F6F6'}]}>
-                    <Image source={require('@/assets/images/grapes.png')} style={styles.imageCreate}/>
-                    <ThemedText variant="title1">Create a new aliment</ThemedText>
-                </View>
-            </Row> */}
             <Row style={[styles.wrapperFood]}>
+            <Skeleton colorMode={colorMode} width={'100%'} height={80}>
+                        {isLoading ?
+                        
                     <FlatList<FoodItemCreated>
                         data={allDataFoodCreated}
                         renderItem={({ item }) => (
@@ -210,6 +198,8 @@ function SearchAlimentCreated() {
                         keyExtractor={(item, index) => `${item.id}-${index}`}
                         contentContainerStyle={styles.wrapperFood}
                     />
+                    : null}
+                    </Skeleton>
                     
                 {/* {filteredFood.length === 0 && <Text style={{color: colors.black}}>
                     No food matches with the search {text}.</Text>} */}
