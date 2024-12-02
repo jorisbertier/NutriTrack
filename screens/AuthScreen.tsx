@@ -11,8 +11,8 @@ import { StatusBar } from 'expo-status-bar';
 
 const AuthScreen = () => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test2@gmail.com');
+  const [password, setPassword] = useState('rootroot');
   const navigation = useNavigation();
   const {theme, colors} = useTheme();
   const [errorMessage, setErrorMessage] = useState('');

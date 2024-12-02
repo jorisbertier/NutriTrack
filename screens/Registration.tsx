@@ -182,6 +182,7 @@ const Registration = () => {
         setProfileImage(0);
         setGender('');
     };
+    
     const today = new Date();
     const fiveYearsAgo = new Date();
     fiveYearsAgo.setFullYear(today.getFullYear() - 5);
