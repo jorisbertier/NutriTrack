@@ -18,6 +18,7 @@ import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
 import * as NavigationBar from 'expo-navigation-bar';
 import { StatusBar } from 'react-native';
 import CreateAliment from '@/screens/CreateAliment';
+import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -81,6 +82,20 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerTitle: 'Edit Profile',
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
+              <Stack.Screen name="SearchAlimentCreated" component={SearchAlimentCreated} 
+                options={{
+                  headerShown: true,
+                  headerTitle: 'Your aliments',
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',

@@ -184,37 +184,37 @@ useEffect(() => {
           </Row>
             <Row gap={5} style={styles.rowTwoItems}>
               <NutritionalCard
-              nutritionalName={'calories'}
-              nutrionalData={basalMetabolicRate}
-              icon={'burn'}
-              backgroundcolor={colors.gray}
-              indice={'kcal'}
-              setState={isLoading}
+                nutritionalName={'calories'}
+                nutrionalData={basalMetabolicRate}
+                icon={'burn'}
+                backgroundcolor={colors.gray}
+                indice={'kcal'}
+                setState={isLoading}
               />
               <NutritionalCard
-              nutritionalName={'proteins'}
-              nutrionalData={calculProteins(Number(userData[0]?.weight))}
-              backgroundcolor={colors.greenLight}
-              indice={'g'}
-              icon={'protein'}
-              // textColor={'white'}
-              setState={isLoading}
+                nutritionalName={'proteins'}
+                nutrionalData={calculProteins(Number(userData[0]?.weight))}
+                backgroundcolor={colors.greenLight}
+                indice={'g'}
+                icon={'protein'}
+                // textColor={'white'}
+                setState={isLoading}
               />
               <NutritionalCard
-              nutritionalName={'carbs'}
-              nutrionalData={calculCarbohydrates(basalMetabolicRate)}
-              backgroundcolor={colors.blue}
-              indice={'g'}
-              icon={'carbs'}
-              setState={isLoading}
+                nutritionalName={'carbs'}
+                nutrionalData={calculCarbohydrates(basalMetabolicRate)}
+                backgroundcolor={colors.blue}
+                indice={'g'}
+                icon={'carbs'}
+                setState={isLoading}
               />
               <NutritionalCard
-              nutritionalName={'fats'}
-              nutrionalData={calculFats(basalMetabolicRate)}
-              backgroundcolor={colors.blueLight}
-              indice={'g'}
-              icon={'fat'}
-              setState={isLoading}
+                nutritionalName={'fats'}
+                nutrionalData={calculFats(basalMetabolicRate)}
+                backgroundcolor={colors.blueLight}
+                indice={'g'}
+                icon={'fat'}
+                setState={isLoading}
               />
             </Row>
             <Row>

@@ -7,7 +7,7 @@ import { foodData } from "@/data/food.js";
 import React, { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
-import { capitalizeFirstLetter } from "@/functions/function";
+import { capitalizeFirstLetter, fetchUserIdDataConnected } from "@/functions/function";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -136,10 +136,12 @@ export default function Search() {
                                 <Text>Create a aliment</Text>
                             </View>
                         </TouchableOpacity>
-                        <View style={{backgroundColor: 'red', padding: 20, justifyContent: 'center', alignItems: 'center'}}>
-                            <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.deleteSearch} />
-                            <Text>My aliments</Text>
-                        </View>
+                        <TouchableOpacity onPress={() => navigation.navigate("SearchAlimentCreated")}>
+                            <View style={{backgroundColor: 'red', padding: 20, justifyContent: 'center', alignItems: 'center'}}>
+                                <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.deleteSearch} />
+                                <Text>My aliments</Text>
+                            </View>
+                        </TouchableOpacity>
                     </Row>
                         <FlatList<FoodItem>
                             data={filteredFood}
@@ -158,6 +160,7 @@ export default function Search() {
                             keyExtractor={(item, index) => `${item.id}-${index}`}
                             contentContainerStyle={styles.wrapperFood}
                         />
+                        
                     {filteredFood.length === 0 && <Text style={{color: colors.black}}>
                         No food matches with the search {text}.</Text>}
                 </Row>
