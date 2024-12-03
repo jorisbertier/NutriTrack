@@ -19,6 +19,7 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { StatusBar } from 'react-native';
 import CreateAliment from '@/screens/CreateAliment';
 import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
+import DetailsFoodCreated from '@/screens/[id]created';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -78,6 +79,7 @@ export default function RootLayout() {
               {/* Autres écrans */}
               <Stack.Screen name="search" component={Search}/>
               <Stack.Screen name="FoodDetails" component={DetailsFood} />
+              <Stack.Screen name="FoodDetailsCreated" component={DetailsFoodCreated} />
               <Stack.Screen name="EditProfile" component={EditProfileScreen} 
                 options={{
                   headerShown: true,

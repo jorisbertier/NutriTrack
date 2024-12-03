@@ -189,7 +189,7 @@ function SearchAlimentCreated() {
                         renderItem={({ item }) => (
                             <CardFoodCreated
                                 name={item.title}
-                                id={4}
+                                id={Number(item.id)}
                                 calories={item.calories}
                                 unit={item.unit}
                                 quantity={item.quantity}

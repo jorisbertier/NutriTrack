@@ -52,7 +52,7 @@ const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, 
     const navigateToDetails = () => {
         // Vérifier si le navigationRef est prêt avant de naviguer
         if (navigationRef.isReady()) {
-            navigationRef.navigate("FoodDetails", { id });
+            navigationRef.navigate("FoodDetailsCreated", { id });
         } else {
             console.log("Navigation n'est pas prête");
         }
