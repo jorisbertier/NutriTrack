@@ -21,9 +21,11 @@ type Props = {
     setNotification: any
 };
 
-const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
+const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
     const {colors} = useTheme();
+
+    console.log('get id', id)
 
     const [modalVisible, setModalVisible] = useState(false);
     
@@ -213,4 +215,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CardFood;
+export default CardFoodCreated;

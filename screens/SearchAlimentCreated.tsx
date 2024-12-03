@@ -14,6 +14,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
+import CardFoodCreated from "@/components/SearchCreated/CardFoodCreated";
 
 
 interface FoodItemCreated {
@@ -59,14 +60,6 @@ function SearchAlimentCreated() {
         }
     }, [user]);
     
-    function generateUniqueNumber(id: any) {
-        let hash = 0;
-        for (let i = 0; i < id.length; i++) {
-            hash = id.charCodeAt(i) + ((hash << 5) - hash);
-            hash = hash & hash;
-        }
-        return Math.abs(hash);
-    }
 
     useEffect(() => {
         const fetchCollection = async () => {
@@ -79,19 +72,17 @@ function SearchAlimentCreated() {
     
                 const allData: FoodItemCreated[] = querySnapshot.docs.map(doc => ({
                     // const id = doc.id;
-                    id: doc.id,
-                    uniqueNumber: generateUniqueNumber(doc.id),
+                    // id: doc.id,
                     ...(doc.data() as FoodItemCreated), // Type assertion ici
                 }));
-            console.log("Tous les documents :", allData);
-            console.log("userIdConnected :", userIdConnected, typeof userIdConnected);
-            if(userIdConnected) {
-                const filteredData = allData.filter(food => food.idUser === userIdConnected);
-                setAllDataFoodCreated(filteredData)
-                console.log('new user data:', filteredData);
-                setIsLoading(true)
+                
+                if(userIdConnected) {
+                    const filteredData = allData.filter(food => food.idUser === userIdConnected);
+                    setAllDataFoodCreated(filteredData)
+                    console.log('new user data:', filteredData);
+                    setIsLoading(true)
 
-            }
+                }
             } catch (error) {
                 console.error("Erreur lors de la récupération de la collection :", error);
                 // setError("Erreur lors de la récupération des données.");
@@ -196,9 +187,9 @@ function SearchAlimentCreated() {
                     <FlatList<FoodItemCreated>
                         data={filteredAllDataFoodCreated}
                         renderItem={({ item }) => (
-                            <CardFood
+                            <CardFoodCreated
                                 name={item.title}
-                                id={item.uniqueNumber}
+                                id={4}
                                 calories={item.calories}
                                 unit={item.unit}
                                 quantity={item.quantity}
