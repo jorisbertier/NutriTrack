@@ -25,6 +25,8 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
 
     const {colors} = useTheme();
 
+    console.log('get id', id)
+
     const [modalVisible, setModalVisible] = useState(false);
     
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });

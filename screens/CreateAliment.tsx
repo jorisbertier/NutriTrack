@@ -4,7 +4,7 @@ import { useTheme } from '@/hooks/ThemeProvider'
 import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { doc, setDoc } from "firebase/firestore"; 
+import { collection, doc, getDocs, setDoc } from "firebase/firestore"; 
 import { firestore } from '@/firebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -126,7 +126,25 @@ function CreateAliment() {
         }
 
         try {
+            const collectionRef = collection(firestore, "UserCreatedFoods");
+
+            // Récupérez tous les documents de la collection
+            const querySnapshot = await getDocs(collectionRef);
+        
+            // Calculez le prochain ID en trouvant le plus grand ID existant
+            let maxId = 0;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data.id && data.id > maxId) {
+                    maxId = data.id;
+                }
+            });
+        
+            const newId = maxId + 1;
+            console.log('id', newId)
+        
             await setDoc(doc(firestore, "UserCreatedFoods",  generateManualId()), {
+                id: newId,
                 title: title,
                 quantity: Number(quantity),
                 unit: unit,

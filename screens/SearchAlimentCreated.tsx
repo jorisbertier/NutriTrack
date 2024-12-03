@@ -59,6 +59,14 @@ function SearchAlimentCreated() {
         }
     }, [user]);
     
+    function generateUniqueNumber(id: any) {
+        let hash = 0;
+        for (let i = 0; i < id.length; i++) {
+            hash = id.charCodeAt(i) + ((hash << 5) - hash);
+            hash = hash & hash;
+        }
+        return Math.abs(hash);
+    }
 
     useEffect(() => {
         const fetchCollection = async () => {
@@ -70,7 +78,9 @@ function SearchAlimentCreated() {
                 const querySnapshot = await getDocs(collectionRef);
     
                 const allData: FoodItemCreated[] = querySnapshot.docs.map(doc => ({
+                    // const id = doc.id;
                     id: doc.id,
+                    uniqueNumber: generateUniqueNumber(doc.id),
                     ...(doc.data() as FoodItemCreated), // Type assertion ici
                 }));
             console.log("Tous les documents :", allData);
@@ -126,6 +136,8 @@ function SearchAlimentCreated() {
         onChangeText('')
     }
 
+    const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim()))
+
     console.log(allDataFoodCreated)
 
 
@@ -161,7 +173,7 @@ function SearchAlimentCreated() {
                     style={[styles.input, {backgroundColor: colors.grayMode, color: colors.black}]}
                     onChangeText={onChangeText}
                     value={text}
-                    placeholder="Search a food"
+                    placeholder="Search a food created"
                     placeholderTextColor={'grey'}
                 >
                 </TextInput>
@@ -182,11 +194,11 @@ function SearchAlimentCreated() {
                         {isLoading ?
                         
                     <FlatList<FoodItemCreated>
-                        data={allDataFoodCreated}
+                        data={filteredAllDataFoodCreated}
                         renderItem={({ item }) => (
                             <CardFood
                                 name={item.title}
-                                id={4}
+                                id={item.uniqueNumber}
                                 calories={item.calories}
                                 unit={item.unit}
                                 quantity={item.quantity}
