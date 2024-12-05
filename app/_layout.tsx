@@ -52,7 +52,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <UserProvider>
-      {/* <FoodProvider> */}
+      <FoodProvider>
         <StatusBar backgroundColor="#000" barStyle="light-content"/>
         {/* <StatusBar style="auto" /> */}
         <NavigationContainer independent={true} ref={navigationRef}>
@@ -159,7 +159,7 @@ export default function RootLayout() {
                 />
           </Stack.Navigator>
         </NavigationContainer>
-              {/* </FoodProvider> */}
+              </FoodProvider>
       </UserProvider>
     </ThemeProvider>
   );

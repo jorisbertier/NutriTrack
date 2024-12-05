@@ -37,8 +37,8 @@ function SearchAlimentCreated() {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    // const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
-    const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
+    const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
+    // const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
 
     console.log('length', allDataFoodCreated.length)
     console.log('length', allDataFoodCreated)
@@ -77,7 +77,7 @@ function SearchAlimentCreated() {
     
                 const allData: FoodItemCreated[] = querySnapshot.docs.map(doc => ({
                     // const id = doc.id;
-                    // id: doc.id,
+                    idDoc: doc.id,
                     ...(doc.data() as FoodItemCreated), // Type assertion ici
                 }));
                 
@@ -196,6 +196,7 @@ function SearchAlimentCreated() {
                             <CardFoodCreated
                                 name={item.title}
                                 id={Number(item.id)}
+                                idDoc={item.idDoc}
                                 calories={item.calories}
                                 unit={item.unit}
                                 quantity={item.quantity}

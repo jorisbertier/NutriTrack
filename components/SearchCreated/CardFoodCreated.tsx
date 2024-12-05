@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Dimensions } from "react-native";
+import React, { useState, useRef, useContext } from "react";
+import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Dimensions, Alert } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useNavigation } from "expo-router";
@@ -7,12 +7,14 @@ import { useEffect } from "react";
 import { fetchUserIdDataConnected } from "@/functions/function";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
+import { FoodContext } from "@/hooks/FoodContext";
 
 type Props = {
     id: number;
+    idDoc: any;
     name: string;
     calories: number;
     unit: string;
@@ -21,7 +23,22 @@ type Props = {
     setNotification: any
 };
 
-const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
+interface FoodItemCreated {
+    idfirestore: string;
+    idDoc: string;
+    id: string;
+    idUser: number;
+    title: string;
+    calories: number;
+    carbs: number;
+    fats: number;
+    proteins: number;
+    quantity: number;
+    unit: string;
+}
+
+
+const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
     const {colors} = useTheme();
 
@@ -30,11 +47,33 @@ const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, 
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
     const [userIdConnected, setUserIdConnected] = useState<number>();
     const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+
+    const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
+    
+    // useEffect(() => {
+    //     const loadData = async () => {
+    //         try {
+    //             const querySnapshot = await getDocs(collection(firestore, "UserCreatedFoods"));
+    //             const updatedData = querySnapshot.docs.map(doc => ({
+    //                 ...(doc.data() as FoodItemCreated),
+    //             }));
+    //             setAllDataFoodCreated(updatedData);
+    //         } catch (error) {
+    //             console.error("Error fetching data: ", error);
+    //         }
+    //     };
+    
+    //     loadData();
+    // }, [allDataFoodCreated]);  
     
     const navigation = useNavigation<any>(); 
     const addImageRef = useRef(null);
     const auth = getAuth();
     const user = auth.currentUser;
+
+    console.log('idDoc', typeof idDoc)
+    console.log('idDoc', idDoc)
+    console.log('test', allDataFoodCreated)
 
     useEffect(() => {
         try {
@@ -102,6 +141,70 @@ const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, 
         }
     }
 
+    console.log('page cardfoodcreated', allDataFoodCreated)
+    console.log('page cardfoodcreated', allDataFoodCreated.length)
+    const handleDelete = (id: any) => {
+        if (!id) {
+            console.error("L'ID de l'utilisateur du repas est indéfini.");
+            return;
+        }
+        
+        console.log('id', id)
+        const stringId = id.toString();
+        console.log(stringId)
+
+        // Affiche une alerte de confirmation
+        Alert.alert(
+            "Confirmation",
+            "Are you sure you want to eliminate this food?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Deletion canceled"),
+                    style: "cancel",
+                },
+                {
+                    text: "Delete",
+                    onPress: async () => {
+                        console.log(`Deleting food with ID: ${stringId}`);
+                        try {
+                            const mealDocRef = doc(firestore, "UserCreatedFoods", idDoc);
+                            await deleteDoc(mealDocRef);
+    
+                            // Mise à jour des données après suppression
+                            // const collectionRef = collection(firestore, "UserCreatedFoods");
+                            // const querySnapshot = await getDocs(collectionRef);
+                            // const updatedData = querySnapshot.docs.map(doc => ({
+                            //     ...(doc.data() as FoodItemCreated),
+                            // }));
+    
+                            console.log('avant suppression', allDataFoodCreated);
+                            setAllDataFoodCreated((prevData: FoodItemCreated[]) =>
+                                prevData.filter(food => food.idDoc !== idDoc)
+                            );
+                            console.log('apres suppression', allDataFoodCreated);
+    
+                            console.log("Document deleted with success");
+                            // if (navigationRef.isReady()) {
+                            //     navigationRef.reset({
+                            //         index: 0, // Index de la page dans la pile
+                            //         routes: [{ name: "search", params: { id: stringId } }], // Nom et paramètres de la page cible
+                            //     });
+                            // } else {
+                            //     console.log("Navigation n'est pas prête");
+                            // }
+                        } catch (error) {
+                            console.error("Error during deletion of document: ", error);
+                        }
+                    },
+                    style: "destructive",
+                },
+            ],
+            { cancelable: false } 
+        );
+    };
+
+    console.log('ID', id)
     return (
         <TouchableOpacity onPress={navigateToDetails}>
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
@@ -111,9 +214,14 @@ const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, 
                         {calories} kcal, {name} {quantity} {unit}
                     </ThemedText>
                 </View>
-                <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
-                    <Image source={require("@/assets/images/add.png")} style={styles.add} />
-                </Pressable>
+                <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 25}}>
+                    <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
+                        <Image source={require("@/assets/images/add.png")} style={styles.add} />
+                    </Pressable>
+                    <Pressable style={styles.wrapperAdd} onPress={() => handleDelete(id)}>
+                        <Image source={require("@/assets/images/delete.png")} style={styles.delete}/>
+                    </Pressable>
+                </View>
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -198,7 +306,7 @@ const styles = StyleSheet.create({
     },
     wrapperAdd: {
         height: '100%',
-        width: '20%',
+        // width: '20%',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -210,6 +318,10 @@ const styles = StyleSheet.create({
     textMeal : {
         fontSize: 16,
         fontWeight: '400'
+    },
+    delete : {
+        width: 20,
+        height: 20
     }
 });
 

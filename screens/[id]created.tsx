@@ -41,9 +41,9 @@ export default function DetailsFoodCreated() {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
+    // const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
     // const [allDataFoodCreated2, setAllDataFoodCreated2] = useState<FoodItemCreated[]>([]);
-    // const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
+    const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
 
     const navigation = useNavigation();
     const route = useRoute<any>();
