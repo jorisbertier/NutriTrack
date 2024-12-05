@@ -11,6 +11,7 @@ import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore"
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
 import { FoodContext } from "@/hooks/FoodContext";
+import { FoodItemCreated } from "@/interface/FoodItemCreated";
 
 type Props = {
     id: number;
@@ -22,20 +23,6 @@ type Props = {
     selectedDate: string,
     setNotification: any
 };
-
-interface FoodItemCreated {
-    idfirestore: string;
-    idDoc: string;
-    id: string;
-    idUser: number;
-    title: string;
-    calories: number;
-    carbs: number;
-    fats: number;
-    proteins: number;
-    quantity: number;
-    unit: string;
-}
 
 
 const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, selectedDate , setNotification}) => {

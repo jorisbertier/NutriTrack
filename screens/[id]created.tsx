@@ -16,21 +16,9 @@ import { fetchUserIdDataConnected } from "@/functions/function";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { FoodContext } from "@/hooks/FoodContext";
+import { FoodItemCreated } from "@/interface/FoodItemCreated";
 
 const { height } = Dimensions.get('window');
-
-interface FoodItemCreated {
-    idfirestore: string;
-    id: string;
-    idUser: number;
-    title: string;
-    calories: number;
-    carbs: number;
-    fats: number;
-    proteins: number;
-    quantity: number;
-    unit: string;
-}
 
 export default function DetailsFoodCreated() {
 

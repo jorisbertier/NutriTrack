@@ -16,19 +16,7 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import CardFoodCreated from "@/components/SearchCreated/CardFoodCreated";
 import { FoodContext } from "@/hooks/FoodContext";
-
-
-interface FoodItemCreated {
-    id: string;
-    idUser: number;
-    title: string;
-    calories: number;
-    carbs: number;
-    fats: number;
-    proteins: number;
-    quantity: number;
-    unit: string;
-}
+import { FoodItemCreated } from "@/interface/FoodItemCreated";
 
 function SearchAlimentCreated() {
 
