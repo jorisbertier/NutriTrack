@@ -9,10 +9,7 @@ import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
-// import { navigationRef } from "@/app/_layout";
-import { navigate } from "@/hooks/NavigationUtils";
-
-
+import { navigationRef } from "@/app/_layout";
 
 type Props = {
     id: number;
@@ -51,7 +48,12 @@ const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, 
     }, [user]);
     
     const navigateToDetails = () => {
-        navigate("FoodDetailsCreated", { id });
+        // Vérifier si le navigationRef est prêt avant de naviguer
+        if (navigationRef.isReady()) {
+            navigationRef.navigate("FoodDetailsCreated", { id });
+        } else {
+            console.log("Navigation n'est pas prête");
+        }
     };
 
     const handlePress = (event: any) => {

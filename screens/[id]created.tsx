@@ -41,8 +41,9 @@ export default function DetailsFoodCreated() {
     const auth = getAuth();
     const user = auth.currentUser;
 
+    const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
     // const [allDataFoodCreated2, setAllDataFoodCreated2] = useState<FoodItemCreated[]>([]);
-    const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
+    // const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
 
     const navigation = useNavigation();
     const route = useRoute<any>();
@@ -129,32 +130,29 @@ export default function DetailsFoodCreated() {
                 },
                 {
                     text: "Delete",
-                    onPress: () => {
-                        // Crée une fonction qui exécute la suppression
-                        const deleteFood = async () => {
-                            console.log(`Deleting food with ID: ${id}`);
-                            try {
-                                const mealDocRef = doc(firestore, "UserCreatedFoods", id);
-                                await deleteDoc(mealDocRef);
-                                const updatedData = querySnapshot.docs.map(doc => ({
-                                    ...(doc.data() as FoodItemCreated),
-                                }));
-                        
-                                const filteredData = updatedData.filter(food => food.idUser === userIdConnected);
-                                setAllDataFoodCreated(filteredData);
-                                console.log("Document deleted with success");
-                            } catch (error) {
-                                console.error(
-                                    "Error during deletion of document : ",
-                                    error
-                                );
+                    onPress: async () => {
+                        console.log(`Deleting food with ID: ${id}`);
+                        try {
+                            const mealDocRef = doc(firestore, "UserCreatedFoods", id);
+                            await deleteDoc(mealDocRef);
+   
+                            // Mise à jour des données après suppression
+                            const collectionRef = collection(firestore, "UserCreatedFoods");
+                            const querySnapshot = await getDocs(collectionRef);
+                            const updatedData = querySnapshot.docs.map(doc => ({
+                                ...(doc.data() as FoodItemCreated),
+                            }));
+   
+                            const filteredData = updatedData.filter(food => food.idUser === userIdConnected);
+                            setAllDataFoodCreated(filteredData);
+                            console.log("Document deleted with success");
+                            if (navigationRef.isReady()) {
+                                navigationRef.navigate("search", { id });
+                            } else {
+                                console.log("Navigation n'est pas prête");
                             }
-                        };
-                        deleteFood();
-                        if (navigationRef.isReady()) {
-                            navigationRef.navigate("search", { id });
-                        } else {
-                            console.log("Navigation n'est pas prête");
+                        } catch (error) {
+                            console.error("Error during deletion of document : ", error);
                         }
                     },
                     style: "destructive",
