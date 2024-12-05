@@ -218,7 +218,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                     <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
                         <Image source={require("@/assets/images/add.png")} style={styles.add} />
                     </Pressable>
-                    <Pressable style={styles.wrapperAdd} onPress={() => handleDelete(id)}>
+                    <Pressable style={[styles.wrapperAdd, {width: 50}]} onPress={() => handleDelete(id)}>
                         <Image source={require("@/assets/images/delete.png")} style={styles.delete}/>
                     </Pressable>
                 </View>
