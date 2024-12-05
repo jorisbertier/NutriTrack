@@ -343,7 +343,7 @@ export default function Dashboard() {
                 <ProgressBar progress={fats} nutri={'Fats'} quantityGoal={calculFats(basalMetabolicRate)}/> */}
                 {/* <ProgressBar progress={magnesium} nutri={'Carbs'} quantityGoal={300}/>
                 <ProgressBar progress={magnesium} nutri={'Fats'} quantityGoal={300}/> */}
- 
+
             {/* <Row>
                 {basalMetabolicRate - totalKcalConsumeToday > 0 ? (
                     <ThemedText variant="title">{basalMetabolicRate - totalKcalConsumeToday} kcal restant</ThemedText>

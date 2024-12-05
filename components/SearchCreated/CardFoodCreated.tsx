@@ -50,30 +50,10 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
 
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
     
-    // useEffect(() => {
-    //     const loadData = async () => {
-    //         try {
-    //             const querySnapshot = await getDocs(collection(firestore, "UserCreatedFoods"));
-    //             const updatedData = querySnapshot.docs.map(doc => ({
-    //                 ...(doc.data() as FoodItemCreated),
-    //             }));
-    //             setAllDataFoodCreated(updatedData);
-    //         } catch (error) {
-    //             console.error("Error fetching data: ", error);
-    //         }
-    //     };
-    
-    //     loadData();
-    // }, [allDataFoodCreated]);  
-    
     const navigation = useNavigation<any>(); 
     const addImageRef = useRef(null);
     const auth = getAuth();
     const user = auth.currentUser;
-
-    console.log('idDoc', typeof idDoc)
-    console.log('idDoc', idDoc)
-    console.log('test', allDataFoodCreated)
 
     useEffect(() => {
         try {
@@ -120,8 +100,8 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
             const newId = generateUniqueId()
             
             const addAliment = async() => {
-                await setDoc(doc(firestore, "UserMeals", newId), {
-                    foodId: idFood,
+                await setDoc(doc(firestore, "UserMealsCreated", newId), {
+                    foodId: idDoc,
                     userId: userIdConnected,
                     date: selectedDate,
                     mealType: valueMeal,
@@ -141,8 +121,6 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
         }
     }
 
-    console.log('page cardfoodcreated', allDataFoodCreated)
-    console.log('page cardfoodcreated', allDataFoodCreated.length)
     const handleDelete = (id: any) => {
         if (!id) {
             console.error("L'ID de l'utilisateur du repas est indéfini.");
@@ -166,7 +144,6 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                 {
                     text: "Delete",
                     onPress: async () => {
-                        console.log(`Deleting food with ID: ${stringId}`);
                         try {
                             const mealDocRef = doc(firestore, "UserCreatedFoods", idDoc);
                             await deleteDoc(mealDocRef);
@@ -204,7 +181,6 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
         );
     };
 
-    console.log('ID', id)
     return (
         <TouchableOpacity onPress={navigateToDetails}>
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
