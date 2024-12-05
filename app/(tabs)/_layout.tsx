@@ -1,21 +1,15 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
-import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '.';
 import Search from './Search';
-import Dashboard from '@/screens/dashboard';
-import { TabBar } from '@/components/TabBar';
 import { Feather } from '@expo/vector-icons';
-import useThemeColors from '@/hooks/useThemeColor';
 import ProfileScreen from '@/screens/ProfileScreen';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useTheme } from '@/hooks/ThemeProvider';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  
   const {colors} = useTheme();
   const Tab = createBottomTabNavigator();
 

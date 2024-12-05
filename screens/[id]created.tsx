@@ -1,36 +1,107 @@
 import { ThemedText } from "@/components/ThemedText"
-import { Image, Pressable, StyleSheet, View, ScrollView } from "react-native";
+import { Image, Pressable, StyleSheet, View, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "expo-router";
 import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
 import { Dimensions } from "react-native";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
-import { useRoute } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { CommonActions, useRoute } from "@react-navigation/native";
+import { useState, useEffect, useContext } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
+import { getAuth } from "firebase/auth";
+import { fetchUserIdDataConnected } from "@/functions/function";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { firestore } from "@/firebaseConfig";
+import { FoodContext } from "@/hooks/FoodContext";
 
 const { height } = Dimensions.get('window');
+
+interface FoodItemCreated {
+    idfirestore: string;
+    id: string;
+    idUser: number;
+    title: string;
+    calories: number;
+    carbs: number;
+    fats: number;
+    proteins: number;
+    quantity: number;
+    unit: string;
+}
 
 export default function DetailsFoodCreated() {
 
     const {theme, colors} = useTheme();
 
+    /*Get id user*/
+    const [userIdConnected, setUserIdConnected] = useState<number>();
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    // const [allDataFoodCreated2, setAllDataFoodCreated2] = useState<FoodItemCreated[]>([]);
+    const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
+
     const navigation = useNavigation();
     const route = useRoute<any>();
     const { id } = route.params; 
 
-    const [data, setData] = useState<FoodItem[]>([]);
+    // const [data, setData] = useState<FoodItem[]>([]);
 
+    // useEffect(() => {
+    //     try {
+    //             setData(foodData);
+    //     } catch (e) {
+    //         console.log('Error processing data', e);
+    //     }
+    // }, []);
     useEffect(() => {
         try {
-                setData(foodData);
+            const fetch = async () => {
+                fetchUserIdDataConnected(user, setUserIdConnected)
+            }
+            fetch()
         } catch (e) {
             console.log('Error processing data', e);
         }
-    }, []);
+    }, [user]);
+    
+
+    useEffect(() => {
+        const fetchCollection = async () => {
+            try {
+                // Référence à la collection "UserCreatedFoods"
+                const collectionRef = collection(firestore, "UserCreatedFoods");
+    
+                // Récupérer tous les documents de la collection
+                const querySnapshot = await getDocs(collectionRef);
+    
+                const allData: FoodItemCreated[] = querySnapshot.docs.map(doc => ({
+                    // const id = doc.id;
+                    idfirestore: doc.id,
+                    ...(doc.data() as FoodItemCreated), // Type assertion ici
+                }));
+                
+                if(userIdConnected) {
+                    const filteredData = allData.filter(food => food.idUser === userIdConnected);
+                    setAllDataFoodCreated(filteredData)
+                    console.log('new user data:', filteredData);
+                    // setIsLoading(true)
+
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération de la collection :", error);
+                // setError("Erreur lors de la récupération des données.");
+            }
+        };
+    
+        fetchCollection();
+    }, [userIdConnected]);
+    console.log('getting page [id}' , allDataFoodCreated)
+    // console.log()
+    
 
     const handleGoBack = () => {
         if (navigationRef.current?.isReady()) {
@@ -40,16 +111,71 @@ export default function DetailsFoodCreated() {
         }
     };
 
-    const filterUniqueFood = data.find((element) => element.id === id)
+    const handleDelete = (id: any) => {
+        if (!id) {
+            console.error("L'ID de l'utilisateur du repas est indéfini.");
+            return;
+        }
+    
+        // Affiche une alerte de confirmation
+        Alert.alert(
+            "Confirmation",
+            "Are you sure you want to eliminate this food?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Deletion canceled"),
+                    style: "cancel",
+                },
+                {
+                    text: "Delete",
+                    onPress: () => {
+                        // Crée une fonction qui exécute la suppression
+                        const deleteFood = async () => {
+                            console.log(`Deleting food with ID: ${id}`);
+                            try {
+                                const mealDocRef = doc(firestore, "UserCreatedFoods", id);
+                                await deleteDoc(mealDocRef);
+                                const updatedData = querySnapshot.docs.map(doc => ({
+                                    ...(doc.data() as FoodItemCreated),
+                                }));
+                        
+                                const filteredData = updatedData.filter(food => food.idUser === userIdConnected);
+                                setAllDataFoodCreated(filteredData);
+                                console.log("Document deleted with success");
+                            } catch (error) {
+                                console.error(
+                                    "Error during deletion of document : ",
+                                    error
+                                );
+                            }
+                        };
+                        deleteFood();
+                        if (navigationRef.isReady()) {
+                            navigationRef.navigate("search", { id });
+                        } else {
+                            console.log("Navigation n'est pas prête");
+                        }
+                    },
+                    style: "destructive",
+                },
+            ],
+            { cancelable: false } 
+        );
+    };
+    
 
-    const values = [filterUniqueFood?.proteins, filterUniqueFood?.carbohydrates, filterUniqueFood?.fats]
+    const filterUniqueFood = allDataFoodCreated.find((element) => element.id === id)
+    console.log('new array', filterUniqueFood)
+
+    const values = [filterUniqueFood?.proteins, filterUniqueFood?.carbs, filterUniqueFood?.fats]
     values.sort((a, b) => a - b);
     
     const associations = { [values[0]]: 65, [values[1]]: 90, [values[2]]: 120 };
 
     const associatedValues = {
     proteins: associations[filterUniqueFood?.proteins],
-    carbohydrates: associations[filterUniqueFood?.carbohydrates],
+    carbohydrates: associations[filterUniqueFood?.carbs],
     fats: associations[filterUniqueFood?.fats],
     };
 
@@ -70,15 +196,12 @@ export default function DetailsFoodCreated() {
             <Row>
                 <View style={styles.wrapperBlock}>
                     <View style={styles.block}>
-                        <ThemedText color={colors.black} style={[{borderColor: colors.black, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.category}</ThemedText>
-                    </View>
-                    <View style={styles.block}>
                         <ThemedText color={colors.black} style={[{borderColor: colors.black, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
                     </View>
                 </View>
             </Row>
             <Row style={styles.wrapperTitle}>
-                <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.name}</ThemedText>
+                <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.title}</ThemedText>
                 <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
                 <ThemedText color={colors.black} variant="title1" style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
             </Row>
@@ -93,7 +216,7 @@ export default function DetailsFoodCreated() {
                     />
                     <NutritionStatCard
                         nutri={'carbs'}
-                        quantity={filterUniqueFood?.carbohydrates}
+                        quantity={filterUniqueFood?.carbs}
                         unit={'g'}
                         height={associatedValues["carbohydrates"]}
                         source={require('@/assets/images/nutritional/cutlery.png')}
@@ -110,10 +233,10 @@ export default function DetailsFoodCreated() {
             <View>
 
                 {filterUniqueFood?.proteins ? <NutritionItem name={'Proteins'} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
-                {filterUniqueFood?.carbohydrates ? <NutritionItem name={'Carbs'} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
+                {filterUniqueFood?.carbs ? <NutritionItem name={'Carbs'} quantity={filterUniqueFood?.carbs} unit={'g'}/> : null}
                 {filterUniqueFood?.fats ? <NutritionItem name={'Fats'} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
                 
-                {filterUniqueFood?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={filterUniqueFood?.vitaminA} unit={'g'}/> : null}
+                {/* {filterUniqueFood?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={filterUniqueFood?.vitaminA} unit={'g'}/> : null}
                 {filterUniqueFood?.vitaminB1 ? <NutritionItem name={'Vitamins B1'} quantity={filterUniqueFood?.vitaminB1} unit={'g'}/> : null}
                 {filterUniqueFood?.vitaminB6 ? <NutritionItem name={'Vitamins B6'} quantity={filterUniqueFood?.vitaminB6} unit={'g'}/> : null}
                 {filterUniqueFood?.vitaminB12 ? <NutritionItem name={'Vitamins B12'} quantity={filterUniqueFood?.vitaminB12} unit={'g'}/> : null}
@@ -126,7 +249,12 @@ export default function DetailsFoodCreated() {
                 {filterUniqueFood?.potassium ? <NutritionItem name={'Potassium'} quantity={filterUniqueFood?.potassium} unit={'g'}/> : null}
                 {filterUniqueFood?.magnesium ? <NutritionItem name={'Magnesium'} quantity={filterUniqueFood?.magnesium} unit={'g'}/> : null}
                 {filterUniqueFood?.calcium ? <NutritionItem name={'Calcium'} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
-                {filterUniqueFood?.iron ? <NutritionItem name={'Iron'} quantity={filterUniqueFood?.iron} unit={'g'}/> : null}
+                {filterUniqueFood?.iron ? <NutritionItem name={'Iron'} quantity={filterUniqueFood?.iron} unit={'g'}/> : null} */}
+            </View>
+            <View>
+                <TouchableOpacity onPress={() => handleDelete(filterUniqueFood?.idfirestore)} style={{width: '100%', alignItems: 'center', marginTop: 40}}>
+                    <Image source={require('@/assets/images/delete.png')} style={styles.delete}/>
+                </TouchableOpacity>
             </View>
         </View>
     </ScrollView>
@@ -203,4 +331,8 @@ const styles = StyleSheet.create({
         marginTop: -20,
         paddingBottom: 40
     },
+    delete: {
+        height: 30,
+        width: 30
+    }
 })

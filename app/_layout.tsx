@@ -14,6 +14,7 @@ import EditProfileScreen from '@/screens/EditProfileScreen';
 import { UserProvider } from '@/components/context/UserContext';
 import ChangePasswordScreen from '@/screens/ChangePasswordScreen';
 import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
+import { FoodProvider } from "@/hooks/FoodContext";
 // import { StatusBar } from 'expo-status-bar';
 import * as NavigationBar from 'expo-navigation-bar';
 import { StatusBar } from 'react-native';
@@ -51,6 +52,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <UserProvider>
+      {/* <FoodProvider> */}
         <StatusBar backgroundColor="#000" barStyle="light-content"/>
         {/* <StatusBar style="auto" /> */}
         <NavigationContainer independent={true} ref={navigationRef}>
@@ -94,20 +96,6 @@ export default function RootLayout() {
                   headerTintColor: '#ffffff'
                 }}
               />
-              <Stack.Screen name="SearchAlimentCreated" component={SearchAlimentCreated} 
-                options={{
-                  headerShown: true,
-                  headerTitle: 'Your aliments',
-                  headerTitleAlign: 'center',
-                  headerStyle: {
-                    backgroundColor: '#000',
-                  },
-                  headerTitleStyle: {
-                    color: 'white',
-                  },
-                  headerTintColor: '#ffffff'
-                }}
-              />
               <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}
                 options={{
                   headerShown: true,
@@ -138,24 +126,40 @@ export default function RootLayout() {
                   headerTintColor: '#ffffff'
                 }}
               />
-              <Stack.Screen
-                name="CreateAliment"
-                component={CreateAliment}
-                options={{
-                  headerShown: true,
-                  headerTitle: 'Create Aliment',
-                  headerTitleAlign: 'center',
-                  headerStyle: {
-                    backgroundColor: '#000',
-                  },
-                  headerTitleStyle: {
-                    color: 'white',
-                  },
-                  headerTintColor: '#ffffff'
-                }}
-              />
+              
+                <Stack.Screen name="SearchAlimentCreated" component={SearchAlimentCreated} 
+                  options={{
+                    headerShown: true,
+                    headerTitle: 'Your aliments',
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                      backgroundColor: '#000',
+                    },
+                    headerTitleStyle: {
+                      color: 'white',
+                    },
+                    headerTintColor: '#ffffff'
+                  }}
+                />
+                <Stack.Screen
+                  name="CreateAliment"
+                  component={CreateAliment}
+                  options={{
+                    headerShown: true,
+                    headerTitle: 'Create Aliment',
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                      backgroundColor: '#000',
+                    },
+                    headerTitleStyle: {
+                      color: 'white',
+                    },
+                    headerTintColor: '#ffffff'
+                  }}
+                />
           </Stack.Navigator>
         </NavigationContainer>
+              {/* </FoodProvider> */}
       </UserProvider>
     </ThemeProvider>
   );

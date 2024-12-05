@@ -9,7 +9,10 @@ import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { navigationRef } from "@/app/_layout";
+// import { navigationRef } from "@/app/_layout";
+import { navigate } from "@/hooks/NavigationUtils";
+
+
 
 type Props = {
     id: number;
@@ -24,8 +27,6 @@ type Props = {
 const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
     const {colors} = useTheme();
-
-    console.log('get id', id)
 
     const [modalVisible, setModalVisible] = useState(false);
     
@@ -50,12 +51,7 @@ const CardFoodCreated: React.FC<Props> = ({ name, id, calories, unit, quantity, 
     }, [user]);
     
     const navigateToDetails = () => {
-        // Vérifier si le navigationRef est prêt avant de naviguer
-        if (navigationRef.isReady()) {
-            navigationRef.navigate("FoodDetailsCreated", { id });
-        } else {
-            console.log("Navigation n'est pas prête");
-        }
+        navigate("FoodDetailsCreated", { id });
     };
 
     const handlePress = (event: any) => {

@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter, fetchUserIdDataConnected } from "@/functions/function";
-import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useNavigation, useRoute } from "@react-navigation/native";
 

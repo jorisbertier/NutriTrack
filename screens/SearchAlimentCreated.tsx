@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
 import { foodData } from "@/data/food.js";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter, fetchUserIdDataConnected } from "@/functions/function";
@@ -15,6 +15,7 @@ import { getAuth } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import CardFoodCreated from "@/components/SearchCreated/CardFoodCreated";
+import { FoodContext } from "@/hooks/FoodContext";
 
 
 interface FoodItemCreated {
@@ -36,7 +37,11 @@ function SearchAlimentCreated() {
     const auth = getAuth();
     const user = auth.currentUser;
 
+    // const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
     const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
+
+    console.log('length', allDataFoodCreated.length)
+    console.log('length', allDataFoodCreated)
 
     const {theme, colors} = useTheme();
     const navigation = useNavigation();
@@ -104,6 +109,10 @@ function SearchAlimentCreated() {
 
     }, [selectedDate])
 
+    useEffect(() => {
+
+    }, [allDataFoodCreated])
+
     // useEffect(() => {
     //     try {
     //         if (foodData && foodData.length > 0) {
@@ -128,9 +137,6 @@ function SearchAlimentCreated() {
     }
 
     const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim()))
-
-    console.log(allDataFoodCreated)
-
 
     return (
         <>
