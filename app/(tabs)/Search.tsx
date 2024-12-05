@@ -128,6 +128,7 @@ export default function Search() {
                     </View>
                 </Row> */}
                 <Row style={[styles.wrapperFood]}>
+                    {text.length === 0 &&
                     <Row style={{justifyContent: 'space-around', width: '100%'}}>
                         <TouchableOpacity onPress={() => navigation.navigate("CreateAliment")}>
                             <View style={{backgroundColor: 'red', padding: 20, justifyContent: 'center', alignItems: 'center'}}>
@@ -142,6 +143,7 @@ export default function Search() {
                             </View>
                         </TouchableOpacity>
                     </Row>
+                    }
                         <FlatList<FoodItem>
                             data={filteredFood}
                             renderItem={({ item }) => (
