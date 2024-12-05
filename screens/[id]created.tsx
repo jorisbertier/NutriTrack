@@ -49,15 +49,6 @@ export default function DetailsFoodCreated() {
     const route = useRoute<any>();
     const { id } = route.params; 
 
-    // const [data, setData] = useState<FoodItem[]>([]);
-
-    // useEffect(() => {
-    //     try {
-    //             setData(foodData);
-    //     } catch (e) {
-    //         console.log('Error processing data', e);
-    //     }
-    // }, []);
     useEffect(() => {
         try {
             const fetch = async () => {
@@ -111,57 +102,6 @@ export default function DetailsFoodCreated() {
             console.log("Navigation is not ready yet");
         }
     };
-
-    const handleDelete = (id: any) => {
-        if (!id) {
-            console.error("L'ID de l'utilisateur du repas est indéfini.");
-            return;
-        }
-    
-        // Affiche une alerte de confirmation
-        Alert.alert(
-            "Confirmation",
-            "Are you sure you want to eliminate this food?",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => console.log("Deletion canceled"),
-                    style: "cancel",
-                },
-                {
-                    text: "Delete",
-                    onPress: async () => {
-                        console.log(`Deleting food with ID: ${id}`);
-                        try {
-                            const mealDocRef = doc(firestore, "UserCreatedFoods", id);
-                            await deleteDoc(mealDocRef);
-   
-                            // Mise à jour des données après suppression
-                            const collectionRef = collection(firestore, "UserCreatedFoods");
-                            const querySnapshot = await getDocs(collectionRef);
-                            const updatedData = querySnapshot.docs.map(doc => ({
-                                ...(doc.data() as FoodItemCreated),
-                            }));
-   
-                            const filteredData = updatedData.filter(food => food.idUser === userIdConnected);
-                            setAllDataFoodCreated(filteredData);
-                            console.log("Document deleted with success");
-                            if (navigationRef.isReady()) {
-                                navigationRef.navigate("search", { id });
-                            } else {
-                                console.log("Navigation n'est pas prête");
-                            }
-                        } catch (error) {
-                            console.error("Error during deletion of document : ", error);
-                        }
-                    },
-                    style: "destructive",
-                },
-            ],
-            { cancelable: false } 
-        );
-    };
-    
 
     const filterUniqueFood = allDataFoodCreated.find((element) => element.id === id)
     console.log('new array', filterUniqueFood)
@@ -248,11 +188,6 @@ export default function DetailsFoodCreated() {
                 {filterUniqueFood?.magnesium ? <NutritionItem name={'Magnesium'} quantity={filterUniqueFood?.magnesium} unit={'g'}/> : null}
                 {filterUniqueFood?.calcium ? <NutritionItem name={'Calcium'} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
                 {filterUniqueFood?.iron ? <NutritionItem name={'Iron'} quantity={filterUniqueFood?.iron} unit={'g'}/> : null} */}
-            </View>
-            <View>
-                <TouchableOpacity onPress={() => handleDelete(filterUniqueFood?.idfirestore)} style={{width: '100%', alignItems: 'center', marginTop: 40}}>
-                    <Image source={require('@/assets/images/delete.png')} style={styles.delete}/>
-                </TouchableOpacity>
             </View>
         </View>
     </ScrollView>
