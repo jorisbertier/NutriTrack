@@ -5,7 +5,7 @@ import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
 import { Dimensions } from "react-native";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
-import { CommonActions, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { useState, useEffect, useContext } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from "@/interface/FoodItem";
@@ -17,6 +17,7 @@ import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
+import { Skeleton } from "moti/skeleton";
 
 const { height } = Dimensions.get('window');
 
@@ -32,6 +33,9 @@ export default function DetailsFoodCreated() {
     // const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
     // const [allDataFoodCreated2, setAllDataFoodCreated2] = useState<FoodItemCreated[]>([]);
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const colorMode: 'light' | 'dark' = 'light';
 
     const navigation = useNavigation();
     const route = useRoute<any>();
@@ -74,6 +78,8 @@ export default function DetailsFoodCreated() {
             } catch (error) {
                 console.error("Erreur lors de la récupération de la collection :", error);
                 // setError("Erreur lors de la récupération des données.");
+            }finally {
+                setIsLoading(true)
             }
         };
     
@@ -121,16 +127,39 @@ export default function DetailsFoodCreated() {
         <View style={[styles.header, {backgroundColor: colors.white}]}>
             <Row>
                 <View style={styles.wrapperBlock}>
+                    {isLoading ?
                     <View style={styles.block}>
                         <ThemedText color={colors.black} style={[{borderColor: colors.black, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
                     </View>
+                    :
+                    <View style={{ marginTop: 10 }}> 
+                        <Skeleton colorMode={colorMode} width={100} height={30} />
+                    </View>
+                    }
                 </View>
             </Row>
             <Row style={styles.wrapperTitle}>
-                <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.title}</ThemedText>
-                <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
+            
+                {isLoading ?
+                    <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.title}</ThemedText>
+                : 
+                    <Skeleton colorMode={colorMode} width={250} height={30} ></Skeleton>
+                }
+                {isLoading ?
+                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
+                :
+                <View style={{ marginTop: 10 }}> 
+                    <Skeleton colorMode={colorMode} width={250} height={30} />
+                </View>
+                }
+                {isLoading ?
                 <ThemedText color={colors.black} variant="title1" style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
-            </Row>
+                :
+                <View style={{ marginTop: 10, marginBottom: 10 }}> 
+                    <Skeleton colorMode={colorMode} width={250} height={30} />
+                </View>
+                }
+                </Row>
             <View style={[styles.container]}>
                 <Row gap={10}>
                     <NutritionStatCard
@@ -155,9 +184,9 @@ export default function DetailsFoodCreated() {
                         source={require('@/assets/images/nutritional/water.png')}
                     />
                 </Row>
-            </View> 
+            </View>
+            {isLoading ? 
             <View>
-
                 {filterUniqueFood?.proteins ? <NutritionItem name={'Proteins'} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
                 {filterUniqueFood?.carbs ? <NutritionItem name={'Carbs'} quantity={filterUniqueFood?.carbs} unit={'g'}/> : null}
                 {filterUniqueFood?.fats ? <NutritionItem name={'Fats'} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
@@ -177,6 +206,11 @@ export default function DetailsFoodCreated() {
                 {filterUniqueFood?.calcium ? <NutritionItem name={'Calcium'} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
                 {filterUniqueFood?.iron ? <NutritionItem name={'Iron'} quantity={filterUniqueFood?.iron} unit={'g'}/> : null} */}
             </View>
+            :
+            <View style={{ marginTop: 10 }}> 
+                <Skeleton colorMode={colorMode} width={'100%'} height={80} />
+            </View>
+            }
         </View>
     </ScrollView>
     )
