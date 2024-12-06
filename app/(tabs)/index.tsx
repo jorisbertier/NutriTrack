@@ -154,11 +154,7 @@ useEffect(() => {
       <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)}/>
       
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
-        {/* <Banner/> */}
         <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <Row style={{gap: 10, marginTop: 30}}>
-            <Button title='Dashboard' color={colors.primary}  onPress={() => navigation.navigate('dashboard')}/>
-          </Row> */}
           <Row style={{marginTop: 40}}>
             <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
           </Row>
