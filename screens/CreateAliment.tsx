@@ -147,7 +147,7 @@ function CreateAliment() {
                 id: newId,
                 title: title,
                 quantity: Number(quantity),
-                unit: unit,
+                unit: unit.toLowerCase(),
                 calories: Number(calories),
                 proteins: Number(proteins),
                 carbs: Number(carbs),

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { fetchUserIdDataConnected } from "@/functions/function";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
-import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
 import { FoodContext } from "@/hooks/FoodContext";
@@ -134,6 +134,21 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                         try {
                             const mealDocRef = doc(firestore, "UserCreatedFoods", idDoc);
                             await deleteDoc(mealDocRef);
+
+                            const mealsCollectionRef = collection(firestore, "UserMealsCreated");
+                            console.log('m',mealsCollectionRef)
+                            const querySnapshot = await getDocs(mealsCollectionRef);
+                            console.log('q',querySnapshot)
+                            const relatedDocs = querySnapshot.docs.filter(
+                                doc => doc.data().foodId === idDoc
+                            ); 
+                            console.log('r',relatedDocs)
+    
+                            const deletePromises = relatedDocs.map(doc => deleteDoc(doc.ref));
+                            await Promise.all(deletePromises);
+                            // querySnapshot.forEach(async (docSnap) => {
+                            //     await deleteDoc(docSnap.ref); // Supprime le document
+                            // });
     
                             // Mise à jour des données après suppression
                             // const collectionRef = collection(firestore, "UserCreatedFoods");
