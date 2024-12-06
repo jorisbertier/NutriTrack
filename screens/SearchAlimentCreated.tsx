@@ -28,9 +28,6 @@ function SearchAlimentCreated() {
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
     // const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
 
-    console.log('length', allDataFoodCreated.length)
-    console.log('length', allDataFoodCreated)
-
     const {theme, colors} = useTheme();
     const navigation = useNavigation();
 

@@ -1,11 +1,11 @@
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text, Dimensions } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text, Dimensions, FlatList } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from '@/interface/FoodItem';
-import { UserMeals } from "@/interface/UserMeals";
+import { UserMeals, UserMealsCreated } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
 import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, handleAnimation } from "@/functions/function";
@@ -25,6 +25,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
 import { useTheme } from "@/hooks/ThemeProvider";
+import { FoodItemCreated } from "@/interface/FoodItemCreated";
 
 
 export default function Dashboard() {
@@ -35,6 +36,9 @@ export default function Dashboard() {
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
+
+    const [allFoodDataCreated, setAllFoodDataCreated] = useState<UserMealsCreated[]>([])
+    const [allUserCreatedFoods, setAllUserCreatedFoods] = useState<FoodItemCreated[]>([])
 
     const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
@@ -67,6 +71,8 @@ export default function Dashboard() {
             setSelectedDate(date);
         }
     };
+
+    /*ID user*/
     /* API */
     useEffect(() => {
         try {
@@ -81,6 +87,37 @@ export default function Dashboard() {
                     date: doc.data().date as string,
                 }));
                 setAllUsersFoodData(userMealsList)
+
+                const userMealsCreatedCollection = collection(firestore, 'UserMealsCreated');
+                const userMealsCreatedSnapshot = await getDocs(userMealsCreatedCollection);
+                const userMealsCreatedList = userMealsCreatedSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    foodId: doc.data().foodId as string,
+                    userId: doc.data().userId as number,
+                    mealType: doc.data().mealType as string,
+                    date: doc.data().date as string,
+                }));
+
+                setAllFoodDataCreated(userMealsCreatedList)
+
+                const userCreatedFoodsCollection = collection(firestore, 'UserCreatedFoods');
+                const userCreatedFoodsSnapshot = await getDocs(userCreatedFoodsCollection);
+                const userCreatedFoodsList = userCreatedFoodsSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    idUser: doc.data().idUser as number,
+                    calories: doc.data().calories as number,
+                    carbs: doc.data().carbs as number,
+                    fats: doc.data().fats as number,
+                    proteins: doc.data().proteins as number,
+                    quantity: doc.data().quantity as number,
+                    title: doc.data().title as string,
+                    unit: doc.data().unit as string,
+                }));
+                console.log('raw', userCreatedFoodsList)
+
+                setAllUserCreatedFoods(userCreatedFoodsList)
+
+
             }
             fetchData()
             setAllFoodData(foodData);
@@ -95,7 +132,31 @@ export default function Dashboard() {
             }, 1500)
         }
     }, []);
+
+    /*get all foods meals & date by a user by a id user connected */
+    const userConnectedUserMealsCreated = allFoodDataCreated.filter(food => food.userId === userIdConnected)
+    /* get all foods created by user by a id user connected */
+    const userConnectedUserCreatedFoods = allUserCreatedFoods.filter(food => food.idUser === userIdConnected )
+    /**/
+    const mealsForSelectedDate = userConnectedUserMealsCreated.filter(meal => 
+        meal.date === selectedDate.toLocaleDateString()
+    );
+    const foodsForSelectedDate = mealsForSelectedDate.map(meal => {
+        const foodDetails = userConnectedUserCreatedFoods.find(food => food.id === meal.foodId);
+        return {
+            ...meal,
+            ...foodDetails, // Fusionne les données de l'aliment avec celles du repas
+        };
+    });
+    const resultBreakfastCreated = foodsForSelectedDate.filter(food => food.mealType === 'Breakfast');
+    const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
+    const resultDinnerCreated = foodsForSelectedDate.filter(food => food.mealType === 'Dinner');
+    const resultSnackCreated = foodsForSelectedDate.filter(food => food.mealType === 'Snack');
     
+    console.log('------')
+    console.log(sortByBreakfast)
+    console.log(resultBreakfastCreated)
+    console.log('------')
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
         const filterAndSetFoodData = (filteredData: UserMeals[], setData: React.Dispatch<React.SetStateAction<FoodItem[]>>) => {
@@ -277,12 +338,6 @@ export default function Dashboard() {
     const displayDataLunch = useMemo(() => ({ data: sortByLunch }), [sortByLunch]);
     const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
     const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
-
-    console.log('____')
-    const timestamp = 1729992960000; 
-    const date2 = new Date(timestamp);//get date with timestamp
-    console.log(date2.toString())
-    console.log('____')
     
     return (
         <>
@@ -374,6 +429,17 @@ export default function Dashboard() {
             {/* <View>
                 <Text>#{userIdConnected}</Text>
             </View> */}
+            <View>
+                {foodsForSelectedDate.length > 0 ? (
+                    foodsForSelectedDate.map((food, index) => (
+                        <ThemedText key={index}> {food.title}</ThemedText>
+                    ))
+                ) : (
+                    <ThemedText style={{ textAlign: 'center' }}>
+                        Aucun aliment pour cette date.
+                    </ThemedText>
+                )}
+            </View>
             <View style={styles.wrapperMeals}>
 {/* 
                 <Row style={styles.row}>
@@ -386,10 +452,11 @@ export default function Dashboard() {
                     </View>
                 </Row> */}
                 
-                    {DisplayResultFoodByMeal(sortByBreakfast, 'Breakfast', handleDeleteFood)}
-                    {DisplayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
+                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood)}
+                    {/* {DisplayResultFoodByMeal(resultBreakfastCreated, "Breakfast", handleDeleteFood)} */}
+                    {/* {DisplayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
-                    {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)}
+                    {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)} */}
             </View>
             <View style={{marginBottom: 60}}>
             <NutritionList data={nutritionData}/>

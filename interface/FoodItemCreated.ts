@@ -1,6 +1,6 @@
 export interface FoodItemCreated {
-    idfirestore: string;
-    idDoc: string;
+    idfirestore?: string;
+    idDoc?: string;
     id: string;
     idUser: number;
     title: string;
