@@ -130,18 +130,20 @@ export default function Search() {
                 <Row style={[styles.wrapperFood]}>
                     {text.length === 0 &&
                     <Row style={{justifyContent: 'space-around', width: '100%'}}>
-                        <TouchableOpacity onPress={() => navigation.navigate("CreateAliment")}>
-                            <View style={{backgroundColor: 'red', padding: 20, justifyContent: 'center', alignItems: 'center'}}>
-                                <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.deleteSearch} />
-                                <Text>Create a aliment</Text>
+                        <TouchableOpacity  style={[styles.wrapperBloc, {backgroundColor: colors.gray}]} onPress={() => navigation.navigate("CreateAliment")}>
+                            <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                                <Image source={require('@/assets/images/nutritional/cutlery.png')} style={styles.deleteSearch} />
+                                <ThemedText variant='title2' color={colors.prima}>Create a aliment</ThemedText>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate("SearchAlimentCreated")}>
-                            <View style={{backgroundColor: 'red', padding: 20, justifyContent: 'center', alignItems: 'center'}}>
-                                <Image source={require('@/assets/images/nutritional/burn.png')} style={styles.deleteSearch} />
-                                <Text>My aliments</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("SearchAlimentCreated")}
+                            style={[styles.wrapperBloc, {backgroundColor: colors.gray}]}
+                        >
+                            <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                                <Image source={require('@/assets/images/nutritional/watermelon.png')} style={styles.deleteSearch} />
+                                <ThemedText variant='title2' color={colors.black} style={{ fontWeight: 'bold' }}>My aliments</ThemedText>
                             </View>
-                        </TouchableOpacity>
+                            </TouchableOpacity>
                     </Row>
                     }
                         <FlatList<FoodItem>
@@ -228,9 +230,10 @@ const styles = StyleSheet.create({
         borderRadius: 8
     },
     deleteSearch : {
-        height: 15,
-        width: 15,
-        tintColor: '#8a8a8a',
+        height: 20,
+        width: 20,
+        tintColor: '#000',
+        marginRight: 10 
         
     },
     wrapperFood : {
@@ -298,5 +301,15 @@ const styles = StyleSheet.create({
     verify : {
         width: 20,
         height: 20
+    },
+    wrapperBloc: {
+        borderRadius: 10,
+        padding: 15,
+        margin: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     }
 })
