@@ -9,7 +9,7 @@ import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from '../interface/FoodItemCreated';
 import CardFoodResumeCreated from "./Screens/Dashboard/CardFoodResumeCreated";
 
-export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any, meal: string,handleDeleteFood: (userMealId: string) => void) {
+export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any, meal: string,handleDeleteFood: (userMealId: string) => void, handleDeleteFoodCreated: (userMealId: string) => void) {
 
     const {colors} = useTheme();
     
@@ -20,6 +20,7 @@ export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any,
     const totalCaloriesByMealCreated = resultMealCreated.reduce((accumulator, item) => {
         return accumulator + item.calories;
     }, 0);
+    console.log('rendu item', resultMealCreated)
 
     return (
         <View style={styles.wrapper}>
@@ -63,7 +64,7 @@ export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any,
                                     id={Number(item.id)}
                                     // userMealId={item.userMealId}
                                     calories={item.calories}
-                                    // handleDelete={()=> handleDeleteFood(item.userMealId)}
+                                    handleDelete={()=> handleDeleteFoodCreated(item.originalMealId)}
                                 />
                             )}
                             showsVerticalScrollIndicator={false}

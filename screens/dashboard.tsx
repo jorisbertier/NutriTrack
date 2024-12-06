@@ -113,7 +113,6 @@ export default function Dashboard() {
                     title: doc.data().title as string,
                     unit: doc.data().unit as string,
                 }));
-                console.log('raw', userCreatedFoodsList)
 
                 setAllUserCreatedFoods(userCreatedFoodsList)
 
@@ -135,27 +134,33 @@ export default function Dashboard() {
 
     /*get all foods meals & date by a user by a id user connected */
     const userConnectedUserMealsCreated = allFoodDataCreated.filter(food => food.userId === userIdConnected)
+       
     /* get all foods created by user by a id user connected */
     const userConnectedUserCreatedFoods = allUserCreatedFoods.filter(food => food.idUser === userIdConnected )
     /**/
     const mealsForSelectedDate = userConnectedUserMealsCreated.filter(meal => 
-        meal.date === selectedDate.toLocaleDateString()
+        meal.date === selectedDate.toLocaleDateString() && meal.id
     );
+    
     const foodsForSelectedDate = mealsForSelectedDate.map(meal => {
         const foodDetails = userConnectedUserCreatedFoods.find(food => food.id === meal.foodId);
         return {
             ...meal,
-            ...foodDetails, // Fusionne les données de l'aliment avec celles du repas
+            ...foodDetails,
+            originalMealId: meal.id,
         };
     });
+    console.log('je suis la 1', allUsersFoodData)
+    console.log('je suis la ', allFoodDataCreated)
+    // console.log('id non recup', foodsForSelectedDate) 
     const resultBreakfastCreated = foodsForSelectedDate.filter(food => food.mealType === 'Breakfast');
     const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
     const resultDinnerCreated = foodsForSelectedDate.filter(food => food.mealType === 'Dinner');
     const resultSnackCreated = foodsForSelectedDate.filter(food => food.mealType === 'Snack');
     
     console.log('------')
-    console.log(sortByBreakfast)
-    console.log(resultBreakfastCreated)
+    // console.log(sortByBreakfast)
+    console.log('resultBreakfastCreated', resultBreakfastCreated)
     console.log('------')
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
@@ -209,6 +214,25 @@ export default function Dashboard() {
                     await deleteDoc(mealDocRef);
                     setAllUsersFoodData(prevData => prevData.filter(item => item.id !== userMealId));
                     // setUpdate(update + 1)
+                    console.log('Document supprimé avec succès');
+                } catch (error) {
+                    console.error("Erreur lors de la suppression du document : ", error);
+                }
+            } else {
+                console.error("L'ID de l'utilisateur du repas est indéfini.");
+            }
+        };
+        deleteFromMeals()
+    }
+
+    const handleDeleteFoodCreated = (userMealId: any) => {
+        console.log(`Deleting food with ID: ${userMealId}`);
+        const deleteFromMeals = async () => {
+            if (userMealId) { // Verify is userMealId is defined
+                try {
+                    const mealDocRef = doc(firestore, "UserMealsCreated", userMealId);
+                    await deleteDoc(mealDocRef);
+                    setAllFoodDataCreated(prevData => prevData.filter(item => item.id !== userMealId));
                     console.log('Document supprimé avec succès');
                 } catch (error) {
                     console.error("Erreur lors de la suppression du document : ", error);
@@ -339,6 +363,7 @@ export default function Dashboard() {
     const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
     const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
     
+    console.log('id du doc', resultBreakfastCreated)
     return (
         <>
         <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
@@ -452,7 +477,7 @@ export default function Dashboard() {
                     </View>
                 </Row> */}
                 
-                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood)}
+                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood, handleDeleteFoodCreated)}
                     {/* {DisplayResultFoodByMeal(resultBreakfastCreated, "Breakfast", handleDeleteFood)} */}
                     {/* {DisplayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
                     {DisplayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}

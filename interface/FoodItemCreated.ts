@@ -1,5 +1,6 @@
 export interface FoodItemCreated {
     idfirestore?: string;
+    originalMealId?: string;
     idDoc?: string;
     id: string;
     idUser: number;
