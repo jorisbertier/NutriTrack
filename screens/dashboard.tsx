@@ -151,6 +151,7 @@ export default function Dashboard() {
             originalMealId: meal.id,
         };
     });
+    // console.log('test', mealsForSelectedDate.length)
 
     const resultBreakfastCreated = foodsForSelectedDate.filter(food => food.mealType === 'Breakfast');
     const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
@@ -267,21 +268,25 @@ export default function Dashboard() {
     const [proteins, setProteins] = useState(0);
     const [carbs, setCarbs] = useState(0);
     const [fats, setFats] = useState(0);
+
+    useEffect(() => {
+        if (allFoodDataCreated.length > 0 && userIdConnected && selectedDate) {
     
-    const calculTotalKcalConsumeToday= () => {
-        if (resultAllDataFood.length > 0) {
-            const totalKcal = resultAllDataFood.reduce((acc: number, item: FoodItem) => {
+            const totalKcalDatabase = resultAllDataFood.reduce((acc: number, item: FoodItem) => {
                 // Ensure that item.nutrition and item.nutrition.calories exist
                 return acc + (item.calories || 0); // Use optional chaining and default to 0
             }, 0);
+            const totalKcalCreated = foodsForSelectedDate.reduce((acc: number, item: FoodItemCreated) => {
+                return acc + (item.calories || 0)
+            }, 0)
+            console.log('totalKcalCreated', totalKcalCreated)
+            const totalKcal = totalKcalDatabase + Number(totalKcalCreated);
             setTotalKcalConsumeToday(totalKcal);
-        } else {
-            setTotalKcalConsumeToday(0);
         }
-    }
+    }, [allFoodDataCreated, userIdConnected, selectedDate, allUserCreatedFoods]);
+
 
     useEffect(() => {
-        calculTotalKcalConsumeToday();
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium)
         getTotalNutrient(resultAllDataFood, 'potassium', setPotassium)
         getTotalNutrient(resultAllDataFood, 'calcium', setCalcium)
@@ -323,30 +328,6 @@ export default function Dashboard() {
         { name: 'Iron', quantity: iron, unit: 'g' },
     ];
 
-         // Crée une référence à Animated.Value
-    // const rotateAnimation = useRef(new Animated.Value(0)).current;
-    // const [isOpenBreakfast, setIsOpenBreakfast] = useState(true)
-
-    // // Fonction pour déclencher l'animation
-    // const handleAnimation = () => {
-    //     // La valeur d'animation alterne entre 0 et 1
-    //     Animated.timing(rotateAnimation, {
-    //         toValue: rotateAnimation._value === 0 ? 1 : 0, // Alterne entre 0 et 1
-    //         duration: 400,
-    //         useNativeDriver: true,
-    //     }).start();
-    //     setIsOpenBreakfast(!isOpenBreakfast)
-    // };
-    
-    // // Interpoler la valeur pour transformer la rotation
-    // const rotateInterpolate = rotateAnimation.interpolate({
-    //     inputRange: [0, 1],
-    //     outputRange: ['0deg', '-180deg'], // Alterner entre 0 et 180 degrés
-    // });
-
-    // const animatedStyle = {
-    //     transform: [{ rotate: rotateInterpolate }],
-    // };
     const proteinsGoal = calculProteins(Number(userData[0]?.weight)) || 0;
     const carbsGoal = calculCarbohydrates(basalMetabolicRate) || 0;
     const fatsGoal = calculFats(basalMetabolicRate) || 0;
@@ -354,10 +335,10 @@ export default function Dashboard() {
     const headerheight = useHeaderHeight();
     const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
 
-    const displayDataBreakfast = useMemo(() => ({ data: sortByBreakfast }), [sortByBreakfast]);
-    const displayDataLunch = useMemo(() => ({ data: sortByLunch }), [sortByLunch]);
-    const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
-    const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
+    // const displayDataBreakfast = useMemo(() => ({ data: sortByBreakfast }), [sortByBreakfast]);
+    // const displayDataLunch = useMemo(() => ({ data: sortByLunch }), [sortByLunch]);
+    // const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
+    // const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
     
     return (
         <>

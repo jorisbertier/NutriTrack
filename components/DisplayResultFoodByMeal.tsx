@@ -20,7 +20,6 @@ export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any,
     const totalCaloriesByMealCreated = resultMealCreated.reduce((accumulator, item) => {
         return accumulator + item.calories;
     }, 0);
-    console.log('rendu item', resultMealCreated)
 
     return (
         <View style={styles.wrapper}>
