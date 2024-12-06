@@ -195,9 +195,11 @@ function SearchAlimentCreated() {
                     />
                     : null}
                     </Skeleton>
-                    
-                {/* {filteredFood.length === 0 && <Text style={{color: colors.black}}>
-                    No food matches with the search {text}.</Text>} */}
+                    {isLoading && filteredAllDataFoodCreated.length === 0 && (
+                        <Text style={{ color: colors.black }}>
+                            No food matches with the search {text}.
+                        </Text>
+                    )}
             </Row>
             {notificationVisible &&
                 <View style={styles.notification}>

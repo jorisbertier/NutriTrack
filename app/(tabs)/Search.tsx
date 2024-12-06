@@ -165,7 +165,8 @@ export default function Search() {
                         />
                         
                     {filteredFood.length === 0 && <Text style={{color: colors.black}}>
-                        No food matches with the search {text}.</Text>}
+                        No food matches with the search {text}.</Text>
+                    }
                 </Row>
                 {notificationVisible &&
                     <View style={styles.notification}>
