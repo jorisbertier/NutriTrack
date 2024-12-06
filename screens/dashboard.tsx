@@ -132,6 +132,7 @@ export default function Dashboard() {
         }
     }, []);
 
+    /* Add created food created by one user */
     /*get all foods meals & date by a user by a id user connected */
     const userConnectedUserMealsCreated = allFoodDataCreated.filter(food => food.userId === userIdConnected)
        
@@ -150,18 +151,13 @@ export default function Dashboard() {
             originalMealId: meal.id,
         };
     });
-    console.log('je suis la 1', allUsersFoodData)
-    console.log('je suis la ', allFoodDataCreated)
-    // console.log('id non recup', foodsForSelectedDate) 
+
     const resultBreakfastCreated = foodsForSelectedDate.filter(food => food.mealType === 'Breakfast');
     const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
     const resultDinnerCreated = foodsForSelectedDate.filter(food => food.mealType === 'Dinner');
     const resultSnackCreated = foodsForSelectedDate.filter(food => food.mealType === 'Snack');
     
-    console.log('------')
-    // console.log(sortByBreakfast)
-    console.log('resultBreakfastCreated', resultBreakfastCreated)
-    console.log('------')
+    
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
         const filterAndSetFoodData = (filteredData: UserMeals[], setData: React.Dispatch<React.SetStateAction<FoodItem[]>>) => {
@@ -363,38 +359,30 @@ export default function Dashboard() {
     const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
     const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
     
-    console.log('id du doc', resultBreakfastCreated)
     return (
         <>
-        <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
-            <TouchableOpacity onPress={handleOpenCalendar}>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
-                    <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                        'Today':
-                        `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                    </ThemedText>
-                    {theme === "light" ?
-                        <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
-                        :
-                        <Image source={require('@/assets/images/chevronWhite.png')} style={{width: 20, height: 20}}/>
-                        }
-                </View>
-            </TouchableOpacity>
-        </View>
-        <ScrollView style={[styles.header, {paddingTop: 30, backgroundColor: colors.whiteMode}]}>
+            <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
+                <TouchableOpacity onPress={handleOpenCalendar}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
+                        <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
+                            'Today':
+                            `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
+                        </ThemedText>
+                        {theme === "light" ?
+                            <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
+                            :
+                            <Image source={require('@/assets/images/chevronWhite.png')} style={{width: 20, height: 20}}/>
+                            }
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <ScrollView style={[styles.header, {paddingTop: 30, backgroundColor: colors.whiteMode}]}>
                 <View style={{flexDirection: 'column',height: 'auto', alignItems:'center', width: '100%', marginBottom: 20}}>
                     {isOpen && (<RNDateTimePicker
                                 onChange={setDate}
                                 value={selectedDate}
                                 timeZoneName={timeZone}
-                                // timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
                     />)}
-{/*                     
-                    {isLoading ?
-                        <Image source={require('@/assets/images/nutritional/burnPrimary.png')} style={{width: 35, height: 35}}/>
-                    :
-                        <Skeleton width={80} height={80} radius={'round'} colorMode={colorMode} />
-                    } */}
                     {isLoading ?
                         <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
                     :
@@ -412,82 +400,19 @@ export default function Dashboard() {
                     }
                 </View>
                 <View style={{marginBottom: 20}}>
-                <ProgressBarKcal isLoading={isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
-
+                    <ProgressBarKcal isLoading={isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
                 </View>
-
                 <ProgressRing isLoading={isLoading} progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
-                {/* <ProgressRing progessProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/> */}
-                {/* <ProgressBar progress={proteins} nutri={'Proteins'} quantityGoal={calculProteins(Number(userData[0]?.weight))}/>
-                <ProgressBar progress={carbs} nutri={'Carbs'} quantityGoal={calculCarbohydrates(basalMetabolicRate)}/>
-                <ProgressBar progress={fats} nutri={'Fats'} quantityGoal={calculFats(basalMetabolicRate)}/> */}
-                {/* <ProgressBar progress={magnesium} nutri={'Carbs'} quantityGoal={300}/>
-                <ProgressBar progress={magnesium} nutri={'Fats'} quantityGoal={300}/> */}
-
-            {/* <Row>
-                {basalMetabolicRate - totalKcalConsumeToday > 0 ? (
-                    <ThemedText variant="title">{basalMetabolicRate - totalKcalConsumeToday} kcal restant</ThemedText>
-                ) : (
-                    <ThemedText variant="title">0 Kcal restant votre objectif est atteint</ThemedText>
-                )}
-            </Row> */}
-            {/* <Row style={styles.wrapperCalendar}>
-                <View>
-                    <Image source={require('@/assets/images/navbar/home.png')} style={styles.next} />
-                </View>
-                <TouchableOpacity onPress={handleOpenCalendar}>
-                    <View style={styles.calendar}>
-                            {isOpen && (<RNDateTimePicker
-                                onChange={setDate}
-                                value={selectedDate}
-                                timeZoneOffsetInMinutes={new Date().getTimezoneOffset()} 
-                                />)}
-                            <ThemedText>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Aujourd"hui': selectedDate.toLocaleDateString('fr-FR')}</ThemedText>
-                            <ThemedText>{selectedDate.toLocaleString()}</ThemedText>
-                            <ThemedText>{`${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDay()}, ${selectedDate.getFullYear()}`}</ThemedText>
-                    </View>
-                </TouchableOpacity>
-                <View>
-                    <Image source={require('@/assets/images/navbar/home.png')} style={styles.next} />
-                </View>
-            </Row> */}
-            {/* <View>
-                <Text>#{userIdConnected}</Text>
-            </View> */}
-            <View>
-                {foodsForSelectedDate.length > 0 ? (
-                    foodsForSelectedDate.map((food, index) => (
-                        <ThemedText key={index}> {food.title}</ThemedText>
-                    ))
-                ) : (
-                    <ThemedText style={{ textAlign: 'center' }}>
-                        Aucun aliment pour cette date.
-                    </ThemedText>
-                )}
-            </View>
-            <View style={styles.wrapperMeals}>
-{/* 
-                <Row style={styles.row}>
-                    <ThemedText variant="title">Breakfast</ThemedText>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20}}>
-                        <ThemedText>100 Kcal</ThemedText>
-                        <TouchableOpacity onPress={handleAnimation}>
-                            <Animated.Image source={require('@/assets/images/chevron-bas.png')} style={[{width: 20, height: 20}, animatedStyle]}/>
-                        </TouchableOpacity>
-                    </View>
-                </Row> */}
-                
+                <View style={styles.wrapperMeals}>
                     {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood, handleDeleteFoodCreated)}
-                    {/* {DisplayResultFoodByMeal(resultBreakfastCreated, "Breakfast", handleDeleteFood)} */}
-                    {/* {DisplayResultFoodByMeal(sortByLunch, 'Lunch', handleDeleteFood)}
-                    {DisplayResultFoodByMeal(sortByDinner, 'Dinner', handleDeleteFood)}
-                    {DisplayResultFoodByMeal(sortBySnack, 'Snack', handleDeleteFood)} */}
-            </View>
-            <View style={{marginBottom: 60}}>
-            <NutritionList data={nutritionData}/>
-
-            </View>
-        </ScrollView>
+                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, 'Lunch', handleDeleteFood, handleDeleteFoodCreated)}
+                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, 'Dinner', handleDeleteFood, handleDeleteFoodCreated)}
+                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, 'Snack', handleDeleteFood, handleDeleteFoodCreated)}
+                </View>
+                <View style={{marginBottom: 60}}>
+                    <NutritionList data={nutritionData}/>
+                </View>
+            </ScrollView>
         </>
     )
 }
