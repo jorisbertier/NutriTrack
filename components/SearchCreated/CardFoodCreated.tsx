@@ -192,7 +192,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                         {calories} kcal, {name} {quantity} {unit}
                     </ThemedText>
                 </View>
-                <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 25}}>
+                <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 10}}>
                     <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
                         <Image source={require("@/assets/images/add.png")} style={styles.add} />
                     </Pressable>

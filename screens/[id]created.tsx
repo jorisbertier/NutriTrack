@@ -160,6 +160,7 @@ export default function DetailsFoodCreated() {
                 </View>
                 }
                 </Row>
+            {isLoading ? 
             <View style={[styles.container]}>
                 <Row gap={10}>
                     <NutritionStatCard
@@ -185,6 +186,11 @@ export default function DetailsFoodCreated() {
                     />
                 </Row>
             </View>
+            :
+            <View style={{ marginTop: 10 }}> 
+                <Skeleton colorMode={colorMode} width={'100%'} height={60} />
+            </View>
+            }
             {isLoading ? 
             <View>
                 {filterUniqueFood?.proteins ? <NutritionItem name={'Proteins'} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
