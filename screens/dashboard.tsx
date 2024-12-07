@@ -8,7 +8,7 @@ import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals, UserMealsCreated } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
-import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, handleAnimation } from "@/functions/function";
+import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, handleAnimation, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
@@ -308,18 +308,27 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'fats', setFats)
     }, [resultAllDataFood]);
 
+    function getVitaminPercentage(value: number, dailyValue: number) {
+        // return ((value / dailyValue) * 100).toFixed(1) + "%";
+        return ((value / dailyValue) * 100).toFixed(1);
+    }
+    
+    // Exemple pour la vitamin C :
+    const vitaminCPercentage = getVitaminPercentage(10.3, 90); // 90 mg est l'AJR pour la vitamin C
+    console.log(vitaminCPercentage); // "11.4%
+
     const nutritionData = [
         { name: 'Fiber', quantity: 0, unit: 'g' },
         { name: 'Sugar', quantity: sugar, unit: 'g' },
-        { name: 'Vitamin A', quantity: vitaminA, unit: 'g' },
-        { name: 'Vitamin B1', quantity: vitaminB1, unit: 'g' },
-        { name: 'Vitamin B5', quantity: vitaminB5, unit: 'g' },
-        { name: 'Vitamin B6', quantity: vitaminB6, unit: 'g' },
-        { name: 'Vitamin B12', quantity: vitaminB12, unit: 'g' },
-        { name: 'Vitamin C', quantity: vitaminC, unit: 'g' },
-        { name: 'Vitamin D', quantity: vitaminD, unit: 'g' },
-        { name: 'Vitamin E', quantity: vitaminE, unit: 'g' },
-        { name: 'Vitamin K', quantity: vitaminK, unit: 'g' },
+        { name: 'Vitamin A', quantity: getVitaminPercentageUg(vitaminA, 800), unit: '%' },
+        { name: 'Vitamin B1', quantity: getVitaminPercentageMg(vitaminB1, 1.1), unit: '%' },
+        { name: 'Vitamin B5', quantity: getVitaminPercentageMg(vitaminB5, 5), unit: '%' },
+        { name: 'Vitamin B6', quantity: getVitaminPercentageMg(vitaminB6, 1.3), unit: '%' },
+        { name: 'Vitamin B12', quantity: getVitaminPercentageUg(vitaminB12, 2.4), unit: '%' },
+        { name: 'Vitamin C', quantity: getVitaminPercentage(vitaminC, 90), unit: '%' },
+        { name: 'Vitamin D', quantity: getVitaminPercentageUg(vitaminD, 15), unit: '%' },
+        { name: 'Vitamin E', quantity: getVitaminPercentageMg(vitaminE, 15), unit: '%' },
+        { name: 'Vitamin K', quantity: getVitaminPercentageUg(vitaminK, 120), unit: '%' },
         { name: 'Folate', quantity: folate, unit: 'g' },
         { name: 'Potassium', quantity: potassium, unit: 'g' },
         { name: 'Magnesium', quantity: magnesium, unit: 'g' },

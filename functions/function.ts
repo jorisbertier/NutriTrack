@@ -255,6 +255,18 @@ export function getIdAvatarProfile(number: number) {
     return avatars[number];
 }
 
+export function getVitaminPercentageUg(value: number, dailyValue: number): string {
+    // AJR pour la Vitamine A (en µg) Vitamine B12 (en µg) Vitamine D (en µg) Vitamine K (en µg)
+    return ((value / dailyValue) * 100).toFixed(1);
+}
+
+export function getVitaminPercentageMg(value: number, dailyValue: number): string {
+    // AJR pour la Vitamine B1 (en mg) Vitamine B5 (en mg) Vitamine B6 (en mg) Vitamine C (en mg) Vitamine E (en mg)
+    return ((value / dailyValue) * 100).toFixed(1);
+}
+
+
+
 /* ANIMATION */
 
 // export const handleAnimation = (isOpenDrop: any, setIsOpenDrop: any, rotate: any) => {
