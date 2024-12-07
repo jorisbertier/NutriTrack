@@ -308,15 +308,6 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'fats', setFats)
     }, [resultAllDataFood]);
 
-    function getVitaminPercentage(value: number, dailyValue: number) {
-        // return ((value / dailyValue) * 100).toFixed(1) + "%";
-        return ((value / dailyValue) * 100).toFixed(1);
-    }
-    
-    // Exemple pour la vitamin C :
-    const vitaminCPercentage = getVitaminPercentage(10.3, 90); // 90 mg est l'AJR pour la vitamin C
-    console.log(vitaminCPercentage); // "11.4%
-
     const nutritionData = [
         { name: 'Fiber', quantity: 0, unit: 'g' },
         { name: 'Sugar', quantity: sugar, unit: 'g' },
@@ -325,7 +316,7 @@ export default function Dashboard() {
         { name: 'Vitamin B5', quantity: getVitaminPercentageMg(vitaminB5, 5), unit: '%' },
         { name: 'Vitamin B6', quantity: getVitaminPercentageMg(vitaminB6, 1.3), unit: '%' },
         { name: 'Vitamin B12', quantity: getVitaminPercentageUg(vitaminB12, 2.4), unit: '%' },
-        { name: 'Vitamin C', quantity: getVitaminPercentage(vitaminC, 90), unit: '%' },
+        { name: 'Vitamin C', quantity: getVitaminPercentageMg(vitaminC, 90), unit: '%' },
         { name: 'Vitamin D', quantity: getVitaminPercentageUg(vitaminD, 15), unit: '%' },
         { name: 'Vitamin E', quantity: getVitaminPercentageMg(vitaminE, 15), unit: '%' },
         { name: 'Vitamin K', quantity: getVitaminPercentageUg(vitaminK, 120), unit: '%' },
