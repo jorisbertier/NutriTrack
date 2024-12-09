@@ -106,7 +106,7 @@ export default function Dashboard() {
                     id: doc.id,
                     idUser: doc.data().idUser as number,
                     calories: doc.data().calories as number,
-                    carbohydrates: doc.data().carbohydrates as number,
+                    carbohydrates: doc.data().carbs as number,
                     fats: doc.data().fats as number,
                     proteins: doc.data().proteins as number,
                     quantity: doc.data().quantity as number,
@@ -151,16 +151,12 @@ export default function Dashboard() {
             originalMealId: meal.id,
         };
     });
-    // console.log('test', mealsForSelectedDate.length)
 
     const resultBreakfastCreated = foodsForSelectedDate.filter(food => food.mealType === 'Breakfast');
     const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
     const resultDinnerCreated = foodsForSelectedDate.filter(food => food.mealType === 'Dinner');
     const resultSnackCreated = foodsForSelectedDate.filter(food => food.mealType === 'Snack');
 
-    // console.log('new value', foodsForSelectedDate.length)
-    
-    
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
         const filterAndSetFoodData = (filteredData: UserMeals[], setData: React.Dispatch<React.SetStateAction<FoodItem[]>>) => {
@@ -281,7 +277,6 @@ export default function Dashboard() {
             const totalKcalCreated = foodsForSelectedDate.reduce((acc: number, item: FoodItemCreated) => {
                 return acc + (item.calories || 0)
             }, 0)
-            console.log('totalKcalCreated', totalKcalCreated)
             const totalKcal = totalKcalDatabase + Number(totalKcalCreated);
             setTotalKcalConsumeToday(totalKcal);
         }

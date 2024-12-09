@@ -130,18 +130,16 @@ export default function Search() {
                 <Row style={[styles.wrapperFood]}>
                     {text.length === 0 &&
                     <Row style={{justifyContent: 'space-around', width: '100%'}}>
-                        <TouchableOpacity  style={[styles.wrapperBloc, {backgroundColor: colors.gray}]} onPress={() => navigation.navigate("CreateAliment")}>
+                        <TouchableOpacity  style={[styles.wrapperBloc, {backgroundColor: colors.primary}]} onPress={() => navigation.navigate("CreateAliment")}>
                             <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                                <Image source={require('@/assets/images/nutritional/cutlery.png')} style={styles.deleteSearch} />
-                                <ThemedText variant='title2' color={colors.prima}>Create a aliment</ThemedText>
+                                <Image source={require('@/assets/images/add.png')} style={[styles.addSearch, {tintColor: colors.white}]} />
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("SearchAlimentCreated")}
-                            style={[styles.wrapperBloc, {backgroundColor: colors.gray}]}
+                            style={[styles.wrapperBloc, {backgroundColor: colors.primary}]}
                         >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                                <Image source={require('@/assets/images/nutritional/watermelon.png')} style={styles.deleteSearch} />
-                                <ThemedText variant='title2' color={colors.black} style={{ fontWeight: 'bold' }}>My aliments</ThemedText>
+                                <ThemedText variant='title2' color={colors.white} style={{ fontWeight: 'bold' }}>My list</ThemedText>
                             </View>
                             </TouchableOpacity>
                     </Row>
@@ -230,12 +228,16 @@ const styles = StyleSheet.create({
         padding: 7,
         borderRadius: 8
     },
-    deleteSearch : {
+    addSearch : {
         height: 20,
         width: 20,
-        tintColor: '#000',
         marginRight: 10 
         
+    },
+    deleteSearch : {
+        height: 15,
+        width: 15,
+        tintColor: '#8a8a8a',
     },
     wrapperFood : {
         flexDirection: 'column',
@@ -305,7 +307,10 @@ const styles = StyleSheet.create({
     },
     wrapperBloc: {
         borderRadius: 10,
-        padding: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 60,
+        width: '35%',
         margin: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },

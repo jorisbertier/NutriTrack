@@ -266,7 +266,6 @@ const styles = StyleSheet.create({
         height: 15,
         width: 15,
         tintColor: '#8a8a8a',
-        
     },
     wrapperFood : {
         flexDirection: 'column',

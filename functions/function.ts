@@ -176,9 +176,6 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
         return acc + nutrientValue;
     }, 0)
-    // console.log('resultAllfFoodData', result)
-    // console.log('resultAllfFoodDataCreated', resultAllDataFoodCreated?.length)
-    console.log('resultAllfFoodDataCreated', resultAllDataFoodCreated)
 
     const formattedResult = parseFloat(result.toFixed(2));
 
