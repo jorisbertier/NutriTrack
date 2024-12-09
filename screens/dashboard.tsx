@@ -106,7 +106,7 @@ export default function Dashboard() {
                     id: doc.id,
                     idUser: doc.data().idUser as number,
                     calories: doc.data().calories as number,
-                    carbs: doc.data().carbs as number,
+                    carbohydrates: doc.data().carbohydrates as number,
                     fats: doc.data().fats as number,
                     proteins: doc.data().proteins as number,
                     quantity: doc.data().quantity as number,
@@ -157,6 +157,8 @@ export default function Dashboard() {
     const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
     const resultDinnerCreated = foodsForSelectedDate.filter(food => food.mealType === 'Dinner');
     const resultSnackCreated = foodsForSelectedDate.filter(food => food.mealType === 'Snack');
+
+    // console.log('new value', foodsForSelectedDate.length)
     
     
     useEffect(() => {
@@ -303,10 +305,10 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'vitaminK', setVitaminK)
         getTotalNutrient(resultAllDataFood, 'folate', setFolate)
         getTotalNutrient(resultAllDataFood, 'sugar', setSugar)
-        getTotalNutrient(resultAllDataFood, 'proteins', setProteins)
-        getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs)
-        getTotalNutrient(resultAllDataFood, 'fats', setFats)
-    }, [resultAllDataFood]);
+        getTotalNutrient(resultAllDataFood, 'proteins', setProteins, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate)
+    }, [resultAllDataFood, foodsForSelectedDate]);
 
     const nutritionData = [
         { name: 'Fiber', quantity: 0, unit: 'g' },

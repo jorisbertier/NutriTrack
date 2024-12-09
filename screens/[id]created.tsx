@@ -100,14 +100,14 @@ export default function DetailsFoodCreated() {
     const filterUniqueFood = allDataFoodCreated.find((element) => element.id === id)
     console.log('new array', filterUniqueFood)
 
-    const values = [filterUniqueFood?.proteins, filterUniqueFood?.carbs, filterUniqueFood?.fats]
+    const values = [filterUniqueFood?.proteins, filterUniqueFood?.carbohydrates, filterUniqueFood?.fats]
     values.sort((a, b) => a - b);
     
     const associations = { [values[0]]: 65, [values[1]]: 90, [values[2]]: 120 };
 
     const associatedValues = {
     proteins: associations[filterUniqueFood?.proteins],
-    carbohydrates: associations[filterUniqueFood?.carbs],
+    carbohydrates: associations[filterUniqueFood?.carbohydrates],
     fats: associations[filterUniqueFood?.fats],
     };
 
@@ -172,7 +172,7 @@ export default function DetailsFoodCreated() {
                     />
                     <NutritionStatCard
                         nutri={'carbs'}
-                        quantity={filterUniqueFood?.carbs}
+                        quantity={filterUniqueFood?.carbohydrates}
                         unit={'g'}
                         height={associatedValues["carbohydrates"]}
                         source={require('@/assets/images/nutritional/cutlery.png')}
@@ -194,7 +194,7 @@ export default function DetailsFoodCreated() {
             {isLoading ? 
             <View>
                 {filterUniqueFood?.proteins ? <NutritionItem name={'Proteins'} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
-                {filterUniqueFood?.carbs ? <NutritionItem name={'Carbs'} quantity={filterUniqueFood?.carbs} unit={'g'}/> : null}
+                {filterUniqueFood?.carbohydrates ? <NutritionItem name={'Carbs'} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
                 {filterUniqueFood?.fats ? <NutritionItem name={'Fats'} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
                 
                 {/* {filterUniqueFood?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={filterUniqueFood?.vitaminA} unit={'g'}/> : null}

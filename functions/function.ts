@@ -167,13 +167,22 @@ export function calculCarbohydrates(calories: number) {
     return parseFloat(carbs.toFixed(1))
 }
 
-export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof FoodItem, setNutrient: any) => {
+export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof FoodItem, setNutrient: any, resultAllDataFoodCreated?: any) => {
     const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
         return acc + nutrientValue;
     }, 0)
+    const resultCreated = resultAllDataFoodCreated?.reduce((acc:number,  item: FoodItem) => {
+        const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
+        return acc + nutrientValue;
+    }, 0)
+    // console.log('resultAllfFoodData', result)
+    // console.log('resultAllfFoodDataCreated', resultAllDataFoodCreated?.length)
+    console.log('resultAllfFoodDataCreated', resultAllDataFoodCreated)
 
     const formattedResult = parseFloat(result.toFixed(2));
+
+    const formattedResultCreated = parseFloat(resultCreated?.toFixed(2));
 
     switch (nutrientKey) {
         case 'magnesium':
@@ -225,18 +234,19 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
             setNutrient(formattedResult);
             break;
         case 'carbohydrates':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'proteins':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'fats':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         default:
             break;
     }
 }
+
 export const calculatePercentage = (progress: number, goal: number) => {
     const percentage = +(progress / goal).toFixed(2);
     return percentage > 1 ? 1 : percentage;

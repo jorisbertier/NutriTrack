@@ -150,7 +150,7 @@ function CreateAliment() {
                 unit: unit.toLowerCase(),
                 calories: Number(calories),
                 proteins: Number(proteins),
-                carbs: Number(carbs),
+                carbohydrates: Number(carbs),
                 fats: Number(fats),
                 idUser: Number(userIdConnected)
             });

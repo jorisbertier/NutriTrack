@@ -6,7 +6,7 @@ export interface FoodItemCreated {
     idUser: number;
     title: string;
     calories: number;
-    carbs: number;
+    carbohydrates: number;
     fats: number;
     proteins: number;
     quantity: number;
