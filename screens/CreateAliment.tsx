@@ -2,7 +2,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { fetchUserIdDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
 import { getAuth } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { collection, doc, getDocs, setDoc } from "firebase/firestore"; 
 import { firestore } from '@/firebaseConfig';
@@ -17,6 +17,13 @@ function CreateAliment() {
     const auth = getAuth();
     const user = auth.currentUser;
 
+    const quantityRef = useRef(null);
+    const unitRef = useRef(null);
+    const caloriesRef = useRef(null);
+    const proteinsRef = useRef(null);
+    const carbsRef = useRef(null);
+    const fatsRef = useRef(null);
+
     const [title, setTitle] = useState('');
     const [quantity, setQuantity] = useState('');
     const [unit, setUnit] = useState('');
@@ -24,6 +31,22 @@ function CreateAliment() {
     const [proteins, setProteins] = useState('');
     const [carbs, setCarbs] = useState('');
     const [fats, setFats] = useState('');
+    const [magnesium, setMagnesium] = useState('')
+    const [potassium, setPotassium] = useState('');
+    const [calcium, setCalcium] = useState('');
+    const [sodium, setSodium] = useState('');
+    const [iron, setIron] = useState('');
+    const [vitaminA, setVitaminA] = useState('');
+    const [vitaminB1, setVitaminB1] = useState('');
+    const [vitaminB5, setVitaminB5] = useState('');
+    const [vitaminB6, setVitaminB6] = useState('');
+    const [vitaminB12, setVitaminB12] = useState('');
+    const [vitaminC, setVitaminC] = useState('');
+    const [vitaminD, setVitaminD] = useState('');
+    const [vitaminE, setVitaminE] = useState('');
+    const [vitaminK, setVitaminK] = useState('');
+    const [folate, setFolate] = useState('');
+    const [sugar, setSugar] = useState('');
 
     /**ERROR MESSAGE */
     const [titleError, setTitleError] = useState('');
@@ -33,7 +56,22 @@ function CreateAliment() {
     const [proteinsError, setProteinsError] = useState('');
     const [carbsError, setCarbsError] = useState('');
     const [fatsError, setFatsError] = useState('');
-    /**ERROR MESSAGE */
+    const [magnesiumError, setMagnesiumError] = useState('');
+    const [potassiumError, setPotassiumError] = useState('');
+    const [calciumError, setCalciumError] = useState('');
+    const [sodiumError, setSodiumError] = useState('');
+    const [ironError, setIronError] = useState('');
+    const [folateError, setFolateError] = useState('');
+    const [sugarError, setSugarError] = useState('');
+    const [vitaminAError, setVitaminAError] = useState('');
+    const [vitaminB1Error, setVitaminB1Error] = useState('');
+    const [vitaminNB5Error, setVitaminB5Error] = useState('');
+    const [vitaminB6Error, setVitaminB6Error] = useState('');
+    const [vitaminB12Error, setVitaminB12Error] = useState('');
+    const [vitaminCError, setVitaminCError] = useState('');
+    const [vitaminDError, setVitaminDError] = useState('');
+    const [vitaminEError, setVitaminEError] = useState('');
+    const [vitaminKError, setVitaminKError] = useState('');
 
     useEffect(() => {
         try {
@@ -45,8 +83,6 @@ function CreateAliment() {
             console.log('Error processing data', e);
         }
     }, [user]);
-
-    console.log('get id', userIdConnected)
 
     const validateFields = () => {
         let isValid = true;
@@ -111,12 +147,153 @@ function CreateAliment() {
         } else {
             setFatsError('');
         }
+        const magnesiumNumber = parseFloat(magnesium);
+        if (magnesiumNumber > 300 || magnesiumNumber < 0) {
+            setMagnesiumError('Please enter a valid number of Magnesium. Max 300');
+            isValid = false;
+        } else {
+            setMagnesiumError('');
+        }
+        const potassiumNumber = parseFloat(potassium);
+        if (potassiumNumber > 4500 || potassiumNumber < 0) {
+            setPotassiumError('Please enter a valid number of Potassium. Max 4500');
+            isValid = false;
+        } else {
+            setPotassiumError('');
+        }
+        const calciumNumber = parseFloat(calcium);
+        if (calciumNumber > 1300 || calciumNumber < 0) {
+            setCalciumError('Please enter a valid number of Calcuim. Max 1300');
+            isValid = false;
+        } else {
+            setCalciumError('');
+        }
+    
+        const sodiumNumber = parseFloat(sodium);
+        if (sodiumNumber > 1300 || sodiumNumber < 0) {
+            setSodiumError('Please enter a valid number of sodium. Max 2300');
+            isValid = false;
+        } else {
+            setSodiumError('');
+        }
+    
+        const ironNumber = parseFloat(iron);
+        if (ironNumber > 1300 || ironNumber < 0) {
+            setIronError('Please enter a valid number of Calcuim. Max 45');
+            isValid = false;
+        } else {
+            setIronError('');
+        }
+        const folateNumber = parseFloat(folate);
+        if (folateNumber > 400 || folateNumber < 0) {
+            setFolateError('Please enter a valid number of Folate. Max 400');
+            isValid = false;
+        } else {
+            setFolateError('');
+        }
+        const sugarNumber = parseFloat(sugar);
+        if (sugarNumber > 100 || sugarNumber < 0) {
+            setSugarError('Please enter a valid number of iron. Max 100');
+            isValid = false;
+        } else {
+            setSugarError('');
+        }
+        const vitaminANumber = parseFloat(vitaminA);
+        if (vitaminANumber > 2000 || vitaminANumber < 0) {
+            setVitaminAError('Please enter a valid number of vitamin a. Max 2000');
+            isValid = false;
+        } else {
+            setVitaminAError('');
+        }
+        const vitaminB1Number = parseFloat(vitaminB1);
+        if (vitaminB1Number > 1.2 || vitaminB1Number < 0) {
+            setVitaminB1Error('Please enter a valid number of vitamin b1. Max 1.2');
+            isValid = false;
+        } else {
+            setVitaminB1Error('');
+        }
+        const vitaminB5Number = parseFloat(vitaminB5);
+        if (vitaminB5Number > 5 || vitaminB5Number < 0) {
+            setVitaminB5Error('Please enter a valid number of vitamin b5. Max 5');
+            isValid = false;
+        } else {
+            setVitaminB5Error('');
+        }
+        const vitaminB6Number = parseFloat(vitaminB6);
+        if (vitaminB6Number > 1.3 || vitaminB6Number < 0) {
+            setVitaminB6Error('Please enter a valid number of vitamin b6. Max 1.3');
+            isValid = false;
+        } else {
+            setVitaminB6Error('');
+        }
+        const vitaminB12Number = parseFloat(vitaminB12);
+        if (vitaminB12Number > 2.4 || vitaminB12Number < 0) {
+            setVitaminB12Error('Please enter a valid number of vitamin b12. Max 1.3');
+            isValid = false;
+        } else {
+            setVitaminB12Error('');
+        }
+        const vitaminCNumber = parseFloat(vitaminC);
+        if (vitaminCNumber > 130 || vitaminCNumber < 0) {
+            setVitaminCError('Please enter a valid number of vitamin c. Max 130');
+            isValid = false;
+        } else {
+            setVitaminCError('');
+        }
+        const vitaminDNumber = parseFloat(vitaminD);
+        if (vitaminDNumber > 100 || vitaminDNumber < 0) {
+            setVitaminDError('Please enter a valid number of vitamin D. Max 100');
+            isValid = false;
+        } else {
+            setVitaminDError('');
+        }
+        const vitaminENumber = parseFloat(vitaminE);
+        if (vitaminENumber > 15 || vitaminENumber < 0) {
+            setVitaminEError('Please enter a valid number of vitamin E. Max 15');
+            isValid = false;
+        } else {
+            setVitaminEError('');
+        }
+        const vitaminKNumber = parseFloat(vitaminE);
+        if (vitaminKNumber > 130 || vitaminKNumber < 0) {
+            setVitaminKError('Please enter a valid number of vitamin K. Max 130');
+            isValid = false;
+        } else {
+            setVitaminKError('');
+        }
+    
         return isValid;
     }
 
     const generateManualId = () => {
         return `ID-${Date.now()}`;
     }
+
+    // const nutrientLimits = {
+    //     magnesium: { min: 0, max: 350 },
+    //     potassium: { min: 0, max: 4700 },
+    //     calcium: { min: 0, max: 1300 },
+    //     sodium: { min: 0, max: 2300 },
+    //     iron: { min: 0, max: 45 },
+    //     vitaminA: { min: 0, max: 2000 },
+    //     vitaminB1: { min: 0, max: 1.2 },
+    //     vitaminB5: { min: 0, max: 5 },
+    //     vitaminB6: { min: 0, max: 1.3 },
+    //     vitaminB12: { min: 0, max: 2.4 },
+    //     vitaminC: { min: 0, max: 130 },
+    //     vitaminD: { min: 0, max: 100 },
+    //     vitaminE: { min: 0, max: 15 },
+    //     vitaminK: { min: 0, max: 130 },
+    //     folate: { min: 0, max: 400 },
+    //     sugar: { min: 0, max: 100 },
+    // };
+
+    // const validateOptionalField = (value: string, min: number = 0, max: number = Infinity) => {
+    //     const parsedValue = parseFloat(value);
+    //     console.log(`Validation: valeur = ${value}, parsedValue = ${parsedValue}, min = ${min}, max = ${max}`);
+    //     return value.trim() && !isNaN(parsedValue) && parsedValue >= min && parsedValue <= max ? parsedValue : null;
+    // };
+
 
 
     const createAliment = async (event: any) => {
@@ -141,7 +318,41 @@ function CreateAliment() {
             });
         
             const newId = maxId + 1;
-            console.log('id', newId)
+
+            // const optionalNutrients = {
+            //     magnesium: validateOptionalField(magnesium, nutrientLimits.magnesium.min, nutrientLimits.magnesium.max),
+            //     potassium: validateOptionalField(potassium, nutrientLimits.potassium.min, nutrientLimits.potassium.max),
+            //     calcium: validateOptionalField(calcium, nutrientLimits.calcium.min, nutrientLimits.calcium.max),
+            //     sodium: validateOptionalField(sodium, nutrientLimits.sodium.min, nutrientLimits.sodium.max),
+            //     iron: validateOptionalField(iron, nutrientLimits.iron.min, nutrientLimits.iron.max),
+            //     vitaminA: validateOptionalField(vitaminA, nutrientLimits.vitaminA.min, nutrientLimits.vitaminA.max),
+            //     vitaminB1: validateOptionalField(vitaminB1, nutrientLimits.vitaminB1.min, nutrientLimits.vitaminB1.max),
+            //     vitaminB5: validateOptionalField(vitaminB5, nutrientLimits.vitaminB5.min, nutrientLimits.vitaminB5.max),
+            //     vitaminB6: validateOptionalField(vitaminB6, nutrientLimits.vitaminB6.min, nutrientLimits.vitaminB6.max),
+            //     vitaminB12: validateOptionalField(vitaminB12, nutrientLimits.vitaminB12.min, nutrientLimits.vitaminB12.max),
+            //     vitaminC: validateOptionalField(vitaminC, nutrientLimits.vitaminC.min, nutrientLimits.vitaminC.max),
+            //     vitaminD: validateOptionalField(vitaminD, nutrientLimits.vitaminD.min, nutrientLimits.vitaminD.max),
+            //     vitaminE: validateOptionalField(vitaminE, nutrientLimits.vitaminE.min, nutrientLimits.vitaminE.max),
+            //     vitaminK: validateOptionalField(vitaminK, nutrientLimits.vitaminK.min, nutrientLimits.vitaminK.max),
+            //     folate: validateOptionalField(folate, nutrientLimits.folate.min, nutrientLimits.folate.max),
+            //     sugar: validateOptionalField(sugar, nutrientLimits.sugar.min, nutrientLimits.sugar.max),
+            // };
+
+            // const filteredOptionalNutrients = Object.fromEntries(
+            //     Object.entries(optionalNutrients).filter(([_, value]) => value !== null)
+            // );
+
+            // const invalidNutrient = Object.entries(optionalNutrients).find(([key, value]) => {
+            //     const originalValue = eval(key); // Remplacez si besoin par la valeur réelle du champ
+            //     return originalValue.trim() !== "" && value === null; // Valider uniquement si saisi et invalide
+            // });
+        
+            // if (invalidNutrient) {
+            //     const [key] = invalidNutrient;
+            //     alert(`Validation Error\nThe field "${key}" is invalid. Please verify its value.`);
+            //     return; // Stop l'exécution si un champ est invalide
+            // }
+        
         
             await setDoc(doc(firestore, "UserCreatedFoods",  generateManualId()), {
                 id: newId,
@@ -152,7 +363,8 @@ function CreateAliment() {
                 proteins: Number(proteins),
                 carbohydrates: Number(carbs),
                 fats: Number(fats),
-                idUser: Number(userIdConnected)
+                idUser: Number(userIdConnected),
+                // ...filteredOptionalNutrients,
             });
             Alert.alert('Aliment created')
 
@@ -165,67 +377,200 @@ function CreateAliment() {
             <Text style={[styles.label, {color : colors.black}]}>Name -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="Name"
+                    placeholder="Name (required)"
                     value={title}
                     onChangeText={setTitle}
                     autoCapitalize='words'
+                    returnKeyType='next'
+                    onSubmitEditing={() => quantityRef.current?.focus()}
                 />
                 {titleError ? <Text style={styles.errorText}>{titleError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Quantity -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="Quantity"
+                    placeholder="Quantity (required)"
                     value={quantity}
                     onChangeText={setQuantity}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={quantityRef} // Lier la référence
+                    onSubmitEditing={() => unitRef.current?.focus()} 
                 />
                 {quantityError ? <Text style={styles.errorText}>{quantityError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Unit /g, ml, cup, slice -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="Unit"
+                    placeholder="Unit (required)"
                     value={unit}
                     onChangeText={setUnit}
                     autoCapitalize='words'
+                    returnKeyType="next"
+                    ref={unitRef} // Lier la référence
+                    onSubmitEditing={() => caloriesRef.current?.focus()} 
                 />
                 <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* The unit must only contain g / cl / ml / l / cup</ThemedText>
                 {unitError ? <Text style={styles.errorText}>{unitError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Calories -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="Calories"
+                    placeholder="Calories (required)"
                     value={calories}
                     onChangeText={setCalories}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={caloriesRef} // Lier la référence
+                    onSubmitEditing={() => proteinsRef.current?.focus()}
                 />
                 {caloriesError ? <Text style={styles.errorText}>{caloriesError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Proteins -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="Proteins"
+                    placeholder="Proteins (required)"
                     value={proteins}
                     onChangeText={setProteins}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={proteinsRef} // Lier la référence
+                    onSubmitEditing={() => carbsRef.current?.focus()}
                 />
                 {proteinsError ? <Text style={styles.errorText}>{proteinsError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Carbohydrates -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="Carbohydrates"
+                    placeholder="Carbohydrates (required)"
                     value={carbs}
                     onChangeText={setCarbs}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={carbsRef} // Lier la référence
+                    onSubmitEditing={() => fatsRef.current?.focus()}
                 />
                 {carbsError ? <Text style={styles.errorText}>{carbsError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Fats -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="Fats"
+                    placeholder="Fats (required)"
                     value={fats}
                     onChangeText={setFats}
                     keyboardType="numeric"
+                    returnKeyType="done"
+                    ref={fatsRef}
                 />
                 {fatsError ? <Text style={styles.errorText}>{fatsError}</Text> : null}
+                <Text style={[styles.label, {color : colors.black}]}>Others macronutrient (optional)-</Text>
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="Magnesium (optional) max 350"
+                    value={magnesium}
+                    onChangeText={setMagnesium}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="Potassium (optional) max 4700"
+                    value={potassium}
+                    onChangeText={setPotassium}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="Calcium (optional) max 1300"
+                    value={calcium}
+                    onChangeText={setCalcium}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="Sodium (optional) max 2300"
+                    value={sodium}
+                    onChangeText={setSodium}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="Iron (optional) max 45"
+                    value={iron}
+                    onChangeText={setIron}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="Sugar (optional) max 100"
+                    value={sugar}
+                    onChangeText={setSugar}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="Folate (optional) max 400"
+                    value={folate}
+                    onChangeText={setFolate}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminA (optional)(value µg) max 2000"
+                    value={vitaminA}
+                    onChangeText={setVitaminA}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminB1 (optional)(value mg) max 1.2"
+                    value={vitaminB1}
+                    onChangeText={setVitaminB1}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminB5 (optional)(value mg) max 5"
+                    value={vitaminB5}
+                    onChangeText={setVitaminB5}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminB6 (optional)(value mg) max 1.3"
+                    value={vitaminB6}
+                    onChangeText={setVitaminB6}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminB12 (optional)(value µg) max 2.4"
+                    value={vitaminB12}
+                    onChangeText={setVitaminB12}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminC (optional)(value mg) max 130"
+                    value={vitaminC}
+                    onChangeText={setVitaminC}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminD (optional)(value µg) max 100"
+                    value={vitaminD}
+                    onChangeText={setVitaminD}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminE (optional)(value mg) max 15"
+                    value={vitaminE}
+                    onChangeText={setVitaminE}
+                    keyboardType="numeric"
+                />
+                <TextInput
+                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    placeholder="VitaminK (optional)(value µg) max 100"
+                    value={vitaminK}
+                    onChangeText={setVitaminK}
+                    keyboardType="numeric"
+                />
+                
                 <TouchableOpacity
                     onPress={createAliment}
                     style={{
@@ -253,12 +598,12 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 5,
-        marginBottom: 12,
+        marginBottom: 3,
         paddingHorizontal: 10,
     },
     label: {
-        marginTop: 16,
-        marginBottom: 8,
+        marginTop: 8,
+        marginBottom: 4,
         fontWeight: 'bold',
     },
     errorText: {
