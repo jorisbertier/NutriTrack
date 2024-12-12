@@ -465,6 +465,7 @@ function CreateAliment() {
                     onChangeText={setMagnesium}
                     keyboardType="numeric"
                 />
+                {magnesiumError ? <Text style={styles.errorText}>{magnesiumError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="Potassium (optional) max 4700"
@@ -472,6 +473,7 @@ function CreateAliment() {
                     onChangeText={setPotassium}
                     keyboardType="numeric"
                 />
+                {potassiumError ? <Text style={styles.errorText}>{potassiumError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="Calcium (optional) max 1300"
@@ -479,6 +481,7 @@ function CreateAliment() {
                     onChangeText={setCalcium}
                     keyboardType="numeric"
                 />
+                {calciumError ? <Text style={styles.errorText}>{calciumError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="Sodium (optional) max 2300"
@@ -486,6 +489,7 @@ function CreateAliment() {
                     onChangeText={setSodium}
                     keyboardType="numeric"
                 />
+                {sodiumError ? <Text style={styles.errorText}>{sodiumError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="Iron (optional) max 45"
@@ -493,6 +497,7 @@ function CreateAliment() {
                     onChangeText={setIron}
                     keyboardType="numeric"
                 />
+                {ironError ? <Text style={styles.errorText}>{ironError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="Sugar (optional) max 100"
@@ -500,6 +505,7 @@ function CreateAliment() {
                     onChangeText={setSugar}
                     keyboardType="numeric"
                 />
+                {sugarError ? <Text style={styles.errorText}>{sugarError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="Folate (optional) max 400"
