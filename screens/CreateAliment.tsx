@@ -269,31 +269,6 @@ function CreateAliment() {
         return `ID-${Date.now()}`;
     }
 
-    // const nutrientLimits = {
-    //     magnesium: { min: 0, max: 350 },
-    //     potassium: { min: 0, max: 4700 },
-    //     calcium: { min: 0, max: 1300 },
-    //     sodium: { min: 0, max: 2300 },
-    //     iron: { min: 0, max: 45 },
-    //     vitaminA: { min: 0, max: 2000 },
-    //     vitaminB1: { min: 0, max: 1.2 },
-    //     vitaminB5: { min: 0, max: 5 },
-    //     vitaminB6: { min: 0, max: 1.3 },
-    //     vitaminB12: { min: 0, max: 2.4 },
-    //     vitaminC: { min: 0, max: 130 },
-    //     vitaminD: { min: 0, max: 100 },
-    //     vitaminE: { min: 0, max: 15 },
-    //     vitaminK: { min: 0, max: 130 },
-    //     folate: { min: 0, max: 400 },
-    //     sugar: { min: 0, max: 100 },
-    // };
-
-    // const validateOptionalField = (value: string, min: number = 0, max: number = Infinity) => {
-    //     const parsedValue = parseFloat(value);
-    //     console.log(`Validation: valeur = ${value}, parsedValue = ${parsedValue}, min = ${min}, max = ${max}`);
-    //     return value.trim() && !isNaN(parsedValue) && parsedValue >= min && parsedValue <= max ? parsedValue : null;
-    // };
-
 
 
     const createAliment = async (event: any) => {
@@ -319,41 +294,36 @@ function CreateAliment() {
         
             const newId = maxId + 1;
 
-            // const optionalNutrients = {
-            //     magnesium: validateOptionalField(magnesium, nutrientLimits.magnesium.min, nutrientLimits.magnesium.max),
-            //     potassium: validateOptionalField(potassium, nutrientLimits.potassium.min, nutrientLimits.potassium.max),
-            //     calcium: validateOptionalField(calcium, nutrientLimits.calcium.min, nutrientLimits.calcium.max),
-            //     sodium: validateOptionalField(sodium, nutrientLimits.sodium.min, nutrientLimits.sodium.max),
-            //     iron: validateOptionalField(iron, nutrientLimits.iron.min, nutrientLimits.iron.max),
-            //     vitaminA: validateOptionalField(vitaminA, nutrientLimits.vitaminA.min, nutrientLimits.vitaminA.max),
-            //     vitaminB1: validateOptionalField(vitaminB1, nutrientLimits.vitaminB1.min, nutrientLimits.vitaminB1.max),
-            //     vitaminB5: validateOptionalField(vitaminB5, nutrientLimits.vitaminB5.min, nutrientLimits.vitaminB5.max),
-            //     vitaminB6: validateOptionalField(vitaminB6, nutrientLimits.vitaminB6.min, nutrientLimits.vitaminB6.max),
-            //     vitaminB12: validateOptionalField(vitaminB12, nutrientLimits.vitaminB12.min, nutrientLimits.vitaminB12.max),
-            //     vitaminC: validateOptionalField(vitaminC, nutrientLimits.vitaminC.min, nutrientLimits.vitaminC.max),
-            //     vitaminD: validateOptionalField(vitaminD, nutrientLimits.vitaminD.min, nutrientLimits.vitaminD.max),
-            //     vitaminE: validateOptionalField(vitaminE, nutrientLimits.vitaminE.min, nutrientLimits.vitaminE.max),
-            //     vitaminK: validateOptionalField(vitaminK, nutrientLimits.vitaminK.min, nutrientLimits.vitaminK.max),
-            //     folate: validateOptionalField(folate, nutrientLimits.folate.min, nutrientLimits.folate.max),
-            //     sugar: validateOptionalField(sugar, nutrientLimits.sugar.min, nutrientLimits.sugar.max),
-            // };
+        
+            const dataToSave = {
+                magnesium: magnesium || null,
+                potassium: potassium || null,
+                calcium: calcium || null,
+                sodium: sodium || null,
+                iron: iron || null,
+                vitaminA: vitaminA || null,
+                vitaminB1: vitaminB1 || null,
+                vitaminB5: vitaminB5 || null,
+                vitaminB6: vitaminB6 || null,
+                vitaminB12: vitaminB12 || null,
+                vitaminC: vitaminC || null,
+                vitaminD: vitaminD || null,
+                vitaminE: vitaminE || null,
+                vitaminK: vitaminK || null,
+                folate: folate || null,
+                sugar: sugar || null,
+            };
 
-            // const filteredOptionalNutrients = Object.fromEntries(
-            //     Object.entries(optionalNutrients).filter(([_, value]) => value !== null)
-            // );
+            console.log(dataToSave)
 
-            // const invalidNutrient = Object.entries(optionalNutrients).find(([key, value]) => {
-            //     const originalValue = eval(key); // Remplacez si besoin par la valeur réelle du champ
-            //     return originalValue.trim() !== "" && value === null; // Valider uniquement si saisi et invalide
-            // });
-        
-            // if (invalidNutrient) {
-            //     const [key] = invalidNutrient;
-            //     alert(`Validation Error\nThe field "${key}" is invalid. Please verify its value.`);
-            //     return; // Stop l'exécution si un champ est invalide
-            // }
-        
-        
+            Object.keys(dataToSave).forEach((key) => {
+                if (dataToSave[key] === null || dataToSave[key] === undefined || dataToSave[key] === '') {
+                    delete dataToSave[key];
+                }
+            });
+
+            console.log(dataToSave)
+
             await setDoc(doc(firestore, "UserCreatedFoods",  generateManualId()), {
                 id: newId,
                 title: title,
@@ -364,7 +334,7 @@ function CreateAliment() {
                 carbohydrates: Number(carbs),
                 fats: Number(fats),
                 idUser: Number(userIdConnected),
-                // ...filteredOptionalNutrients,
+                ...dataToSave
             });
             Alert.alert('Aliment created')
 
