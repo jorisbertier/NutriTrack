@@ -56,7 +56,7 @@ export default function DetailsFood() {
 
     
     return (
-    <ScrollView>
+    <ScrollView persistentScrollbar={true}>
         <View style={styles.banner}>
             <Image source={{uri: `${filterUniqueFood?.image}`}} style={styles.image} />
             <Pressable onPress={handleGoBack} style={[styles.back, {backgroundColor: colors.white}]}>
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     banner: {
         position: 'relative',
         width: '100%',
-        height: 350
+        height: 350,
     },
     header: {
         paddingHorizontal: 12,

@@ -113,7 +113,7 @@ export default function DetailsFoodCreated() {
 
     
     return (
-    <ScrollView>
+    <ScrollView persistentScrollbar={true}>
         <View style={styles.banner}>
             <Image source={require('@/assets/images/default/fooddefault.jpg')} style={styles.image} />
             <Pressable onPress={handleGoBack} style={[styles.back, {backgroundColor: colors.white}]}>
