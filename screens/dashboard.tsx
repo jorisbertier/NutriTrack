@@ -123,7 +123,21 @@ export default function Dashboard() {
                     title: doc.data().title as string,
                     unit: doc.data().unit as string,
                     magnesium: doc.data().magnesium as number,
-                    potassium: doc.data().potassium as number
+                    potassium: doc.data().potassium as number,
+                    vitaminA: doc.data().vitaminA as number,
+                    vitaminB1: doc.data().vitaminB1 as number,
+                    vitaminB5: doc.data().vitaminB5 as number,
+                    vitaminB6: doc.data().vitaminB6 as number,
+                    vitaminB12: doc.data().vitaminB12 as number,
+                    vitaminC: doc.data().vitaminC as number,
+                    vitaminD: doc.data().vitaminD as number,
+                    vitaminE: doc.data().vitaminE as number,
+                    vitaminK: doc.data().vitaminK as number,
+                    calcium: doc.data().calcium as number,
+                    sodium: doc.data().sodium as number,
+                    iron: doc.data().iron as number,
+                    sugar: doc.data().sugar as number,
+                    folate: doc.data().folate as number,
                 }));
 
                 setAllUserCreatedFoods(userCreatedFoodsList)
@@ -323,20 +337,20 @@ export default function Dashboard() {
     useEffect(() => {
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate)
         getTotalNutrient(resultAllDataFood, 'potassium', setPotassium, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'calcium', setCalcium)
-        getTotalNutrient(resultAllDataFood, 'sodium', setSodium)
-        getTotalNutrient(resultAllDataFood, 'iron', setIron)
-        getTotalNutrient(resultAllDataFood, 'vitaminA', setVitaminA)
-        getTotalNutrient(resultAllDataFood, 'vitaminB1', setVitaminB1)
-        getTotalNutrient(resultAllDataFood, 'vitaminB5', setVitaminB5)
-        getTotalNutrient(resultAllDataFood, 'vitaminB6', setVitaminB6)
-        getTotalNutrient(resultAllDataFood, 'vitaminB12', setVitaminB12)
-        getTotalNutrient(resultAllDataFood, 'vitaminC', setVitaminC)
-        getTotalNutrient(resultAllDataFood, 'vitaminD', setVitaminD)
-        getTotalNutrient(resultAllDataFood, 'vitaminE', setVitaminE)
-        getTotalNutrient(resultAllDataFood, 'vitaminK', setVitaminK)
-        getTotalNutrient(resultAllDataFood, 'folate', setFolate)
-        getTotalNutrient(resultAllDataFood, 'sugar', setSugar)
+        getTotalNutrient(resultAllDataFood, 'calcium', setCalcium, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'sodium', setSodium, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'iron', setIron, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminA', setVitaminA, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminB1', setVitaminB1, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminB5', setVitaminB5, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminB6', setVitaminB6, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminB12', setVitaminB12, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminC', setVitaminC, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminD', setVitaminD, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminE', setVitaminE, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'vitaminK', setVitaminK, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'folate', setFolate, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'sugar', setSugar, foodsForSelectedDate)
         getTotalNutrient(resultAllDataFood, 'proteins', setProteins, foodsForSelectedDate)
         getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs, foodsForSelectedDate)
         getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate)
@@ -360,7 +374,7 @@ export default function Dashboard() {
         { name: 'Vitamin K', quantity: getVitaminPercentageUg(vitaminK, 120), unit: '%' },
         { name: 'Folate', quantity: folate, unit: 'g' },
         { name: 'Iron', quantity: iron, unit: 'g' },
-        { name: 'Fiber', quantity: 0, unit: 'g' },
+        // { name: 'Fiber', quantity: 0, unit: 'g' },
         { name: 'Sugar', quantity: sugar, unit: 'g' },
     ];
 
