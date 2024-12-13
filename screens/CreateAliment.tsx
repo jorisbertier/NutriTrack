@@ -65,7 +65,7 @@ function CreateAliment() {
     const [sugarError, setSugarError] = useState('');
     const [vitaminAError, setVitaminAError] = useState('');
     const [vitaminB1Error, setVitaminB1Error] = useState('');
-    const [vitaminNB5Error, setVitaminB5Error] = useState('');
+    const [vitaminB5Error, setVitaminB5Error] = useState('');
     const [vitaminB6Error, setVitaminB6Error] = useState('');
     const [vitaminB12Error, setVitaminB12Error] = useState('');
     const [vitaminCError, setVitaminCError] = useState('');
@@ -163,7 +163,7 @@ function CreateAliment() {
         }
         const calciumNumber = parseFloat(calcium);
         if (calciumNumber > 1300 || calciumNumber < 0) {
-            setCalciumError('Please enter a valid number of Calcuim. Max 1300');
+            setCalciumError('Please enter a valid number of Calcium. Max 1300');
             isValid = false;
         } else {
             setCalciumError('');
@@ -483,6 +483,7 @@ function CreateAliment() {
                     onChangeText={setFolate}
                     keyboardType="numeric"
                 />
+                {folateError ? <Text style={styles.errorText}>{folateError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminA (optional)(value µg) max 2000"
@@ -490,6 +491,7 @@ function CreateAliment() {
                     onChangeText={setVitaminA}
                     keyboardType="numeric"
                 />
+                {vitaminAError ? <Text style={styles.errorText}>{vitaminAError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminB1 (optional)(value mg) max 1.2"
@@ -497,6 +499,7 @@ function CreateAliment() {
                     onChangeText={setVitaminB1}
                     keyboardType="numeric"
                 />
+                {vitaminB1Error ? <Text style={styles.errorText}>{vitaminB1Error}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminB5 (optional)(value mg) max 5"
@@ -504,6 +507,7 @@ function CreateAliment() {
                     onChangeText={setVitaminB5}
                     keyboardType="numeric"
                 />
+                {vitaminB5Error ? <Text style={styles.errorText}>{vitaminB5Error}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminB6 (optional)(value mg) max 1.3"
@@ -511,6 +515,7 @@ function CreateAliment() {
                     onChangeText={setVitaminB6}
                     keyboardType="numeric"
                 />
+                {vitaminB6Error ? <Text style={styles.errorText}>{vitaminB6Error}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminB12 (optional)(value µg) max 2.4"
@@ -518,6 +523,7 @@ function CreateAliment() {
                     onChangeText={setVitaminB12}
                     keyboardType="numeric"
                 />
+                {vitaminB12Error ? <Text style={styles.errorText}>{vitaminB12Error}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminC (optional)(value mg) max 130"
@@ -525,6 +531,7 @@ function CreateAliment() {
                     onChangeText={setVitaminC}
                     keyboardType="numeric"
                 />
+                {vitaminCError ? <Text style={styles.errorText}>{vitaminCError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminD (optional)(value µg) max 100"
@@ -532,6 +539,7 @@ function CreateAliment() {
                     onChangeText={setVitaminD}
                     keyboardType="numeric"
                 />
+                {vitaminDError ? <Text style={styles.errorText}>{vitaminDError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminE (optional)(value mg) max 15"
@@ -539,6 +547,7 @@ function CreateAliment() {
                     onChangeText={setVitaminE}
                     keyboardType="numeric"
                 />
+                {vitaminEError ? <Text style={styles.errorText}>{vitaminEError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="VitaminK (optional)(value µg) max 100"
@@ -546,6 +555,7 @@ function CreateAliment() {
                     onChangeText={setVitaminK}
                     keyboardType="numeric"
                 />
+                {folateError ? <Text style={styles.errorText}>{folateError}</Text> : null}
                 
                 <TouchableOpacity
                     onPress={createAliment}
