@@ -172,6 +172,7 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
         return acc + nutrientValue;
     }, 0)
+    
     const resultCreated = resultAllDataFoodCreated?.reduce((acc:number,  item: FoodItem) => {
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
         return acc + nutrientValue;

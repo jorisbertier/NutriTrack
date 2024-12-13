@@ -44,16 +44,26 @@ export default function Dashboard() {
     const [allUserData, setAllUserData] = useState([]);  // all user
     const [allUsersFoodData, setAllUsersFoodData] = useState<UserMeals[]>([]);  // all UsersFoodData
     const [resultAllDataFood, setResultAllDataFood] = useState<FoodItem[]>([]); //State for stock search filtered
+    const [foodsForSelectedDate, setFoodsForSelectedDate]= useState<FoodItemCreated[]>([])
+
     const [sortByBreakfast, setSortByBreakfast] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortByLunch, setSortByLunch] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortByDinner, setSortByDinner] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortBySnack, setSortBySnack] = useState<FoodItem[]>([]); //State for stock search filtered
+
+    const [resultBreakfastCreated, setResultBreakfastCreated] = useState<FoodItemCreated[]>([])
+    const [resultLunchCreated, setResultLunchCreated] = useState<FoodItemCreated[]>([])
+    const [resultDinnerCreated, setResultDinnerCreated] = useState<FoodItemCreated[]>([])
+    const [resultSnackCreated, setResultSnackCreated] = useState<FoodItemCreated[]>([])
+
     const [totalKcalConsumeToday, setTotalKcalConsumeToday] = useState<number>(0)
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [update, setUpdate] = useState<any>(0)
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingCreated, setIsLoadingCreated] = useState(true);
+
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     
@@ -132,31 +142,52 @@ export default function Dashboard() {
         }
     }, []);
 
-    /* Add created food created by one user */
-    /*get all foods meals & date by a user by a id user connected */
-    const userConnectedUserMealsCreated = allFoodDataCreated.filter(food => food.userId === userIdConnected)
-       
-    /* get all foods created by user by a id user connected */
-    const userConnectedUserCreatedFoods = allUserCreatedFoods.filter(food => food.idUser === userIdConnected )
-    /**/
-    const mealsForSelectedDate = userConnectedUserMealsCreated.filter(meal => 
-        meal.date === selectedDate.toLocaleDateString() && meal.id
-    );
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                /* Add created food created by one user */
+                /*get all foods meals & date by a user by a id user connected */
+                const userConnectedUserMealsCreated = allFoodDataCreated.filter(food => food.userId === userIdConnected)
+
+                /* get all foods created by user by a id user connected */
+                const userConnectedUserCreatedFoods = allUserCreatedFoods.filter(food => food.idUser === userIdConnected )
+                /**/
+                const mealsForSelectedDate = userConnectedUserMealsCreated.filter(meal => 
+                    meal.date === selectedDate.toLocaleDateString() && meal.id
+                );
+                
+                const foodsForSelectedDate = mealsForSelectedDate.map(meal => {
+                    const foodDetails = userConnectedUserCreatedFoods.find(food => food.id === meal.foodId);
+                    return {
+                        ...meal,
+                        ...foodDetails,
+                        originalMealId: meal.id,
+                    };
+                });
+                const resultBreakfastCreated = foodsForSelectedDate.filter(food => food.mealType === 'Breakfast');
+                const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
+                const resultDinnerCreated = foodsForSelectedDate.filter(food => food.mealType === 'Dinner');
+                const resultSnackCreated = foodsForSelectedDate.filter(food => food.mealType === 'Snack');
+
+                setFoodsForSelectedDate(foodsForSelectedDate)
+                setResultBreakfastCreated(resultBreakfastCreated)
+                setResultLunchCreated(resultLunchCreated)
+                setResultDinnerCreated(resultDinnerCreated)
+                setResultSnackCreated(resultSnackCreated)
+            } catch (error) {
+                console.log("Error getting data user food created")
+            }
+            finally {
+                setTimeout(() => {
+
+                    setIsLoadingCreated(false)
+                },1500)
+            }
+        }
+        fetchData()
+    }, [allFoodDataCreated, allUserCreatedFoods, selectedDate, userIdConnected])
+
     
-    const foodsForSelectedDate = mealsForSelectedDate.map(meal => {
-        const foodDetails = userConnectedUserCreatedFoods.find(food => food.id === meal.foodId);
-        return {
-            ...meal,
-            ...foodDetails,
-            originalMealId: meal.id,
-        };
-    });
-
-    const resultBreakfastCreated = foodsForSelectedDate.filter(food => food.mealType === 'Breakfast');
-    const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
-    const resultDinnerCreated = foodsForSelectedDate.filter(food => food.mealType === 'Dinner');
-    const resultSnackCreated = foodsForSelectedDate.filter(food => food.mealType === 'Snack');
-
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
         const filterAndSetFoodData = (filteredData: UserMeals[], setData: React.Dispatch<React.SetStateAction<FoodItem[]>>) => {
@@ -282,7 +313,7 @@ export default function Dashboard() {
         }
     }, [allFoodDataCreated, userIdConnected, selectedDate, allUserCreatedFoods]);
 
-
+    console.log(isLoadingCreated)
     useEffect(() => {
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium)
         getTotalNutrient(resultAllDataFood, 'potassium', setPotassium)
@@ -336,7 +367,6 @@ export default function Dashboard() {
     // const displayDataLunch = useMemo(() => ({ data: sortByLunch }), [sortByLunch]);
     // const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
     // const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
-    
     return (
         <>
             <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
@@ -381,12 +411,16 @@ export default function Dashboard() {
                     <ProgressBarKcal isLoading={isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
                 </View>
                 <ProgressRing isLoading={isLoading} progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
+                {!isLoadingCreated ?
                 <View style={styles.wrapperMeals}>
                     {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood, handleDeleteFoodCreated)}
                     {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, 'Lunch', handleDeleteFood, handleDeleteFoodCreated)}
                     {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, 'Dinner', handleDeleteFood, handleDeleteFoodCreated)}
                     {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, 'Snack', handleDeleteFood, handleDeleteFoodCreated)}
                 </View>
+                :
+                <Skeleton colorMode={colorMode} width={'100%'} height={60} />
+                }
                 <View style={{marginBottom: 60}}>
                     <NutritionList data={nutritionData}/>
                 </View>
