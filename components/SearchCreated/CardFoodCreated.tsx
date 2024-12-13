@@ -121,7 +121,8 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
         // Affiche une alerte de confirmation
         Alert.alert(
             "Confirmation",
-            "Are you sure you want to eliminate this food?",
+            "This action is irreversible and may affect the data in your dashboard if this food item is present !\n\n\Are you sure you want to eliminate this food? ",
+
             [
                 {
                     text: "Cancel",
