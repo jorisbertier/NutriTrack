@@ -337,11 +337,38 @@ function CreateAliment() {
                 ...dataToSave
             });
             Alert.alert('Aliment created')
-
+            resetForm()
         } catch(error: any) {
             Alert.alert('Create an aliment error', error.message)
         }
     }
+
+    const resetForm = () => {
+        setTitle('')
+        setQuantity('')
+        setUnit('')
+        setCalories('')
+        setProteins('')
+        setCarbs('')
+        setFats('')
+        setMagnesium('')
+        setPotassium('')
+        setCalcium('')
+        setSodium('')
+        setIron('')
+        setVitaminA('')
+        setVitaminB1('')
+        setVitaminB5('')
+        setVitaminB6('')
+        setVitaminB12('')
+        setVitaminC('')
+        setVitaminD('')
+        setVitaminE('')
+        setVitaminK('')
+        setFolate('')
+        setSugar('')
+    };
+    
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]} contentContainerStyle={{ paddingBottom: 20 }}>
             <Text style={[styles.label, {color : colors.black}]}>Name -</Text>
@@ -555,7 +582,7 @@ function CreateAliment() {
                     onChangeText={setVitaminK}
                     keyboardType="numeric"
                 />
-                {folateError ? <Text style={styles.errorText}>{folateError}</Text> : null}
+                {vitaminKError ? <Text style={styles.errorText}>{vitaminKError}</Text> : null}
                 
                 <TouchableOpacity
                     onPress={createAliment}
