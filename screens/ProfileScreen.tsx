@@ -42,6 +42,7 @@ const ProfileScreen = () => {
           activityLevel: doc.data().activityLevel,
           profilPicture: doc.data().profilPicture,
         }));
+        console.log('userList', userList)
 
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
         setUserData(sortByUniqueUserConnected)

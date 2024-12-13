@@ -39,6 +39,7 @@ function SearchAlimentCreated() {
     const [isLoading, setIsLoading] = useState(false);
     const colorMode: 'light' | 'dark' = 'light';
 
+    console.log('idUser', userIdConnected)
     useEffect(() => {
         try {
             const fetch = async () => {
@@ -122,7 +123,7 @@ function SearchAlimentCreated() {
     }
 
     const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim()))
-
+console.log(userIdConnected)
     return (
         <>
         <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>

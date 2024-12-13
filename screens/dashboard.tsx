@@ -82,6 +82,7 @@ export default function Dashboard() {
         }
     };
 
+    console.log('dashboard', userData[0]?.id)
     /*ID user*/
     /* API */
     useEffect(() => {
@@ -226,9 +227,10 @@ export default function Dashboard() {
             }
         }
         // filter data foods user with Id = 1
-        if (allFoodData.length > 0 && allUsersFoodData.length > 0) {
+        
+        if (allFoodData.length > 0 && allUsersFoodData.length > 0 && userData[0]?.id) {
             const result = allUsersFoodData.filter((allFoodByOneUser) =>
-            allFoodByOneUser.userId === userIdConnected && allFoodByOneUser.date === selectedDate.toLocaleDateString());
+            allFoodByOneUser.userId === userData[0]?.id && allFoodByOneUser.date === selectedDate.toLocaleDateString());
 
             const resultByBreakfast = result.filter((food) => food.mealType === 'Breakfast');
             const resultByLunch = result.filter((food) => food.mealType === 'Lunch');
@@ -241,7 +243,8 @@ export default function Dashboard() {
             filterAndSetFoodData(resultByDinner, setSortByDinner)
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
-    }, [selectedDate, allUsersFoodData, userIdConnected, allFoodData]);
+        console.log('resultat final', resultAllDataFood)
+    }, [selectedDate, allUsersFoodData, userData, allFoodData]);
     // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
 
     const handleOpenCalendar = () => {
@@ -332,7 +335,7 @@ export default function Dashboard() {
             const totalKcal = totalKcalDatabase + Number(totalKcalCreated);
             setTotalKcalConsumeToday(totalKcal);
         }
-    }, [allFoodDataCreated, userIdConnected, selectedDate, allUserCreatedFoods, foodsForSelectedDate]);
+    }, [allFoodDataCreated, resultAllDataFood, selectedDate, allUserCreatedFoods, foodsForSelectedDate]);
 
     useEffect(() => {
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate)

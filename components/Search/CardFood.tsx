@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Dimensions } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { capitalizeFirstLetter } from "@/functions/function";
+import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/function";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { fetchUserIdDataConnected } from "@/functions/function";
@@ -10,6 +10,7 @@ import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
+import { User } from "@/interface/User";
 
 type Props = {
     id: number;
@@ -28,24 +29,28 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     const [modalVisible, setModalVisible] = useState(false);
     
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-    const [userIdConnected, setUserIdConnected] = useState<number>();
+    // const [userIdConnected, setUserIdConnected] = useState<number>();
     const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
     
     const navigation = useNavigation<any>(); 
     const addImageRef = useRef(null);
     const auth = getAuth();
     const user = auth.currentUser;
+    const [userData, setUserData] = useState<User[]>([])
 
     useEffect(() => {
         try {
             const fetch = async () => {
-                fetchUserIdDataConnected(user, setUserIdConnected)
+                // fetchUserIdDataConnected(user, setUserIdConnected)
+                fetchUserDataConnected(user, setUserData)
             }
             fetch()
         } catch (e) {
             console.log('Error processing data', e);
         }
     }, [user]);
+
+    console.log(userData[0]?.id)
     
     const navigateToDetails = () => {
         // Vérifier si le navigationRef est prêt avant de naviguer
@@ -83,7 +88,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
             const addAliment = async() => {
                 await setDoc(doc(firestore, "UserMeals", newId), {
                     foodId: idFood,
-                    userId: userIdConnected,
+                    userId: userData[0]?.id,
                     date: selectedDate,
                     mealType: valueMeal,
                 });
