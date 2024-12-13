@@ -406,7 +406,7 @@ export default function Dashboard() {
                     </View>
                 </TouchableOpacity>
             </View>
-            <ScrollView style={[styles.header, {paddingTop: 30, backgroundColor: colors.whiteMode}]}>
+            <ScrollView style={[styles.header, {paddingTop: 20, backgroundColor: colors.whiteMode}]}>
                 <View style={{flexDirection: 'column',height: 'auto', alignItems:'center', width: '100%', marginBottom: 20}}>
                     {isOpen && (<RNDateTimePicker
                                 onChange={setDate}

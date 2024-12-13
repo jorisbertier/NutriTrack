@@ -128,8 +128,8 @@ export default function DetailsFoodCreated() {
             <Row>
                 <View style={styles.wrapperBlock}>
                     {isLoading ?
-                    <View style={styles.block}>
-                        <ThemedText color={colors.black} style={[{borderColor: colors.black, fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
+                    <View style={[styles.block, {borderColor: colors.black}]}>
+                        <ThemedText color={colors.black} style={[{ fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
                     </View>
                     :
                     <View style={{ marginTop: 10 }}> 
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     block: {
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 7,
         padding: 8,
         width: 'auto',
