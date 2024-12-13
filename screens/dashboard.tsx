@@ -305,15 +305,16 @@ export default function Dashboard() {
                 // Ensure that item.nutrition and item.nutrition.calories exist
                 return acc + (item.calories || 0); // Use optional chaining and default to 0
             }, 0);
+
             const totalKcalCreated = foodsForSelectedDate.reduce((acc: number, item: FoodItemCreated) => {
                 return acc + (item.calories || 0)
             }, 0)
+
             const totalKcal = totalKcalDatabase + Number(totalKcalCreated);
             setTotalKcalConsumeToday(totalKcal);
         }
-    }, [allFoodDataCreated, userIdConnected, selectedDate, allUserCreatedFoods]);
+    }, [allFoodDataCreated, userIdConnected, selectedDate, allUserCreatedFoods, foodsForSelectedDate]);
 
-    console.log(isLoadingCreated)
     useEffect(() => {
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium)
         getTotalNutrient(resultAllDataFood, 'potassium', setPotassium)

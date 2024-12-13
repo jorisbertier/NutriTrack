@@ -21,6 +21,8 @@ export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any,
         return accumulator + item.calories;
     }, 0);
 
+    console.log(resultMealCreated.length)
+    console.log(resultMealCreated)
     return (
         <View style={styles.wrapper}>
             <Row style={styles.row}>
