@@ -171,7 +171,7 @@ function CreateAliment() {
     
         const sodiumNumber = parseFloat(sodium);
         if (sodiumNumber > 1300 || sodiumNumber < 0) {
-            setSodiumError('Please enter a valid number of sodium. Max 2300');
+            setSodiumError('Please enter a valid number of sodium. Max 1300');
             isValid = false;
         } else {
             setSodiumError('');
@@ -296,22 +296,22 @@ function CreateAliment() {
 
         
             const dataToSave = {
-                magnesium: magnesium || null,
-                potassium: potassium || null,
-                calcium: calcium || null,
-                sodium: sodium || null,
-                iron: iron || null,
-                vitaminA: vitaminA || null,
-                vitaminB1: vitaminB1 || null,
-                vitaminB5: vitaminB5 || null,
-                vitaminB6: vitaminB6 || null,
-                vitaminB12: vitaminB12 || null,
-                vitaminC: vitaminC || null,
-                vitaminD: vitaminD || null,
-                vitaminE: vitaminE || null,
-                vitaminK: vitaminK || null,
-                folate: folate || null,
-                sugar: sugar || null,
+                magnesium: Number(magnesium) || null,
+                potassium: Number(potassium) || null,
+                calcium: Number(calcium) || null,
+                sodium: Number(sodium) || null,
+                iron: Number(iron) || null,
+                vitaminA: Number(vitaminA) || null,
+                vitaminB1: Number(vitaminB1) || null,
+                vitaminB5: Number(vitaminB5) || null,
+                vitaminB6: Number(vitaminB6) || null,
+                vitaminB12: Number(vitaminB12) || null,
+                vitaminC: Number(vitaminC) || null,
+                vitaminD: Number(vitaminD) || null,
+                vitaminE: Number(vitaminE) || null,
+                vitaminK: Number(vitaminK) || null,
+                folate: Number(folate) || null,
+                sugar: Number(sugar) || null,
             };
 
             console.log(dataToSave)
@@ -454,7 +454,7 @@ function CreateAliment() {
                 {calciumError ? <Text style={styles.errorText}>{calciumError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="Sodium (optional) max 2300"
+                    placeholder="Sodium (optional) max 1300"
                     value={sodium}
                     onChangeText={setSodium}
                     keyboardType="numeric"
@@ -534,7 +534,7 @@ function CreateAliment() {
                 {vitaminCError ? <Text style={styles.errorText}>{vitaminCError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
-                    placeholder="VitaminD (optional)(value µg) max 100"
+                    placeholder="VitaminD (optional)(value µg) max 15"
                     value={vitaminD}
                     onChangeText={setVitaminD}
                     keyboardType="numeric"

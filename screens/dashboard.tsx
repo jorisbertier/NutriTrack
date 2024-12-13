@@ -122,6 +122,8 @@ export default function Dashboard() {
                     quantity: doc.data().quantity as number,
                     title: doc.data().title as string,
                     unit: doc.data().unit as string,
+                    magnesium: doc.data().magnesium as number,
+                    potassium: doc.data().potassium as number
                 }));
 
                 setAllUserCreatedFoods(userCreatedFoodsList)
@@ -319,8 +321,8 @@ export default function Dashboard() {
     }, [allFoodDataCreated, userIdConnected, selectedDate, allUserCreatedFoods, foodsForSelectedDate]);
 
     useEffect(() => {
-        getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium)
-        getTotalNutrient(resultAllDataFood, 'potassium', setPotassium)
+        getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate)
+        getTotalNutrient(resultAllDataFood, 'potassium', setPotassium, foodsForSelectedDate)
         getTotalNutrient(resultAllDataFood, 'calcium', setCalcium)
         getTotalNutrient(resultAllDataFood, 'sodium', setSodium)
         getTotalNutrient(resultAllDataFood, 'iron', setIron)
@@ -340,9 +342,13 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate)
     }, [resultAllDataFood, foodsForSelectedDate]);
 
+    console.log('foosqforselecteddate',foodsForSelectedDate)
+
     const nutritionData = [
-        { name: 'Fiber', quantity: 0, unit: 'g' },
-        { name: 'Sugar', quantity: sugar, unit: 'g' },
+        { name: 'Potassium', quantity: potassium, unit: 'g' },
+        { name: 'Magnesium', quantity: magnesium, unit: 'g' },
+        { name: 'Calcium', quantity: calcium, unit: 'g' },
+        { name: 'Sodium', quantity: sodium, unit: 'g' },
         { name: 'Vitamin A', quantity: getVitaminPercentageUg(vitaminA, 800), unit: '%' },
         { name: 'Vitamin B1', quantity: getVitaminPercentageMg(vitaminB1, 1.1), unit: '%' },
         { name: 'Vitamin B5', quantity: getVitaminPercentageMg(vitaminB5, 5), unit: '%' },
@@ -353,11 +359,9 @@ export default function Dashboard() {
         { name: 'Vitamin E', quantity: getVitaminPercentageMg(vitaminE, 15), unit: '%' },
         { name: 'Vitamin K', quantity: getVitaminPercentageUg(vitaminK, 120), unit: '%' },
         { name: 'Folate', quantity: folate, unit: 'g' },
-        { name: 'Potassium', quantity: potassium, unit: 'g' },
-        { name: 'Magnesium', quantity: magnesium, unit: 'g' },
-        { name: 'Calcium', quantity: calcium, unit: 'g' },
-        { name: 'Sodium', quantity: sodium, unit: 'g' },
         { name: 'Iron', quantity: iron, unit: 'g' },
+        { name: 'Fiber', quantity: 0, unit: 'g' },
+        { name: 'Sugar', quantity: sugar, unit: 'g' },
     ];
 
     const proteinsGoal = calculProteins(Number(userData[0]?.weight)) || 0;

@@ -171,65 +171,69 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
     const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
         return acc + nutrientValue;
-    }, 0)
-    
+    }, 0) || 0;
+
+    // console.log('ici', resultCreated)
     const resultCreated = resultAllDataFoodCreated?.reduce((acc:number,  item: FoodItem) => {
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
+        console.log(nutrientKey, nutrientValue)
         return acc + nutrientValue;
-    }, 0)
+    }, 0) || 0;
+
+    // console.log(nutrientKey)
 
     const formattedResult = parseFloat(result.toFixed(2));
 
-    const formattedResultCreated = parseFloat(resultCreated?.toFixed(2));
+        const formattedResultCreated = parseFloat(resultCreated?.toFixed(2));
 
     switch (nutrientKey) {
         case 'magnesium':
-            setNutrient(result);
+            setNutrient(result + formattedResultCreated);
             break;
         case 'potassium':
-            setNutrient(result);
+            setNutrient(result + formattedResultCreated);
             break;
         case 'calcium':
-            setNutrient(result);
+            setNutrient(result + formattedResultCreated);
             break;
         case 'sodium':
-            setNutrient(result);
+            setNutrient(result + formattedResultCreated);
             break;
         case 'iron':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminA':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminB1':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminB5':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminB6':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminB12':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminC':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminD':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminE':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'vitaminK':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'folate':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'sugar':
-            setNutrient(formattedResult);
+            setNutrient(formattedResult + formattedResultCreated);
             break;
         case 'carbohydrates':
             setNutrient(formattedResult + formattedResultCreated);
