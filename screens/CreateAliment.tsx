@@ -241,8 +241,8 @@ function CreateAliment() {
             setVitaminCError('');
         }
         const vitaminDNumber = parseFloat(vitaminD);
-        if (vitaminDNumber > 100 || vitaminDNumber < 0) {
-            setVitaminDError('Please enter a valid number of vitamin D. Max 100');
+        if (vitaminDNumber > 15 || vitaminDNumber < 0) {
+            setVitaminDError('Please enter a valid number of vitamin D. Max 15');
             isValid = false;
         } else {
             setVitaminDError('');
