@@ -116,7 +116,7 @@ export default function Dashboard() {
                     id: doc.id,
                     idUser: doc.data().idUser as number,
                     calories: doc.data().calories as number,
-                    carbohydrates: doc.data().carbs as number,
+                    carbohydrates: doc.data().carbohydrates as number,
                     fats: doc.data().fats as number,
                     proteins: doc.data().proteins as number,
                     quantity: doc.data().quantity as number,
@@ -155,20 +155,23 @@ export default function Dashboard() {
                 const mealsForSelectedDate = userConnectedUserMealsCreated.filter(meal => 
                     meal.date === selectedDate.toLocaleDateString() && meal.id
                 );
-                
+                // console.log('meal', mealsForSelectedDate)
                 const foodsForSelectedDate = mealsForSelectedDate.map(meal => {
                     const foodDetails = userConnectedUserCreatedFoods.find(food => food.id === meal.foodId);
+                    console.log('meal',meal)
                     return {
                         ...meal,
                         ...foodDetails,
                         originalMealId: meal.id,
                     };
                 });
+
                 const resultBreakfastCreated = foodsForSelectedDate.filter(food => food.mealType === 'Breakfast');
                 const resultLunchCreated = foodsForSelectedDate.filter(food => food.mealType === 'Lunch');
                 const resultDinnerCreated = foodsForSelectedDate.filter(food => food.mealType === 'Dinner');
                 const resultSnackCreated = foodsForSelectedDate.filter(food => food.mealType === 'Snack');
 
+                
                 setFoodsForSelectedDate(foodsForSelectedDate)
                 setResultBreakfastCreated(resultBreakfastCreated)
                 setResultLunchCreated(resultLunchCreated)
