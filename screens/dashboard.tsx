@@ -143,8 +143,8 @@ export default function Dashboard() {
     }, []);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
+        // const fetchData = async () => {
+            // try {
                 /* Add created food created by one user */
                 /*get all foods meals & date by a user by a id user connected */
                 const userConnectedUserMealsCreated = allFoodDataCreated.filter(food => food.userId === userIdConnected)
@@ -174,17 +174,17 @@ export default function Dashboard() {
                 setResultLunchCreated(resultLunchCreated)
                 setResultDinnerCreated(resultDinnerCreated)
                 setResultSnackCreated(resultSnackCreated)
-            } catch (error) {
-                console.log("Error getting data user food created")
-            }
-            finally {
-                setTimeout(() => {
+        //     } catch (error) {
+        //         console.log("Error getting data user food created")
+        //     }
+        //     finally {
+        //         setTimeout(() => {
 
-                    setIsLoadingCreated(false)
-                },1500)
-            }
-        }
-        fetchData()
+        //             setIsLoadingCreated(false)
+        //         },1500)
+        //     }
+        // }
+        // fetchData()
     }, [allFoodDataCreated, allUserCreatedFoods, selectedDate, userIdConnected])
 
     
@@ -412,16 +412,14 @@ export default function Dashboard() {
                     <ProgressBarKcal isLoading={isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
                 </View>
                 <ProgressRing isLoading={isLoading} progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
-                {!isLoadingCreated ?
+                
                 <View style={styles.wrapperMeals}>
                     {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood, handleDeleteFoodCreated)}
                     {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, 'Lunch', handleDeleteFood, handleDeleteFoodCreated)}
                     {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, 'Dinner', handleDeleteFood, handleDeleteFoodCreated)}
                     {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, 'Snack', handleDeleteFood, handleDeleteFoodCreated)}
                 </View>
-                :
-                <Skeleton colorMode={colorMode} width={'100%'} height={60} />
-                }
+                
                 <View style={{marginBottom: 60}}>
                     <NutritionList data={nutritionData}/>
                 </View>
