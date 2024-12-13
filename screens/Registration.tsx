@@ -75,10 +75,16 @@ const Registration = () => {
             setFirstnameError('');
         }
     
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
         if (!password || password.length < 6) {
-            setPasswordError('Password must be at least 6 characters.');
+            setPasswordError("Password must be at least 6 characters long.");
             isValid = false;
-        } else {
+        }
+        else if(!passwordRegex.test(password)) {
+            setPasswordError("Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            isValid = false;
+        }
+        else {
             setPasswordError('');
         }
     
