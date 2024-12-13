@@ -7,7 +7,7 @@ import { foodData } from "@/data/food.js";
 import React, { useContext, useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
-import { capitalizeFirstLetter, fetchUserIdDataConnected } from "@/functions/function";
+import { capitalizeFirstLetter, fetchUserDataConnected, fetchUserIdDataConnected } from "@/functions/function";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -17,16 +17,16 @@ import { firestore } from "@/firebaseConfig";
 import CardFoodCreated from "@/components/SearchCreated/CardFoodCreated";
 import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
+import { User } from "@/interface/User";
 
 function SearchAlimentCreated() {
 
     /*Get id user*/
-    const [userIdConnected, setUserIdConnected] = useState<number>();
+    const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
 
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
-    // const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
 
     const {theme, colors} = useTheme();
     const navigation = useNavigation();
@@ -39,11 +39,11 @@ function SearchAlimentCreated() {
     const [isLoading, setIsLoading] = useState(false);
     const colorMode: 'light' | 'dark' = 'light';
 
-    console.log('idUser', userIdConnected)
     useEffect(() => {
         try {
             const fetch = async () => {
-                fetchUserIdDataConnected(user, setUserIdConnected)
+                // fetchUserIdDataConnected(user, setUserIdConnected)
+                fetchUserDataConnected(user, setUserData)
             }
             fetch()
         } catch (e) {
@@ -67,8 +67,9 @@ function SearchAlimentCreated() {
                     ...(doc.data() as FoodItemCreated), // Type assertion ici
                 }));
                 
-                if(userIdConnected) {
-                    const filteredData = allData.filter(food => food.idUser === userIdConnected);
+                if(userData[0]?.id) {
+                    console.log('alldata', allData)
+                    const filteredData = allData.filter(food => food.idUser === userData[0]?.id);
                     setAllDataFoodCreated(filteredData)
                     console.log('new user data:', filteredData);
                     setIsLoading(true)
@@ -81,7 +82,7 @@ function SearchAlimentCreated() {
         };
     
         fetchCollection();
-    }, [userIdConnected]);
+    }, [userData]);
 
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -123,7 +124,7 @@ function SearchAlimentCreated() {
     }
 
     const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim()))
-console.log(userIdConnected)
+
     return (
         <>
         <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>

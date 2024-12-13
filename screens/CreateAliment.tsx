@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components/ThemedText';
-import { fetchUserIdDataConnected } from '@/functions/function';
+import { fetchUserDataConnected, fetchUserIdDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
 import { getAuth } from 'firebase/auth';
 import { useEffect, useRef, useState } from 'react';
@@ -7,13 +7,15 @@ import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View 
 import { collection, doc, getDocs, setDoc } from "firebase/firestore"; 
 import { firestore } from '@/firebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
+import { User } from '@/interface/User';
 
 function CreateAliment() {
 
     const {colors} = useTheme();
 
     /*Get id user*/
-    const [userIdConnected, setUserIdConnected] = useState<number>();
+    // const [userIdConnected, setUserIdConnected] = useState<number>();
+    const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
 
@@ -76,7 +78,8 @@ function CreateAliment() {
     useEffect(() => {
         try {
             const fetch = async () => {
-                fetchUserIdDataConnected(user, setUserIdConnected)
+                // fetchUserIdDataConnected(user, setUserIdConnected)
+                fetchUserDataConnected(user, setUserData)
             }
             fetch()
         } catch (e) {
@@ -333,7 +336,7 @@ function CreateAliment() {
                 proteins: Number(proteins),
                 carbohydrates: Number(carbs),
                 fats: Number(fats),
-                idUser: Number(userIdConnected),
+                idUser: userData[0]?.id,
                 ...dataToSave
             });
             Alert.alert('Aliment created')

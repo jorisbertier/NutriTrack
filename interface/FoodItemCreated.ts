@@ -3,7 +3,7 @@ export interface FoodItemCreated {
     originalMealId?: string;
     idDoc?: string;
     id: string;
-    idUser: number;
+    idUser: string;
     title: string;
     calories: number;
     carbohydrates: number;
