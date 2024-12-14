@@ -74,7 +74,7 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                         {isLoading ?
                             <View style={{flexDirection: 'row'}}>
                                 <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
-                                <ThemedText color={colors.gray}> Free account</ThemedText>
+                                <ThemedText color={colors.gray}> Premium account</ThemedText>
                             </View>
                         :
                             <View style={{ marginTop: 10 }}>

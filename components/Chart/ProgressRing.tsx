@@ -43,7 +43,7 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
                     cy="75"
                     r={radiusOuter}
                     stroke="#E0E0E0"
-                    strokeWidth="10"
+                    strokeWidth="8"
                     fill="none"
                 />
                 {/* Cercle des graisses */}
@@ -52,7 +52,7 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
                     cy="75"
                     r={radiusOuter}
                     stroke="#8592F2"
-                    strokeWidth="10"
+                    strokeWidth="8"
                     fill="none"
                     strokeDasharray={`${circumferenceOuter} ${circumferenceOuter}`}
                     strokeDashoffset={circumferenceOuter * (1 - percentageFats)} 
@@ -65,7 +65,7 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
                     cy="75"
                     r={radiusMiddle}
                     stroke="#E0E0E0"
-                    strokeWidth="10"
+                    strokeWidth="8"
                     fill="none"
                 />
                 {/* Cercle des glucides */}
