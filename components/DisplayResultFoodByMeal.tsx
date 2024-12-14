@@ -13,6 +13,8 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
 
     const {colors} = useTheme();
 
+    const colorMode: 'light' | 'dark' = 'light';
+
     console.log('is load', isLoading)
     
     const totalCaloriesByMeal = resultMeal.reduce((accumulator, item) => {
@@ -77,7 +79,7 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
                     }
                 </Row>
                 :
-                    <Skeleton width={'100%'} height={60} />
+                    <Skeleton width={'100%'} height={60} colorMode={colorMode}/>
                 }
                 {resultMeal.length === 0 && resultMealCreated.length === 0 && (
                     <Row>
