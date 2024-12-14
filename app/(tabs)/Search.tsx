@@ -23,6 +23,7 @@ export default function Search() {
     const [notificationVisible, setNotificationVisible] = useState(false); 
     const [isLoading, setIsLoading] = useState(false);
     const colorMode: 'light' | 'dark' = 'light';
+    const [error, setError] = useState('')
     
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
