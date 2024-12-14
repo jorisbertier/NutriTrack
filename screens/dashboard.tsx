@@ -70,7 +70,6 @@ export default function Dashboard() {
     }, [sortByBreakfast])
     
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
-        console.log(event);
         setIsOpen(false)
         if(date) {
             // const offsetInMinutes = new Date().getTimezoneOffset();

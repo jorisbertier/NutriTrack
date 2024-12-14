@@ -14,8 +14,6 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
     const {colors} = useTheme();
 
     const colorMode: 'light' | 'dark' = 'light';
-
-    console.log('is load', isLoading)
     
     const totalCaloriesByMeal = resultMeal.reduce((accumulator, item) => {
         return accumulator + (item.calories || 0);

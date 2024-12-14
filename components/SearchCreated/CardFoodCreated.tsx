@@ -129,18 +129,14 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                             await deleteDoc(mealDocRef);
 
                             const mealsCollectionRef = collection(firestore, "UserMealsCreated");
-                            console.log('m',mealsCollectionRef)
                             const querySnapshot = await getDocs(mealsCollectionRef);
-                            console.log('q',querySnapshot)
                             const relatedDocs = querySnapshot.docs.filter(
                                 doc => doc.data().foodId === idDoc
                             ); 
-                            console.log('r',relatedDocs)
     
                             const deletePromises = relatedDocs.map(doc => deleteDoc(doc.ref));
                             await Promise.all(deletePromises);
     
-                            console.log('avant suppression', allDataFoodCreated);
                             setAllDataFoodCreated((prevData: FoodItemCreated[]) =>
                                 prevData.filter(food => food.idDoc !== idDoc)
                             );

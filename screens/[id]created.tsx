@@ -59,19 +59,16 @@ export default function DetailsFoodCreated() {
                 const allData: FoodItemCreated[] = querySnapshot.docs.map(doc => ({
                     // const id = doc.id;
                     idfirestore: doc.id,
-                    ...(doc.data() as FoodItemCreated), // Type assertion ici
+                    ...(doc.data() as FoodItemCreated),
                 }));
                 
                 if(userData[0]?.id) {
                     const filteredData = allData.filter(food => food.idUser === userData[0]?.id);
                     setAllDataFoodCreated(filteredData)
                     console.log('new user data:', filteredData);
-                    // setIsLoading(true)
-
                 }
             } catch (error) {
                 console.error("Erreur lors de la récupération de la collection :", error);
-                // setError("Erreur lors de la récupération des données.");
             }finally {
                 setIsLoading(true)
             }
@@ -79,8 +76,6 @@ export default function DetailsFoodCreated() {
     
         fetchCollection();
     }, [userData]);
-    console.log('getting page [id}' , allDataFoodCreated)
-    // console.log()
     
 
     const handleGoBack = () => {
@@ -92,7 +87,6 @@ export default function DetailsFoodCreated() {
     };
 
     const filterUniqueFood = allDataFoodCreated.find((element) => element.id === id)
-    console.log('new array', filterUniqueFood)
 
     const values = [filterUniqueFood?.proteins, filterUniqueFood?.carbohydrates, filterUniqueFood?.fats]
     values.sort((a, b) => a - b);

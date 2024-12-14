@@ -33,7 +33,6 @@ export const UserProvider = ({ children }) => {
     if (userData) {
       const userRef = doc(firestore, 'User', userData.id); // Assurez-vous que l'ID utilisateur est correct
       await updateDoc(userRef, newInfo); // Met à jour les informations utilisateur dans Firestore
-      console.log(newInfo)
       setUserData((prevData) => ({ ...prevData, ...newInfo })); // Met à jour l'état local
     }
   };

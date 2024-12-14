@@ -55,7 +55,6 @@ export default function Search() {
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
-        console.log("Calendar opened:", !isOpen);
     }
 
     const handleDeleteValue = () => {
