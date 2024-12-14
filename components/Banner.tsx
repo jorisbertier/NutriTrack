@@ -42,7 +42,7 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                 <Row style={{justifyContent: 'space-between', width: '90%'}}>
                     <View style={{flexDirection: 'row', gap: 10}}>
                         <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
-                        <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('default', { month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
+                        <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('en-US',{ month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
                     </View>
                     <TouchableOpacity onPress={toggleTheme}>
                         <View style={[styles.circle]} >
