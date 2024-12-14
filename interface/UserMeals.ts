@@ -7,7 +7,7 @@ export interface UserMeals {
 }
 export interface UserMealsCreated {
     id: string;
-    userId: number;
+    userId: string;
     foodId: string;
     date: string;
     mealType: string;

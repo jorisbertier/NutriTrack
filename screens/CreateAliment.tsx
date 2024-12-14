@@ -317,15 +317,11 @@ function CreateAliment() {
                 sugar: Number(sugar) || null,
             };
 
-            console.log(dataToSave)
-
             Object.keys(dataToSave).forEach((key) => {
                 if (dataToSave[key] === null || dataToSave[key] === undefined || dataToSave[key] === '') {
                     delete dataToSave[key];
                 }
             });
-
-            console.log(dataToSave)
 
             await setDoc(doc(firestore, "UserCreatedFoods",  generateManualId()), {
                 id: newId,

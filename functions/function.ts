@@ -176,7 +176,6 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
     // console.log('ici', resultCreated)
     const resultCreated = resultAllDataFoodCreated?.reduce((acc:number,  item: FoodItem) => {
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
-        console.log(nutrientKey, nutrientValue)
         return acc + nutrientValue;
     }, 0) || 0;
 

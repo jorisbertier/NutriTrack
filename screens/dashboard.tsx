@@ -82,7 +82,6 @@ export default function Dashboard() {
         }
     };
 
-    console.log('dashboard', userData[0]?.id)
     /*ID user*/
     /* API */
     useEffect(() => {
@@ -164,18 +163,16 @@ export default function Dashboard() {
             // try {
                 /* Add created food created by one user */
                 /*get all foods meals & date by a user by a id user connected */
-                const userConnectedUserMealsCreated = allFoodDataCreated.filter(food => food.userId === userIdConnected)
+                const userConnectedUserMealsCreated = allFoodDataCreated.filter(food => food.userId === userData[0]?.id)
 
                 /* get all foods created by user by a id user connected */
-                const userConnectedUserCreatedFoods = allUserCreatedFoods.filter(food => food.idUser === userIdConnected )
+                const userConnectedUserCreatedFoods = allUserCreatedFoods.filter(food => food.idUser === userData[0]?.id )
                 /**/
                 const mealsForSelectedDate = userConnectedUserMealsCreated.filter(meal => 
                     meal.date === selectedDate.toLocaleDateString() && meal.id
                 );
-                // console.log('meal', mealsForSelectedDate)
                 const foodsForSelectedDate = mealsForSelectedDate.map(meal => {
                     const foodDetails = userConnectedUserCreatedFoods.find(food => food.id === meal.foodId);
-                    console.log('meal',meal)
                     return {
                         ...meal,
                         ...foodDetails,
@@ -205,7 +202,7 @@ export default function Dashboard() {
         //     }
         // }
         // fetchData()
-    }, [allFoodDataCreated, allUserCreatedFoods, selectedDate, userIdConnected])
+    }, [allFoodDataCreated, allUserCreatedFoods, selectedDate, userData])
 
     
     useEffect(() => {
@@ -243,7 +240,6 @@ export default function Dashboard() {
             filterAndSetFoodData(resultByDinner, setSortByDinner)
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
-        console.log('resultat final', resultAllDataFood)
     }, [selectedDate, allUsersFoodData, userData, allFoodData]);
     // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
 
@@ -320,22 +316,27 @@ export default function Dashboard() {
     const [carbs, setCarbs] = useState(0);
     const [fats, setFats] = useState(0);
 
+
     useEffect(() => {
-        if (allFoodDataCreated.length > 0 && userIdConnected && selectedDate) {
-    
-            const totalKcalDatabase = resultAllDataFood.reduce((acc: number, item: FoodItem) => {
-                // Ensure that item.nutrition and item.nutrition.calories exist
-                return acc + (item.calories || 0); // Use optional chaining and default to 0
-            }, 0);
 
-            const totalKcalCreated = foodsForSelectedDate.reduce((acc: number, item: FoodItemCreated) => {
-                return acc + (item.calories || 0)
-            }, 0)
-
-            const totalKcal = totalKcalDatabase + Number(totalKcalCreated);
-            setTotalKcalConsumeToday(totalKcal);
-        }
-    }, [allFoodDataCreated, resultAllDataFood, selectedDate, allUserCreatedFoods, foodsForSelectedDate]);
+        let totalKcal = 0;
+            if (resultAllDataFood.length > 0 && userData[0]?.id && selectedDate) {
+                const totalKcalDatabase = resultAllDataFood.reduce((acc: number, item: FoodItem) => {
+                    // Ensure that item.nutrition and item.nutrition.calories exist
+                    return acc + (item.calories || 0); // Use optional chaining and default to 0
+                }, 0);
+                totalKcal += totalKcalDatabase;
+                console.log('totel', totalKcal)
+            }
+            if (allFoodDataCreated.length > 0 && userData[0]?.id && selectedDate) {
+                const totalKcalCreated = foodsForSelectedDate.reduce((acc: number, item: FoodItemCreated) => {
+                    return acc + (item.calories || 0)
+                }, 0)
+                totalKcal += Number(totalKcalCreated);
+            }
+            console.log('new total', totalKcal)
+        setTotalKcalConsumeToday(totalKcal);
+    }, [allFoodDataCreated, resultAllDataFood, selectedDate, foodsForSelectedDate, userData]);
 
     useEffect(() => {
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate)
@@ -359,7 +360,6 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate)
     }, [resultAllDataFood, foodsForSelectedDate]);
 
-    console.log('foosqforselecteddate',foodsForSelectedDate)
 
     const nutritionData = [
         { name: 'Potassium', quantity: potassium, unit: 'g' },

@@ -49,8 +49,6 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
             console.log('Error processing data', e);
         }
     }, [user]);
-
-    console.log(userData[0]?.id)
     
     const navigateToDetails = () => {
         // Vérifier si le navigationRef est prêt avant de naviguer
@@ -64,7 +62,6 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     const handlePress = (event: any) => {
         const { pageY } = event.nativeEvent;
         const screenHeight = Dimensions.get('window').height;
-        console.log(screenHeight)
 
         // Verify is element es near of bottom at the screen
         if (pageY > screenHeight - 200) {

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Dimensions, Alert } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { capitalizeFirstLetter } from "@/functions/function";
+import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/function";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { fetchUserIdDataConnected } from "@/functions/function";
@@ -12,6 +12,7 @@ import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
 import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
+import { User } from "@/interface/User";
 
 type Props = {
     id: number;
@@ -32,7 +33,8 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     const [modalVisible, setModalVisible] = useState(false);
     
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-    const [userIdConnected, setUserIdConnected] = useState<number>();
+    // const [userIdConnected, setUserIdConnected] = useState<number>();
+    const [userData, setUserData] = useState<User[]>([])
     const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
 
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
@@ -45,7 +47,8 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     useEffect(() => {
         try {
             const fetch = async () => {
-                fetchUserIdDataConnected(user, setUserIdConnected)
+                // fetchUserIdDataConnected(user, setUserIdConnected)
+                fetchUserDataConnected(user, setUserData)
             }
             fetch()
         } catch (e) {
@@ -65,7 +68,6 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     const handlePress = (event: any) => {
         const { pageY } = event.nativeEvent;
         const screenHeight = Dimensions.get('window').height;
-        console.log(screenHeight)
 
         // Verify is element es near of bottom at the screen
         if (pageY > screenHeight - 200) {
@@ -89,7 +91,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
             const addAliment = async() => {
                 await setDoc(doc(firestore, "UserMealsCreated", newId), {
                     foodId: idDoc,
-                    userId: userIdConnected,
+                    userId: userData[0]?.id,
                     date: selectedDate,
                     mealType: valueMeal,
                 });
