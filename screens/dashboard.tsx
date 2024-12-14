@@ -32,7 +32,7 @@ export default function Dashboard() {
     
     const {theme, colors} = useTheme();
 
-    const [userIdConnected, setUserIdConnected] = useState<number>();
+    // const [userIdConnected, setUserIdConnected] = useState<number>();
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
@@ -145,7 +145,7 @@ export default function Dashboard() {
             fetchData()
             setAllFoodData(foodData);
             setAllUserData(Users);
-            fetchUserIdDataConnected(user, setUserIdConnected)
+            // fetchUserIdDataConnected(user, setUserIdConnected)
             fetchUserDataConnected(user, setUserData)
         } catch (e) {
             console.log('Error processing data', e);

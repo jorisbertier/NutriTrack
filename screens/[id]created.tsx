@@ -12,12 +12,13 @@ import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
 import { getAuth } from "firebase/auth";
-import { fetchUserIdDataConnected, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
+import { fetchUserDataConnected, fetchUserIdDataConnected, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { Skeleton } from "moti/skeleton";
+import { User } from "@/interface/User";
 
 const { height } = Dimensions.get('window');
 
@@ -26,7 +27,8 @@ export default function DetailsFoodCreated() {
     const {theme, colors} = useTheme();
 
     /*Get id user*/
-    const [userIdConnected, setUserIdConnected] = useState<number>();
+    // const [userIdConnected, setUserIdConnected] = useState<number>();
+    const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
 
@@ -44,7 +46,8 @@ export default function DetailsFoodCreated() {
     useEffect(() => {
         try {
             const fetch = async () => {
-                fetchUserIdDataConnected(user, setUserIdConnected)
+                // fetchUserIdDataConnected(user, setUserIdConnected)
+                fetchUserDataConnected(user, setUserData)
             }
             fetch()
         } catch (e) {
@@ -68,8 +71,8 @@ export default function DetailsFoodCreated() {
                     ...(doc.data() as FoodItemCreated), // Type assertion ici
                 }));
                 
-                if(userIdConnected) {
-                    const filteredData = allData.filter(food => food.idUser === userIdConnected);
+                if(userData[0]?.id) {
+                    const filteredData = allData.filter(food => food.idUser === userData[0]?.id);
                     setAllDataFoodCreated(filteredData)
                     console.log('new user data:', filteredData);
                     // setIsLoading(true)
@@ -84,7 +87,7 @@ export default function DetailsFoodCreated() {
         };
     
         fetchCollection();
-    }, [userIdConnected]);
+    }, [userData]);
     console.log('getting page [id}' , allDataFoodCreated)
     // console.log()
     
