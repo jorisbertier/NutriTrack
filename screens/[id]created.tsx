@@ -1,39 +1,31 @@
 import { ThemedText } from "@/components/ThemedText"
-import { Image, Pressable, StyleSheet, View, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { Image, Pressable, StyleSheet, View, ScrollView } from "react-native";
 import { useNavigation } from "expo-router";
 import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
-import { Dimensions } from "react-native";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
 import { useRoute } from "@react-navigation/native";
 import { useState, useEffect, useContext } from "react";
-import { foodData } from "@/data/food";
-import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
 import { getAuth } from "firebase/auth";
-import { fetchUserDataConnected, fetchUserIdDataConnected, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { fetchUserDataConnected, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
+import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { Skeleton } from "moti/skeleton";
 import { User } from "@/interface/User";
 
-const { height } = Dimensions.get('window');
-
 export default function DetailsFoodCreated() {
 
     const {theme, colors} = useTheme();
 
     /*Get id user*/
-    // const [userIdConnected, setUserIdConnected] = useState<number>();
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
 
-    // const [allDataFoodCreated, setAllDataFoodCreated] = useState<FoodItemCreated[]>([]);
-    // const [allDataFoodCreated2, setAllDataFoodCreated2] = useState<FoodItemCreated[]>([]);
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -46,7 +38,6 @@ export default function DetailsFoodCreated() {
     useEffect(() => {
         try {
             const fetch = async () => {
-                // fetchUserIdDataConnected(user, setUserIdConnected)
                 fetchUserDataConnected(user, setUserData)
             }
             fetch()

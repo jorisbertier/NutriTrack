@@ -9,31 +9,6 @@ export function capitalizeFirstLetter(name: string) {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
 
-//to use with useEffect
-export const fetchUserIdDataConnected = async (user: FirebaseUser | null, setUser: React.Dispatch<React.SetStateAction<number | undefined>>) => {
-    
-    if (user !== null) {
-        const email = user.email;
-        const userCollection = collection(firestore, 'User');
-        const userSnapshot = await getDocs(userCollection);
-        const userList = userSnapshot.docs.map((doc, index) => ({
-            index: index + 1,
-            id: doc.id,
-            email: doc.data().email,
-            name: doc.data().name,
-            firstName: doc.data().firstName,
-            dateOfBirth: doc.data().dateOfBirth,
-            gender: doc.data().gender,
-            height: doc.data().height,
-            weight: doc.data().weight,
-            activityLevel: doc.data().activityLevel,
-            profilPicture: doc.data().profilPicture,
-        }));
-        const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
-        setUser(sortByUniqueUserConnected[0].index)
-    }
-}
-
 export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser: React.Dispatch<React.SetStateAction<any>>) => {
     if (user !== null) {
         const email = user.email;

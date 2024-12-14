@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components/ThemedText';
-import { fetchUserDataConnected, fetchUserIdDataConnected } from '@/functions/function';
+import { fetchUserDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
 import { getAuth } from 'firebase/auth';
 import { useEffect, useRef, useState } from 'react';
@@ -14,7 +14,6 @@ function CreateAliment() {
     const {colors} = useTheme();
 
     /*Get id user*/
-    // const [userIdConnected, setUserIdConnected] = useState<number>();
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
@@ -78,7 +77,6 @@ function CreateAliment() {
     useEffect(() => {
         try {
             const fetch = async () => {
-                // fetchUserIdDataConnected(user, setUserIdConnected)
                 fetchUserDataConnected(user, setUserData)
             }
             fetch()

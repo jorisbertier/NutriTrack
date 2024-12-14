@@ -4,7 +4,6 @@ import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/function";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { fetchUserIdDataConnected } from "@/functions/function";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
@@ -29,7 +28,6 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     const [modalVisible, setModalVisible] = useState(false);
     
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-    // const [userIdConnected, setUserIdConnected] = useState<number>();
     const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
     
     const navigation = useNavigation<any>(); 
@@ -41,7 +39,6 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     useEffect(() => {
         try {
             const fetch = async () => {
-                // fetchUserIdDataConnected(user, setUserIdConnected)
                 fetchUserDataConnected(user, setUserData)
             }
             fetch()

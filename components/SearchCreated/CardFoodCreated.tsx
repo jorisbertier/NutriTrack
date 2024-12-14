@@ -4,7 +4,6 @@ import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/function";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { fetchUserIdDataConnected } from "@/functions/function";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
@@ -33,13 +32,11 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     const [modalVisible, setModalVisible] = useState(false);
     
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-    // const [userIdConnected, setUserIdConnected] = useState<number>();
     const [userData, setUserData] = useState<User[]>([])
     const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
 
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
     
-    const navigation = useNavigation<any>(); 
     const addImageRef = useRef(null);
     const auth = getAuth();
     const user = auth.currentUser;
@@ -47,7 +44,6 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     useEffect(() => {
         try {
             const fetch = async () => {
-                // fetchUserIdDataConnected(user, setUserIdConnected)
                 fetchUserDataConnected(user, setUserData)
             }
             fetch()

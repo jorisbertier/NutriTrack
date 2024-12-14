@@ -7,7 +7,7 @@ import { foodData } from "@/data/food.js";
 import React, { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
-import { capitalizeFirstLetter, fetchUserIdDataConnected } from "@/functions/function";
+import { capitalizeFirstLetter } from "@/functions/function";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -17,7 +17,6 @@ export default function Search() {
     const navigation = useNavigation();
 
     const [data, setData] = useState<FoodItem[]>([]);
-    const [error, setError] = useState("");
     const [text, onChangeText] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date());

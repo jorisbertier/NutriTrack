@@ -8,7 +8,7 @@ import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals, UserMealsCreated } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
-import { fetchUserIdDataConnected, fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, handleAnimation, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
+import { fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, handleAnimation, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
@@ -145,7 +145,6 @@ export default function Dashboard() {
             fetchData()
             setAllFoodData(foodData);
             setAllUserData(Users);
-            // fetchUserIdDataConnected(user, setUserIdConnected)
             fetchUserDataConnected(user, setUserData)
         } catch (e) {
             console.log('Error processing data', e);
