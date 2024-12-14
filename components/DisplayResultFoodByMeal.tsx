@@ -2,27 +2,27 @@
 import { ThemedText } from "./ThemedText";
 import Row from "./Row";
 import { FoodItem } from '../interface/FoodItem';
-import { FlatList, Image, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import CardFoodResume from "./Screens/Dashboard/CardFoodResume";
-import RowDrop from "./Screens/Dashboard/RowDrop";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from '../interface/FoodItemCreated';
 import CardFoodResumeCreated from "./Screens/Dashboard/CardFoodResumeCreated";
+import { Skeleton } from "moti/skeleton";
 
-export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any, meal: string,handleDeleteFood: (userMealId: string) => void, handleDeleteFoodCreated: (userMealId: string) => void) {
+export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreated: FoodItemCreated[], meal: string,handleDeleteFood: (userMealId: string) => void, handleDeleteFoodCreated: (userMealId: string) => void, isLoading: boolean = false) {
 
     const {colors} = useTheme();
+
+    console.log('is load', isLoading)
     
     const totalCaloriesByMeal = resultMeal.reduce((accumulator, item) => {
-        return accumulator + item.calories;
+        return accumulator + (item.calories || 0);
     }, 0);
 
     const totalCaloriesByMealCreated = resultMealCreated.reduce((accumulator, item) => {
-        return accumulator + item.calories;
+        return accumulator + (item.calories || 0);
     }, 0);
 
-    // console.log(resultMealCreated.length)
-    // console.log(resultMealCreated)
     return (
         <View style={styles.wrapper}>
             <Row style={styles.row}>
@@ -52,6 +52,7 @@ export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any,
                 )
                 }
                 </Row>
+                {isLoading ?
                 <Row>
                     { resultMealCreated.length !== 0 && (
                         <FlatList<FoodItemCreated>
@@ -75,6 +76,9 @@ export function DisplayResultFoodByMeal(resultMeal: any, resultMealCreated: any,
                         )
                     }
                 </Row>
+                :
+                    <Skeleton width={'100%'} height={60} />
+                }
                 {resultMeal.length === 0 && resultMealCreated.length === 0 && (
                     <Row>
                         <ThemedText color={colors.black}>Don't have any food for {meal}</ThemedText>

@@ -2,17 +2,13 @@ import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
-import CardFood from "@/components/Search/CardFood";
-import { foodData } from "@/data/food.js";
 import React, { useContext, useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { FoodItem } from "@/interface/FoodItem";
-import { capitalizeFirstLetter, fetchUserDataConnected, fetchUserIdDataConnected } from "@/functions/function";
+import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/function";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import CardFoodCreated from "@/components/SearchCreated/CardFoodCreated";
 import { FoodContext } from "@/hooks/FoodContext";
@@ -29,9 +25,7 @@ function SearchAlimentCreated() {
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
 
     const {theme, colors} = useTheme();
-    const navigation = useNavigation();
 
-    // const [error, setError] = useState("");
     const [text, onChangeText] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date());
@@ -42,7 +36,6 @@ function SearchAlimentCreated() {
     useEffect(() => {
         try {
             const fetch = async () => {
-                // fetchUserIdDataConnected(user, setUserIdConnected)
                 fetchUserDataConnected(user, setUserData)
             }
             fetch()
@@ -68,16 +61,13 @@ function SearchAlimentCreated() {
                 }));
                 
                 if(userData[0]?.id) {
-                    console.log('alldata', allData)
                     const filteredData = allData.filter(food => food.idUser === userData[0]?.id);
                     setAllDataFoodCreated(filteredData)
-                    console.log('new user data:', filteredData);
                     setIsLoading(true)
 
                 }
             } catch (error) {
-                console.error("Erreur lors de la récupération de la collection :", error);
-                // setError("Erreur lors de la récupération des données.");
+                console.error("Error getting collection UserCreatedFoods", error);
             }
         };
     
@@ -116,7 +106,6 @@ function SearchAlimentCreated() {
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
-        console.log("Calendar opened:", !isOpen);
     }
 
     const handleDeleteValue = () => {

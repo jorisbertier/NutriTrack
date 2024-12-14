@@ -60,9 +60,7 @@ export default function Dashboard() {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
-    const [update, setUpdate] = useState<any>(0)
-    const [isLoading, setIsLoading] = useState(false);
-    const [isLoadingCreated, setIsLoadingCreated] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -142,7 +140,7 @@ export default function Dashboard() {
 
                 setAllUserCreatedFoods(userCreatedFoodsList)
 
-
+                setIsLoading(false)
             }
             fetchData()
             setAllFoodData(foodData);
@@ -151,9 +149,10 @@ export default function Dashboard() {
             fetchUserDataConnected(user, setUserData)
         } catch (e) {
             console.log('Error processing data', e);
+            setIsLoading(false);
         }finally {
             setTimeout(() => {
-                setIsLoading(true)
+                
             }, 1500)
         }
     }, []);
@@ -326,7 +325,6 @@ export default function Dashboard() {
                     return acc + (item.calories || 0); // Use optional chaining and default to 0
                 }, 0);
                 totalKcal += totalKcalDatabase;
-                console.log('totel', totalKcal)
             }
             if (allFoodDataCreated.length > 0 && userData[0]?.id && selectedDate) {
                 const totalKcalCreated = foodsForSelectedDate.reduce((acc: number, item: FoodItemCreated) => {
@@ -334,7 +332,6 @@ export default function Dashboard() {
                 }, 0)
                 totalKcal += Number(totalKcalCreated);
             }
-            console.log('new total', totalKcal)
         setTotalKcalConsumeToday(totalKcal);
     }, [allFoodDataCreated, resultAllDataFood, selectedDate, foodsForSelectedDate, userData]);
 
@@ -416,32 +413,32 @@ export default function Dashboard() {
                                 value={selectedDate}
                                 timeZoneName={timeZone}
                     />)}
-                    {isLoading ?
+                    {!isLoading ?
                         <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
                     :
                         <View style={{ marginTop: 10 }}><Skeleton width={300} height={40} colorMode={colorMode} /></View>
                     }
-                    {isLoading ?
+                    {!isLoading ?
                         <ThemedText variant='title2' color={colors.grayDark}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
                     :
                         <View style={{ marginTop: 5 }}><Skeleton width={260} height={30} colorMode={colorMode} /></View>
                     }
-                    {isLoading ?
+                    {!isLoading ?
                         <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{totalKcalConsumeToday} / {totalCaloriesGoal} cal</ThemedText>
                     :
                         <View style={{ marginTop: 5 }}><Skeleton width={230} height={30} colorMode={colorMode} /></View>
                     }
                 </View>
                 <View style={{marginBottom: 20}}>
-                    <ProgressBarKcal isLoading={isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
+                    <ProgressBarKcal isLoading={!isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
                 </View>
-                <ProgressRing isLoading={isLoading} progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
+                <ProgressRing isLoading={!isLoading} progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
                 
                 <View style={styles.wrapperMeals}>
-                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood, handleDeleteFoodCreated)}
-                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, 'Lunch', handleDeleteFood, handleDeleteFoodCreated)}
-                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, 'Dinner', handleDeleteFood, handleDeleteFoodCreated)}
-                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, 'Snack', handleDeleteFood, handleDeleteFoodCreated)}
+                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false )}
+                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, 'Lunch', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, 'Dinner', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, 'Snack', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
                 </View>
                 
                 <View style={{marginBottom: 60}}>
