@@ -2,7 +2,6 @@ import React, { useState, useRef, useContext } from "react";
 import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Dimensions, Alert } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/function";
-import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
@@ -111,12 +110,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
             console.error("L'ID de l'utilisateur du repas est indéfini.");
             return;
         }
-        
-        console.log('id', id)
-        const stringId = id.toString();
-        console.log(stringId)
 
-        // Affiche une alerte de confirmation
         Alert.alert(
             "Confirmation",
             "This action is irreversible and may affect the data in your dashboard if this food item is present !\n\n\Are you sure you want to eliminate this food? ",
@@ -145,32 +139,13 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     
                             const deletePromises = relatedDocs.map(doc => deleteDoc(doc.ref));
                             await Promise.all(deletePromises);
-                            // querySnapshot.forEach(async (docSnap) => {
-                            //     await deleteDoc(docSnap.ref); // Supprime le document
-                            // });
-    
-                            // Mise à jour des données après suppression
-                            // const collectionRef = collection(firestore, "UserCreatedFoods");
-                            // const querySnapshot = await getDocs(collectionRef);
-                            // const updatedData = querySnapshot.docs.map(doc => ({
-                            //     ...(doc.data() as FoodItemCreated),
-                            // }));
     
                             console.log('avant suppression', allDataFoodCreated);
                             setAllDataFoodCreated((prevData: FoodItemCreated[]) =>
                                 prevData.filter(food => food.idDoc !== idDoc)
                             );
-                            console.log('apres suppression', allDataFoodCreated);
     
                             console.log("Document deleted with success");
-                            // if (navigationRef.isReady()) {
-                            //     navigationRef.reset({
-                            //         index: 0, // Index de la page dans la pile
-                            //         routes: [{ name: "search", params: { id: stringId } }], // Nom et paramètres de la page cible
-                            //     });
-                            // } else {
-                            //     console.log("Navigation n'est pas prête");
-                            // }
                         } catch (error) {
                             console.error("Error during deletion of document: ", error);
                         }
@@ -207,7 +182,6 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                 >
                     <Pressable style={styles.overlay} onPress={() => setModalVisible(false)} />
                     <View style={[styles.modalView, { top: modalPosition.top + 7, left: modalPosition.left - 100 }]}>
-                        {/* <Text style={styles.modalText}>{name}</Text> */}
                         {meals.map((meal, index) => (
                             <Pressable 
                                 style={({ pressed }) => [
@@ -283,7 +257,6 @@ const styles = StyleSheet.create({
     },
     wrapperAdd: {
         height: '100%',
-        // width: '20%',
         alignItems: 'center',
         justifyContent: 'center',
     },

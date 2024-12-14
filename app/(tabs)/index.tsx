@@ -38,7 +38,6 @@ export default function HomeScreen() {
       if (user !== null) {
         // The user object has basic properties su
         const email = user.email;
-        const uid = user.uid;
 
         const userCollection = collection(firestore, 'User');
         const userSnapshot = await getDocs(userCollection);
@@ -63,16 +62,6 @@ export default function HomeScreen() {
     }
     fetchUserData()
   }, [])
-
-  // const handleSignOut = async () => {
-  //   try {
-  //     // await setPersistence(auth, browserSessionPersistence);
-  //     await signOut(auth); // Déconnexion de l'utilisateur
-  //     navigation.navigate('auth'); // Redirection vers l'écran de connexion
-  //   } catch (error) {
-  //     Alert.alert('Erreur de déconnexion', error.message);
-  //   }
-  // };
 
   const basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
     Number(userData[0]?.weight),

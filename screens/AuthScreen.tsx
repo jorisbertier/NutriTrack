@@ -11,8 +11,8 @@ import { StatusBar } from 'expo-status-bar';
 
 const AuthScreen = () => {
 
-  const [email, setEmail] = useState('test2@gmail.com');
-  const [password, setPassword] = useState('rootroot');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const {theme, colors} = useTheme();
   const [errorMessage, setErrorMessage] = useState('');
@@ -146,13 +146,11 @@ const AuthScreen = () => {
         >
         <Text style={{ color: colors.white }}>Login</Text>
       </TouchableOpacity>
-        {/* <Button title="Créer un compte" onPress={() => navigation.navigate('registration')} color="#2196F3" /> */}
       </View>
       <Text style={styles.footerText}>
         Don't have an account? <Text style={[styles.link, {color: colors.primary}]} onPress={() => navigation.navigate('registration')}>Register here</Text>
       </Text>
       <Image source={require('@/assets/images/svg/wave2.png')} style={styles.svg}/>
-      {/* <Svg style={styles.svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><Path fill="#8592F2" fill-opacity="1" d="M0,224L48,197.3C96,171,192,117,288,96C384,75,480,85,576,106.7C672,128,768,160,864,149.3C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></Path></Svg> */}
     </View>
   );
 };
