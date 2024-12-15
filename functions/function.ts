@@ -216,9 +216,10 @@ export function getVitaminPercentageMg(value: number, dailyValue: number): strin
 }
 
 /** EXPERIENCE */
-export async function addExperience(userId: string, xpGained: number) {
-    console.log('userId', userId)
-    console.log('gain exp', 20)
+export async function addExperience(userId: string, xpGained: number, date: string) {
+    // console.log('userId', userId)
+    // console.log('gain exp', 20)
+    console.log('date', date)
     try {
         const userDocRef = doc(firestore, "User", userId);
         const userSnapshot = await getDoc(userDocRef);
@@ -230,8 +231,7 @@ export async function addExperience(userId: string, xpGained: number) {
             const xpLogs = userData.xpLogs || {}; // Contient les XP gagnés par date (exemple : { "03/03/2024": 10 })
 
             // Date du jour (format simplifié : JJ/MM/AAAA)
-            const today = new Date();
-            const formattedDate = today.toLocaleDateString("fr-FR").replace(/\//g, "-");
+            const formattedDate = date;
 
             console.log('formattedDate', formattedDate)
             const xpToday = xpLogs[formattedDate] || 0;

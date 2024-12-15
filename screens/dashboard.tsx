@@ -374,15 +374,14 @@ export default function Dashboard() {
     ];
 
     const proteinsGoal = calculProteins(Number(userData[0]?.weight)) || 0;
-    const carbsGoal = calculCarbohydrates(basalMetabolicRate) || 0;
-    const fatsGoal = calculFats(basalMetabolicRate) || 0;
-    let percentageProteins = +(proteins / proteinsGoal).toFixed(2);
-    const headerheight = useHeaderHeight();
     const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
+
     let goal = basalMetabolicRate - totalKcalConsumeToday;
     if (goal < 0) {
         goal = 0
     }
+
+    console.log('selecteddate', selectedDate.toLocaleDateString())
     const handleXPUpdate = async () => {
         if (!totalKcalConsumeToday || !basalMetabolicRate) {
             alert("Les valeurs de consommation de calories et de métabolisme de base doivent être définies.");
@@ -395,7 +394,7 @@ export default function Dashboard() {
 
             try {
                 if (userData) {
-                    const today = new Date().toLocaleDateString("fr-FR").replace(/\//g, "-");
+                    const today = selectedDate.toLocaleDateString().replace(/\//g, "-");
                     const xpToday = userData[0]?.xpLogs[today] || 0;
 
                     // To verify is user if the user has already reached the XP goal for the day (maximum 20 XP)
@@ -403,7 +402,7 @@ export default function Dashboard() {
                         // Calcul XP to add(limit dairy of 20 XP)
                         const xpToAdd = Math.min(20 - xpToday, 20); // add max 20 xp each day
 
-                        await addExperience(userData[0]?.id, xpToAdd);
+                        await addExperience(userData[0]?.id, xpToAdd, today);
 
                     } else {
                         console.log("L'XP maximum de 20 est déjà atteint aujourd'hui.");
