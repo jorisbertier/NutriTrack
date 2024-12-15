@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { User as FirebaseUser } from "firebase/auth"; // Import Firebase user type
 import { FoodItem } from '../interface/FoodItem';
@@ -27,6 +27,9 @@ export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser:
             weight: doc.data().weight,
             activityLevel: doc.data().activityLevel,
             profilPicture: doc.data().profilPicture,
+            xp: doc.data().xp as Number,
+            level: doc.data().level as Number,
+            xpLogs: doc.data().xpLogs,
         }));
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
         setUser(sortByUniqueUserConnected)
@@ -212,8 +215,55 @@ export function getVitaminPercentageMg(value: number, dailyValue: number): strin
     return ((value / dailyValue) * 100).toFixed(1);
 }
 
+/** EXPERIENCE */
+export async function addExperience(userId: string, xpGained: number) {
+    console.log('userId', userId)
+    console.log('gain exp', 20)
+    try {
+        const userDocRef = doc(firestore, "User", userId);
+        const userSnapshot = await getDoc(userDocRef);
+        const userData = userSnapshot.data();
 
+        if (userData) {
+            const currentXP = userData.xp || 0;
+            const currentLevel = userData.level || 1;
+            const xpLogs = userData.xpLogs || {}; // Contient les XP gagnés par date (exemple : { "03/03/2024": 10 })
 
+            // Date du jour (format simplifié : JJ/MM/AAAA)
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString("fr-FR").replace(/\//g, "-");
+
+            console.log('formattedDate', formattedDate)
+            const xpToday = xpLogs[formattedDate] || 0;
+
+            if (xpToday >= 20) {
+                console.log(`XP maximum atteint pour le ${formattedDate} (${xpToday}/20 XP).`);
+                return;
+            }
+
+            // Calcul de l'XP à ajouter (respectant la limite quotidienne de 20 XP)
+            const xpToAdd = Math.min(20 - xpToday, xpGained);
+            const newXpToday = xpToday + xpToAdd;
+
+            // Mise à jour des XP totaux et du niveau
+            const newXP = currentXP + xpToAdd;
+            const newLevel = Math.floor(newXP / 100) + 1; // Exemple : 100 XP pour passer un niveau
+
+            // Mise à jour en base de données
+            await updateDoc(userDocRef, {
+                xp: newXP,
+                level: newLevel,
+                [`xpLogs.${formattedDate}`]: newXpToday,
+            });
+
+            console.log(`XP ajouté (${xpToAdd}) pour le ${formattedDate}. Nouveau total :`, { newXP, newLevel });
+        } else {
+            console.log("Utilisateur introuvable.");
+        }
+    } catch (error) {
+        console.error("Erreur lors de l'ajout d'XP :", error);
+    }
+}
 /* ANIMATION */
 
 // export const handleAnimation = (isOpenDrop: any, setIsOpenDrop: any, rotate: any) => {

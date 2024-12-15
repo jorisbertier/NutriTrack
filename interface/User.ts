@@ -9,4 +9,5 @@ export interface User {
     weight: number; 
     activityLevel: string;
     profilPicture: string;
+    xpLogs?: any;
 }

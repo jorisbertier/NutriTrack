@@ -1,26 +1,21 @@
-import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text, Dimensions, FlatList } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals, UserMealsCreated } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
-import { fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, handleAnimation, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
+import { fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, getVitaminPercentageMg, getVitaminPercentageUg, addExperience } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
 import { User } from "@/interface/User";
 import NutritionList from "@/components/Screens/Dashboard/NutritionList";
-import ProgressBar from "@/components/ProgressBar";
 import { capitalizeFirstLetter } from "@/functions/function";
-import { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import RowDrop from "@/components/Screens/Dashboard/RowDrop";
 import { ProgressBarKcal } from "@/components/ProgressBarKcal";
 import ProgressRing from "@/components/Chart/ProgressRing";
-import { ProgressChart } from "react-native-chart-kit";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
@@ -32,7 +27,6 @@ export default function Dashboard() {
     
     const {theme, colors} = useTheme();
 
-    // const [userIdConnected, setUserIdConnected] = useState<number>();
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
@@ -135,6 +129,7 @@ export default function Dashboard() {
                     iron: doc.data().iron as number,
                     sugar: doc.data().sugar as number,
                     folate: doc.data().folate as number,
+
                 }));
 
                 setAllUserCreatedFoods(userCreatedFoodsList)
@@ -154,6 +149,8 @@ export default function Dashboard() {
             }, 1500)
         }
     }, []);
+
+    console.log(userData)
 
     useEffect(() => {
         // const fetchData = async () => {
@@ -383,10 +380,48 @@ export default function Dashboard() {
     const headerheight = useHeaderHeight();
     const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
 
-    // const displayDataBreakfast = useMemo(() => ({ data: sortByBreakfast }), [sortByBreakfast]);
-    // const displayDataLunch = useMemo(() => ({ data: sortByLunch }), [sortByLunch]);
-    // const displayDataDinner = useMemo(() => ({ data: sortByDinner }), [sortByDinner]);
-    // const displayDataSnack = useMemo(() => ({ data: sortBySnack }), [sortBySnack]);
+    const handleXPUpdate = async () => {
+        if (!totalKcalConsumeToday || !basalMetabolicRate) {
+            alert("Les valeurs de consommation de calories et de métabolisme de base doivent être définies.");
+            return;
+        }
+
+        // Checks if XP can be added based on calories consumed
+        if (totalKcalConsumeToday >= basalMetabolicRate) {
+            console.log("Gain d'XP : ", totalKcalConsumeToday + "/" + basalMetabolicRate);
+
+            try {
+                if (userData) {
+                    const today = new Date().toLocaleDateString("fr-FR").replace(/\//g, "-");
+                    const xpToday = userData[0]?.xpLogs[today] || 0;
+
+                    // To verify is user if the user has already reached the XP goal for the day (maximum 20 XP)
+                    if (xpToday < 20) {
+                        // Calcul XP to add(limit dairy of 20 XP)
+                        const xpToAdd = Math.min(20 - xpToday, 20); // add max 20 xp each day
+
+                        await addExperience(userData[0]?.id, xpToAdd);
+
+                    } else {
+                        console.log("L'XP maximum de 20 est déjà atteint aujourd'hui.");
+                    }
+                }
+            } catch (error) {
+                console.error("Erreur lors de l'ajout d'XP :", error);
+            }
+        } else {
+            console.log("Pas de gain d'XP", totalKcalConsumeToday + "/" + basalMetabolicRate);
+        }
+    };
+
+    // Surveillance de l'état de la consommation de calories et du métabolisme de base
+    useEffect(() => {
+        // Exécuter la fonction handleXPUpdate dès que ces valeurs sont disponibles
+        if (totalKcalConsumeToday > 0 && basalMetabolicRate > 0) {
+            handleXPUpdate();
+        }
+    }, [totalKcalConsumeToday, basalMetabolicRate]); 
+    
     return (
         <>
             <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>

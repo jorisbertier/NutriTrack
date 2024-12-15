@@ -5,6 +5,7 @@ import Row from "./Row";
 import { useEffect, useState } from "react";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
+import ExperienceBar from "./game/ExperienceBar";
 
 type Props = {
     name: string;
@@ -83,6 +84,9 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                         }
                         </View>
                 </View>
+            <Row style={{marginTop: 30}}>
+                <ExperienceBar level={1} title={'Apprenti gourmet'} currentXP={20} maxXP={100}/>
+            </Row>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>
             <Modal
