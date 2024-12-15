@@ -379,7 +379,10 @@ export default function Dashboard() {
     let percentageProteins = +(proteins / proteinsGoal).toFixed(2);
     const headerheight = useHeaderHeight();
     const totalCaloriesGoal = basalMetabolicRate.toLocaleString('en-US')
-
+    let goal = basalMetabolicRate - totalKcalConsumeToday;
+    if (goal < 0) {
+        goal = 0
+    }
     const handleXPUpdate = async () => {
         if (!totalKcalConsumeToday || !basalMetabolicRate) {
             alert("Les valeurs de consommation de calories et de métabolisme de base doivent être définies.");
@@ -452,7 +455,7 @@ export default function Dashboard() {
                         <View style={{ marginTop: 10 }}><Skeleton width={300} height={40} colorMode={colorMode} /></View>
                     }
                     {!isLoading ?
-                        <ThemedText variant='title2' color={colors.grayDark}>{basalMetabolicRate - totalKcalConsumeToday} left for your goal</ThemedText>
+                        <ThemedText variant='title2' color={colors.grayDark}>{goal} left for your goal</ThemedText>
                     :
                         <View style={{ marginTop: 5 }}><Skeleton width={260} height={30} colorMode={colorMode} /></View>
                     }
