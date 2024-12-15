@@ -806,7 +806,7 @@ export const foodData = [
 {
     "id": 27,
     "name": "Lamb chop",
-    "image": "https://images.pexels.com/photos/6613168/pexels-photo-6613168.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "image": "https://images.pexels.com/photos/323682/pexels-photo-323682.jpeg?auto=compress&cs=tinysrgb&w=600",
     "description": "Lamb chops are tender, flavorful cuts of meat with a moderate fat content.",
     "category": "Meat",
     "notes": "Best grilled or pan-fried with herbs.",
