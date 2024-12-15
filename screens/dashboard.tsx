@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text, Dimensions, FlatList } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text, Dimensions, FlatList, Alert } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import React, { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
@@ -55,6 +55,7 @@ export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
+    const [notificationVisible, setNotificationVisible] = useState(false); 
 
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -382,15 +383,16 @@ export default function Dashboard() {
     }
 
     console.log('selecteddate', selectedDate.toLocaleDateString())
+    console.log('date day',  date.toLocaleDateString())
     const handleXPUpdate = async () => {
-        if (!totalKcalConsumeToday || !basalMetabolicRate) {
-            alert("Les valeurs de consommation de calories et de métabolisme de base doivent être définies.");
-            return;
-        }
+        // if (!totalKcalConsumeToday || !basalMetabolicRate) {
+        //     alert("Les valeurs de consommation de calories et de métabolisme de base doivent être définies.");
+        //     return;
+        // }
 
         // Checks if XP can be added based on calories consumed
-        if (totalKcalConsumeToday >= basalMetabolicRate) {
-            console.log("Gain d'XP : ", totalKcalConsumeToday + "/" + basalMetabolicRate);
+        if (totalKcalConsumeToday >= basalMetabolicRate && selectedDate.toLocaleDateString() === date.toLocaleDateString()) {
+            console.log("Gain XP : ", totalKcalConsumeToday + "/" + basalMetabolicRate);
 
             try {
                 if (userData) {
@@ -401,9 +403,14 @@ export default function Dashboard() {
                     if (xpToday < 20) {
                         // Calcul XP to add(limit dairy of 20 XP)
                         const xpToAdd = Math.min(20 - xpToday, 20); // add max 20 xp each day
-
+                        
                         await addExperience(userData[0]?.id, xpToAdd, today);
+                        
+                        setNotificationVisible(true)
 
+                        setTimeout(() => {
+                            setNotificationVisible(false)
+                        }, 2200);
                     } else {
                         console.log("L'XP maximum de 20 est déjà atteint aujourd'hui.");
                     }
@@ -440,6 +447,13 @@ export default function Dashboard() {
                             }
                     </View>
                 </TouchableOpacity>
+            {notificationVisible &&
+                <View style={styles.notification}>
+                    <View style={[styles.wrapperNotification, {backgroundColor: "#8592F2"}]}>
+                        <Text style={styles.notificationText}>Daily goal complete !!! + 20 Xp learned !</Text>
+                    </View>
+                </View>
+            }
             </View>
             <ScrollView style={[styles.header, {paddingTop: 20, backgroundColor: colors.whiteMode}]}>
                 <View style={{flexDirection: 'column',height: 'auto', alignItems:'center', width: '100%', marginBottom: 20}}>
@@ -515,5 +529,38 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderBottomColor: 'gray',
         borderBottomWidth: 1,
-    }
+    },
+    notification: {
+        position: "absolute",
+        bottom: 20,
+        width: '41%',
+        alignSelf: 'center',
+    },
+    wrapperNotification : {
+        position: 'absolute',
+        zIndex: 3,
+        right: 0,
+        top: 600,
+        left: 0,
+        flexDirection: 'row',
+        justifyContent:'center',
+        gap: 20,
+        padding: 10,
+        borderRadius: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2, 
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.5,
+        elevation: 5,
+    },
+    notificationText: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+        fontSize: 14,
+        lineHeight: 24
+    },
 })
