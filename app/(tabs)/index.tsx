@@ -1,4 +1,4 @@
-import { StyleSheet, Alert, ScrollView, StatusBar, Text } from 'react-native';
+import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -126,8 +126,25 @@ useEffect(() => {
 
   const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
   // Nettoyage de l'écouteur à la fermeture du composant
-  return () => backHandler.remove();
-}, [route, user]);
+    return () => backHandler.remove();
+  }, [route, user]);
+
+  interface Challenge {
+    name: string;
+    source: any;
+  }
+  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null)
+
+  const handleStopWatch = (name: string, source: ImageSourcePropType) => {
+    setSelectedChallenge({name, source})
+  }
+
+  useEffect(() => {
+    if (selectedChallenge) {
+      console.log('Challenge sélectionné :', selectedChallenge);
+    }
+  }, [selectedChallenge]);
+
 
   return (
     <>
@@ -197,12 +214,20 @@ useEffect(() => {
               <ThemedText variant='title' color={colors.black}>Nutri challenge</ThemedText>
             </Row>
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-                <Challenge data={'sugar'}source={require('@/assets/images/challenge/sugar.jpg')}/>
-                <Challenge data={'cigarette'} source={require('@/assets/images/challenge/cigarette.jpg')}/>
-                <Challenge data={'fast food'} source={require('@/assets/images/challenge/fastfood.jpg')}/>
-                <Challenge data={'chocolate'} source={require('@/assets/images/challenge/chocolate.jpg')}/>
+                <Challenge name={'sugar'}source={require('@/assets/images/challenge/sugar.jpg')}
+                    onPress={() => handleStopWatch('sugar', require('@/assets/images/challenge/sugar.jpg'))} 
+                />
+                {/* <Challenge name={'cigarette'} source={require('@/assets/images/challenge/cigarette.jpg')}
+                    onPress={() => handleStopWatch('cigarette', require('@/assets/images/challenge/cigarette.jpg'))} 
+                />
+                <Challenge name={'fast food'} source={require('@/assets/images/challenge/fastfood.jpg')}
+                    onPress={() => handleStopWatch('fast food', require('@/assets/images/challenge/fastfood.jpg'))} 
+                />
+                <Challenge name={'chocolate'} source={require('@/assets/images/challenge/chocolate.jpg')}
+                    onPress={() => handleStopWatch('chocolate', require('@/assets/images/challenge/chocolate.jpg'))} 
+                /> */}
             </ScrollView>
-            <StopWatch/>
+            <StopWatch selectedChallenge ={selectedChallenge}/>
           </ScrollView>
       </SafeAreaView>
     </>

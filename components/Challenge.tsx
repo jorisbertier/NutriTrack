@@ -1,23 +1,26 @@
-import { View, Text, StyleSheet, Image, ImageProps } from 'react-native'
+import { View, Text, StyleSheet, Image, ImageProps, Pressable } from 'react-native'
 import React from 'react';
 import { useTheme } from '@/hooks/ThemeProvider';
 
 type Props = {
     source: ImageProps;
-    data: string;
+    name: string;
+    onPress: () => void; 
 }
-export default function Challenge({source, data}: Props) {
+export default function Challenge({source, name, onPress}: Props) {
 
 const {colors} = useTheme();
     return (
-        <View style={[styles.block, {backgroundColor: colors.grayPress}]}>
-            <View style={styles.firstBlock}>
-                <Image source={source} style={styles.firstBlock}/>
+        <Pressable  onPress={onPress}>
+            <View style={[styles.block, {backgroundColor: colors.grayPress}]}>
+                <View style={styles.firstBlock}>
+                    <Image source={source} style={styles.firstBlock}/>
+                </View>
+                <View style={[{backgroundColor: colors.whiteFix}, styles.secondBlock]}>
+                    <Text style={[styles.text, {color: colors.blackFix}]}>No {name}</Text>
+                </View>
             </View>
-            <View style={[{backgroundColor: colors.white}, styles.secondBlock]}>
-                <Text style={[styles.text, {color: colors.black}]}>No {data}</Text>
-            </View>
-        </View>
+        </Pressable>
     )
 }
 
