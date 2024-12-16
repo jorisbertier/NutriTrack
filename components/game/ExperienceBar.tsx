@@ -24,9 +24,14 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
         }
     }
 
-    const xpTotalForLevel = levelXP / 2;
+    let xpTotalForLevel = levelXP / 2;
     let xpBeginForLevel = currentXP - xpTotalForLevel;
 
+    if(level = 1) {
+
+        xpBeginForLevel = 0;
+        xpTotalForLevel = 20;
+    }
     const progress = Math.min((xpBeginForLevel / xpTotalForLevel) * 100, 100); // Limit a 100%
 
 

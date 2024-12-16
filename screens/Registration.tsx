@@ -169,7 +169,8 @@ const Registration = () => {
                 profilPicture: profileImage,
                 gender: gender,
                 xp: 0,
-                level: 1
+                level: 1,
+                xpLogs: {}
             });
             Alert.alert('Registration successful!');
             resetForm();
