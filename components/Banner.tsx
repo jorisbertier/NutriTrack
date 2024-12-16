@@ -89,13 +89,19 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                             </View>
                         :
                             <View style={{ marginTop: 10 }}>
-                                <Skeleton colorMode="light" width={150} height={20} />
+                                <Skeleton colorMode="light" width={150} height={10} />
                             </View>
                         }
                         </View>
                 </View>
             <Row style={{marginTop: 30}}>
-                <ExperienceBar level={userData[0]?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp}/>
+                {isLoading ?
+                    <ExperienceBar level={userData[0]?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp}/>
+                :
+                    <View style={{ marginTop: 20, marginBottom: -30, alignItems: 'center' }}>
+                        <Skeleton colorMode="light" width={'95%'} height={48} />
+                    </View>
+                }
             </Row>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>

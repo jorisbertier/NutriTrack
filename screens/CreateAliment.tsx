@@ -24,6 +24,22 @@ function CreateAliment() {
     const proteinsRef = useRef(null);
     const carbsRef = useRef(null);
     const fatsRef = useRef(null);
+    const magnesiumRef = useRef(null);
+    const potassiumRef = useRef(null);
+    const calciumRef = useRef(null);
+    const sodiumRef = useRef(null);
+    const ironRef = useRef(null);
+    const sugarRef = useRef(null);
+    const folateRef = useRef(null);
+    const vitaminARef = useRef(null);
+    const vitaminB1Ref = useRef(null);
+    const vitaminB5Ref = useRef(null);
+    const vitaminB6Ref = useRef(null);
+    const vitaminB12Ref = useRef(null);
+    const vitaminCRef = useRef(null);
+    const vitaminDRef = useRef(null);
+    const vitaminERef = useRef(null);
+    const vitaminKRef = useRef(null);
 
     const [title, setTitle] = useState('');
     const [quantity, setQuantity] = useState('');
@@ -387,7 +403,7 @@ function CreateAliment() {
                     onChangeText={setQuantity}
                     keyboardType="numeric"
                     returnKeyType="next"
-                    ref={quantityRef} // Lier la référence
+                    ref={quantityRef}
                     onSubmitEditing={() => unitRef.current?.focus()} 
                 />
                 {quantityError ? <Text style={styles.errorText}>{quantityError}</Text> : null}
@@ -447,8 +463,9 @@ function CreateAliment() {
                     value={fats}
                     onChangeText={setFats}
                     keyboardType="numeric"
-                    returnKeyType="done"
+                    returnKeyType="next"
                     ref={fatsRef}
+                    onSubmitEditing={() => magnesiumRef.current?.focus()}
                 />
                 {fatsError ? <Text style={styles.errorText}>{fatsError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Others macronutrient (optional)-</Text>
@@ -458,6 +475,9 @@ function CreateAliment() {
                     value={magnesium}
                     onChangeText={setMagnesium}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={magnesiumRef}
+                    onSubmitEditing={() => potassiumRef.current?.focus()}
                 />
                 {magnesiumError ? <Text style={styles.errorText}>{magnesiumError}</Text> : null}
                 <TextInput
@@ -466,6 +486,9 @@ function CreateAliment() {
                     value={potassium}
                     onChangeText={setPotassium}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={potassiumRef}
+                    onSubmitEditing={() => calciumRef.current?.focus()}
                 />
                 {potassiumError ? <Text style={styles.errorText}>{potassiumError}</Text> : null}
                 <TextInput
@@ -474,6 +497,9 @@ function CreateAliment() {
                     value={calcium}
                     onChangeText={setCalcium}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={calciumRef}
+                    onSubmitEditing={() => sodiumRef.current?.focus()}
                 />
                 {calciumError ? <Text style={styles.errorText}>{calciumError}</Text> : null}
                 <TextInput
@@ -482,6 +508,9 @@ function CreateAliment() {
                     value={sodium}
                     onChangeText={setSodium}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={sodiumRef}
+                    onSubmitEditing={() => ironRef.current?.focus()}
                 />
                 {sodiumError ? <Text style={styles.errorText}>{sodiumError}</Text> : null}
                 <TextInput
@@ -490,6 +519,9 @@ function CreateAliment() {
                     value={iron}
                     onChangeText={setIron}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={ironRef}
+                    onSubmitEditing={() => sugarRef.current?.focus()}
                 />
                 {ironError ? <Text style={styles.errorText}>{ironError}</Text> : null}
                 <TextInput
@@ -498,6 +530,9 @@ function CreateAliment() {
                     value={sugar}
                     onChangeText={setSugar}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={sugarRef}
+                    onSubmitEditing={() => folateRef.current?.focus()}
                 />
                 {sugarError ? <Text style={styles.errorText}>{sugarError}</Text> : null}
                 <TextInput
@@ -506,6 +541,9 @@ function CreateAliment() {
                     value={folate}
                     onChangeText={setFolate}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={folateRef}
+                    onSubmitEditing={() => vitaminARef.current?.focus()}
                 />
                 {folateError ? <Text style={styles.errorText}>{folateError}</Text> : null}
                 <TextInput
@@ -514,6 +552,9 @@ function CreateAliment() {
                     value={vitaminA}
                     onChangeText={setVitaminA}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={vitaminARef}
+                    onSubmitEditing={() => vitaminB1Ref.current?.focus()}
                 />
                 {vitaminAError ? <Text style={styles.errorText}>{vitaminAError}</Text> : null}
                 <TextInput
@@ -522,6 +563,9 @@ function CreateAliment() {
                     value={vitaminB1}
                     onChangeText={setVitaminB1}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={vitaminB1Ref}
+                    onSubmitEditing={() => vitaminB5Ref.current?.focus()}
                 />
                 {vitaminB1Error ? <Text style={styles.errorText}>{vitaminB1Error}</Text> : null}
                 <TextInput
@@ -530,6 +574,9 @@ function CreateAliment() {
                     value={vitaminB5}
                     onChangeText={setVitaminB5}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={vitaminB5Ref}
+                    onSubmitEditing={() => vitaminB6Ref.current?.focus()}
                 />
                 {vitaminB5Error ? <Text style={styles.errorText}>{vitaminB5Error}</Text> : null}
                 <TextInput
@@ -538,6 +585,9 @@ function CreateAliment() {
                     value={vitaminB6}
                     onChangeText={setVitaminB6}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={vitaminB6Ref}
+                    onSubmitEditing={() => vitaminB12Ref.current?.focus()}
                 />
                 {vitaminB6Error ? <Text style={styles.errorText}>{vitaminB6Error}</Text> : null}
                 <TextInput
@@ -546,6 +596,9 @@ function CreateAliment() {
                     value={vitaminB12}
                     onChangeText={setVitaminB12}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={vitaminB12Ref}
+                    onSubmitEditing={() => vitaminCRef.current?.focus()}
                 />
                 {vitaminB12Error ? <Text style={styles.errorText}>{vitaminB12Error}</Text> : null}
                 <TextInput
@@ -554,6 +607,9 @@ function CreateAliment() {
                     value={vitaminC}
                     onChangeText={setVitaminC}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={vitaminCRef}
+                    onSubmitEditing={() => vitaminDRef.current?.focus()}
                 />
                 {vitaminCError ? <Text style={styles.errorText}>{vitaminCError}</Text> : null}
                 <TextInput
@@ -562,6 +618,9 @@ function CreateAliment() {
                     value={vitaminD}
                     onChangeText={setVitaminD}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={vitaminDRef}
+                    onSubmitEditing={() => vitaminERef.current?.focus()}
                 />
                 {vitaminDError ? <Text style={styles.errorText}>{vitaminDError}</Text> : null}
                 <TextInput
@@ -570,6 +629,9 @@ function CreateAliment() {
                     value={vitaminE}
                     onChangeText={setVitaminE}
                     keyboardType="numeric"
+                    returnKeyType="next"
+                    ref={vitaminERef}
+                    onSubmitEditing={() => vitaminKRef.current?.focus()}
                 />
                 {vitaminEError ? <Text style={styles.errorText}>{vitaminEError}</Text> : null}
                 <TextInput
@@ -578,6 +640,8 @@ function CreateAliment() {
                     value={vitaminK}
                     onChangeText={setVitaminK}
                     keyboardType="numeric"
+                    returnKeyType="done"
+                    ref={vitaminKRef}
                 />
                 {vitaminKError ? <Text style={styles.errorText}>{vitaminKError}</Text> : null}
                 
