@@ -13,12 +13,22 @@ interface ExperienceBarProps {
 const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }) => {
 
     const { colors} = useTheme();
-    let i = 0;
+
     let maxXP = 0;
-    for(i = 0; i < level; i++) {
-        maxXP += level * 20;
-    }
-    const progress = Math.min((currentXP / maxXP) * 100, 100); // Limiter à 100%
+    let levelXP = 0;
+            let i = 1;
+            
+            for(i= 1; i <= 1; i++) {
+                levelXP = 20;
+                for(i = 1; i < level; i++) {
+                    levelXP *= 2;
+                }
+            }
+        const xpTotalForLevel = levelXP / 2;
+        let xpBeginForLevel = currentXP - xpTotalForLevel;
+
+    const progress = Math.min((xpBeginForLevel / xpTotalForLevel) * 100, 100); // Limiter à 100%
+
 
     const titleLevel: Record<number, string> = {
         1: 'Pancake rookie',
@@ -40,7 +50,7 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
             <View style={styles.barBackground}>
                 <View style={[styles.barProgress, { width: `${progress}%`, backgroundColor: colors.primary}]} />
             </View>
-            <Text style={styles.xpText}>lvl {level} : {currentXP} / {maxXP} XP</Text>
+            <Text style={styles.xpText}>lvl {level} : {xpBeginForLevel} / {xpTotalForLevel} XP</Text>
         </View>
     );
 };
