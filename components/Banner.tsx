@@ -43,8 +43,6 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
         fetchUserDataConnected(user, setUserData)
     }, [])
 
-console.log('banner', userData)
-
     const handleBackgroundPress = () => {
         setModalVisible(false);
     };

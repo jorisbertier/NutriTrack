@@ -42,8 +42,7 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
         9: 'Divinity of proteins',
         10: 'Tofu Senseï',
     }
-    console.log(typeof titleLevel)
-    console.log(titleLevel[1])
+    
     return (
         <View style={styles.container}>
             <ThemedText variant="title3" color={colors.grayPress} style={styles.levelText}>{titleLevel[level]} </ThemedText>

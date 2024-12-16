@@ -31,7 +31,7 @@ export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser:
             level: doc.data().level,
             xpLogs: doc.data().xpLogs,
         }));
-        console.log(userList)
+
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
         setUser(sortByUniqueUserConnected)
     }
@@ -218,9 +218,6 @@ export function getVitaminPercentageMg(value: number, dailyValue: number): strin
 
 /** EXPERIENCE */
 export async function addExperience(userId: string, xpGained: number, date: string) {
-    // console.log('userId', userId)
-    // console.log('gain exp', 20)
-    console.log('date', date)
     try {
         const userDocRef = doc(firestore, "User", userId);
         const userSnapshot = await getDoc(userDocRef);
@@ -234,11 +231,10 @@ export async function addExperience(userId: string, xpGained: number, date: stri
             // Date du jour (format simplifié : JJ/MM/AAAA)
             const formattedDate = date;
 
-            console.log('formattedDate', formattedDate)
             const xpToday = xpLogs[formattedDate] || 0;
 
             if (xpToday >= 20) {
-                console.log(`XP maximum atteint pour le ${formattedDate} (${xpToday}/20 XP).`);
+                console.log(`XP max reached for the ${formattedDate} (${xpToday}/20 XP).`);
                 return;
             }
 
@@ -265,20 +261,18 @@ export async function addExperience(userId: string, xpGained: number, date: stri
             if(currentLevel > 10) {
                 currentLevel = 10;
             }
-
-            // Mise à jour en base de données
             await updateDoc(userDocRef, {
                 xp: newXP,
                 level: currentLevel,
                 [`xpLogs.${formattedDate}`]: newXpToday,
             });
 
-            console.log(`XP ajouté (${xpToAdd}) pour le ${formattedDate}. Nouveau total :`, { newXP, currentLevel });
+            console.log(`XP gained (${xpToAdd}) pour le ${formattedDate}. New total :`, { newXP, currentLevel });
         } else {
-            console.log("Utilisateur introuvable.");
+            console.log("User not found.");
         }
     } catch (error) {
-        console.error("Erreur lors de l'ajout d'XP :", error);
+        console.error("Error adding XP :", error);
     }
 }
 /* ANIMATION */

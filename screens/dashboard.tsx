@@ -151,8 +151,6 @@ export default function Dashboard() {
         }
     }, []);
 
-    console.log(userData)
-
     useEffect(() => {
         // const fetchData = async () => {
             // try {
@@ -253,12 +251,12 @@ export default function Dashboard() {
                     await deleteDoc(mealDocRef);
                     setAllUsersFoodData(prevData => prevData.filter(item => item.id !== userMealId));
                     // setUpdate(update + 1)
-                    console.log('Document supprimé avec succès');
+                    console.log('Document deleted Succefuly');
                 } catch (error) {
-                    console.error("Erreur lors de la suppression du document : ", error);
+                    console.error("Error when deleting the document : ", error);
                 }
             } else {
-                console.error("L'ID de l'utilisateur du repas est indéfini.");
+                console.error("Id user of mead is undefined");
             }
         };
         deleteFromMeals()
@@ -272,12 +270,12 @@ export default function Dashboard() {
                     const mealDocRef = doc(firestore, "UserMealsCreated", userMealId);
                     await deleteDoc(mealDocRef);
                     setAllFoodDataCreated(prevData => prevData.filter(item => item.id !== userMealId));
-                    console.log('Document supprimé avec succès');
+                    console.log('Document deleting Succesfuly');
                 } catch (error) {
-                    console.error("Erreur lors de la suppression du document : ", error);
+                    console.error("Error when deleting the documentt : ", error);
                 }
             } else {
-                console.error("L'ID de l'utilisateur du repas est indéfini.");
+                console.error("Id user maeal is undefined");
             }
         };
         deleteFromMeals()
@@ -390,8 +388,6 @@ export default function Dashboard() {
 
         // Checks if XP can be added based on calories consumed
         if (totalKcalConsumeToday >= basalMetabolicRate && selectedDate.toLocaleDateString() === date.toLocaleDateString()) {
-            console.log("Gain XP : ", totalKcalConsumeToday + "/" + basalMetabolicRate);
-
             try {
                 if (userData) {
                     const today = selectedDate.toLocaleDateString().replace(/\//g, "-");
@@ -410,14 +406,14 @@ export default function Dashboard() {
                             setNotificationVisible(false)
                         }, 2200);
                     } else {
-                        console.log("L'XP maximum de 20 est déjà atteint aujourd'hui.");
+                        console.log("The maximum XP of 20 is already reached today");
                     }
                 }
             } catch (error) {
-                console.error("Erreur lors de l'ajout d'XP :", error);
+                console.error("Error when adding XP :", error);
             }
         } else {
-            console.log("Pas de gain d'XP", totalKcalConsumeToday + "/" + basalMetabolicRate);
+            console.log("No gain XP", totalKcalConsumeToday + "/" + basalMetabolicRate);
         }
     };
 

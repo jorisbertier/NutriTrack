@@ -65,7 +65,6 @@ export default function DetailsFoodCreated() {
                 if(userData[0]?.id) {
                     const filteredData = allData.filter(food => food.idUser === userData[0]?.id);
                     setAllDataFoodCreated(filteredData)
-                    console.log('new user data:', filteredData);
                 }
             } catch (error) {
                 console.error("Erreur lors de la récupération de la collection :", error);

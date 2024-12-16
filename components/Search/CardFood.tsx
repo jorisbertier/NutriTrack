@@ -52,7 +52,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         if (navigationRef.isReady()) {
             navigationRef.navigate("FoodDetails", { id });
         } else {
-            console.log("Navigation n'est pas prête");
+            console.log("Navigation don't ready");
         }
     };
 

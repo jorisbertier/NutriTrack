@@ -167,7 +167,9 @@ const Registration = () => {
                 email: user.email,
                 activityLevel: activityLevel,
                 profilPicture: profileImage,
-                gender: gender
+                gender: gender,
+                xp: 0,
+                level: 1
             });
             Alert.alert('Registration successful!');
             resetForm();

@@ -107,7 +107,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
 
     const handleDelete = (id: any) => {
         if (!id) {
-            console.error("L'ID de l'utilisateur du repas est indéfini.");
+            console.error("Meal user ID is undefined.");
             return;
         }
 
