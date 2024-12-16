@@ -381,9 +381,7 @@ export default function Dashboard() {
     if (goal < 0) {
         goal = 0
     }
-
-    console.log('selecteddate', selectedDate.toLocaleDateString())
-    console.log('date day',  date.toLocaleDateString())
+    
     const handleXPUpdate = async () => {
         // if (!totalKcalConsumeToday || !basalMetabolicRate) {
         //     alert("Les valeurs de consommation de calories et de métabolisme de base doivent être définies.");

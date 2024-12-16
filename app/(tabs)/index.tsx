@@ -137,6 +137,26 @@ useEffect(() => {
   return () => backHandler.remove();
 }, [route, user]);
 
+// const newLevel = Math.floor(newXP / 100) + 1; // Exemple : 100 XP pour passer un niveau
+let XP = 300;
+let currentLevel = 5
+let levelXP = 0; // XP nécessaire pour passer au niveau 2
+// let cumulativeThreshold = 0; // Total cumulatif pour atteindre le niveau actuel
+let i = 1;
+for(i= 1; i <= 1; i++) {
+  levelXP = 20;
+  for(i = 1; i < currentLevel; i++) {
+      levelXP *= 2;
+  }
+}
+
+if(XP + 10 >= levelXP) {
+  console.log('monter de niveau')
+} else {
+  console.log('non monter de niveau')
+}
+// console.log('levelXP', levelXP)
+
   return (
     <>
       <StatusBar barStyle="light-content" />

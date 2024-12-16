@@ -28,9 +28,10 @@ export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser:
             activityLevel: doc.data().activityLevel,
             profilPicture: doc.data().profilPicture,
             xp: doc.data().xp as Number,
-            level: doc.data().level as Number,
+            level: doc.data().level,
             xpLogs: doc.data().xpLogs,
         }));
+        console.log(userList)
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
         setUser(sortByUniqueUserConnected)
     }
@@ -227,7 +228,7 @@ export async function addExperience(userId: string, xpGained: number, date: stri
 
         if (userData) {
             const currentXP = userData.xp || 0;
-            const currentLevel = userData.level || 1;
+            let currentLevel = userData.level || 1;
             const xpLogs = userData.xpLogs || {}; // Contient les XP gagnés par date (exemple : { "03/03/2024": 10 })
 
             // Date du jour (format simplifié : JJ/MM/AAAA)
@@ -247,16 +248,28 @@ export async function addExperience(userId: string, xpGained: number, date: stri
 
             // Mise à jour des XP totaux et du niveau
             const newXP = currentXP + xpToAdd;
-            const newLevel = Math.floor(newXP / 100) + 1; // Exemple : 100 XP pour passer un niveau
+            let levelXP = 0;
+            let i = 1;
+            
+            for(i= 1; i <= 1; i++) {
+                levelXP = 20;
+                for(i = 1; i < currentLevel; i++) {
+                    levelXP *= 2;
+                }
+            }
+
+            if(newXP >= levelXP) {
+                currentLevel++;
+            }
 
             // Mise à jour en base de données
             await updateDoc(userDocRef, {
                 xp: newXP,
-                level: newLevel,
+                level: currentLevel,
                 [`xpLogs.${formattedDate}`]: newXpToday,
             });
 
-            console.log(`XP ajouté (${xpToAdd}) pour le ${formattedDate}. Nouveau total :`, { newXP, newLevel });
+            console.log(`XP ajouté (${xpToAdd}) pour le ${formattedDate}. Nouveau total :`, { newXP, currentLevel });
         } else {
             console.log("Utilisateur introuvable.");
         }

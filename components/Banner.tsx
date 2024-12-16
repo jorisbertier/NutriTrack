@@ -97,7 +97,7 @@ console.log('banner', userData)
                         </View>
                 </View>
             <Row style={{marginTop: 30}}>
-                <ExperienceBar level={userData[0]?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp} maxXP={100}/>
+                <ExperienceBar level={userData[0]?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp}/>
             </Row>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>

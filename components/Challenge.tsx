@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, ImageProps } from 'react-native'
-import React from 'react'
-import useThemeColors from '@/hooks/useThemeColor';
+import React from 'react';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 type Props = {
     source: ImageProps;
@@ -8,7 +8,7 @@ type Props = {
 }
 export default function Challenge({source, data}: Props) {
 
-const colors = useThemeColors()
+const {colors} = useTheme();
     return (
         <View style={[styles.block, {backgroundColor: colors.grayPress}]}>
             <View style={styles.firstBlock}>

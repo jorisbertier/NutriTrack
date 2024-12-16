@@ -7,12 +7,17 @@ interface ExperienceBarProps {
     level: number;
     title: string;
     currentXP: number;
-    maxXP: number;
+    // maxXP: number;
 }
 
-const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP, maxXP }) => {
+const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }) => {
 
     const { colors} = useTheme();
+    let i = 0;
+    let maxXP = 0;
+    for(i = 0; i < level; i++) {
+        maxXP += level * 20;
+    }
     const progress = Math.min((currentXP / maxXP) * 100, 100); // Limiter à 100%
 
     const titleLevel: Record<number, string> = {
