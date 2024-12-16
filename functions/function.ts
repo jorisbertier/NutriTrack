@@ -250,7 +250,7 @@ export async function addExperience(userId: string, xpGained: number, date: stri
             const newXP = currentXP + xpToAdd;
             let levelXP = 0;
             let i = 1;
-            
+
             for(i= 1; i <= 1; i++) {
                 levelXP = 20;
                 for(i = 1; i < currentLevel; i++) {
@@ -260,6 +260,10 @@ export async function addExperience(userId: string, xpGained: number, date: stri
 
             if(newXP >= levelXP) {
                 currentLevel++;
+            }
+
+            if(currentLevel > 10) {
+                currentLevel = 10;
             }
 
             // Mise à jour en base de données
