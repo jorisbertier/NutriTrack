@@ -14,20 +14,20 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
 
     const { colors} = useTheme();
 
-    let maxXP = 0;
     let levelXP = 0;
-            let i = 1;
-            
-            for(i= 1; i <= 1; i++) {
-                levelXP = 20;
-                for(i = 1; i < level; i++) {
-                    levelXP *= 2;
-                }
-            }
-        const xpTotalForLevel = levelXP / 2;
-        let xpBeginForLevel = currentXP - xpTotalForLevel;
+    let i = 1;
 
-    const progress = Math.min((xpBeginForLevel / xpTotalForLevel) * 100, 100); // Limiter à 100%
+    for(i= 1; i <= 1; i++) {
+        levelXP = 20;
+        for(i = 1; i < level; i++) {
+            levelXP *= 2;
+        }
+    }
+
+    const xpTotalForLevel = levelXP / 2;
+    let xpBeginForLevel = currentXP - xpTotalForLevel;
+
+    const progress = Math.min((xpBeginForLevel / xpTotalForLevel) * 100, 100); // Limit a 100%
 
 
     const titleLevel: Record<number, string> = {
