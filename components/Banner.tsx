@@ -1,11 +1,13 @@
 import { Image, StyleSheet, Text, View, Modal, Alert, Pressable, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { ThemedText } from "./ThemedText";
-import { capitalizeFirstLetter, getIdAvatarProfile } from "@/functions/function";
+import { capitalizeFirstLetter, fetchUserDataConnected, getIdAvatarProfile } from "@/functions/function";
 import Row from "./Row";
 import { useEffect, useState } from "react";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
 import ExperienceBar from "./game/ExperienceBar";
+import { User } from "@/interface/User";
+import { getAuth } from "firebase/auth";
 
 type Props = {
     name: string;
@@ -14,6 +16,10 @@ type Props = {
 }
 
 export default function Banner({name, isLoading, profilePictureId}: Props) {
+
+    const [userData, setUserData] = useState<User[]>([])
+    const auth = getAuth();
+    const user = auth.currentUser;
 
     const avatar = getIdAvatarProfile(profilePictureId)
 
@@ -32,6 +38,12 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
 
         return () => clearInterval(intervalId)
     },[])
+
+    useEffect(() => {
+        fetchUserDataConnected(user, setUserData)
+    }, [])
+
+console.log('banner', userData)
 
     const handleBackgroundPress = () => {
         setModalVisible(false);
@@ -85,7 +97,7 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                         </View>
                 </View>
             <Row style={{marginTop: 30}}>
-                <ExperienceBar level={1} title={'Apprenti gourmet'} currentXP={20} maxXP={100}/>
+                <ExperienceBar level={userData[0]?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp} maxXP={100}/>
             </Row>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>

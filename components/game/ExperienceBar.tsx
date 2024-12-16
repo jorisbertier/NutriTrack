@@ -15,11 +15,25 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP, 
     const { colors} = useTheme();
     const progress = Math.min((currentXP / maxXP) * 100, 100); // Limiter à 100%
 
+    const titleLevel: Record<number, string> = {
+        1: 'Pancake rookie',
+        2: 'Lemon Zester',
+        3: 'Garlic gladiator',
+        4: 'Cereal Killer',
+        5: 'Spoon Wizard',
+        6: 'Avocado ninja',
+        7: 'Guru of banana',
+        8: 'God of salad',
+        9: 'Divinity of proteins',
+        10: 'Tofu Senseï',
+    }
+    console.log(typeof titleLevel)
+    console.log(titleLevel[1])
     return (
         <View style={styles.container}>
-            <ThemedText variant="title3" color={colors.grayPress} style={styles.levelText}> {title}</ThemedText>
+            <ThemedText variant="title3" color={colors.grayPress} style={styles.levelText}>{titleLevel[level]} </ThemedText>
             <View style={styles.barBackground}>
-                <View style={[styles.barProgress, { width: `${progress}%` }]} />
+                <View style={[styles.barProgress, { width: `${progress}%`, backgroundColor: colors.primary}]} />
             </View>
             <Text style={styles.xpText}>lvl {level} : {currentXP} / {maxXP} XP</Text>
         </View>
@@ -47,7 +61,6 @@ const styles = StyleSheet.create({
     },
     barProgress: {
         height: '100%',
-        backgroundColor: '#4CAF50',
     },
     xpText: {
         fontSize: 14,
