@@ -8,6 +8,8 @@ import { useTheme } from "@/hooks/ThemeProvider";
 import ExperienceBar from "./game/ExperienceBar";
 import { User } from "@/interface/User";
 import { getAuth } from "firebase/auth";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 type Props = {
     name: string;
@@ -17,9 +19,17 @@ type Props = {
 
 export default function Banner({name, isLoading, profilePictureId}: Props) {
 
-    const [userData, setUserData] = useState<User[]>([])
-    const auth = getAuth();
-    const user = auth.currentUser;
+    // const [userData, setUserData] = useState<User[]>([])
+    // const auth = getAuth();
+    // const user = auth.currentUser;
+
+    const userRedux = useSelector((state: RootState) => state.user.user);
+
+    useEffect(() => {
+        if (userRedux) {
+            console.log("XP de l'utilisateur depuis Redux :", userRedux.xp);
+        }
+    }, [userRedux]);
 
     const avatar = getIdAvatarProfile(profilePictureId)
 
@@ -30,18 +40,19 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
 
     const [currentGreeting, setCurrentGreeting] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
-
+    
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentGreeting((currentGreeting) => (currentGreeting + 1) % greetings.length)
         }, 8000)
-
+        
         return () => clearInterval(intervalId)
     },[])
-
-    useEffect(() => {
-        fetchUserDataConnected(user, setUserData)
-    }, [])
+    console.log('level', userRedux?.level)
+    
+    // useEffect(() => {
+    //     fetchUserDataConnected(user, setUserData)
+    // }, [])
 
     const handleBackgroundPress = () => {
         setModalVisible(false);
@@ -96,7 +107,11 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                 </View>
             <Row style={{marginTop: 30}}>
                 {isLoading ?
-                    <ExperienceBar level={userData[0]?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp}/>
+                <View>
+                    {/* <ExperienceBar level={userRedux?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp}/> */}
+                    
+                    <ExperienceBar level={Number(userRedux?.level)} title={'Apprenti gourmet'} currentXP={Number(userRedux?.xp)}/>
+                </View>
                 :
                     <View style={{ marginTop: 20, marginBottom: -30, alignItems: 'center' }}>
                         <Skeleton colorMode="light" width={'95%'} height={48} />

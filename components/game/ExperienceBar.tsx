@@ -13,6 +13,8 @@ interface ExperienceBarProps {
 const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }) => {
 
     const { colors} = useTheme();
+    const safeLevel = isNaN(level) ? 1 : level;
+    const safeXp = isNaN(currentXP) ? 0 : currentXP;
 
     let levelXP = 0;
     let i = 1;
@@ -25,9 +27,9 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
     }
 
     let xpTotalForLevel = levelXP / 2;
-    let xpBeginForLevel = currentXP - xpTotalForLevel;
+    let xpBeginForLevel = safeXp - xpTotalForLevel;
 
-    if(level === 1) {
+    if(safeLevel === 1) {
 
         xpBeginForLevel = 0;
         xpTotalForLevel = 20;
@@ -50,11 +52,11 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
     
     return (
         <View style={styles.container}>
-            <ThemedText variant="title3" color={colors.grayPress} style={styles.levelText}>{titleLevel[level]} </ThemedText>
+            <ThemedText variant="title3" color={colors.grayPress} style={styles.levelText}>{titleLevel[safeLevel]} </ThemedText>
             <View style={styles.barBackground}>
                 <View style={[styles.barProgress, { width: `${progress}%`, backgroundColor: colors.primary}]} />
             </View>
-            <Text style={styles.xpText}>lvl {level} : {xpBeginForLevel} / {xpTotalForLevel} xp</Text>
+            <Text style={styles.xpText}>lvl {safeLevel} : {xpBeginForLevel} / {xpTotalForLevel} xp</Text>
         </View>
     );
 };

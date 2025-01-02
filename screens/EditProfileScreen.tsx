@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity, Alert } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+// import { Picker } from '@react-native-picker/picker';
 import { getAuth, signOut } from 'firebase/auth';
 import { fetchUserDataConnected } from '@/functions/function';
 import { User } from '@/interface/User';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
-import { Auth } from '@/firebaseConfig';
+// import { Auth } from '@/firebaseConfig';
 import { useTheme } from '@/hooks/ThemeProvider';
 
 const EditProfileScreen = ({ navigation, updateUserInfo }) => {
@@ -159,7 +159,7 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
       ))}
 
       <Text style={[styles.label, {color : colors.black}]}>Activity Level</Text>
-      <Picker
+      {/* <Picker
         selectedValue={formData.activityLevel}
         style={[styles.picker, { backgroundColor: colors.grayPress}]}
         onValueChange={(itemValue) =>
@@ -171,7 +171,7 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         <Picker.Item label="Moderate" value="moderate" />
         <Picker.Item label="Active" value="active" />
         <Picker.Item label="Super Active" value="superactive" />
-      </Picker>
+      </Picker> */}
 
       <TouchableOpacity style={[styles.saveButton,{backgroundColor: colors.primary}]} onPress={handleSave}>
         <Text style={[styles.saveButtonText]}>Save Changes</Text>

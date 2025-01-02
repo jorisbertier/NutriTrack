@@ -8,6 +8,8 @@ import { Path, Svg } from 'react-native-svg';
 import { ThemedText } from '@/components/ThemedText';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { StatusBar } from 'expo-status-bar'; 
+import { fetchUserData } from '@/redux/userSlice';
+import { useDispatch } from 'react-redux';
 
 const AuthScreen = () => {
 
@@ -41,12 +43,16 @@ const AuthScreen = () => {
   //   StatusBar.setBarStyle(theme === "light" ? "light-content" : "dark-content");
   // }, [theme])
 
+  const dispatch = useDispatch();
   const signIn = async () => {
     try {
 
       await signInWithEmailAndPassword(auth, email, password);
+      const currentUser = auth.currentUser;
+      console.log('current user', currentUser)
       setErrorMessage('')
       // Alert.alert('Connexion réussie!');
+      dispatch(fetchUserData(currentUser.email));
       navigation.navigate('home');
     } catch (error) {
       // Alert.alert('Erreur de connexion', error.message);

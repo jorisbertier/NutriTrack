@@ -23,6 +23,8 @@ import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
 import DetailsFoodCreated from '@/screens/[id]created';
 import PrivacyPolicy from '@/screens/PrivacyPolicy';
 import ReportIssue from '@/screens/Report';
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store'
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -51,6 +53,7 @@ export default function RootLayout() {
   
   return (
     <ThemeProvider>
+      <Provider store={store}>
       <UserProvider>
       <FoodProvider>
         <StatusBar backgroundColor="#000" barStyle="light-content"/>
@@ -189,6 +192,7 @@ export default function RootLayout() {
         </NavigationContainer>
               </FoodProvider>
       </UserProvider>
+      </Provider>
     </ThemeProvider>
   );
 }

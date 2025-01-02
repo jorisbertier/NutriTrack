@@ -9,6 +9,8 @@ import { Skeleton } from 'moti/skeleton';
 import { colorMode } from '@/constants/Colors';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { getIdAvatarProfile } from '@/functions/function';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '@/redux/userSlice';
 
 const ProfileScreen = () => {
 
@@ -18,6 +20,7 @@ const ProfileScreen = () => {
   const auth = getAuth();
   const user = auth.currentUser;
   const [isLoading, setIsLoading] = useState(true)
+  const dispatch = useDispatch();
 
   const navigation = useNavigation()
 
@@ -57,6 +60,7 @@ const ProfileScreen = () => {
     try {
       // await setPersistence(auth, browserSessionPersistence);
       await signOut(auth); // Déconnexion de l'utilisateur
+      dispatch(clearUser());
       navigation.reset({
         index: 0,
         routes: [{ name: 'auth' }],

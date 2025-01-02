@@ -2,10 +2,13 @@
 import { firestore } from "@/firebaseConfig";
 import { fetchUserDataConnected } from "@/functions/function";
 import { useTheme } from "@/hooks/ThemeProvider";
+import { RootState } from "@/redux/store";
+import { fetchUserData } from "@/redux/userSlice";
 import { getAuth, User } from "firebase/auth";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity, Alert } from 'react-native';
+import { useDispatch, useSelector } from "react-redux";
 
 const ReportIssue = () => {
     const [subject, setSubject] = useState('');
@@ -15,21 +18,23 @@ const ReportIssue = () => {
     const [isModalVisible, setModalVisible] = useState(false)
     const { colors } = useTheme()
 
-    const [userData, setUserData] = useState<User[]>([])
-    const auth = getAuth();
-    const user = auth.currentUser;
+    // const [userData, setUserData] = useState<User[]>([])
+    // const auth = getAuth();
+    // const user = auth.currentUser;
+    const { user } = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch();
+
 
     useEffect(() => {
-        try {
-            const fetchData = async () => {
-            fetchUserDataConnected(user, setUserData)
+        const auth = getAuth();
+        const currentUser = auth.currentUser;
+    
+        if (currentUser?.email) {
+            dispatch(fetchUserData(currentUser.email));
         }
-        fetchData()
-        }catch (e) {
-            console.log('Error processing data', e);
-        }
-    }, []);
-
+    }, [dispatch]);
+    
+    console.log('report',user)
     const categories = [
         { label: 'Report a problem', value: 'issue' },
         { label: 'Possible improvement', value: 'improvement' },

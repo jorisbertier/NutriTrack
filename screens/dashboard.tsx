@@ -9,7 +9,7 @@ import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
 import { fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, getVitaminPercentageMg, getVitaminPercentageUg, addExperience } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc, getDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
 import { User } from "@/interface/User";
 import NutritionList from "@/components/Screens/Dashboard/NutritionList";
@@ -21,6 +21,8 @@ import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
+import { useDispatch } from 'react-redux';
+import { updateUserXp } from "@/redux/userSlice";
 
 
 export default function Dashboard() {
@@ -380,6 +382,7 @@ export default function Dashboard() {
         goal = 0
     }
     
+    const dispatch = useDispatch()
     const handleXPUpdate = async () => {
         // if (!totalKcalConsumeToday || !basalMetabolicRate) {
         //     alert("Les valeurs de consommation de calories et de métabolisme de base doivent être définies.");
@@ -401,6 +404,23 @@ export default function Dashboard() {
                         await addExperience(userData[0]?.id, xpToAdd, today);
                         
                         setNotificationVisible(true)
+
+                        const updatedUserDoc = doc(firestore, "User", userData[0]?.id);
+                        const updatedUserSnapshot = await getDoc(updatedUserDoc);
+                        const updatedUserData = updatedUserSnapshot.data();
+    
+                        console.log('first xp', userData[0].xp)
+                        // Met à jour Redux
+                        if (updatedUserData) {
+                            dispatch(updateUserXp({
+                                xp: updatedUserData.xp,
+                                level: updatedUserData.level,
+                            }));
+                        }
+                        console.log("Dispatch de l'action Redux avec :", {
+                            xp: updatedUserData?.xp,
+                            level: updatedUserData?.level,
+                        });
 
                         setTimeout(() => {
                             setNotificationVisible(false)
