@@ -100,11 +100,17 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Edit profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
+        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('Policy')}>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Privacy Policy</Text>
         </TouchableOpacity>
+        {/* <TouchableOpacity style={styles.optionButton}>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
+        </TouchableOpacity> */}
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Change password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={handleSignOut}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Logout</Text>

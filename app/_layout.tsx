@@ -21,6 +21,7 @@ import { StatusBar } from 'react-native';
 import CreateAliment from '@/screens/CreateAliment';
 import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
 import DetailsFoodCreated from '@/screens/[id]created';
+import PrivacyPolicy from '@/screens/PrivacyPolicy';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -80,6 +81,20 @@ export default function RootLayout() {
               <Stack.Screen name="search" component={Search}/>
               <Stack.Screen name="FoodDetails" component={DetailsFood} />
               <Stack.Screen name="FoodDetailsCreated" component={DetailsFoodCreated} />
+              <Stack.Screen name="Policy" component={PrivacyPolicy}
+                options={{
+                  headerShown: true,
+                  headerTitle: 'Privacy Policy',
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
               <Stack.Screen name="EditProfile" component={EditProfileScreen} 
                 options={{
                   headerShown: true,
