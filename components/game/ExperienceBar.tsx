@@ -27,7 +27,7 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
     let xpTotalForLevel = levelXP / 2;
     let xpBeginForLevel = currentXP - xpTotalForLevel;
 
-    if(level = 1) {
+    if(level === 1) {
 
         xpBeginForLevel = 0;
         xpTotalForLevel = 20;
@@ -54,7 +54,7 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
             <View style={styles.barBackground}>
                 <View style={[styles.barProgress, { width: `${progress}%`, backgroundColor: colors.primary}]} />
             </View>
-            <Text style={styles.xpText}>lvl {level} : {xpBeginForLevel} / {xpTotalForLevel} XP</Text>
+            <Text style={styles.xpText}>lvl {level} : {xpBeginForLevel} / {xpTotalForLevel} xp</Text>
         </View>
     );
 };
