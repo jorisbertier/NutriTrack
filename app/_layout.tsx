@@ -21,7 +21,8 @@ import { StatusBar } from 'react-native';
 import CreateAliment from '@/screens/CreateAliment';
 import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
 import DetailsFoodCreated from '@/screens/[id]created';
-import PrivacyPolicy from '@/screens/PrivacyPolicy';
+import PrivacyPolicy from '@/screens/Conditions/PrivacyPolicy';
+import Terms from '@/screens/Conditions/Terms';
 import ReportIssue from '@/screens/Report';
 import { Provider } from 'react-redux';
 import { store } from '@/redux/store'
@@ -99,10 +100,24 @@ export default function RootLayout() {
                   headerTintColor: '#ffffff'
                 }}
               />
+              <Stack.Screen name="Terms" component={Terms}
+                options={{
+                  headerShown: true,
+                  headerTitle: 'Terms of use',
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
               <Stack.Screen name="Report" component={ReportIssue}
                 options={{
                   headerShown: true,
-                  headerTitle: 'Report an issue',
+                  headerTitle: 'Contact support',
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',

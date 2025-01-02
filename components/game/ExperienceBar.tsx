@@ -7,7 +7,6 @@ interface ExperienceBarProps {
     level: number;
     title: string;
     currentXP: number;
-    // maxXP: number;
 }
 
 const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }) => {

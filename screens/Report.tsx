@@ -1,26 +1,23 @@
 
 import { firestore } from "@/firebaseConfig";
-import { fetchUserDataConnected } from "@/functions/function";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/userSlice";
-import { getAuth, User } from "firebase/auth";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
+import { Picker } from "@react-native-picker/picker";
 
 const ReportIssue = () => {
-    const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
     const [category, setCategory] = useState('');
     const [date] = useState(new Date().toLocaleString());
-    const [isModalVisible, setModalVisible] = useState(false)
+    const [categoryMessageError, setCategoryMessageError] = useState('')
+    const [contentMessageError, setContentMessageError] = useState('')
     const { colors } = useTheme()
 
-    // const [userData, setUserData] = useState<User[]>([])
-    // const auth = getAuth();
-    // const user = auth.currentUser;
     const { user } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
 
@@ -34,7 +31,6 @@ const ReportIssue = () => {
         }
     }, [dispatch]);
     
-    console.log('report',user)
     const categories = [
         { label: 'Report a problem', value: 'issue' },
         { label: 'Possible improvement', value: 'improvement' },
@@ -42,87 +38,74 @@ const ReportIssue = () => {
     ];
 
     const sendReport = async ()  => {
-        const title = `Report: ${category ? category : 'General Feedback'} - ${date}`;
-        const reportContent = `${message}`;
-        if(message.length > 2300) {
-            Alert.alert('Your message is too long')
+
+        if(category === '') {
+            setCategoryMessageError('* Please select a subject')
             return
         }
+        setCategoryMessageError('')
+
+        if(message.length > 5) {
+            setContentMessageError('*Max 2300 caracters')
+            return
+        }
+        setContentMessageError('')
+
+        const title = `Report: ${category ? category : 'General Feedback'} - ${date}`;
+        const reportContent = `${message}`;
         try {
             await addDoc(collection(firestore, "MessageReport"), {
                 title: title,
-                email: userData[0]?.email,
+                email: user?.email,
                 message: reportContent,
                 date: date,
                 category: category ? category : 'General Feedback',
             });
     
             Alert.alert('Report successfully saved');
+            resetForm()
         } catch (error) {
             console.error('Error saving report: ', error);
             Alert.alert('Error saving report');
         }
-
     };
+
+    const resetForm = () => {
+        setMessage('')
+    }
 
     return (
         <View style={styles.container}>
         <Text style={styles.title}>Report an Issue</Text>
 
-        <Text style={styles.label}>Enter Category</Text>
-        <TextInput
-                style={styles.textInput}
-                placeholder="Select a category"
-                value={category}
-                onFocus={() => setModalVisible(true)} // Show modal when focused
-            />
-
-            {/* Modal for selecting category */}
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Select a Category</Text>
-                        {categories.map((cat) => (
-                            <TouchableOpacity
-                                key={cat.value}
-                                style={styles.modalButton}
-                                onPress={() => {
-                                    setCategory(cat.label);
-                                    setModalVisible(false); // Close modal after selection
-                                }}
-                            >
-                                <Text style={styles.modalButtonText}>{cat.label}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </View>
-            </Modal>
-
-        {/* <TextInput
-            style={styles.textInput}
-            placeholder="Enter the category (e.g., Problem, Improvement)"
-            value={category}
-            onChangeText={setCategory}
-        /> */}
+        <Text style={styles.label}>Select Subject</Text>
+            <View style={styles.pickerContainer}>
+                <Picker
+                    selectedValue={category}
+                    onValueChange={(itemValue) => setCategory(itemValue)}
+                    style={styles.picker}
+                >
+                    <Picker.Item label="Select a category" value="" />
+                    {categories.map((cat) => (
+                        <Picker.Item key={cat.value} label={cat.label} value={cat.value} />
+                    ))}
+                </Picker>
+            </View>
+        {categoryMessageError && <Text style={styles.errorMessage}>{categoryMessageError}</Text>}
 
         <Text style={styles.label}>Your Message</Text>
         <TextInput
             style={styles.textInput}
-            placeholder="Describe your issue or feedback..."
+            placeholder="Describe your issue or feedback... (max 2300 caracters)"
             value={message}
             onChangeText={setMessage}
             multiline
         />
-        <Text>* Max 2300 caracters</Text>
+        {contentMessageError && <Text style={styles.errorMessage}>{contentMessageError}</Text>}
 
         <Text style={[styles.label]}>Date: {date}</Text>
 
-        <Button title="Send Report" color={colors.primary} onPress={sendReport} />
+        <Button title="Send Report" color={colors.blackFix} onPress={sendReport} />
         </View>
     );
 };
@@ -154,31 +137,27 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 20,
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        width: 300,
-        padding: 20,
-        backgroundColor: '#fff',
+    pickerContainer: {
+        borderWidth: 1,
+        borderColor: '#ccc',
         borderRadius: 10,
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        overflow: 'hidden',
         marginBottom: 20,
     },
-    modalButton: {
-        padding: 10,
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
-    },
-    modalButtonText: {
+    picker: {
+        height: 55,
+        width: '100%',
+        paddingHorizontal: 10,
+        backgroundColor: '#fff',
         fontSize: 16,
     },
+    errorMessage: {
+        color: 'red',
+        marginTop: -12
+    },
+    options: {
+        marginTop: -12
+    }
 });
 
 export default ReportIssue;

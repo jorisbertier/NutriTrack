@@ -104,17 +104,20 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Edit profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('Policy')}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Privacy Policy</Text>
-        </TouchableOpacity>
         {/* <TouchableOpacity style={styles.optionButton}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
-        </TouchableOpacity> */}
+          </TouchableOpacity> */}
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Change password</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('Terms')}>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Terms of use</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('Policy')}>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Privacy policy</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("Report")}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Report</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>Contact Support</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={handleSignOut}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Logout</Text>
