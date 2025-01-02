@@ -109,7 +109,7 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Change password</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("Report")}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Report</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={handleSignOut}>

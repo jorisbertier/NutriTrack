@@ -22,6 +22,7 @@ import CreateAliment from '@/screens/CreateAliment';
 import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
 import DetailsFoodCreated from '@/screens/[id]created';
 import PrivacyPolicy from '@/screens/PrivacyPolicy';
+import ReportIssue from '@/screens/Report';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -85,6 +86,20 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerTitle: 'Privacy Policy',
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
+              <Stack.Screen name="Report" component={ReportIssue}
+                options={{
+                  headerShown: true,
+                  headerTitle: 'Report an issue',
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
