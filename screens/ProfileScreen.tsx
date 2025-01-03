@@ -1,6 +1,6 @@
 import { User } from '@/interface/User';
-import { getAuth, signOut } from 'firebase/auth';
-import { collection, getDocs } from 'firebase/firestore';
+import { deleteUser, getAuth, signOut } from 'firebase/auth';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
@@ -16,9 +16,10 @@ const ProfileScreen = () => {
 
   const {colors} = useTheme();
 
-  const [userData, setUserData] = useState<User[]>([])
   const auth = getAuth();
   const user = auth.currentUser;
+
+  const [userData, setUserData] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const dispatch = useDispatch();
   const [ modalVisible, setModalVisible] = useState(false)
@@ -70,15 +71,61 @@ const ProfileScreen = () => {
       Alert.alert('Erreur de déconnexion', error.message);
     }
   };
-/** DELETE ACCOUNT */
-const [confirmationText, setConfirmationText] = useState('');
+  /** DELETE ACCOUNT */
+  const [confirmationText, setConfirmationText] = useState('');
+  const [allUserCreatedFoods, setAllUserCreatedFood] = useState()
+
+  useEffect(() => {
+    try {
+      const fetchData = async () => {
+        const userCreatedFoodsCollection = collection(firestore, 'UserCreatedFoods');
+        const q = query(userCreatedFoodsCollection, where("idUser", "==", auth.currentUser.uid));
+        const userCreatedFoodsSnapshot = await getDocs(q);
+
+        const userCreatedFoods = userCreatedFoodsSnapshot.docs.map(doc => ({
+          id: doc.id, 
+          ...doc.data()
+        }));
+
+        console.log(userCreatedFoods.length);
+      }
+    fetchData()
+    } catch(error) {
+      console.log(error)
+    }
+  }, [])
 
   const handleSave = () => {
     setModalVisible(true);
   };
 
-  const handleDeleteAccount = () => {
-    console.log('compte supprimé')
+  const handleDeleteAccount = async () => {
+    try {
+      if(auth.currentUser) {
+
+        const userCreatedFoodsCollection = collection(firestore, "UserCreatedFoods");
+        const q = query(userCreatedFoodsCollection, where("idUser", "==", auth.currentUser.uid));
+        const userCreatedFoodsSnapshot = await getDocs(q);
+        const deletePromises = userCreatedFoodsSnapshot.docs.map((doc) => deleteDoc(doc.ref));
+        await Promise.all(deletePromises);
+        console.log("All user-created foods deleted");
+
+        const userDocRef = doc(firestore, "User", auth.currentUser.uid);
+        await deleteDoc(userDocRef);
+        console.log("User document deleted from Firestore");
+    
+        await deleteUser(auth.currentUser);
+        console.log("User deleted from authentication");
+
+        dispatch(clearUser());
+        setModalVisible(false)
+
+        navigation.navigate("auth");
+      }
+    } catch (error) {
+      console.log("Error during the deletion of account", error);
+    }
+    
   }
 
 
