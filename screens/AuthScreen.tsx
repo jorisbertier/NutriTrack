@@ -49,13 +49,12 @@ const AuthScreen = () => {
 
       await signInWithEmailAndPassword(auth, email, password);
       const currentUser = auth.currentUser;
-      console.log('current user', currentUser)
+
       setErrorMessage('')
-      // Alert.alert('Connexion réussie!');
       dispatch(fetchUserData(currentUser.email));
+
       navigation.navigate('home');
     } catch (error) {
-      // Alert.alert('Erreur de connexion', error.message);
       setErrorMessage('Incorrect email or password. Please try again.');
     }
   };

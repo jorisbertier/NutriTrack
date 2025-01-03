@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
 import { colorMode } from '@/constants/Colors';
 import { useTheme } from '@/hooks/ThemeProvider';
-import { getIdAvatarProfile } from '@/functions/function';
+import { deleteByCollection, getIdAvatarProfile } from '@/functions/function';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '@/redux/userSlice';
 
@@ -67,65 +67,23 @@ const ProfileScreen = () => {
         index: 0,
         routes: [{ name: 'auth' }],
       });
-    } catch (error) {
+    } catch (error: unknown) {
       Alert.alert('Erreur de déconnexion', error.message);
     }
   };
   /** DELETE ACCOUNT */
   const [confirmationText, setConfirmationText] = useState('');
-  const [allUserCreatedFoods, setAllUserCreatedFood] = useState()
-
-  useEffect(() => {
-    try {
-      const fetchData = async () => {
-        const userCreatedFoodsCollection = collection(firestore, 'UserCreatedFoods');
-        const q = query(userCreatedFoodsCollection, where("idUser", "==", auth.currentUser.uid));
-        const userCreatedFoodsSnapshot = await getDocs(q);
-
-        const userCreatedFoods = userCreatedFoodsSnapshot.docs.map(doc => ({
-          id: doc.id, 
-          ...doc.data()
-        }));
-
-        console.log(userCreatedFoods.length);
-      }
-    fetchData()
-    } catch(error) {
-      console.log(error)
-    }
-  }, [])
 
   const handleSave = () => {
     setModalVisible(true);
   };
 
-  const deleteByCollection = async (nameCollection: string, uidUser: any, field: string) => {
-    const Collection = collection(firestore, nameCollection);
-    const q = query(Collection, where(field, "==", uidUser));
-    const snapshot = await getDocs(q);
-    const deletePromises = snapshot.docs.map((doc) => deleteDoc(doc.ref));
-    await Promise.all(deletePromises);
-    console.log("All user-created foods deleted");
-  }
-
-  console.log(auth.currentUser?.uid)
   const handleDeleteAccount = async () => {
     try {
       if(auth.currentUser) {
-        const userMealsCreatedCollection = collection(firestore, "UserMealsCreated");
-        const qUserMealsCreated = query(userMealsCreatedCollection, where("userId", "==", auth.currentUser.uid));
-        const userMealsCreatedSnapshot = await getDocs(qUserMealsCreated);
-        const deletePromisesUserMealsCreated = userMealsCreatedSnapshot.docs.map((doc) => deleteDoc(doc.ref));
-        await Promise.all(deletePromisesUserMealsCreated);
-        console.log("All user-meals created deleted");
 
-        const userCreatedFoodsCollection = collection(firestore, "UserCreatedFoods");
-        const q = query(userCreatedFoodsCollection, where("idUser", "==", auth.currentUser.uid));
-        const userCreatedFoodsSnapshot = await getDocs(q);
-        const deletePromises = userCreatedFoodsSnapshot.docs.map((doc) => deleteDoc(doc.ref));
-        await Promise.all(deletePromises);
-        console.log("All user-created foods deleted");
-
+        deleteByCollection('UserMealsCreated',auth.currentUser.uid, 'userId')
+        deleteByCollection('UserCreatedFoods',auth.currentUser.uid, 'idUser')
         deleteByCollection('UserMeals',auth.currentUser.uid, 'userId')
 
         const userDocRef = doc(firestore, "User", auth.currentUser.uid);
@@ -143,9 +101,7 @@ const ProfileScreen = () => {
     } catch (error) {
       console.log("Error during the deletion of account", error);
     }
-    
   }
-
 
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.whiteMode}]} persistentScrollbar={true}>

@@ -7,6 +7,9 @@ import { User } from '@/interface/User';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 // import { Auth } from '@/firebaseConfig';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { Picker } from '@react-native-picker/picker';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '@/redux/userSlice';
 
 const EditProfileScreen = ({ navigation, updateUserInfo }) => {
 
@@ -16,6 +19,8 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
   const [userData, setUserData] = useState<User[]>([]);
   const auth = getAuth();
   const user = auth.currentUser;
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,12 +68,13 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
   const handleSignOut = async () => {
     try {
       // await setPersistence(auth, browserSessionPersistence);
+      dispatch(clearUser());
       await signOut(auth); // Déconnexion de l'utilisateur
       navigation.reset({
         index: 0,
         routes: [{ name: 'auth' }],
       });
-    } catch (error) {
+    } catch (error: unknown) {
       Alert.alert('Erreur de déconnexion', error.message);
     }
   };
@@ -159,7 +165,7 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
       ))}
 
       <Text style={[styles.label, {color : colors.black}]}>Activity Level</Text>
-      {/* <Picker
+      <Picker
         selectedValue={formData.activityLevel}
         style={[styles.picker, { backgroundColor: colors.grayPress}]}
         onValueChange={(itemValue) =>
@@ -171,7 +177,7 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         <Picker.Item label="Moderate" value="moderate" />
         <Picker.Item label="Active" value="active" />
         <Picker.Item label="Super Active" value="superactive" />
-      </Picker> */}
+      </Picker>
 
       <TouchableOpacity style={[styles.saveButton,{backgroundColor: colors.primary}]} onPress={handleSave}>
         <Text style={[styles.saveButtonText]}>Save Changes</Text>

@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { User as FirebaseUser } from "firebase/auth"; // Import Firebase user type
 import { FoodItem } from '../interface/FoodItem';
@@ -274,6 +274,16 @@ export async function addExperience(userId: string, xpGained: number, date: stri
     } catch (error) {
         console.error("Error adding XP :", error);
     }
+}
+
+/* FUNCTION WHEN DELETE ACCOUNT*/
+export const deleteByCollection = async (nameCollection: string, uidUser: any, field: string) => {
+    const Collection = collection(firestore, nameCollection);
+    const q = query(Collection, where(field, "==", uidUser));
+    const snapshot = await getDocs(q);
+    const deletePromises = snapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+    console.log(`All "${nameCollection}" deleted`);
 }
 /* ANIMATION */
 
