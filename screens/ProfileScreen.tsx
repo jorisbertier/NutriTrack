@@ -99,9 +99,25 @@ const ProfileScreen = () => {
     setModalVisible(true);
   };
 
+  const deleteByCollection = async (nameCollection: string, uidUser: any, field: string) => {
+    const Collection = collection(firestore, nameCollection);
+    const q = query(Collection, where(field, "==", uidUser));
+    const snapshot = await getDocs(q);
+    const deletePromises = snapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+    console.log("All user-created foods deleted");
+  }
+
+  console.log(auth.currentUser?.uid)
   const handleDeleteAccount = async () => {
     try {
       if(auth.currentUser) {
+        const userMealsCreatedCollection = collection(firestore, "UserMealsCreated");
+        const qUserMealsCreated = query(userMealsCreatedCollection, where("userId", "==", auth.currentUser.uid));
+        const userMealsCreatedSnapshot = await getDocs(qUserMealsCreated);
+        const deletePromisesUserMealsCreated = userMealsCreatedSnapshot.docs.map((doc) => deleteDoc(doc.ref));
+        await Promise.all(deletePromisesUserMealsCreated);
+        console.log("All user-meals created deleted");
 
         const userCreatedFoodsCollection = collection(firestore, "UserCreatedFoods");
         const q = query(userCreatedFoodsCollection, where("idUser", "==", auth.currentUser.uid));
@@ -109,6 +125,8 @@ const ProfileScreen = () => {
         const deletePromises = userCreatedFoodsSnapshot.docs.map((doc) => deleteDoc(doc.ref));
         await Promise.all(deletePromises);
         console.log("All user-created foods deleted");
+
+        deleteByCollection('UserMeals',auth.currentUser.uid, 'userId')
 
         const userDocRef = doc(firestore, "User", auth.currentUser.uid);
         await deleteDoc(userDocRef);
@@ -119,8 +137,8 @@ const ProfileScreen = () => {
 
         dispatch(clearUser());
         setModalVisible(false)
-
-        navigation.navigate("auth");
+        
+        handleSignOut()
       }
     } catch (error) {
       console.log("Error during the deletion of account", error);
