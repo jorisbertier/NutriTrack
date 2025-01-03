@@ -16,12 +16,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  user: {
-    name:null,
-    email: null,
-    xp: 0,
-    level: 1,
-  },
+  user: null,
   status: 'idle',
 };
 

@@ -2,7 +2,7 @@ import { User } from '@/interface/User';
 import { getAuth, signOut } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
@@ -21,6 +21,7 @@ const ProfileScreen = () => {
   const user = auth.currentUser;
   const [isLoading, setIsLoading] = useState(true)
   const dispatch = useDispatch();
+  const [ modalVisible, setModalVisible] = useState(false)
 
   const navigation = useNavigation()
 
@@ -69,6 +70,14 @@ const ProfileScreen = () => {
       Alert.alert('Erreur de déconnexion', error.message);
     }
   };
+/** DELETE ACCOUNT */
+  const handleSave = () => {
+    setModalVisible(true);
+  };
+
+  const handleDeleteAccount = () => {
+    console.log('compte supprimé')
+  }
 
 
   return (
@@ -122,9 +131,30 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.optionButton} onPress={handleSignOut}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Logout</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.deleteButton}>
+        <TouchableOpacity style={styles.deleteButton} onPress={handleSave}>
           <Text style={styles.deleteText}>Delete account</Text>
         </TouchableOpacity>
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        animationType="slide"
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>
+            Your account is about to be deleted, you will lose all data related to it !{"\n"} To confirm, please type **DELETE** below: ?
+            </Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.confirmButton, {backgroundColor: colors.primary}]} onPress={handleDeleteAccount}>
+                <Text style={styles.confirmButtonText}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       </View>
     </ScrollView>
   );
@@ -197,5 +227,53 @@ const styles = StyleSheet.create({
   deleteText: {
     fontSize: 16,
     color: '#FF4D4D',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#333333',
+    lineHeight: 25
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  cancelButton: {
+    flex: 1,
+    marginRight: 5,
+    backgroundColor: '#cccccc',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    color: '#333333',
+    fontWeight: '600',
+  },
+  confirmButton: {
+    flex: 1,
+    marginLeft: 5,
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  confirmButtonText: {
+    color: '#ffffff',
+    fontWeight: '600',
   },
 });
