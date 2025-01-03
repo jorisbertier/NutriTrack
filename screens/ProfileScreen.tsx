@@ -2,7 +2,7 @@ import { User } from '@/interface/User';
 import { getAuth, signOut } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
@@ -71,6 +71,8 @@ const ProfileScreen = () => {
     }
   };
 /** DELETE ACCOUNT */
+const [confirmationText, setConfirmationText] = useState('');
+
   const handleSave = () => {
     setModalVisible(true);
   };
@@ -134,27 +136,51 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.deleteButton} onPress={handleSave}>
           <Text style={styles.deleteText}>Delete account</Text>
         </TouchableOpacity>
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        animationType="slide"
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>
-            Your account is about to be deleted, you will lose all data related to it !{"\n"} To confirm, please type **DELETE** below: ?
-            </Text>
-            <View style={styles.modalButtons}>
-              <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-                <Text style={styles.cancelButtonText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.confirmButton, {backgroundColor: colors.primary}]} onPress={handleDeleteAccount}>
-                <Text style={styles.confirmButtonText}>Confirm</Text>
-              </TouchableOpacity>
+        <Modal
+          transparent={true}
+          visible={modalVisible}
+          animationType="slide"
+        >
+          <View style={modal.modalContainer}>
+            <View style={modal.modalContent}>
+              <Text style={modal.modalText}>
+                Your account is about to be deleted. You will lose all data related to it!{"\n"}
+                This requires a logout!{"\n"}
+                To confirm, please corfim with **DELETE** below:
+              </Text>
+
+              {/* Input Field for Confirmation */}
+              <TextInput
+                style={modal.textInput}
+                placeholder="Type DELETE to confirm"
+                value={confirmationText}
+                onChangeText={setConfirmationText}
+                autoCapitalize="none"
+              />
+
+              <View style={modal.modalButtons}>
+                <TouchableOpacity style={modal.cancelButton} onPress={() => setModalVisible(false)}>
+                  <Text style={modal.cancelButtonText}>Cancel</Text>
+                </TouchableOpacity>
+
+                {/* Disable the confirm button until the correct text is entered */}
+                <TouchableOpacity
+                  style={[
+                    modal.confirmButton,
+                    {
+                      backgroundColor:
+                        confirmationText === "DELETE" ? colors.primary : "#ccc",
+                    },
+                  ]}
+                  onPress={handleDeleteAccount}
+                  disabled={confirmationText !== "DELETE"} // Disable button if text doesn't match
+                >
+                  <Text style={modal.confirmButtonText}>Confirm</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
       </View>
     </ScrollView>
   );
@@ -228,6 +254,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FF4D4D',
   },
+});
+
+const modal = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -276,4 +305,13 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontWeight: '600',
   },
-});
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 10,
+    fontSize: 16,
+    backgroundColor: "#fff",
+  },
+})

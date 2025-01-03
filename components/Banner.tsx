@@ -48,11 +48,6 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
         
         return () => clearInterval(intervalId)
     },[])
-    console.log('level', userRedux?.level)
-    
-    // useEffect(() => {
-    //     fetchUserDataConnected(user, setUserData)
-    // }, [])
 
     const handleBackgroundPress = () => {
         setModalVisible(false);
