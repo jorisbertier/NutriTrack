@@ -172,7 +172,6 @@ const Registration = () => {
                 level: 1,
                 xpLogs: {}
             });
-            Alert.alert('Registration successful!');
             resetForm();
         } catch (error: any) {
             Alert.alert('Registration Error', error.message);

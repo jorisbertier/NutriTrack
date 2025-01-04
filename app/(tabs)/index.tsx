@@ -1,4 +1,4 @@
-import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType } from 'react-native';
+import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType, View, Modal, Button } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -17,6 +17,7 @@ import StopWatch from '@/components/StopWatch';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { BackHandler } from 'react-native';
 import { Pressable } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
 
@@ -145,6 +146,34 @@ useEffect(() => {
     }
   }, [selectedChallenge]);
 
+  const [modalVisible, setModalVisible] = useState(false);
+  
+  useEffect(() => {
+    const checkWelcomeMessage = async () => {
+
+      if (!userData || !userData[0]?.email) {
+        return;
+      }
+
+      const currentUserEmail = userData[0]?.email
+      const hasSeenWelcomeKey = `hasSeenWelcomeMessage_${currentUserEmail}`;
+      const hasSeenWelcomeMessage = await AsyncStorage.getItem(hasSeenWelcomeKey);
+      
+      console.log(hasSeenWelcomeKey)
+      if (!hasSeenWelcomeMessage) {
+        setModalVisible(true);
+        await AsyncStorage.setItem(hasSeenWelcomeKey, 'true');
+      }
+    };
+
+    checkWelcomeMessage();
+  }, [userData]);
+
+  const handleClose = () => {
+    setModalVisible(false);
+  };
+
+
 
   return (
     <>
@@ -227,6 +256,21 @@ useEffect(() => {
                     onPress={() => handleStopWatch('chocolate', require('@/assets/images/challenge/chocolate.jpg'))} 
                 /> */}
             </ScrollView>
+            <View>
+              <Modal transparent={true} visible={modalVisible} animationType="slide">
+                <View style={modal.modalContainer}>
+                  <View style={modal.modalContent}>
+                    <Text style={modal.modalText}>
+                      Welcome to Nutri Track! 🎉{'\n'}
+                      Nutri Track helps you track your nutrition and achieve your health goals. 🥗{'\n'}
+                      You can earn 20XP per day by completing your daily objectives! 🚀{'\n'}
+                      Start tracking now to improve your nutrition and earn rewards!
+                    </Text>
+                    <Button title="Got it!" onPress={handleClose} />
+                  </View>
+                </View>
+              </Modal>
+            </View>
             <StopWatch selectedChallenge ={selectedChallenge}/>
           </ScrollView>
       </SafeAreaView>
@@ -258,3 +302,24 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
 })
+
+const modal = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+});
