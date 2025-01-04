@@ -159,7 +159,6 @@ useEffect(() => {
       const hasSeenWelcomeKey = `hasSeenWelcomeMessage_${currentUserEmail}`;
       const hasSeenWelcomeMessage = await AsyncStorage.getItem(hasSeenWelcomeKey);
       
-      console.log(hasSeenWelcomeKey)
       if (!hasSeenWelcomeMessage) {
         setModalVisible(true);
         await AsyncStorage.setItem(hasSeenWelcomeKey, 'true');
@@ -261,12 +260,12 @@ useEffect(() => {
                 <View style={modal.modalContainer}>
                   <View style={modal.modalContent}>
                     <Text style={modal.modalText}>
-                      Welcome to Nutri Track! 🎉{'\n'}
-                      Nutri Track helps you track your nutrition and achieve your health goals. 🥗{'\n'}
-                      You can earn 20XP per day by completing your daily objectives! 🚀{'\n'}
-                      Start tracking now to improve your nutrition and earn rewards!
+                      Welcome to Nutri Track! 🎉{'\n'}{'\n'}
+                      Nutri Track helps you track your nutrition and achieve your health goals. 🥗{'\n'}{'\n'}
+                      You can earn 20XP per day by completing your daily objectives! 🚀{'\n'}{'\n'}
+                      Start tracking now to improve your nutrition and earn exciting levels ⚡!
                     </Text>
-                    <Button title="Got it!" onPress={handleClose} />
+                    <Button title="Got it!" color={colors.primary} onPress={handleClose} accessibilityLabel="Close the presentation modal"/>
                   </View>
                 </View>
               </Modal>
@@ -314,7 +313,7 @@ const modal = StyleSheet.create({
     width: 300,
     padding: 20,
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: 30,
     alignItems: 'center',
   },
   modalText: {
