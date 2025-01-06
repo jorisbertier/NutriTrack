@@ -26,6 +26,7 @@ import Terms from '@/screens/Conditions/Terms';
 import ReportIssue from '@/screens/Report';
 import { Provider } from 'react-redux';
 import { store } from '@/redux/store'
+import Subscription from '@/screens/Subscription/Subscription';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -117,6 +118,20 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerTitle: 'Contact support',
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
+              <Stack.Screen name="Subscription" component={Subscription}
+                options={{
+                  headerShown: true,
+                  headerTitle: 'Subscription',
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',

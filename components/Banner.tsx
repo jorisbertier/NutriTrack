@@ -27,7 +27,6 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
     const dispatch = useDispatch()
     const userRedux = useSelector((state: RootState) => state.user.user);
 
-    console.log(user)
     useEffect(() => {
         if (userRedux) {
             // dispatch(fetchUserData(currentUser.email));

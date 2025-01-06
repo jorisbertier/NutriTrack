@@ -1,4 +1,4 @@
-import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType, View, Modal, Button } from 'react-native';
+import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType, View, Modal, Button, TouchableOpacity, Linking } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -172,7 +172,20 @@ useEffect(() => {
     setModalVisible(false);
   };
 
-
+  const handlePress = async () => {
+    const url = 'https://buy.stripe.com/test_fZe5n70Ai4oZabK9AA';
+  
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        console.log("Impossible d'ouvrir l'URL : ", url);
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'ouverture de l'URL :", error);
+    }
+  };
 
   return (
     <>
@@ -200,6 +213,15 @@ useEffect(() => {
             letterSpacing: 0.25,
             color: colors.whiteFix,}}>Dashboard</Text>
           </Pressable>
+          </Row>
+          <Row>
+            <Pressable onPress={() => navigation.navigate('Subscription')}>
+            <Text style={{fontSize: 16,
+            lineHeight: 21,
+            fontWeight: 'bold',
+            letterSpacing: 0.25,
+            color: colors.black,}}>Passer a premium</Text>
+            </Pressable>
           </Row>
           <Row style={{marginTop: 20, marginBottom: -15}}>
             <ThemedText variant='title' color={colors.black}>Nutri metrics</ThemedText>
