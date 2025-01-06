@@ -29,8 +29,6 @@ import { store } from '@/redux/store'
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
-
-// Empêche l'écran de démarrage de se cacher avant la fin du chargement des assets
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -40,11 +38,12 @@ export default function RootLayout() {
     Oswald: require('../assets/fonts/Oswald-VariableFont_wght.ttf'),
     Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
   });
-  
+
+  // Empêche l'écran de démarrage de se cacher avant la fin du chargement des assets
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
-      NavigationBar.setBackgroundColorAsync('#111419'); 
+      NavigationBar.setBackgroundColorAsync('#111419');
     }
   }, [loaded]);
 

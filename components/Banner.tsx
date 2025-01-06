@@ -8,8 +8,9 @@ import { useTheme } from "@/hooks/ThemeProvider";
 import ExperienceBar from "./game/ExperienceBar";
 import { User } from "@/interface/User";
 import { getAuth } from "firebase/auth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { fetchUserData } from "@/redux/userSlice";
 
 type Props = {
     name: string;
@@ -19,17 +20,25 @@ type Props = {
 
 export default function Banner({name, isLoading, profilePictureId}: Props) {
 
-    // const [userData, setUserData] = useState<User[]>([])
-    // const auth = getAuth();
-    // const user = auth.currentUser;
+    const [userData, setUserData] = useState<User[]>([])
+    const auth = getAuth();
+    const user = auth.currentUser;
 
+    const dispatch = useDispatch()
     const userRedux = useSelector((state: RootState) => state.user.user);
 
+    console.log(user)
     useEffect(() => {
         if (userRedux) {
+            // dispatch(fetchUserData(currentUser.email));
             console.log("XP de l'utilisateur depuis Redux :", userRedux.xp);
         }
     }, [userRedux]);
+
+    useEffect(() => {
+        fetchUserDataConnected(user, setUserData)
+        dispatch(fetchUserData(user.email));
+    }, [])
 
     const avatar = getIdAvatarProfile(profilePictureId)
 
@@ -105,7 +114,7 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                 <View>
                     {/* <ExperienceBar level={userRedux?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp}/> */}
                     
-                    <ExperienceBar level={Number(userRedux?.level)} title={'Apprenti gourmet'} currentXP={Number(userRedux?.xp)}/>
+                    <ExperienceBar level={Number(userRedux?.level)} title={'Apprenti gourmet'} currentXP={Number(userRedux?.xp)} levelSecure={userData[0]?.level} currentXpSecure={userData[0]?.xp}/>
                 </View>
                 :
                     <View style={{ marginTop: 20, marginBottom: -30, alignItems: 'center' }}>
