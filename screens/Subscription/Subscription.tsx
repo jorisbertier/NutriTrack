@@ -2,19 +2,23 @@ import Row from '@/components/Row';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Linking, Pressable } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Linking, Pressable, Modal } from 'react-native';
 import SubscriptionPage from '@/screens/Subscription/Subscription';
+import { WebView } from 'react-native-webview';
 
 const Subscription = () => {
     const [selectedPlan, setSelectedPlan] = useState('Annual');
-    const navigation = useNavigation()
+    const [isWebViewVisible, setIsWebViewVisible] = useState(false);
     const { colors } = useTheme()
-
+    console.log(selectedPlan)
+    // const handleSubscription = () => {
+    //     console.log(selectedPlan)
+    //     Linking.openURL('https://buy.stripe.com/test_fZe5n70Ai4oZabK9AA')
+    //     .catch((err) => console.error('Failed to open URL:', err));
+    // }
     const handleSubscription = () => {
-        console.log(selectedPlan)
-        Linking.openURL('https://buy.stripe.com/test_fZe5n70Ai4oZabK9AA')
-        .catch((err) => console.error('Failed to open URL:', err));
-    }
+        setIsWebViewVisible(true);
+    };
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Take control of your nutrition journey.</Text>
@@ -42,57 +46,76 @@ const Subscription = () => {
                     Push your limits and achieve incredible levels of health and fitness.
                 </Text>
             </View>
-
             <Text style={styles.chooseText}>Choose the plan that suits you:</Text>
-
-            <View style={styles.options}>
+                {/* Option 1 */}
                 <TouchableOpacity
-                style={[
-                    styles.option,
-                    selectedPlan === 'Annual' && styles.selectedOption,
-                ]}
-                onPress={() => setSelectedPlan('Annual')}
+                    style={[styles.option,
+                    selectedPlan == 'Annual' && styles.selectedOption]}
+                    onPress={() => setSelectedPlan('Annual')}
                 >
-                    <Text style={styles.optionText}>Annual Plan</Text>
-                    <Text style={[styles.discount,
-                            selectedPlan === 'Annual' ? styles.annualDiscount : styles.annualPlanDiscount
-                    ]}>33% SAVINGS</Text>
-                    <Text style={styles.originalPrice}>$29.88</Text>
-                    <Text style={styles.price}>$19.99</Text>
+                    <View style={styles.labelContainer}>
+                        <Text style={styles.label}>33% Savings</Text>
+                    </View>
+                    <View style={styles.content}>
+                    <View>
+                        <Text style={styles.duration}>Annual</Text>
+                        <Text style={styles.price}>
+                        <Text style={styles.strikeThrough}>29,88 €</Text> 19,99 €
+                        </Text>
+                    </View>
+                    <Text style={styles.monthlyPrice}>19,99 €/year</Text>
+                    </View>
                 </TouchableOpacity>
 
+                {/* Option 2 */}
                 <TouchableOpacity
-                style={[
-                    styles.option,
-                    selectedPlan === 'Monthly' && styles.selectedOption,
-                ]}
-                onPress={() => setSelectedPlan('Monthly')}
+                    style={[styles.option,
+                    selectedPlan == 'Monthly' && styles.selectedOption]}
+                    onPress={() => setSelectedPlan('Monthly')}
                 >
-                <Text style={styles.optionText}>Monthly</Text>
-                <Text style={styles.price}>$2.49</Text>
+                    
+                    <View style={styles.content}>
+                    <View>
+                        <Text style={styles.duration}>Monthly</Text>
+                        {/* <Text style={styles.price}>23,99 €</Text> */}
+                    </View>
+                    <Text style={styles.monthlyPrice}>2,49 €/month</Text>
+                    </View>
                 </TouchableOpacity>
-            </View>
 
             {/* <Text style={styles.billingText}>
                 Billing starts at the end of your free trial unless canceled. Plans renew automatically. Cancel via Google Play.
             </Text> */}
             <Row style={{marginTop: 20}} >
-                <Pressable onPress={handleSubscription} style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingVertical: 12,
-                    borderRadius: 4,
-                    elevation: 3,
-                    backgroundColor: colors.primary,
-                    width: '100%'
-                }}>
-                    <Text style={{fontSize: 16,
-                    lineHeight: 21,
-                    fontWeight: 'bold',
-                    letterSpacing: 0.25,
-                    color: colors.whiteFix,}}>Subscription</Text>
+                <Pressable onPress={handleSubscription} style={[ styles.button, { backgroundColor: colors.primary}]}>
+                    <Text style={[styles.buttonText, { color: colors.whiteFix }]}>Subscription</Text>
                 </Pressable>
             </Row>
+            <Modal visible={isWebViewVisible} animationType="slide">
+                <View style={{ flex: 1 }}>
+                    <Pressable
+                        style={styles.closeButton}
+                        onPress={() => setIsWebViewVisible(false)}
+                    >
+                        <Text style={styles.closeButtonText}>Close</Text>
+                    </Pressable>
+                    {selectedPlan != 'Annual' ?
+                    <WebView
+                        source={{
+                            uri: 'https://buy.stripe.com/test_fZe5n70Ai4oZabK9AA',
+                        }}
+                        startInLoadingState
+                    />
+                    :
+                    <WebView
+                        source={{
+                            uri: 'https://buy.stripe.com/test_00gcPz6YGdZzcjS6op',
+                        }}
+                        startInLoadingState
+                    />
+                    }
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -133,41 +156,60 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 30,
     },
-    options: {
-        marginBottom: 20,
-    },
     option: {
-        // borderWidth: 1,
-        // borderColor: '#ccc',
-        backgroundColor: '#EEF2FF',
-        padding: 15,
-        borderRadius: 8,
-        marginBottom: 10,
-        flexDirection: 'row',
-        maxWidth: '100%',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        position: 'relative',
+        backgroundColor: '#f8f8f8',
+        borderRadius: 10,
+        padding: 20,
+        marginBottom: 15,
+        borderTopWidth: 1,
+        borderRightWidth: 2,
+        borderLeftWidth: 2,
+        borderColor: '#ddd',
+        borderBottomWidth: 5,
     },
     selectedOption: {
-        borderColor: '#ccc',
-        backgroundColor: '#8592F2',
+        backgroundColor: '#f5eafe',
+        borderColor: '#a1a1d7',
     },
-    optionText: {
-        fontSize: 16,
+    labelContainer: {
+        position: 'absolute',
+        top: 5,
+        right: 10,
+        backgroundColor: '#a1a1d7',
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 2,
+        zIndex: 10
+    },
+    label: {
+        color: '#fff',
+        fontSize: 12,
         fontWeight: 'bold',
     },
-    discount: {
-        fontSize: 14,
-        fontWeight: 'bold',
+    content: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    price: {
+    duration: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: '#333',
     },
-    originalPrice: {
-        fontSize: 14,
-        color: '#aaa',
+    price: {
+        fontSize: 16,
+        color: '#666',
+        marginTop: 5,
+    },
+        strikeThrough: {
         textDecorationLine: 'line-through',
+        color: '#999',
+    },
+        monthlyPrice: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#333',
     },
     billingText: {
         fontSize: 14,
@@ -175,25 +217,27 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     button: {
-        padding: 15,
-        borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center',
-        height: 80
+        paddingVertical: 12,
+        borderRadius: 4,
+        elevation: 3,
+        width: '100%',
     },
     buttonText: {
         fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+    },
+    closeButton: {
+        padding: 10,
+        backgroundColor: '#000',
+        alignItems: 'center',
+    },
+    closeButtonText: {
         color: '#fff',
         fontWeight: 'bold',
-        textAlign: 'center',
-        width: '100%',
-        height: '100%',
-    },
-    annualDiscount: {
-        color: 'white',
-    },
-    annualPlanDiscount: {
-        color: '#a1a1d7',
     },
 });
 

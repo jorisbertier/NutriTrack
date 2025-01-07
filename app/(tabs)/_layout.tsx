@@ -7,6 +7,8 @@ import { Feather } from '@expo/vector-icons';
 import ProfileScreen from '@/screens/ProfileScreen';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useTheme } from '@/hooks/ThemeProvider';
+import Subscription from '@/screens/Subscription/Subscription';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 export default function TabLayout() {
   
@@ -84,6 +86,26 @@ export default function TabLayout() {
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
       headerTitle: 'Profile',
+      headerTitleAlign: 'center',
+      headerStyle: {
+        backgroundColor: '#000',
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+    }} 
+    />
+    <Tab.Screen 
+      name="Premium" 
+      component={Subscription}
+      options={{
+        tabBarLabel: ()=> null, 
+        tabBarIcon: ({ color, size }) => (
+          <FontAwesome5 name="crown" size={21} color={color} />
+      ),
+      tabBarActiveTintColor : colors.primary,
+      headerShown: true,
+      headerTitle: 'Premium',
       headerTitleAlign: 'center',
       headerStyle: {
         backgroundColor: '#000',

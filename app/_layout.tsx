@@ -128,7 +128,7 @@ export default function RootLayout() {
                   headerTintColor: '#ffffff'
                 }}
               />
-              <Stack.Screen name="Subscription" component={Subscription}
+              {/* <Stack.Screen name="Subscription" component={Subscription}
                 options={{
                   headerShown: true,
                   headerTitle: 'Subscription',
@@ -141,7 +141,7 @@ export default function RootLayout() {
                   },
                   headerTintColor: '#ffffff'
                 }}
-              />
+              /> */}
               <Stack.Screen name="EditProfile" component={EditProfileScreen} 
                 options={{
                   headerShown: true,

@@ -60,6 +60,7 @@
     "react-native-skeleton-placeholder": "^5.2.4",
     "react-native-svg": "15.8.0",
     "react-native-web": "~0.19.13",
+    "react-native-webview": "^13.12.5",
     "react-redux": "^9.2.0",
     "uuid": "^10.0.0",
     "victory-native": "^41.6.2"
