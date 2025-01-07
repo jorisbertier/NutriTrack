@@ -3,12 +3,13 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '.';
 import Search from './Search';
-import { Feather } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import ProfileScreen from '@/screens/ProfileScreen';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useTheme } from '@/hooks/ThemeProvider';
 import Subscription from '@/screens/Subscription/Subscription';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Stats from '@/screens/Stats';
 
 export default function TabLayout() {
   
@@ -106,6 +107,26 @@ export default function TabLayout() {
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
       headerTitle: 'Premium',
+      headerTitleAlign: 'center',
+      headerStyle: {
+        backgroundColor: '#000',
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+    }} 
+    />
+    <Tab.Screen 
+      name="NutriStats" 
+      component={Stats}
+      options={{
+        tabBarLabel: ()=> null, 
+        tabBarIcon: ({ color, size }) => (
+          <Ionicons name="stats-chart" size={24} color={color} />
+      ),
+      tabBarActiveTintColor : colors.primary,
+      headerShown: true,
+      headerTitle: 'Nutri Stats',
       headerTitleAlign: 'center',
       headerStyle: {
         backgroundColor: '#000',
