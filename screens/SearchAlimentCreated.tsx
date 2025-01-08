@@ -163,7 +163,7 @@ function SearchAlimentCreated() {
 
             </View>
             <Row style={[styles.wrapperFood]}>
-            <Skeleton colorMode={colorMode} width={'100%'} height={80}>
+            
                         {isLoading ?
                         
                     <FlatList<FoodItemCreated>
@@ -184,8 +184,11 @@ function SearchAlimentCreated() {
                         keyExtractor={(item, index) => `${item.id}-${index}`}
                         contentContainerStyle={styles.wrapperFood}
                     />
-                    : null}
-                    </Skeleton>
+                    : <>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={80}></Skeleton>
+                    </>
+                    }
+                    
                     {isLoading && filteredAllDataFoodCreated.length === 0 && (
                         <Text style={{ color: colors.black }}>
                             No food matches with the search {text}.
@@ -216,7 +219,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: -10
+        marginTop: 10
     },
     input: {
         height: 50,

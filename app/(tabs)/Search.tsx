@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: -10
+        marginTop: 10
     },
     input: {
         height: 50,
@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 10,
         paddingBottom: 100,
+        
     },
     wrapperCreate : {
         height: 80,
