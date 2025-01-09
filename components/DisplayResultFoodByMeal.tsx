@@ -29,6 +29,8 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
                 <ThemedText variant="title" color={colors.black}>{meal}</ThemedText>
                     <ThemedText color={colors.black}>{totalCaloriesByMeal + totalCaloriesByMealCreated} Kcal</ThemedText>
             </Row>
+            {isLoading ?
+            <>
             <Row>
             { resultMeal.length !== 0 && (
                 <FlatList<FoodItem>
@@ -52,7 +54,7 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
                 )
                 }
                 </Row>
-                {isLoading ?
+                
                 <Row>
                     { resultMealCreated.length !== 0 && (
                         <FlatList<FoodItemCreated>
@@ -76,14 +78,16 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
                         )
                     }
                 </Row>
-                :
-                    <Skeleton width={'100%'} height={60} colorMode={colorMode}/>
-                }
                 {resultMeal.length === 0 && resultMealCreated.length === 0 && (
                     <Row>
                         <ThemedText color={colors.black}>Don't have any food for {meal}</ThemedText>
                     </Row>
                 )}
+                </>
+                :
+                    <Skeleton width={'100%'} height={60} colorMode={colorMode}/>
+                }
+
         </View>
     )
 }

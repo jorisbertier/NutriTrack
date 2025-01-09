@@ -77,6 +77,26 @@ export default function TabLayout() {
     }} 
     /> */}
     <Tab.Screen 
+      name="NutriStats" 
+      component={Stats}
+      options={{
+        tabBarLabel: ()=> null, 
+        tabBarIcon: ({ color, size }) => (
+          <Ionicons name="stats-chart" size={24} color={color} />
+      ),
+      tabBarActiveTintColor : colors.primary,
+      headerShown: true,
+      headerTitle: 'Nutri Stats',
+      headerTitleAlign: 'center',
+      headerStyle: {
+        backgroundColor: '#000',
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+    }} 
+    />
+    <Tab.Screen 
       name="Profile" 
       component={ProfileScreen}
       options={{
@@ -107,26 +127,6 @@ export default function TabLayout() {
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
       headerTitle: 'Premium',
-      headerTitleAlign: 'center',
-      headerStyle: {
-        backgroundColor: '#000',
-      },
-      headerTitleStyle: {
-        color: 'white',
-      },
-    }} 
-    />
-    <Tab.Screen 
-      name="NutriStats" 
-      component={Stats}
-      options={{
-        tabBarLabel: ()=> null, 
-        tabBarIcon: ({ color, size }) => (
-          <Ionicons name="stats-chart" size={24} color={color} />
-      ),
-      tabBarActiveTintColor : colors.primary,
-      headerShown: true,
-      headerTitle: 'Nutri Stats',
       headerTitleAlign: 'center',
       headerStyle: {
         backgroundColor: '#000',

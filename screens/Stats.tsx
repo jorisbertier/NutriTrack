@@ -7,6 +7,8 @@ import {
     PieChart,
   } from "react-native-chart-kit";
 import { data } from '@/components/Chart/BarChart/constants';
+import Row from "@/components/Row";
+import { ThemedText } from "@/components/ThemedText";
 
 const chartConfig = {
     backgroundGradientFrom: "#1E2923",
@@ -58,9 +60,9 @@ function Stats() {
                 center={[0, 0]}
                 absolute
             /> */}
-                    <View style={{padding: 40}}>
-            <Text>Nutri Weeks calories</Text>
-            </View>
+          <Row style={{marginBottom: 60}}>
+            <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
+          </Row>
             <WeeklyBarChart
                 weeks={data}
                 activeWeekIndex={activeWeekIndex}
