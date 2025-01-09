@@ -214,15 +214,6 @@ useEffect(() => {
             color: colors.whiteFix,}}>Dashboard</Text>
           </Pressable>
           </Row>
-          <Row>
-            <Pressable onPress={() => navigation.navigate('Subscription')}>
-            <Text style={{fontSize: 16,
-            lineHeight: 21,
-            fontWeight: 'bold',
-            letterSpacing: 0.25,
-            color: colors.black,}}>Passer a premium</Text>
-            </Pressable>
-          </Row>
           <Row style={{marginTop: 20, marginBottom: -15}}>
             <ThemedText variant='title' color={colors.black}>Nutri metrics</ThemedText>
           </Row>

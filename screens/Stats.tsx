@@ -1,9 +1,12 @@
 import CalorieBarChart from "@/components/Chart/Polar";
+import { WeeklyBarChart } from "@/components/Chart/BarChart";
 import { useTheme } from "@/hooks/ThemeProvider";
+import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
     PieChart,
   } from "react-native-chart-kit";
+import { data } from '@/components/Chart/BarChart/constants';
 
 const chartConfig = {
     backgroundGradientFrom: "#1E2923",
@@ -17,32 +20,33 @@ const chartConfig = {
 };
 function Stats() {
     const { colors } = useTheme()
-    const data = [
-        {
-            name: "Proteins",
-            population: 102,
-            color: "rgba(131, 167, 234, 1)",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 15
-        },
-        {
-            name: "Fats",
-            population: 30,
-            color: colors.primary,
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 15
-        },
-        {
-            name: "Carbs",
-            population: 200,
-            color: colors.blueLight,
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 15
-        },
-    ];
+    const [activeWeekIndex, setActiveWeekIndex] = useState(0);
+    // const data = [
+    //     {
+    //         name: "Proteins",
+    //         population: 102,
+    //         color: "rgba(131, 167, 234, 1)",
+    //         legendFontColor: "#7F7F7F",
+    //         legendFontSize: 15
+    //     },
+    //     {
+    //         name: "Fats",
+    //         population: 30,
+    //         color: colors.primary,
+    //         legendFontColor: "#7F7F7F",
+    //         legendFontSize: 15
+    //     },
+    //     {
+    //         name: "Carbs",
+    //         population: 200,
+    //         color: colors.blueLight,
+    //         legendFontColor: "#7F7F7F",
+    //         legendFontSize: 15
+    //     },
+    // ];
     return (
         <View style={styles.container}>
-            <CalorieBarChart/>
+            {/* <CalorieBarChart/>
             <PieChart
                 data={data}
                 width={300}
@@ -53,6 +57,11 @@ function Stats() {
                 paddingLeft={"15"}
                 center={[0, 0]}
                 absolute
+            /> */}
+            <WeeklyBarChart
+                weeks={data}
+                activeWeekIndex={activeWeekIndex}
+                onWeekChange={setActiveWeekIndex}
             />
         </View>
     )
@@ -63,7 +72,8 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: 'black'
     }
 })
 

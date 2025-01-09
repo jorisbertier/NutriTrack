@@ -54,16 +54,16 @@ const Subscription = () => {
                     onPress={() => setSelectedPlan('Annual')}
                 >
                     <View style={styles.labelContainer}>
-                        <Text style={styles.label}>33% Savings</Text>
+                        <Text style={styles.label}>37% Savings</Text>
                     </View>
                     <View style={styles.content}>
                     <View>
                         <Text style={styles.duration}>Annual</Text>
                         <Text style={styles.price}>
-                        <Text style={styles.strikeThrough}>29,88 €</Text> 19,99 €
+                        <Text style={styles.strikeThrough}>23,88 €</Text> 14,99 €
                         </Text>
                     </View>
-                    <Text style={styles.monthlyPrice}>19,99 €/year</Text>
+                    <Text style={styles.monthlyPrice}>14,99 €/year</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -79,7 +79,7 @@ const Subscription = () => {
                         <Text style={styles.duration}>Monthly</Text>
                         {/* <Text style={styles.price}>23,99 €</Text> */}
                     </View>
-                    <Text style={styles.monthlyPrice}>2,49 €/month</Text>
+                    <Text style={styles.monthlyPrice}>1,99 €/month</Text>
                     </View>
                 </TouchableOpacity>
 
