@@ -1,27 +1,22 @@
 import { format } from 'date-fns';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { ScrollView,StyleSheet,Text,useWindowDimensions,View } from 'react-native';
 
 import { SingleBarChart, type Day } from './SingleBarCharts';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 type Week = Day[];
 
 type WeeklyBarChartProps = {
-  weeks: Week[];
-  activeWeekIndex: number;
-  onWeekChange: (index: number) => void;
+    weeks: Week[];
+    activeWeekIndex: number;
+    onWeekChange: (index: number) => void;
 };
 
 export const WeeklyBarChart = ({weeks,activeWeekIndex,onWeekChange,}: WeeklyBarChartProps) => {
 
     const { width: windowWidth } = useWindowDimensions();
     const activeWeek = weeks[activeWeekIndex];
-    console.log(activeWeek)
+    const { colors } = useTheme()
 
     const BarChartWidth = windowWidth * 0.8;
     const BarChartGap = 10;
@@ -31,10 +26,8 @@ export const WeeklyBarChart = ({weeks,activeWeekIndex,onWeekChange,}: WeeklyBarC
 
     return (
         <View
-        style={{
-            height: ScrollViewHeight + MaxBarHeight,
-            width: windowWidth,
-        }}>
+        style={{height: ScrollViewHeight + MaxBarHeight, width: windowWidth}}>
+
         <View
             style={{
                 height: MaxBarHeight,
@@ -78,7 +71,7 @@ export const WeeklyBarChart = ({weeks,activeWeekIndex,onWeekChange,}: WeeklyBarC
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                <Text style={styles.label}>
+                <Text style={[styles.label, {color: colors.black}]}>
                     Week of {format(week[0].day, 'd MMMM')}
                 </Text>
                 </View>
@@ -91,8 +84,8 @@ export const WeeklyBarChart = ({weeks,activeWeekIndex,onWeekChange,}: WeeklyBarC
 
 const styles = StyleSheet.create({
     label: {
-        color: 'white',
         fontSize: 14,
         fontFamily: 'FiraCode-Regular',
+        
     },
 });

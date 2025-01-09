@@ -5,6 +5,7 @@
 export const Colors = {
   dark: {
       primary : '#8592F2',
+      primaryChart : '#fff',
       primaryLoading : '#111419',
       blue: '#a1a1d7',
       blueLight: '#D6E4FD',
@@ -23,6 +24,7 @@ export const Colors = {
   },
   light: {
       primary : '#8592F2',
+      primaryChart : '#8592F2',
       primaryLoading : '#8592F2',
       blue: '#8592F2',
       blueLight: '#D6E4FD',

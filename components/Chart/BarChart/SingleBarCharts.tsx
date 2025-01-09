@@ -1,21 +1,24 @@
+import { useTheme } from '@/hooks/ThemeProvider';
 import { format } from 'date-fns';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, {useAnimatedStyle,withTiming} from 'react-native-reanimated';
 
 export type Day = {
-        day: Date;
-        value: number; // 0 - 1
-    };
+    day: Date;
+    value: number; // 0 - 1
+};
 
-    type SingleBarChartProps = {
-        maxHeight: number;
-        width: number;
-        day: Day;
-    };
+type SingleBarChartProps = {
+    maxHeight: number;
+    width: number;
+    day: Day;
+};
 
-    export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps) => {
+export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps) => {
 
-        const normalizedValue = Math.min(day.value / 3000, 1);
+    const normalizedValue = Math.min(day.value / 3000, 1);
+    const { colors } = useTheme()
+
     const rStyle = useAnimatedStyle(() => {
         return {
         height: withTiming(maxHeight * normalizedValue),
@@ -25,12 +28,12 @@ export type Day = {
 
     return (
         <View>
-            <Text style={styles.valueText}>{(day.value).toFixed(0)}</Text>
+            <Text style={[styles.valueText, { color: colors.black}]}>{(day.value).toFixed(0)}</Text>
         <Animated.View
             style={[
             {
                 width: width,
-                backgroundColor: 'white',
+                backgroundColor: colors.primaryChart,
                 borderRadius: 15,
                 borderCurve: 'continuous',
             },
@@ -43,7 +46,7 @@ export type Day = {
             textAlign: 'center',
             fontSize: 12,
             marginTop: 5,
-            color: 'white',
+            color: colors.black,
             fontFamily: 'FiraCode-Regular',
             textTransform: 'lowercase',
             }}
@@ -61,18 +64,17 @@ const styles = StyleSheet.create({
     },
     valueText: {
         fontSize: 10,
-        color: 'white',
         fontFamily: 'FiraCode-Regular',
-        paddingLeft: 10,
+        textAlign: 'center',
         position: 'absolute',
-        top: -20
+        top: -20,
+        width: 40,
     },
     dayLabel: {
         width: '100%',
         textAlign: 'center',
         fontSize: 12,
         marginTop: 5,
-        color: 'white',
         fontFamily: 'FiraCode-Regular',
         textTransform: 'lowercase',
     },

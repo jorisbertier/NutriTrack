@@ -2,7 +2,7 @@ import CalorieBarChart from "@/components/Chart/Polar";
 import { WeeklyBarChart } from "@/components/Chart/BarChart";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
     PieChart,
   } from "react-native-chart-kit";
@@ -45,7 +45,7 @@ function Stats() {
     //     },
     // ];
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: colors.white}]}>
             {/* <CalorieBarChart/>
             <PieChart
                 data={data}
@@ -58,6 +58,9 @@ function Stats() {
                 center={[0, 0]}
                 absolute
             /> */}
+                    <View style={{padding: 40}}>
+            <Text>Nutri Weeks calories</Text>
+            </View>
             <WeeklyBarChart
                 weeks={data}
                 activeWeekIndex={activeWeekIndex}
@@ -73,7 +76,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'black'
     }
 })
 
