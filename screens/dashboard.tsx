@@ -441,7 +441,7 @@ export default function Dashboard() {
     };
 
     async function handleTotalKcalConsumeToday() {
-        const today = selectedDate.toLocaleDateString().replace(/\//g, "-");
+        const today = selectedDate.toLocaleDateString('fr-CA');
         console.log('date,', today)
         const userId = userData[0].id;
         if (!userId) {

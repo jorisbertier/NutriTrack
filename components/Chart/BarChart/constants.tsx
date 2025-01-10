@@ -23,8 +23,8 @@ export const mockData = [
   { day: '2025-01-08', value: 2000 },
   { day: '2025-01-09', value: 1800 },
   { day: '2025-01-10', value: 0 },
-  { day: '2025-01-11', value: 3000 },
-  { day: '2025-01-12', value: 2200 },
+  // { day: '2025-01-11', value: 3000 },
+  // { day: '2025-01-12', value: 2200 },
 ];
 
 const mondayFromThreeWeeksAgo = startOfWeek(
