@@ -9,7 +9,7 @@ import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
 import { fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, getVitaminPercentageMg, getVitaminPercentageUg, addExperience } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
-import { collection, getDocs, doc, deleteDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
 import { User } from "@/interface/User";
 import NutritionList from "@/components/Screens/Dashboard/NutritionList";
@@ -146,11 +146,12 @@ export default function Dashboard() {
         } catch (e) {
             console.log('Error processing data', e);
             setIsLoading(false);
-        }finally {
-            setTimeout(() => {
-                
-            }, 1500)
         }
+        // finally {
+        //     setTimeout(() => {
+                
+        //     }, 1500)
+        // }
     }, []);
 
     useEffect(() => {
@@ -186,6 +187,7 @@ export default function Dashboard() {
                 setResultLunchCreated(resultLunchCreated)
                 setResultDinnerCreated(resultDinnerCreated)
                 setResultSnackCreated(resultSnackCreated)
+                handleTotalKcalConsumeToday()
         //     } catch (error) {
         //         console.log("Error getting data user food created")
         //     }
@@ -253,6 +255,7 @@ export default function Dashboard() {
                     await deleteDoc(mealDocRef);
                     setAllUsersFoodData(prevData => prevData.filter(item => item.id !== userMealId));
                     // setUpdate(update + 1)
+                    
                     console.log('Document deleted Succefuly');
                 } catch (error) {
                     console.error("Error when deleting the document : ", error);
@@ -271,8 +274,12 @@ export default function Dashboard() {
                 try {
                     const mealDocRef = doc(firestore, "UserMealsCreated", userMealId);
                     await deleteDoc(mealDocRef);
+
                     setAllFoodDataCreated(prevData => prevData.filter(item => item.id !== userMealId));
                     console.log('Document deleting Succesfuly');
+
+                    // await handleTotalKcalConsumeToday()
+                    // console.log('Calories updated successfully after deletion')
                 } catch (error) {
                     console.error("Error when deleting the documentt : ", error);
                 }
@@ -384,10 +391,6 @@ export default function Dashboard() {
     
     const dispatch = useDispatch()
     const handleXPUpdate = async () => {
-        // if (!totalKcalConsumeToday || !basalMetabolicRate) {
-        //     alert("Les valeurs de consommation de calories et de métabolisme de base doivent être définies.");
-        //     return;
-        // }
 
         // Checks if XP can be added based on calories consumed
         if (totalKcalConsumeToday >= basalMetabolicRate && selectedDate.toLocaleDateString() === date.toLocaleDateString()) {
@@ -437,12 +440,38 @@ export default function Dashboard() {
         }
     };
 
+    async function handleTotalKcalConsumeToday() {
+        const today = selectedDate.toLocaleDateString().replace(/\//g, "-");
+        console.log('date,', today)
+        const userId = userData[0].id;
+        if (!userId) {
+            console.error("User ID is undefined");
+            return;
+        }
+        
+        try {
+            console.log("Calories consommées aujourd'hui :", totalKcalConsumeToday);
+            const userDocRef = doc(firestore, "User", userId);
+            
+            await updateDoc(userDocRef, {
+                [`consumeByDays.${today}`]: totalKcalConsumeToday,
+            });
+            console.log("Data successfully sent to Firestore");
+        } catch (err) {
+            console.error("Error posting totalKcalConsumeToday:", err);
+        }
+    }
     // Surveillance de l'état de la consommation de calories et du métabolisme de base
     useEffect(() => {
         // Exécuter la fonction handleXPUpdate dès que ces valeurs sont disponibles
         if (totalKcalConsumeToday > 0 && basalMetabolicRate > 0) {
             handleXPUpdate();
         }
+        const fetch = async () => {
+            await handleTotalKcalConsumeToday()
+            console.log('mise a jour')
+        }
+        fetch()
     }, [totalKcalConsumeToday, basalMetabolicRate]); 
     
     return (
