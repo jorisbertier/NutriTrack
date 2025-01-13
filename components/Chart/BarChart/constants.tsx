@@ -28,11 +28,13 @@ export const mockData = [
 ];
 
 const mondayFromThreeWeeksAgo = startOfWeek(
-  new Date().getTime() - 86400000 * 14, // Subtract 14 days (2 weeks) in milliseconds from the current date
+  new Date(new Date().getTime() - 86400000 * 14), // Passer un objet Date ici
   {
-    weekStartsOn: 1, // Set the week to start on Monday (1)
+    weekStartsOn: 1, // 1 signifie que la semaine commence le lundi
   }
 );
+
+
 export const data = new Array(3).fill(null).map((_, weekIndex) => {
   return new Array(7).fill(null).map((__, dayIndex) => {
     // Calcul de la date pour chaque jour dans la grille
@@ -60,6 +62,31 @@ export const data = new Array(3).fill(null).map((_, weekIndex) => {
     };
   });
 });
+
+export const getDataConsumeByDays = (dataConsumeByDays: any) => {
+  return new Array(3).fill(null).map((_, weekIndex) => {
+    return new Array(7).fill(null).map((__, dayIndex) => {
+      
+      const day = new Date(
+        Date.UTC(
+          mondayFromThreeWeeksAgo.getUTCFullYear(),
+          mondayFromThreeWeeksAgo.getUTCMonth(),
+          mondayFromThreeWeeksAgo.getUTCDate()
+        ) + 86400000 * (weekIndex * 7 + dayIndex)
+      );
+      // Forcer le format ISO en UTC
+      const formattedDay = day.toISOString();
+      
+      const matchingData = dataConsumeByDays.find(item => 
+        new Date(item.day).toISOString() === formattedDay
+      );
+
+      const value = matchingData ? matchingData.value : 0;
+
+      return { day: formattedDay, value };
+    });
+  });
+};
 // Generate data for a 3x7 grid (3 weeks, 7 days each)
 // export const data = new Array(3).fill(null).map((_, weekIndex) => {
 //   return new Array(7).fill(null).map((__, dayIndex) => {

@@ -12,4 +12,5 @@ export interface User {
     xp: number;
     level: number;
     xpLogs?: any;
+    consumeByDays?: any;
 }

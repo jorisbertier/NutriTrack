@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, parseISO, startOfWeek } from 'date-fns';
 import { ScrollView,StyleSheet,Text,useWindowDimensions,View } from 'react-native';
 
 import { SingleBarChart, type Day } from './SingleBarCharts';
@@ -12,7 +12,7 @@ type WeeklyBarChartProps = {
     onWeekChange: (index: number) => void;
 };
 
-export const WeeklyBarChart = ({weeks,activeWeekIndex,onWeekChange,}: WeeklyBarChartProps) => {
+export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: WeeklyBarChartProps) => {
 
     const { width: windowWidth } = useWindowDimensions();
     const activeWeek = weeks[activeWeekIndex];
@@ -23,6 +23,12 @@ export const WeeklyBarChart = ({weeks,activeWeekIndex,onWeekChange,}: WeeklyBarC
     const BarWidth = (BarChartWidth - BarChartGap * (activeWeek.length - 1)) / activeWeek.length;
     const MaxBarHeight = 150;
     const ScrollViewHeight = 60;
+
+    const getDaynumber = (date: string) => {
+        const parsedDate = new Date(date);
+        const day = parsedDate.getUTCDate();
+        return day;
+    };
 
     return (
         <View
@@ -64,15 +70,15 @@ export const WeeklyBarChart = ({weeks,activeWeekIndex,onWeekChange,}: WeeklyBarC
             {weeks.map((week, index) => {
             return (
                 <View
-                key={index}
-                style={{
-                    height: ScrollViewHeight,
-                    width: windowWidth,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    key={index}
+                    style={{
+                        height: ScrollViewHeight,
+                        width: windowWidth,
+                        justifyContent: 'center',
+                        alignItems: 'center',
                 }}>
                 <Text style={[styles.label, {color: colors.black}]}>
-                    Week of {format(week[0].day, 'd MMMM')}
+                    Week of {getDaynumber(week[0].day)}
                 </Text>
                 </View>
             );

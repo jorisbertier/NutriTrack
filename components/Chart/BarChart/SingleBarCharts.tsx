@@ -26,6 +26,11 @@ export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps)
         };
     }, [normalizedValue, maxHeight]);
 
+    const getDayInitial = (date: Date) => {
+        const weekdays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']; // S=Sunday, M=Monday, ...
+        const dayIndex = new Date(date).getDay(); // Get the day of the week (0-6)
+        return weekdays[dayIndex];
+    };
     return (
         <View>
             <Text style={[styles.valueText, { color: colors.black}]}>{(day.value).toFixed(0)}</Text>
@@ -51,7 +56,7 @@ export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps)
             textTransform: 'lowercase',
             }}
         >
-            {format(day.day, 'eeeeee')}
+            {getDayInitial(day.day)}
         </Text>
         </View>
     );
