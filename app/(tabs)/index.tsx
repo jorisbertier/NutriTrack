@@ -283,7 +283,7 @@ useEffect(() => {
                 </View>
               </Modal>
             </View>
-            <StopWatch selectedChallenge ={selectedChallenge}/>
+            <StopWatch selectedChallenge ={selectedChallenge} email={userData[0]?.email}/>
           </ScrollView>
       </SafeAreaView>
     </>

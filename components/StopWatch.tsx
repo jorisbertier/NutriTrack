@@ -4,16 +4,30 @@ import Row from './Row';
 import { ThemedText } from './ThemedText';
 import { useTheme } from '@/hooks/ThemeProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getAuth } from 'firebase/auth';
 
-export default function StopWatch({selectedChallenge }: any) {
+export default function StopWatch({selectedChallenge, email }: any) {
 
         const [time, setTime] = useState(0);
         const [running, setRunning] = useState(false);
         const intervalRef = useRef(null);
         const startTimeRef = useRef(0);
         const {colors} = useTheme();
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const uid = user?.uid;
+        console.log('user', uid)
+        
+        const STORAGE_KEY = `StopWatch_State${uid}`;
 
-        const STORAGE_KEY = 'StopWatch_State';
+        // useEffect(() => {
+        //     if(email) {
+        //         console.log('Email:', email);
+        //         // console.log('Selected Challenge ID:', selectedChallenge?.id);
+        //         console.log('Generated Storage Key:', STORAGE_KEY);
+
+        //     }
+        // }, [email, selectedChallenge])
 
         const formatedTime = (seconds: number) => {
             const months = Math.floor(seconds / (30 * 24 * 3600));
@@ -30,6 +44,7 @@ export default function StopWatch({selectedChallenge }: any) {
                     time,
                     running,
                     lastStart: running ? Date.now() : null, // Save timestamp if running
+                    uid,
             };
             await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             } catch (error) {
@@ -39,8 +54,16 @@ export default function StopWatch({selectedChallenge }: any) {
         const loadState = async () => {
             try {
             const savedState = await AsyncStorage.getItem(STORAGE_KEY);
+            // console.log('savedstate', savedState)
+            // console.log('storagekey', STORAGE_KEY)
             if (savedState) {
-                const { time: savedTime, running: wasRunning, lastStart } = JSON.parse(savedState);
+                const { time: savedTime, running: wasRunning, lastStart, uid: savedUid} = JSON.parse(savedState);
+
+                if (savedUid !== uid) {
+                    console.warn('Uid mismatch. State will not be loaded.');
+                    return;
+                }
+
                 if (wasRunning) {
                     const elapsed = Math.floor((Date.now() - lastStart) / 1000);
                     setTime(savedTime + elapsed);
