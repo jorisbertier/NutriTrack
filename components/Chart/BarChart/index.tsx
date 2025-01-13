@@ -24,10 +24,19 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     const MaxBarHeight = 150;
     const ScrollViewHeight = 60;
 
+    const monthsEn = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    
+
     const getDaynumber = (date: string) => {
         const parsedDate = new Date(date);
         const day = parsedDate.getUTCDate();
-        return day;
+        const month = parsedDate.getUTCMonth();
+        const year = parsedDate.getUTCFullYear();
+        const formattedDate = `${day} ${monthsEn[month]} ${year}`;
+        return formattedDate;
     };
 
     return (
