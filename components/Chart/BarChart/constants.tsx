@@ -53,7 +53,7 @@ export const data = new Array(3).fill(null).map((_, weekIndex) => {
 
     // Si une valeur existe dans le mock, l'utiliser, sinon mettre 0 par défaut
     const value = matchingMock ? matchingMock.value : 0;
-    console.log(value)
+    // console.log(value)
 
     // Retourner l'objet contenant la date et la valeur
     return {

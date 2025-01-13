@@ -10,6 +10,7 @@ interface UserState {
     name: string | null;
     xp: number | null,
     level?: number | null,
+    consumeByDays?: any,
     [key: string]: any;
   } | null;
   status: 'idle' | 'loading' | 'failed';
@@ -26,16 +27,34 @@ const userSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<UserState['user']>) {
       state.user = action.payload;
+      
     },
     clearUser(state) {
       state.user = null;
     },
     updateUserXp(state, action: PayloadAction<{ xp: number; level: number }>) {
+      
       if (state.user) {
         state.user.xp = action.payload.xp;
         state.user.level = action.payload.level;
       }
     },
+    updateUserCaloriesByDay(state, action: PayloadAction<{consumeByDays: any}>) {
+      console
+      if(state.user) {
+        const updatedConsumeByDays = {
+          ...state.user.consumeByDays,
+          ...action.payload.consumeByDays,
+      };
+
+        state.user.consumeByDays = updatedConsumeByDays;
+        console.log("Anciennes données de consumeByDays:", state.user.consumeByDays);
+        console.log("Nouvelles données de consumeByDays:", action.payload.consumeByDays);
+        console.log("Données mises à jour de consumeByDays:", updatedConsumeByDays);
+
+        state.user.consumeByDays = updatedConsumeByDays;
+      }
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserData.fulfilled, (state, action) => {
@@ -61,6 +80,7 @@ export const fetchUserData = createAsyncThunk('user/fetchUserData', async (email
     email: doc.data().email,
     name: doc.data().name,
     xp: doc.data().xp,
+    consumeByDays: doc.data().consumeByDays,
     ...doc.data(),
   }));
 
@@ -68,6 +88,6 @@ export const fetchUserData = createAsyncThunk('user/fetchUserData', async (email
 });
 
 
-export const { setUser, clearUser, updateUserXp  } = userSlice.actions;
+export const { setUser, clearUser, updateUserXp, updateUserCaloriesByDay } = userSlice.actions;
 
 export default userSlice.reducer;

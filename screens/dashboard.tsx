@@ -22,7 +22,7 @@ import { colorMode } from "@/constants/Colors";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch } from 'react-redux';
-import { updateUserXp } from "@/redux/userSlice";
+import { updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
 
 
 export default function Dashboard() {
@@ -412,7 +412,7 @@ export default function Dashboard() {
                         const updatedUserSnapshot = await getDoc(updatedUserDoc);
                         const updatedUserData = updatedUserSnapshot.data();
     
-                        console.log('first xp', userData[0].xp)
+                        // console.log('first xp', userData[0].xp)
                         // Met à jour Redux
                         if (updatedUserData) {
                             dispatch(updateUserXp({
@@ -442,7 +442,7 @@ export default function Dashboard() {
 
     async function handleTotalKcalConsumeToday() {
         const today = selectedDate.toLocaleDateString('fr-CA');
-        console.log('date,', today)
+        // console.log('date,', today)
         const userId = userData[0].id;
         if (!userId) {
             console.error("User ID is undefined");
@@ -450,12 +450,17 @@ export default function Dashboard() {
         }
         
         try {
-            console.log("Calories consommées aujourd'hui :", totalKcalConsumeToday);
+            // console.log("Calories consommées aujourd'hui :", totalKcalConsumeToday);
             const userDocRef = doc(firestore, "User", userId);
             
             await updateDoc(userDocRef, {
                 [`consumeByDays.${today}`]: totalKcalConsumeToday,
             });
+            dispatch(updateUserCaloriesByDay({
+                consumeByDays: {
+                    [today]: totalKcalConsumeToday, // Ajout des nouvelles données pour aujourd'hui
+                }
+            }))
             console.log("Data successfully sent to Firestore");
         } catch (err) {
             console.error("Error posting totalKcalConsumeToday:", err);

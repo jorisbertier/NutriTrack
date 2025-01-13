@@ -9,6 +9,8 @@ import { fetchUserDataConnected } from "@/functions/function";
 import { User } from "@/interface/User";
 import { getAuth } from "firebase/auth";
 import { parseISO, startOfWeek } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 function Stats() {
     const { colors } = useTheme()
@@ -16,7 +18,16 @@ function Stats() {
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
     const user = auth.currentUser;
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
+
+    const userRedux = useSelector((state: RootState) => state.user.user)
+    console.log('user redux', userRedux)
+    
+    // useEffect(() => {
+    //     if (userRedux) {
+    //         console.log("ConsumeByDays from :", userRedux.consumeByDays);
+    //     }
+    // }, [userRedux]);
 
     const [activeWeekIndex, setActiveWeekIndex] = useState(0);
 
@@ -39,23 +50,34 @@ function Stats() {
     }
 
     
-    if (userData.length > 0 && userData[0]?.consumeByDays) {
+    if (userRedux) {
         const normalizeDate = (date) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
     
-        dataConsumeByDays = Object.keys(userData[0].consumeByDays).map(date => ({
-            day: normalizeDate(date),
-            value: userData[0]?.consumeByDays[date],
+        dataConsumeByDays = Object.entries(userRedux.consumeByDays).map(([day, value]) => ({
+            day: normalizeDate(day),
+            value,
         }));
     
         console.log('Données normalisées (dataConsumeByDays):', dataConsumeByDays);
     } else {
         console.error("consumeByDays est undefined ou n'est pas un objet valide");
     }
+    // if (userData.length > 0 && userData[0]?.consumeByDays) {
+    //     const normalizeDate = (date) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
+    
+    //     dataConsumeByDays = Object.keys(userData[0].consumeByDays).map(date => ({
+    //         day: normalizeDate(date),
+    //         value: userData[0]?.consumeByDays[date],
+    //     }));
+    
+    //     // console.log('Données normalisées (dataConsumeByDays):', dataConsumeByDays);
+    // } else {
+    //     console.error("consumeByDays est undefined ou n'est pas un objet valide");
+    // }
 
     
     const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
     const data2 = getDataConsumeByDays(sortedData)
-    // console.log('data2', data2)
 
     const adjustWeeksToStartOnMonday = (weeks: any[]) => {
         return weeks.map((week) => {
@@ -83,18 +105,6 @@ function Stats() {
     
     return (
         <View style={[styles.container, { backgroundColor: colors.white}]}>
-            {/* <CalorieBarChart/>
-            <PieChart
-                data={data}
-                width={300}
-                height={220}
-                chartConfig={chartConfig}
-                accessor={"population"}
-                backgroundColor={"transparent"}
-                paddingLeft={"15"}
-                center={[0, 0]}
-                absolute
-            /> */}
             <Row style={{marginBottom: 60}}>
                 <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
             </Row>
