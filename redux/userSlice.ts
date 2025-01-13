@@ -40,17 +40,12 @@ const userSlice = createSlice({
       }
     },
     updateUserCaloriesByDay(state, action: PayloadAction<{consumeByDays: any}>) {
-      console
+
       if(state.user) {
         const updatedConsumeByDays = {
           ...state.user.consumeByDays,
           ...action.payload.consumeByDays,
       };
-
-        state.user.consumeByDays = updatedConsumeByDays;
-        console.log("Anciennes données de consumeByDays:", state.user.consumeByDays);
-        console.log("Nouvelles données de consumeByDays:", action.payload.consumeByDays);
-        console.log("Données mises à jour de consumeByDays:", updatedConsumeByDays);
 
         state.user.consumeByDays = updatedConsumeByDays;
       }
