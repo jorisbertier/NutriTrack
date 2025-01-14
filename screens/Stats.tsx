@@ -85,10 +85,13 @@ function Stats() {
     const totalProteins =(Object.values(userData[0].proteinsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalCarbs = (Object.values(userData[0].carbsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalFats = (Object.values(userData[0].fatsTotal).reduce((a,b) =>  a = a + b , 0 ));
+
+    const totalMacronutrients = Number(totalProteins) + Number(totalCarbs) + Number(totalFats)
+
     const pieData = [
-        { value: totalProteins, color: "#98CDFC" },
-        { value: totalCarbs, color: "#57D1E3" },
-        { value: totalFats, color: "#5F6A88" },
+        { value: totalProteins, color: "#98CDFC", macro: 'proteins' },
+        { value: totalCarbs, color: "#57D1E3" , macro: 'carbohydrates'},
+        { value: totalFats, color: "#5F6A88" , macro: 'fats'},
         // { value: 10, color: "#93A0FF" },
         // { value: 25, color: "#95D3BE" },
     ];
@@ -113,6 +116,7 @@ function Stats() {
                 endAngle={2 * Math.PI}
                 cx={150}
                 cy={150}
+                totalMacronutrients={totalMacronutrients}
             />
         </View>
     )

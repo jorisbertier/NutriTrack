@@ -9,7 +9,9 @@ import { Event } from "@react-native-community/datetimepicker";
 interface PieData {
   value: string;
   color: string;
+  macro: string;
 }
+
 const CustomPie = ({
   data,
   innerRadius = 30,
@@ -20,10 +22,12 @@ const CustomPie = ({
   endAngle = 2 * Math.PI,
   cx = 150,
   cy = 150,
+  totalMacronutrients,
   }) => {
   // Générateur de "pie"
   const { colors } = useTheme();
-  const [ value, setValue] = useState('')
+  const [ macro, setMacro] = useState('')
+  const [ percent, setPercent] = useState(0)
   const [ color, setColor] = useState('')
   const [position, setPosition] = useState({ x: 0, y: 0 }); 
   const [ dataVisible, setDataVisible] = useState(false)
@@ -46,12 +50,19 @@ const CustomPie = ({
   const arcs = pieGenerator(data);
 
   const handleData = (data: PieData, event: Event) => {
-    setValue(data.value)
+    setMacro(data.macro)
     setColor(data.color)
-    console.log(data)
+    setDataVisible(true)
+
+    getPorcentageSlicePie(Number(data.value), totalMacronutrients)
 
     const { locationX, locationY } = event.nativeEvent;
     setPosition({ x: locationX, y: locationY });
+  }
+
+  const getPorcentageSlicePie = (value: number, total: number) => {
+    const percent = Math.round((value / total) * 100)
+    setPercent(percent)
   }
 
   return (
@@ -69,13 +80,15 @@ const CustomPie = ({
           ))}
         </G>
       </Svg>
-      <View style={[styles.notification, {top: position.y - 50, left: position.x - 75,}]}>
-        <View style={[styles.wrapperNotification, {backgroundColor: "#000", opacity: 0.8}]}>
-          <View style={[styles.circle, {backgroundColor: color}]}></View>
-          <Text style={[styles.notificationText, {color: colors.grayDark}]}>Proteins</Text>
-          <Text style={[styles.notificationText, {color: colors.grayDark}]}>{value} %</Text>
-          </View>
-      </View>
+      {dataVisible &&
+        <View style={[styles.notification, {top: position.y - 50, left: position.x - 75,}]}>
+          <View style={[styles.wrapperNotification, {backgroundColor: "#000", opacity: 0.8}]}>
+            <View style={[styles.circle, {backgroundColor: color}]}></View>
+            <Text style={[styles.notificationText, {color: colors.grayDark}]}>{macro}</Text>
+            <Text style={[styles.notificationText, {color: colors.grayDark}]}>{percent} %</Text>
+            </View>
+        </View>
+      }
     </View>
   );
 };
