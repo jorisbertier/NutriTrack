@@ -85,7 +85,7 @@ const CustomPie = ({
         </G>
       </Svg>
       {dataVisible &&
-        <View style={[styles.modal, {top: position.y - 50, left: position.x - 75,}]}>
+        <View style={[styles.modal, {top: position.y - 50, left: position.x - 40,}]}>
           <View style={[styles.wrapperNotification, {backgroundColor: "#000", opacity: 0.8}]}>
             <View style={[styles.circle, {backgroundColor: color}]}></View>
             <Text style={[styles.notificationText, {color: colors.grayDark}]}>{macro}</Text>
