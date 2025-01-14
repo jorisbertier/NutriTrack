@@ -11,6 +11,8 @@ import { getAuth } from "firebase/auth";
 import { parseISO, startOfWeek } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import CustomPie from "@/components/Chart/Pie/CustomPie";
+
 
 function Stats() {
     const { colors } = useTheme()
@@ -21,13 +23,6 @@ function Stats() {
     const [isLoading, setIsLoading] = useState(true);
 
     const userRedux = useSelector((state: RootState) => state.user.user)
-    console.log('user redux', userRedux)
-    
-    // useEffect(() => {
-    //     if (userRedux) {
-    //         console.log("ConsumeByDays from :", userRedux.consumeByDays);
-    //     }
-    // }, [userRedux]);
 
     const [activeWeekIndex, setActiveWeekIndex] = useState(0);
 
@@ -62,19 +57,6 @@ function Stats() {
     } else {
         console.error("consumeByDays est undefined ou n'est pas un objet valide");
     }
-    // if (userData.length > 0 && userData[0]?.consumeByDays) {
-    //     const normalizeDate = (date) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
-    
-    //     dataConsumeByDays = Object.keys(userData[0].consumeByDays).map(date => ({
-    //         day: normalizeDate(date),
-    //         value: userData[0]?.consumeByDays[date],
-    //     }));
-    
-    //     // console.log('Données normalisées (dataConsumeByDays):', dataConsumeByDays);
-    // } else {
-    //     console.error("consumeByDays est undefined ou n'est pas un objet valide");
-    // }
-
     
     const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
     const data2 = getDataConsumeByDays(sortedData)
@@ -103,6 +85,14 @@ function Stats() {
     };
     const adjustedData2 = adjustWeeksToStartOnMonday(data2);
     
+    const pieData = [
+        { value: 1000, color: "#98CDFC" },
+        { value: 1300, color: "#57D1E3" },
+        { value: 500, color: "#5F6A88" },
+        // { value: 10, color: "#93A0FF" },
+        // { value: 25, color: "#95D3BE" },
+    ];
+    
     return (
         <View style={[styles.container, { backgroundColor: colors.white}]}>
             <Row style={{marginBottom: 60}}>
@@ -112,6 +102,17 @@ function Stats() {
                 weeks={adjustedData2}
                 activeWeekIndex={activeWeekIndex}
                 onWeekChange={setActiveWeekIndex}
+            />
+            <CustomPie
+                data={pieData}
+                innerRadius={20}
+                outerRadius={100}
+                paddingAngle={0.05}
+                cornerRadius={10}
+                startAngle={0}
+                endAngle={2 * Math.PI}
+                cx={150}
+                cy={150}
             />
         </View>
     )
