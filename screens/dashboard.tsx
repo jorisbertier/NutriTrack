@@ -455,11 +455,15 @@ export default function Dashboard() {
             await updateDoc(userDocRef, {
                 [`consumeByDays.${today}`]: totalKcalConsumeToday,
             });
+
+            console.log("Dispatching update with data:", today, totalKcalConsumeToday);
             dispatch(updateUserCaloriesByDay({
                 consumeByDays: {
                     [today]: totalKcalConsumeToday, // Ajout des nouvelles données pour aujourd'hui
                 }
             }))
+            console.log("Data successfully sent to Firestore");
+            console.log("Dispatch finished for today:", today, totalKcalConsumeToday);
             console.log("Data successfully sent to Firestore");
         } catch (err) {
             console.error("Error posting totalKcalConsumeToday:", err);
@@ -476,7 +480,7 @@ export default function Dashboard() {
             console.log('Update')
         }
         fetch()
-    }, [totalKcalConsumeToday, basalMetabolicRate]); 
+    }, [totalKcalConsumeToday, basalMetabolicRate, selectedDate]); 
     
     async function handleMacronutrients() {
 

@@ -25,9 +25,10 @@ function Stats() {
     const [isLoading, setIsLoading] = useState(true);
 
     const userRedux = useSelector((state: RootState) => state.user.user)
-    console.log('userdata',userData[0]?.proteinsTotal)
-    console.log('userReduc', userRedux?.proteinsTotal)
-    console.log('userReduc', userRedux?.carbsTotal)
+    // console.log('userdata',userData[0]?.proteinsTotal)
+    // console.log('userReduc', userRedux?.proteinsTotal)
+    // console.log('userReduc', userRedux?.carbsTotal)
+    // console.log('userRedux', userRedux?.consumeByDays)
     const [activeWeekIndex, setActiveWeekIndex] = useState(0);
 
     useEffect(() => {
@@ -65,7 +66,7 @@ function Stats() {
     
     if (userRedux) {
         const normalizeDate = (date) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
-        dataConsumeByDays = Object.entries(userRedux.consumeByDays).map(([day, value]) => ({
+        dataConsumeByDays = Object.entries(userRedux?.consumeByDays).map(([day, value]) => ({
             day: normalizeDate(day),
             value,
         }));
@@ -75,6 +76,7 @@ function Stats() {
     
     const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
     const data2 = getDataConsumeByDays(sortedData)
+    console.log(data2)
 
     const adjustWeeksToStartOnMonday = (weeks: any[]) => {
         return weeks.map((week) => {
@@ -99,6 +101,7 @@ function Stats() {
         });
     };
     const adjustedData2 = adjustWeeksToStartOnMonday(data2);
+    // console.log('adju', adjustedData2)
     
     const totalProteins =(Object.values(userRedux?.proteinsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalCarbs = (Object.values(userRedux?.carbsTotal).reduce((a,b) =>  a = a + b , 0 ));
@@ -120,7 +123,7 @@ function Stats() {
                 <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
             </Row>
             <WeeklyBarChart
-                weeks={adjustedData2}
+                weeks={data2}
                 activeWeekIndex={activeWeekIndex}
                 onWeekChange={setActiveWeekIndex}
             />

@@ -19,6 +19,7 @@ export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps)
     const normalizedValue = Math.min(day.value / 3000, 1);
     const { colors } = useTheme()
 
+    console.log('day', day)
     const rStyle = useAnimatedStyle(() => {
         return {
         height: withTiming(maxHeight * normalizedValue),
@@ -32,7 +33,7 @@ export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps)
         return weekdays[dayIndex];
     };
     return (
-        <View>
+        <View style={{ paddingTop: 20}}>
             <Text style={[styles.valueText, { color: colors.black}]}>{(day.value).toFixed(0)}</Text>
         <Animated.View
             style={[
@@ -72,8 +73,9 @@ const styles = StyleSheet.create({
         fontFamily: 'FiraCode-Regular',
         textAlign: 'center',
         position: 'absolute',
-        top: -20,
+        top: 0,
         width: 40,
+        zIndex: 10
     },
     dayLabel: {
         width: '100%',

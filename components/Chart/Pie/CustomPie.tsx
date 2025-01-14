@@ -74,6 +74,7 @@ const CustomPie = ({
         <G x={cx} y={cy}>
           {arcs.map((arc, index) => (
               <Path
+                key={index}
                 d={arcGenerator(arc)}
                 fill={data[index].color}
                 onPressIn={(event) => handleData(data[index], event)}

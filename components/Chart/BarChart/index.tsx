@@ -1,5 +1,5 @@
-import { format, parseISO, startOfWeek } from 'date-fns';
-import { ScrollView,StyleSheet,Text,useWindowDimensions,View } from 'react-native';
+import { addDays, format, parseISO, startOfWeek } from 'date-fns';
+import { Pressable, ScrollView,StyleSheet,Text,useWindowDimensions,View } from 'react-native';
 
 import { SingleBarChart, type Day } from './SingleBarCharts';
 import { useTheme } from '@/hooks/ThemeProvider';
@@ -18,6 +18,8 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     const activeWeek = weeks[activeWeekIndex];
     const { colors } = useTheme()
 
+    console.log('weeks', weeks)
+
     const BarChartWidth = windowWidth * 0.8;
     const BarChartGap = 10;
     const BarWidth = (BarChartWidth - BarChartGap * (activeWeek.length - 1)) / activeWeek.length;
@@ -31,14 +33,28 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     
 
     const getDaynumber = (date: string) => {
-        const parsedDate = new Date(date);
-        const day = parsedDate.getUTCDate();
-        const month = parsedDate.getUTCMonth();
-        const year = parsedDate.getUTCFullYear();
-        const formattedDate = `${day} ${monthsEn[month]} ${year}`;
+        // Vérifier si la date est déjà un objet Date, sinon la convertir
+        const parsedDate = new Date(date);  // Si la date est déjà une chaîne ISO, elle sera automatiquement convertie
+        // console.log('Parsed Date:', parsedDate);
+    
+        // Utiliser startOfWeek pour obtenir le premier jour de la semaine
+        const weekStart = startOfWeek(parsedDate, { weekStartsOn: 1 }); // 1 pour lundi comme premier jour de la semaine
+        // console.log('Week Start:', weekStart);
+    
+        // Ajouter 7 jours pour corriger visuellement le décalage d'une semaine
+        const adjustedWeekStart = addDays(weekStart, 7);
+        // console.log('Adjusted Week Start:', adjustedWeekStart);
+    
+        // Formater la date du premier jour de la semaine ajustée
+        const formattedDate = format(adjustedWeekStart, 'd MMMM yyyy'); // Exemple : 13 janvier 2025
+        
         return formattedDate;
     };
-
+    // console.log('weeks', weeks)
+    // console.log('activeWeek',activeWeek)
+    const handleDebug =(day) => {
+        console.log('debud fay', day)
+    }
     return (
         <View
         style={{height: ScrollViewHeight + MaxBarHeight, width: windowWidth}}>
@@ -52,12 +68,15 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
                 marginHorizontal: (windowWidth - BarChartWidth) / 2,
             }}>
             {activeWeek.map((day, index) => (
-            <SingleBarChart
-                key={index}
-                maxHeight={MaxBarHeight}
-                width={BarWidth}
-                day={day}
-            />
+            <Pressable onPress={() => handleDebug(day)}>
+                <SingleBarChart
+                    key={index}
+                    maxHeight={MaxBarHeight}
+                    width={BarWidth}
+                    day={day}
+                />
+
+            </Pressable>
             ))}
         </View>
         <ScrollView
@@ -87,6 +106,7 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
                         alignItems: 'center',
                 }}>
                 <Text style={[styles.label, {color: colors.black}]}>
+                    
                     Week of {getDaynumber(week[0].day)}
                 </Text>
                 </View>
