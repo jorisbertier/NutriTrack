@@ -13,4 +13,7 @@ export interface User {
     level: number;
     xpLogs?: any;
     consumeByDays?: any;
+    proteinsTotal?: any;
+    carbsTotal?: any;
+    fatsTotal?: any;
 }

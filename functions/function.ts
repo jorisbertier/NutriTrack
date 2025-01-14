@@ -30,7 +30,10 @@ export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser:
             xp: doc.data().xp as Number,
             level: doc.data().level,
             xpLogs: doc.data().xpLogs,
-            consumeByDays: doc.data().consumeByDays
+            consumeByDays: doc.data().consumeByDays,
+            proteinsTotal: doc.data().proteinsTotal,
+            carbsTotal: doc.data().carbsTotal,
+            fatsTotal: doc.data().fatsTotal,
         }));
 
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);

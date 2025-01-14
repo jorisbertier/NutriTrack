@@ -47,13 +47,10 @@ function Stats() {
     
     if (userRedux) {
         const normalizeDate = (date) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
-    
         dataConsumeByDays = Object.entries(userRedux.consumeByDays).map(([day, value]) => ({
             day: normalizeDate(day),
             value,
         }));
-    
-        // console.log('Données normalisées (dataConsumeByDays):', dataConsumeByDays);
     } else {
         console.error("consumeByDays est undefined ou n'est pas un objet valide");
     }
@@ -85,10 +82,13 @@ function Stats() {
     };
     const adjustedData2 = adjustWeeksToStartOnMonday(data2);
     
+    const totalProteins =(Object.values(userData[0].proteinsTotal).reduce((a,b) =>  a = a + b , 0 ));
+    const totalCarbs = (Object.values(userData[0].carbsTotal).reduce((a,b) =>  a = a + b , 0 ));
+    const totalFats = (Object.values(userData[0].fatsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const pieData = [
-        { value: 1000, color: "#98CDFC" },
-        { value: 1300, color: "#57D1E3" },
-        { value: 500, color: "#5F6A88" },
+        { value: totalProteins, color: "#98CDFC" },
+        { value: totalCarbs, color: "#57D1E3" },
+        { value: totalFats, color: "#5F6A88" },
         // { value: 10, color: "#93A0FF" },
         // { value: 25, color: "#95D3BE" },
     ];
