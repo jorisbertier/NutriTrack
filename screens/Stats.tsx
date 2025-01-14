@@ -53,7 +53,7 @@ function Stats() {
             value,
         }));
     
-        console.log('Données normalisées (dataConsumeByDays):', dataConsumeByDays);
+        // console.log('Données normalisées (dataConsumeByDays):', dataConsumeByDays);
     } else {
         console.error("consumeByDays est undefined ou n'est pas un objet valide");
     }

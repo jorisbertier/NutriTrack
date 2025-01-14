@@ -16,13 +16,13 @@ import NutritionList from "@/components/Screens/Dashboard/NutritionList";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { ProgressBarKcal } from "@/components/ProgressBarKcal";
 import ProgressRing from "@/components/Chart/ProgressRing";
-import { useHeaderHeight } from "@react-navigation/elements";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch } from 'react-redux';
 import { updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
+import { handleAnimation } from '../functions/function';
 
 
 export default function Dashboard() {
@@ -360,7 +360,6 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate)
     }, [resultAllDataFood, foodsForSelectedDate]);
 
-
     const nutritionData = [
         { name: 'Potassium', quantity: potassium, unit: 'g' },
         { name: 'Magnesium', quantity: magnesium, unit: 'g' },
@@ -474,11 +473,39 @@ export default function Dashboard() {
         }
         const fetch = async () => {
             await handleTotalKcalConsumeToday()
-            console.log('mise a jour')
+            console.log('Update')
         }
         fetch()
     }, [totalKcalConsumeToday, basalMetabolicRate]); 
     
+    async function handleMacronutrients() {
+        const today = selectedDate.toLocaleDateString('fr-CA');
+        const userId = userData[0].id;
+        if (!userId) {
+            console.error("User ID is undefined");
+            return;
+        }
+        console.log(today)
+        console.log('proteins', proteins)
+        console.log('carbs', carbs)
+        console.log('fats', fats)
+        try {
+            const userDocRef = doc(firestore, "User", userId);
+            
+            await updateDoc(userDocRef, {
+                [`proteinsTotal.${today}`]: proteins,
+                [`carbsTotal.${today}`]: carbs,
+                [`fatsTotal.${today}`]: fats,
+            });
+            console.log("Data proteins/carbs/fats successfully sent to Firestore");
+        } catch (err) {
+            console.error("Error posting total proteins carbs fatd:", err);
+        }
+    }
+
+    useEffect(() => {
+        handleMacronutrients()
+    }, [proteins, carbs, fats])
     return (
         <>
             <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>

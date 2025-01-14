@@ -16,8 +16,6 @@ export default function StopWatch({selectedChallenge, email }: any) {
         const auth = getAuth();
         const user = auth.currentUser;
         const uid = user?.uid;
-        console.log('user', uid)
-        
         const STORAGE_KEY = `StopWatch_State${uid}`;
 
         // useEffect(() => {
