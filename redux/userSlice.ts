@@ -11,6 +11,9 @@ interface UserState {
     xp: number | null,
     level?: number | null,
     consumeByDays?: any,
+    proteinsTotal?: any,
+    carbsTotal?: any,
+    fatsTotal?: any,
     [key: string]: any;
   } | null;
   status: 'idle' | 'loading' | 'failed';
@@ -49,7 +52,30 @@ const userSlice = createSlice({
 
         state.user.consumeByDays = updatedConsumeByDays;
       }
-    }
+    },
+    updateMacronutrients(state, action: PayloadAction<{proteinsTotal: any; carbsTotal: any; fatsTotal: any}>) {
+
+      if(state.user) {
+        const updatedProteins = {
+          ...state.user.proteinsTotal,
+          ...action.payload.proteinsTotal,
+      };
+        const updatedCarbs = {
+          ...state.user.carbsTotal,
+          ...action.payload.carbsTotal,
+      };
+        const updatedFats = {
+          ...state.user.fatsTotal,
+          ...action.payload.fatsTotal,
+      };
+        // state.user.proteinsTotal = action.payload.proteinsTotal;
+        // state.user.carbsTotal = action.payload.carbsTotal;
+        // state.user.fatsTotal = action.payload.fatsTotal;
+        state.user.proteinsTotal = updatedProteins;
+        state.user.carbsTotal = updatedCarbs;
+        state.user.fatsTotal = updatedFats;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserData.fulfilled, (state, action) => {
@@ -83,6 +109,6 @@ export const fetchUserData = createAsyncThunk('user/fetchUserData', async (email
 });
 
 
-export const { setUser, clearUser, updateUserXp, updateUserCaloriesByDay } = userSlice.actions;
+export const { setUser, clearUser, updateUserXp, updateUserCaloriesByDay, updateMacronutrients } = userSlice.actions;
 
 export default userSlice.reducer;

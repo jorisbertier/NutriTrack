@@ -23,7 +23,9 @@ function Stats() {
     const [isLoading, setIsLoading] = useState(true);
 
     const userRedux = useSelector((state: RootState) => state.user.user)
-
+    console.log('userdata',userData[0]?.proteinsTotal)
+    console.log('userReduc', userRedux?.proteinsTotal)
+    console.log('userReduc', userRedux?.carbsTotal)
     const [activeWeekIndex, setActiveWeekIndex] = useState(0);
 
     useEffect(() => {
@@ -82,9 +84,9 @@ function Stats() {
     };
     const adjustedData2 = adjustWeeksToStartOnMonday(data2);
     
-    const totalProteins =(Object.values(userData[0].proteinsTotal).reduce((a,b) =>  a = a + b , 0 ));
-    const totalCarbs = (Object.values(userData[0].carbsTotal).reduce((a,b) =>  a = a + b , 0 ));
-    const totalFats = (Object.values(userData[0].fatsTotal).reduce((a,b) =>  a = a + b , 0 ));
+    const totalProteins =(Object.values(userRedux?.proteinsTotal).reduce((a,b) =>  a = a + b , 0 ));
+    const totalCarbs = (Object.values(userRedux?.carbsTotal).reduce((a,b) =>  a = a + b , 0 ));
+    const totalFats = (Object.values(userRedux?.fatsTotal).reduce((a,b) =>  a = a + b , 0 ));
 
     const totalMacronutrients = Number(totalProteins) + Number(totalCarbs) + Number(totalFats)
 

@@ -21,7 +21,7 @@ import { colorMode } from "@/constants/Colors";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch } from 'react-redux';
-import { updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
+import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
 import { handleAnimation } from '../functions/function';
 
 
@@ -479,16 +479,17 @@ export default function Dashboard() {
     }, [totalKcalConsumeToday, basalMetabolicRate]); 
     
     async function handleMacronutrients() {
+
         const today = selectedDate.toLocaleDateString('fr-CA');
         const userId = userData[0].id;
         if (!userId) {
             console.error("User ID is undefined");
             return;
         }
-        console.log(today)
-        console.log('proteins', proteins)
-        console.log('carbs', carbs)
-        console.log('fats', fats)
+        // console.log(today)
+        // console.log('proteins', proteins)
+        // console.log('carbs', carbs)
+        // console.log('fats', fats)
         try {
             const userDocRef = doc(firestore, "User", userId);
             
@@ -498,13 +499,20 @@ export default function Dashboard() {
                 [`fatsTotal.${today}`]: fats,
             });
             console.log("Data proteins/carbs/fats successfully sent to Firestore");
+
+            dispatch(updateMacronutrients({proteinsTotal: {[today]: proteins}, carbsTotal: {[today]: carbs}, fatsTotal: {[today] : fats}}))
         } catch (err) {
             console.error("Error posting total proteins carbs fatd:", err);
         }
     }
 
     useEffect(() => {
-        handleMacronutrients()
+        if (proteins && carbs && fats) {
+            const fetch = async () => {
+            await handleMacronutrients();
+        };
+        fetch();
+        }
     }, [proteins, carbs, fats])
     return (
         <>
