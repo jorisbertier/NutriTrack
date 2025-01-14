@@ -1,17 +1,19 @@
 import { WeeklyBarChart } from "@/components/Chart/BarChart";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { data, getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
+import { StyleSheet, View } from "react-native";
+import { getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
 import { fetchUserDataConnected } from "@/functions/function";
 import { User } from "@/interface/User";
 import { getAuth } from "firebase/auth";
 import { parseISO, startOfWeek } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import CustomPie from "@/components/Chart/Pie/CustomPie";
+import { Skeleton } from "moti/skeleton";
+import { colorMode } from '@/constants/Colors';
 
 
 function Stats() {
@@ -43,7 +45,21 @@ function Stats() {
 
     let dataConsumeByDays;
     if (isLoading || userData.length === 0) {
-        return <View><Text>Chargement...</Text></View>;
+        
+        return <View style={{width: '90%', alignSelf: 'center', marginTop: 20}}>
+            <View style={{marginBottom: 20}}>
+                <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+            </View>
+            <View style={{marginBottom: 20}}>
+                <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+            </View>
+            <View style={{marginBottom: 20}}>
+                <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+            </View>
+            <View style={{marginBottom: 20}}>
+                <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+            </View>
+            </View>
     }
 
     
