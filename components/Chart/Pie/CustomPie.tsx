@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Svg, { G, Path } from "react-native-svg";
 import * as d3 from "d3-shape";
 import { useTheme } from "@/hooks/ThemeProvider";
@@ -24,7 +24,9 @@ const CustomPie = ({
   cy = 150,
   totalMacronutrients,
   }) => {
-  // Générateur de "pie"
+  
+  const { width: windowWidth } = useWindowDimensions();
+
   const { colors } = useTheme();
   const [ macro, setMacro] = useState('')
   const [ percent, setPercent] = useState(0)
@@ -50,6 +52,7 @@ const CustomPie = ({
   const arcs = pieGenerator(data);
 
   const handleData = (data: PieData, event: Event) => {
+
     setMacro(data.macro)
     setColor(data.color)
     setDataVisible(true)
@@ -66,7 +69,7 @@ const CustomPie = ({
   }
 
   return (
-    <View>
+    <View style={{width: windowWidth, alignItems: 'center'}}>
       <Svg height={cy * 2} width={cx * 2}>
         <G x={cx} y={cy}>
           {arcs.map((arc, index) => (
@@ -81,11 +84,11 @@ const CustomPie = ({
         </G>
       </Svg>
       {dataVisible &&
-        <View style={[styles.notification, {top: position.y - 50, left: position.x - 75,}]}>
+        <View style={[styles.modal, {top: position.y - 50, left: position.x - 75,}]}>
           <View style={[styles.wrapperNotification, {backgroundColor: "#000", opacity: 0.8}]}>
             <View style={[styles.circle, {backgroundColor: color}]}></View>
             <Text style={[styles.notificationText, {color: colors.grayDark}]}>{macro}</Text>
-            <Text style={[styles.notificationText, {color: colors.grayDark}]}>{percent} %</Text>
+            <Text style={[styles.notificationText, {color: colors.whiteFix}]}>{percent} %</Text>
             </View>
         </View>
       }
@@ -94,7 +97,7 @@ const CustomPie = ({
 };
 
 const styles = StyleSheet.create({
-  notification: {
+  modal: {
     position: "absolute",
     bottom: 20,
     width: '50%',
@@ -117,7 +120,6 @@ const styles = StyleSheet.create({
       elevation: 5,
     },
   notificationText: {
-      color: "white",
       fontWeight: "bold",
       textAlign: "center",
   },

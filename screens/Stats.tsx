@@ -98,7 +98,7 @@ function Stats() {
     
     return (
         <View style={[styles.container, { backgroundColor: colors.white}]}>
-            <Row style={{marginBottom: 60}}>
+            <Row style={{marginBottom: 80,marginTop: 40, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
             </Row>
             <WeeklyBarChart
@@ -106,6 +106,9 @@ function Stats() {
                 activeWeekIndex={activeWeekIndex}
                 onWeekChange={setActiveWeekIndex}
             />
+            <Row style={{marginBottom: 0, marginTop: 20, marginLeft: 10}}>
+                <ThemedText variant='title' color={colors.black}>Nutri ratio</ThemedText>
+            </Row>
             <CustomPie
                 data={pieData}
                 innerRadius={20}
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'center',
     }
 })
