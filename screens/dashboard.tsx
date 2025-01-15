@@ -153,6 +153,13 @@ export default function Dashboard() {
         //     }, 1500)
         // }
     }, []);
+    if (!allFoodDataCreated) {
+        return (
+          <View>
+            <Text>No user data available</Text>
+          </View>
+        );
+      }
 
     useEffect(() => {
         // const fetchData = async () => {

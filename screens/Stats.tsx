@@ -1,7 +1,7 @@
 import { WeeklyBarChart } from "@/components/Chart/BarChart";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
@@ -25,10 +25,6 @@ function Stats() {
     const [isLoading, setIsLoading] = useState(true);
 
     const userRedux = useSelector((state: RootState) => state.user.user)
-    // console.log('userdata',userData[0]?.proteinsTotal)
-    // console.log('userReduc', userRedux?.proteinsTotal)
-    // console.log('userReduc', userRedux?.carbsTotal)
-    // console.log('userRedux', userRedux?.consumeByDays)
     const [activeWeekIndex, setActiveWeekIndex] = useState(0);
 
     useEffect(() => {
@@ -45,6 +41,7 @@ function Stats() {
     }, []);
 
     let dataConsumeByDays;
+
     if (isLoading || userData.length === 0) {
         
         return <View style={{width: '90%', alignSelf: 'center', marginTop: 20}}>
@@ -65,7 +62,7 @@ function Stats() {
 
     
     if (userRedux) {
-        const normalizeDate = (date) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
+        const normalizeDate = (date: any) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
         dataConsumeByDays = Object.entries(userRedux?.consumeByDays).map(([day, value]) => ({
             day: normalizeDate(day),
             value,
@@ -76,33 +73,45 @@ function Stats() {
     
     const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
     const data2 = getDataConsumeByDays(sortedData)
-    console.log(data2)
 
-    const adjustWeeksToStartOnMonday = (weeks: any[]) => {
-        return weeks.map((week) => {
-        // On prend le premier jour de la semaine (par exemple, le 31 décembre) et on ajuste pour qu'il commence un lundi
-        const mondayStart = startOfWeek(parseISO(week[0].day), { weekStartsOn: 1 }); // 1 = lundi
+    // const adjustWeeksToStartOnMonday = (weeks: any[]) => {
+    //     return weeks.map((week) => {
+    //     // On prend le premier jour de la semaine (par exemple, le 31 décembre) et on ajuste pour qu'il commence un lundi
+    //     const mondayStart = startOfWeek(parseISO(week[0].day), { weekStartsOn: 1 }); // 1 = lundi
         
-        // Maintenant, on ajuste chaque jour de la semaine pour qu'il soit aligné avec le lundi
-        return week.map((day) => {
-            // On crée un nouvel objet Date en UTC, et on ajuste pour chaque jour de la semaine
-            const adjustedDay = new Date(Date.UTC(
-            mondayStart.getUTCFullYear(),
-            mondayStart.getUTCMonth(),
-            mondayStart.getUTCDate() + week.indexOf(day),
-            0, 0, 0, 0 // Assurer que l'heure est 00:00:00 UTC
-            ));
+    //     // Maintenant, on ajuste chaque jour de la semaine pour qu'il soit aligné avec le lundi
+    //     return week.map((day) => {
+    //         // On crée un nouvel objet Date en UTC, et on ajuste pour chaque jour de la semaine
+    //         const adjustedDay = new Date(Date.UTC(
+    //         mondayStart.getUTCFullYear(),
+    //         mondayStart.getUTCMonth(),
+    //         mondayStart.getUTCDate() + week.indexOf(day),
+    //         0, 0, 0, 0 // Assurer que l'heure est 00:00:00 UTC
+    //         ));
     
-            return {
-            ...day,
-            day: adjustedDay.toISOString(), // Formater en ISO 8601 avec T00:00:00.000Z
-            };
-        });
-        });
-    };
-    const adjustedData2 = adjustWeeksToStartOnMonday(data2);
+    //         return {
+    //         ...day,
+    //         day: adjustedDay.toISOString(), // Formater en ISO 8601 avec T00:00:00.000Z
+    //         };
+    //     });
+    //     });
+    // };
+    // const adjustedData2 = adjustWeeksToStartOnMonday(data2);
     // console.log('adju', adjustedData2)
-    
+    // console.log(userRedux)
+    // console.log('test',userRedux?.fatsTotal)
+    if (!userRedux?.consumeByDays || !data2 || !userRedux?.proteinsTotal) {
+        return (
+            <View style={stylesNoData.container}>
+                <Text style={stylesNoData.message}>
+                    📊 Not enough data to display the statistics.
+                </Text>
+                <Text style={stylesNoData.subMessage}>
+                    Please ensure you've provided sufficient activity or nutrition data for accurate insights.
+                </Text>
+            </View>
+        );
+    }
     const totalProteins =(Object.values(userRedux?.proteinsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalCarbs = (Object.values(userRedux?.carbsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalFats = (Object.values(userRedux?.fatsTotal).reduce((a,b) =>  a = a + b , 0 ));
@@ -116,7 +125,8 @@ function Stats() {
         // { value: 10, color: "#93A0FF" },
         // { value: 25, color: "#95D3BE" },
     ];
-    
+
+
     return (
         <View style={[styles.container, { backgroundColor: colors.white}]}>
             <Row style={{marginBottom: 80,marginTop: 40, marginLeft: 10}}>
@@ -150,9 +160,30 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         flex: 1,
-        // alignItems: 'center',
         justifyContent: 'center',
     }
 })
+
+const stylesNoData = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    message: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#555',
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+    subMessage: {
+        fontSize: 14,
+        color: '#888',
+        textAlign: 'center',
+    },
+});
+
 
 export default Stats

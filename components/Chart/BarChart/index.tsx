@@ -55,6 +55,22 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     const handleDebug =(day) => {
         console.log('debud fay', day)
     }
+
+    // if (!weeks || weeks.length === 0 || !activeWeek) {
+    //     return (
+    //       <View
+    //         style={{
+    //           height: MaxBarHeight + ScrollViewHeight,
+    //           justifyContent: 'center',
+    //           alignItems: 'center',
+    //         }}
+    //       >
+    //         <Text style={[styles.label, { color: colors.warning || 'red' }]}>
+    //           Not enough data to display the chart.
+    //         </Text>
+    //       </View>
+    //     );
+    //   }
     return (
         <View
         style={{height: ScrollViewHeight + MaxBarHeight, width: windowWidth}}>
