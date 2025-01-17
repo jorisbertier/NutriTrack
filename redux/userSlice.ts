@@ -105,6 +105,11 @@ export const fetchUserData = createAsyncThunk('user/fetchUserData', async (email
     ...doc.data(),
   }));
 
+  if (!userList || userList.length === 0) {
+    console.log("No users found in the collection.");
+    return null;
+  }
+  
   return userList.find((user) => user.email === email) || null;
 });
 

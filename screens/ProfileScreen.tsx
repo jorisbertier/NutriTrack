@@ -81,25 +81,25 @@ const ProfileScreen = () => {
   const handleDeleteAccount = async () => {
     try {
       if(auth.currentUser) {
-        const lastSignInTime = auth.currentUser.metadata.lastSignInTime;
-        if (!lastSignInTime) {
-          console.log("Last sign-in time is undefined.");
-          return;
-        }
-        const currentTime = new Date().getTime();
-        const sessionDuration = currentTime - new Date(lastSignInTime).getTime();
+        // const lastSignInTime = auth.currentUser.metadata.lastSignInTime;
+        // if (!lastSignInTime) {
+        //   console.log("Last sign-in time is undefined.");
+        //   return;
+        // }
+        // const currentTime = new Date().getTime();
+        // const sessionDuration = currentTime - new Date(lastSignInTime).getTime();
   
-        // Si la session dure plus de 1 heure (3600000 ms), demandez à l'utilisateur de se déconnecter et de se reconnecter
-        if (sessionDuration > 3600000) {
-          Alert.alert(
-            'Security Alert',
-            'You have been logged in for too long. Please log out and log in again for security reasons.',
-            [
-              { text: 'OK' },
-            ],
-          );
-          return;
-        }
+        // // Si la session dure plus de 1 heure (3600000 ms), demandez à l'utilisateur de se déconnecter et de se reconnecter
+        // if (sessionDuration > 3600000) {
+        //   Alert.alert(
+        //     'Security Alert',
+        //     'You have been logged in for too long. Please log out and log in again for security reasons.',
+        //     [
+        //       { text: 'OK' },
+        //     ],
+        //   );
+        //   return;
+        // }
 
         deleteByCollection('UserMealsCreated',auth.currentUser.uid, 'userId')
         deleteByCollection('UserCreatedFoods',auth.currentUser.uid, 'idUser')
