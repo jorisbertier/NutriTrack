@@ -1,5 +1,5 @@
 import { User } from '@/interface/User';
-import { deleteUser, getAuth, signOut } from 'firebase/auth';
+import { deleteUser, EmailAuthProvider, getAuth, reauthenticateWithPopup, signOut } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
@@ -81,6 +81,25 @@ const ProfileScreen = () => {
   const handleDeleteAccount = async () => {
     try {
       if(auth.currentUser) {
+        const lastSignInTime = auth.currentUser.metadata.lastSignInTime;
+        if (!lastSignInTime) {
+          console.log("Last sign-in time is undefined.");
+          return;
+        }
+        const currentTime = new Date().getTime();
+        const sessionDuration = currentTime - new Date(lastSignInTime).getTime();
+  
+        // Si la session dure plus de 1 heure (3600000 ms), demandez à l'utilisateur de se déconnecter et de se reconnecter
+        if (sessionDuration > 3600000) {
+          Alert.alert(
+            'Security Alert',
+            'You have been logged in for too long. Please log out and log in again for security reasons.',
+            [
+              { text: 'OK' },
+            ],
+          );
+          return;
+        }
 
         deleteByCollection('UserMealsCreated',auth.currentUser.uid, 'userId')
         deleteByCollection('UserCreatedFoods',auth.currentUser.uid, 'idUser')
@@ -97,6 +116,8 @@ const ProfileScreen = () => {
         setModalVisible(false)
         
         handleSignOut()
+      }else {
+        console.log("No current user found");
       }
     } catch (error) {
       console.log("Error during the deletion of account", error);

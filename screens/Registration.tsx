@@ -170,7 +170,12 @@ const Registration = () => {
                 gender: gender,
                 xp: 0,
                 level: 1,
-                xpLogs: {}
+                xpLogs: {},
+                consumeByDays: {'2024-12-04': 0},
+                proteinsTotal: {'2024-12-04': 0},
+                carbsTotal: {'2024-12-04': 0},
+                fatsTotal: {'2024-12-04': 0}
+
             });
             resetForm();
         } catch (error: any) {

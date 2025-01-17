@@ -34,7 +34,6 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
 
     return (
         <View style={[styles.container, {backgroundColor: colors.grayMode}]}>
-            {/* <Text style={styles.title}>Macronutrients goal</Text> */}
             <View style={{width: '50%'}}>
             <Svg height={150} width={150}>
                 {/* Cercle des graisses */}

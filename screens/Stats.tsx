@@ -45,19 +45,19 @@ function Stats() {
     if (isLoading || userData.length === 0) {
         
         return <View style={{width: '90%', alignSelf: 'center', marginTop: 20}}>
-            <View style={{marginBottom: 20}}>
-                <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
-            </View>
-            <View style={{marginBottom: 20}}>
-                <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
-            </View>
-            <View style={{marginBottom: 20}}>
-                <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
-            </View>
-            <View style={{marginBottom: 20}}>
-                <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
-            </View>
-            </View>
+                <View style={{marginBottom: 20}}>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+                </View>
+                <View style={{marginBottom: 20}}>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+                </View>
+                <View style={{marginBottom: 20}}>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+                </View>
+                <View style={{marginBottom: 20}}>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+                </View>
+                </View>
     }
 
     
@@ -68,7 +68,7 @@ function Stats() {
             value,
         }));
     } else {
-        console.error("consumeByDays est undefined ou n'est pas un objet valide");
+        console.error("userRedux is undefined");
     }
     
     const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
@@ -126,10 +126,11 @@ function Stats() {
         // { value: 25, color: "#95D3BE" },
     ];
 
+    console.log('proteins',typeof totalMacronutrients)
 
     return (
         <View style={[styles.container, { backgroundColor: colors.white}]}>
-            <Row style={{marginBottom: 80,marginTop: 40, marginLeft: 10}}>
+            <Row style={{marginBottom: 80,marginTop: totalMacronutrients == 0 ? -160 : 40, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
             </Row>
             <WeeklyBarChart
@@ -140,18 +141,26 @@ function Stats() {
             <Row style={{marginBottom: 0, marginTop: 20, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri ratio</ThemedText>
             </Row>
-            <CustomPie
-                data={pieData}
-                innerRadius={20}
-                outerRadius={100}
-                paddingAngle={0.05}
-                cornerRadius={10}
-                startAngle={0}
-                endAngle={2 * Math.PI}
-                cx={150}
-                cy={150}
-                totalMacronutrients={totalMacronutrients}
-            />
+            {totalMacronutrients == 0 ?
+            <Row style={{paddingTop: 70 , alignSelf: 'center'}}>
+                <Text style={[stylesNoData.message, {marginTop: 0}]}>
+                    📊 Not enough data to display the chart.
+                </Text>
+            </Row>
+            :
+                <CustomPie
+                    data={pieData}
+                    innerRadius={20}
+                    outerRadius={100}
+                    paddingAngle={0.05}
+                    cornerRadius={10}
+                    startAngle={0}
+                    endAngle={2 * Math.PI}
+                    cx={150}
+                    cy={150}
+                    totalMacronutrients={totalMacronutrients}
+                />
+            }
         </View>
     )
 }

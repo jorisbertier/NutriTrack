@@ -19,7 +19,6 @@ export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps)
     const normalizedValue = Math.min(day.value / 3000, 1);
     const { colors } = useTheme()
 
-    console.log('day', day)
     const rStyle = useAnimatedStyle(() => {
         return {
         height: withTiming(maxHeight * normalizedValue),
@@ -32,6 +31,7 @@ export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps)
         const dayIndex = new Date(date).getDay(); // Get the day of the week (0-6)
         return weekdays[dayIndex];
     };
+
     return (
         <View style={{ paddingTop: 20}}>
             <Text style={[styles.valueText, { color: colors.black}]}>{(day.value).toFixed(0)}</Text>

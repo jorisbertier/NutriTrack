@@ -18,19 +18,11 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     const activeWeek = weeks[activeWeekIndex];
     const { colors } = useTheme()
 
-    console.log('weeks', weeks)
-
     const BarChartWidth = windowWidth * 0.8;
     const BarChartGap = 10;
     const BarWidth = (BarChartWidth - BarChartGap * (activeWeek.length - 1)) / activeWeek.length;
     const MaxBarHeight = 150;
     const ScrollViewHeight = 60;
-
-    const monthsEn = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    
 
     const getDaynumber = (date: string) => {
         // Vérifier si la date est déjà un objet Date, sinon la convertir
@@ -50,27 +42,7 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
         
         return formattedDate;
     };
-    // console.log('weeks', weeks)
-    // console.log('activeWeek',activeWeek)
-    const handleDebug =(day) => {
-        console.log('debud fay', day)
-    }
 
-    // if (!weeks || weeks.length === 0 || !activeWeek) {
-    //     return (
-    //       <View
-    //         style={{
-    //           height: MaxBarHeight + ScrollViewHeight,
-    //           justifyContent: 'center',
-    //           alignItems: 'center',
-    //         }}
-    //       >
-    //         <Text style={[styles.label, { color: colors.warning || 'red' }]}>
-    //           Not enough data to display the chart.
-    //         </Text>
-    //       </View>
-    //     );
-    //   }
     return (
         <View
         style={{height: ScrollViewHeight + MaxBarHeight, width: windowWidth}}>
@@ -84,15 +56,12 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
                 marginHorizontal: (windowWidth - BarChartWidth) / 2,
             }}>
             {activeWeek.map((day, index) => (
-            <Pressable onPress={() => handleDebug(day)}>
                 <SingleBarChart
                     key={index}
                     maxHeight={MaxBarHeight}
                     width={BarWidth}
                     day={day}
                 />
-
-            </Pressable>
             ))}
         </View>
         <ScrollView
@@ -123,7 +92,7 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
                 }}>
                 <Text style={[styles.label, {color: colors.black}]}>
                     
-                    Week of {getDaynumber(week[0].day)}
+                    Week of {getDaynumber(String(week[0]?.day) ?? '')}
                 </Text>
                 </View>
             );
