@@ -58,7 +58,7 @@ import { Svg, Circle } from 'react-native-svg';
                     strokeDasharray={`${circumferenceOuter} ${circumferenceOuter}`}
                     strokeDashoffset={circumferenceOuter * (1 - percentageFats)} 
                     strokeLinecap="round"
-                    opacity={percentageFats}
+                    // opacity={percentageFats}
                 />
                 {/* Cercle de fond pour les glucides */}
                 <Circle
@@ -80,7 +80,7 @@ import { Svg, Circle } from 'react-native-svg';
                     strokeDasharray={`${circumferenceMiddle} ${circumferenceMiddle}`}
                     strokeDashoffset={circumferenceMiddle * (1 - percentageCarbs)}
                     strokeLinecap="round"
-                    opacity={percentageCarbs}
+                    // opacity={percentageCarbs}
                 />
                 {/* Cercle de fond pour les protéines */}
                 <Circle
@@ -102,7 +102,7 @@ import { Svg, Circle } from 'react-native-svg';
                     strokeDasharray={`${circumferenceInner} ${circumferenceInner}`}
                     strokeDashoffset={circumferenceInner * (1 - percentageProteins)}
                     strokeLinecap="round"
-                    opacity={percentageProteins}
+                    // opacity={percentageProteins}
                 />
             </Svg>
             </View>
