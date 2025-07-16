@@ -130,13 +130,17 @@ const ProfileScreen = () => {
     }
   }
 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.whiteMode}]} persistentScrollbar={true}>
       
       
-      <Button title="FR" onPress={() => i18n.changeLanguage('fr')} />
-      <Button title="EN" onPress={() => i18n.changeLanguage('en')} />
-      <Button title="ES" onPress={() => i18n.changeLanguage('es')} />
+      <Button title="FR" onPress={() => changeLanguage('fr')} />
+      <Button title="EN" onPress={() => changeLanguage('en')} />
+      <Button title="ES" onPress={() => changeLanguage('es')} />
       <View style={styles.profileHeader}>
       <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }

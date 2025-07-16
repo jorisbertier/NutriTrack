@@ -21,5 +21,6 @@
     "deleteAccount": "Delete account",
     "gender_male": "male",
     "gender_female": "female",
-    "gender_other": "other"
+    "gender_other": "other",
+    "proteins": "Proteins"
 }
