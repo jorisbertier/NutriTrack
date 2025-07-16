@@ -12,6 +12,8 @@ import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
 import { getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const { height } = Dimensions.get('window');
 
@@ -20,6 +22,7 @@ export default function DetailsFood() {
     const {theme, colors} = useTheme();
 
     const navigation = useNavigation();
+    const { t } = useTranslation();
     const route = useRoute<any>();
     const { id } = route.params; 
 
@@ -87,21 +90,21 @@ export default function DetailsFood() {
             <View style={[styles.container]}>
                 <Row gap={10}>
                     <NutritionStatCard
-                        nutri={`proteins`}
+                        nutri={t('proteins')}
                         quantity={filterUniqueFood?.proteins}
                         unit={'g'}
                         height={associatedValues["proteins"]}
                         source={require('@/assets/images/nutritional/meat.png')}
                     />
                     <NutritionStatCard
-                        nutri={'carbs'}
+                        nutri={t('carbs')}
                         quantity={filterUniqueFood?.carbohydrates}
                         unit={'g'}
                         height={associatedValues["carbohydrates"]}
                         source={require('@/assets/images/nutritional/cutlery.png')}
                     />
                     <NutritionStatCard
-                        nutri={'fats'}
+                        nutri={t('fats')}
                         quantity={filterUniqueFood?.fats}
                         unit={'g'}
                         height={associatedValues["fats"]}
@@ -110,26 +113,26 @@ export default function DetailsFood() {
                 </Row>
             </View> 
             <View>
-            {filterUniqueFood?.potassium ? <NutritionItem name={'Potassium'} quantity={filterUniqueFood?.potassium} unit={'g'}/> : null}
-                {filterUniqueFood?.magnesium ? <NutritionItem name={'Magnesium'} quantity={filterUniqueFood?.magnesium} unit={'g'}/> : null}
-                {filterUniqueFood?.calcium ? <NutritionItem name={'Calcium'} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
-                {filterUniqueFood?.sodium ? <NutritionItem name={'Sodium'} quantity={filterUniqueFood?.sodium} unit={'g'}/> : null}
-                {filterUniqueFood?.iron ? <NutritionItem name={'Iron'} quantity={filterUniqueFood?.iron} unit={'g'}/> : null}
-                {filterUniqueFood?.folate ? <NutritionItem name={'Folate'} quantity={filterUniqueFood?.folate} unit={'%'}/> : null}
+            {filterUniqueFood?.potassium ? <NutritionItem name={t('potassium')} quantity={filterUniqueFood?.potassium} unit={'g'}/> : null}
+                {filterUniqueFood?.magnesium ? <NutritionItem name={t('magnesium')} quantity={filterUniqueFood?.magnesium} unit={'g'}/> : null}
+                {filterUniqueFood?.calcium ? <NutritionItem name={t('calcium')} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
+                {filterUniqueFood?.sodium ? <NutritionItem name={t('sodium')} quantity={filterUniqueFood?.sodium} unit={'g'}/> : null}
+                {filterUniqueFood?.iron ? <NutritionItem name={t('iron')} quantity={filterUniqueFood?.iron} unit={'g'}/> : null}
+                {filterUniqueFood?.folate ? <NutritionItem name={t('folate')} quantity={filterUniqueFood?.folate} unit={'%'}/> : null}
 
-                {filterUniqueFood?.proteins ? <NutritionItem name={'Proteins'} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
-                {filterUniqueFood?.carbohydrates ? <NutritionItem name={'Carbs'} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
-                {filterUniqueFood?.fats ? <NutritionItem name={'Fats'} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
+                {filterUniqueFood?.proteins ? <NutritionItem name={t('proteins')} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
+                {filterUniqueFood?.carbohydrates ? <NutritionItem name={t('carbs')} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
+                {filterUniqueFood?.fats ? <NutritionItem name={t('fats')} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
                 
-                {filterUniqueFood?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminA, 800))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB1 ? <NutritionItem name={'Vitamins B1'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB1, 1.1))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB5 ? <NutritionItem name={'Vitamins B5'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB5, 1.1))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB6 ? <NutritionItem name={'Vitamins B6'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB6, 1.3))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB12 ? <NutritionItem name={'Vitamins B12'} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminB12, 2.4))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminC ? <NutritionItem name={'Vitamins C'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminC, 90))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminD ? <NutritionItem name={'Vitamins D'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminD, 15))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminE ? <NutritionItem name={'Vitamins E'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminE, 15))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminK ? <NutritionItem name={'Vitamins K'} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminK, 120))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminA ? <NutritionItem name={t('vitaminA')} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminA, 800))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB1 ? <NutritionItem name={t('itaminB1')} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB1, 1.1))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB5 ? <NutritionItem name={t('vitaminB5')} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB5, 1.1))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB6 ? <NutritionItem name={t('vitaminB6')} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB6, 1.3))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB12 ? <NutritionItem name={t('vitaminB12')} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminB12, 2.4))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminC ? <NutritionItem name={t('vitaminC')} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminC, 90))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminD ? <NutritionItem name={t('vitaminD')} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminD, 15))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminE ? <NutritionItem name={t('vitaminE')} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminE, 15))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminK ? <NutritionItem name={t('vitaminK')} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminK, 120))} unit={'%'}/> : null}
 
                 
             </View>

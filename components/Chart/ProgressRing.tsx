@@ -2,15 +2,17 @@ import { colorMode } from '@/constants/Colors';
 import { calculatePercentage } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { Skeleton } from 'moti/skeleton';
-import React from 'react';
+import React, { useTransition } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Svg, Circle } from 'react-native-svg';
 
-const screenWidth = Dimensions.get('window').width;
+    const screenWidth = Dimensions.get('window').width;
 
-const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal, progressCarbs, carbsGoal, progressFats, fatsGoal}) => {
+    const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal, progressCarbs, carbsGoal, progressFats, fatsGoal}) => {
 
     const { colors } = useTheme();
+    const { t } = useTranslation();
 
     let percentageProteins = (typeof progressProteins === 'number' && typeof proteinsGoal === 'number' && proteinsGoal > 0)
         ? calculatePercentage(progressProteins, proteinsGoal)
@@ -108,7 +110,7 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
             <View style={styles.percentageContainer}>
                 {isLoading ?
                     <View>
-                        <Text style={[styles.percentageText, {color: colors.black}]}>Proteins {(percentageProteins * 100).toFixed(0)} %</Text>
+                        <Text style={[styles.percentageText, {color: colors.black}]}>{t('proteins')} {(percentageProteins * 100).toFixed(0)} %</Text>
                         <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressProteins} / {proteinsGoal} g</Text>
                     </View>
                 :
@@ -116,7 +118,7 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
                 }
                 {isLoading ?
                 <View>
-                    <Text style={[styles.percentageText, {color: colors.black}]}>Carbs {(percentageCarbs * 100).toFixed(0)} %</Text>
+                    <Text style={[styles.percentageText, {color: colors.black}]}>{t('carbs')} {(percentageCarbs * 100).toFixed(0)} %</Text>
                     <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressCarbs} / {carbsGoal} g</Text>
                 </View>
                 :
@@ -124,7 +126,7 @@ const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal,
                 }
                 {isLoading ?
                 <View>
-                    <Text style={[styles.percentageText, {color: colors.black}]}>Fats {(percentageFats * 100).toFixed(0)} %</Text>
+                    <Text style={[styles.percentageText, {color: colors.black}]}>{t('fats')} {(percentageFats * 100).toFixed(0)} %</Text>
                     <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressFats} / {fatsGoal} g</Text>
                 </View>
                 :

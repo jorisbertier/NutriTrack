@@ -10,6 +10,7 @@ import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { t } from "i18next";
 
 export default function Search() {
 
@@ -69,7 +70,7 @@ export default function Search() {
                 <TouchableOpacity onPress={handleOpenCalendar}>
                     <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
                         <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                            'Today':
+                            t('today'):
                             `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                         </ThemedText>
                         {theme === "light" ?
@@ -104,7 +105,7 @@ export default function Search() {
                         style={[styles.input, {backgroundColor: colors.grayMode, color: colors.black}]}
                         onChangeText={onChangeText}
                         value={text}
-                        placeholder="Search a food"
+                        placeholder={t('searchFood')}
                         placeholderTextColor={'grey'}
                     >
                     </TextInput>
@@ -138,7 +139,7 @@ export default function Search() {
                             style={[styles.wrapperBloc, {backgroundColor: colors.primary}]}
                         >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                                <ThemedText variant='title2' color={colors.white} style={{ fontWeight: 'bold' }}>My list</ThemedText>
+                                <ThemedText variant='title2' color={colors.white} style={{ fontWeight: 'bold' }}>{t('list')}</ThemedText>
                             </View>
                             </TouchableOpacity>
                     </Row>

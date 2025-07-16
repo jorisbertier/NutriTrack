@@ -6,6 +6,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import { Skeleton } from 'moti/skeleton';
 import { colorMode } from '@/constants/Colors';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { useTranslation } from 'react-i18next';
 
 type ProgressBarProps = {
     progress: number;
@@ -18,6 +19,7 @@ type ProgressBarProps = {
 export const ProgressBarKcal: React.FC<ProgressBarProps> = ({isLoading, progress, nutri, quantityGoal, color = '#F97216', height = 40 }) => {
 
     const { colors } = useTheme();
+    const { t } = useTranslation();
     const percentage = (progress / quantityGoal) * 100;
 
     return (
@@ -33,9 +35,9 @@ export const ProgressBarKcal: React.FC<ProgressBarProps> = ({isLoading, progress
                         ]}
                     />
                 {progress < quantityGoal ? (
-                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>Work in progress</ThemedText>
+                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>{t('work')}</ThemedText>
                 ) : (
-                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>Work done !</ThemedText>
+                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>{t('workDone')}</ThemedText>
                 )}
                 </View>
             :

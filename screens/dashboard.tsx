@@ -23,11 +23,14 @@ import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch } from 'react-redux';
 import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
 import { handleAnimation } from '../functions/function';
+import { useTranslation } from "react-i18next";
 
 
 export default function Dashboard() {
     
     const {theme, colors} = useTheme();
+    
+    const { t } = useTranslation();
 
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
@@ -368,23 +371,23 @@ export default function Dashboard() {
     }, [resultAllDataFood, foodsForSelectedDate]);
 
     const nutritionData = [
-        { name: 'Potassium', quantity: potassium, unit: 'g' },
-        { name: 'Magnesium', quantity: magnesium, unit: 'g' },
-        { name: 'Calcium', quantity: calcium, unit: 'g' },
-        { name: 'Sodium', quantity: sodium, unit: 'g' },
-        { name: 'Vitamin A', quantity: getVitaminPercentageUg(vitaminA, 800), unit: '%' },
-        { name: 'Vitamin B1', quantity: getVitaminPercentageMg(vitaminB1, 1.1), unit: '%' },
-        { name: 'Vitamin B5', quantity: getVitaminPercentageMg(vitaminB5, 5), unit: '%' },
-        { name: 'Vitamin B6', quantity: getVitaminPercentageMg(vitaminB6, 1.3), unit: '%' },
-        { name: 'Vitamin B12', quantity: getVitaminPercentageUg(vitaminB12, 2.4), unit: '%' },
-        { name: 'Vitamin C', quantity: getVitaminPercentageMg(vitaminC, 90), unit: '%' },
-        { name: 'Vitamin D', quantity: getVitaminPercentageUg(vitaminD, 15), unit: '%' },
-        { name: 'Vitamin E', quantity: getVitaminPercentageMg(vitaminE, 15), unit: '%' },
-        { name: 'Vitamin K', quantity: getVitaminPercentageUg(vitaminK, 120), unit: '%' },
-        { name: 'Folate', quantity: folate, unit: 'g' },
-        { name: 'Iron', quantity: iron, unit: 'g' },
+        { name: t('potassium'), quantity: potassium, unit: 'g' },
+        { name: t('magnesium'), quantity: magnesium, unit: 'g' },
+        { name: t('calcium'), quantity: calcium, unit: 'g' },
+        { name: t('sodium'), quantity: sodium, unit: 'g' },
+        { name: t('vitaminA'), quantity: getVitaminPercentageUg(vitaminA, 800), unit: '%' },
+        { name: t('vitaminB1'), quantity: getVitaminPercentageMg(vitaminB1, 1.1), unit: '%' },
+        { name: t('vitaminB5'), quantity: getVitaminPercentageMg(vitaminB5, 5), unit: '%' },
+        { name: t('vitaminB6'), quantity: getVitaminPercentageMg(vitaminB6, 1.3), unit: '%' },
+        { name: t('vitaminB12'), quantity: getVitaminPercentageUg(vitaminB12, 2.4), unit: '%' },
+        { name: t('vitaminC'), quantity: getVitaminPercentageMg(vitaminC, 90), unit: '%' },
+        { name: t('vitaminD'), quantity: getVitaminPercentageUg(vitaminD, 15), unit: '%' },
+        { name: t('vitaminE'), quantity: getVitaminPercentageMg(vitaminE, 15), unit: '%' },
+        { name: t('vitaminK'), quantity: getVitaminPercentageUg(vitaminK, 120), unit: '%' },
+        { name: t('folate'), quantity: folate, unit: 'g' },
+        { name: t('iron'), quantity: iron, unit: 'g' },
         // { name: 'Fiber', quantity: 0, unit: 'g' },
-        { name: 'Sugar', quantity: sugar, unit: 'g' },
+        { name: t('sugar'), quantity: sugar, unit: 'g' },
     ];
 
     const proteinsGoal = calculProteins(Number(userData[0]?.weight)) || 0;
@@ -531,7 +534,7 @@ export default function Dashboard() {
                 <TouchableOpacity onPress={handleOpenCalendar}>
                     <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
                         <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                            'Today':
+                            t('today'):
                             `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                         </ThemedText>
                         {theme === "light" ?
@@ -544,7 +547,7 @@ export default function Dashboard() {
             {notificationVisible &&
                 <View style={styles.notification}>
                     <View style={[styles.wrapperNotification, {backgroundColor: "#8592F2"}]}>
-                        <Text style={styles.notificationText}>Daily goal complete !!! + 20 Xp learned !</Text>
+                        <Text style={styles.notificationText}>{t('msg_exp')}</Text>
                     </View>
                 </View>
             }
@@ -562,7 +565,7 @@ export default function Dashboard() {
                         <View style={{ marginTop: 10 }}><Skeleton width={300} height={40} colorMode={colorMode} /></View>
                     }
                     {!isLoading ?
-                        <ThemedText variant='title2' color={colors.grayDark}>{goal} left for your goal</ThemedText>
+                        <ThemedText variant='title2' color={colors.grayDark}>{goal} {t('left')}</ThemedText>
                     :
                         <View style={{ marginTop: 5 }}><Skeleton width={260} height={30} colorMode={colorMode} /></View>
                     }

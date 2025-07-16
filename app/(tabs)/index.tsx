@@ -213,7 +213,7 @@ useEffect(() => {
             lineHeight: 21,
             fontWeight: 'bold',
             letterSpacing: 0.25,
-            color: colors.whiteFix,}}>Dashboard</Text>
+            color: colors.whiteFix,}}>{t('dashboard')}</Text>
           </Pressable>
           </Row>
           <Row style={{marginTop: 20, marginBottom: -15}}>
@@ -221,7 +221,7 @@ useEffect(() => {
           </Row>
             <Row gap={5} style={styles.rowTwoItems}>
               <NutritionalCard
-                nutritionalName={'calories'}
+                nutritionalName={t('calories')}
                 nutrionalData={basalMetabolicRate}
                 icon={'burn'}
                 backgroundcolor={colors.gray}
@@ -237,7 +237,7 @@ useEffect(() => {
                 setState={isLoading}
               />
               <NutritionalCard
-                nutritionalName={'carbs'}
+                nutritionalName={t('carbs')}
                 nutrionalData={calculCarbohydrates(basalMetabolicRate)}
                 backgroundcolor={colors.blue}
                 indice={'g'}
@@ -245,7 +245,7 @@ useEffect(() => {
                 setState={isLoading}
               />
               <NutritionalCard
-                nutritionalName={'fats'}
+                nutritionalName={t('fats')}
                 nutrionalData={calculFats(basalMetabolicRate)}
                 backgroundcolor={colors.blueLight}
                 indice={'g'}

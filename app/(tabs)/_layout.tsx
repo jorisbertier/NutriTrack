@@ -46,7 +46,7 @@ export default function TabLayout() {
       ),
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
-      headerTitle: 'Search',
+      headerTitle: t('search'),
       headerTitleAlign: 'center',
       headerStyle: {
         backgroundColor: '#000',
