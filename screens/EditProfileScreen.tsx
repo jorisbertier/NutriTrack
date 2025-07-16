@@ -10,10 +10,13 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import { Picker } from '@react-native-picker/picker';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '@/redux/userSlice';
+import { useTranslation } from 'react-i18next';
 
 const EditProfileScreen = ({ navigation, updateUserInfo }) => {
 
   const {colors} = useTheme();
+
+  const { t} = useTranslation();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [userData, setUserData] = useState<User[]>([]);
@@ -164,7 +167,7 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         </View>
       ))}
 
-      <Text style={[styles.label, {color : colors.black}]}>Activity Level</Text>
+      <Text style={[styles.label, {color : colors.black}]}>{t('activityLevel')}</Text>
       <Picker
         selectedValue={formData.activityLevel}
         style={[styles.picker, { backgroundColor: colors.grayPress}]}
@@ -172,15 +175,15 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
           setFormData((prev) => ({ ...prev, activityLevel: itemValue }))
         }
       >
-        <Picker.Item label="Sedentary" value="sedentary" />
-        <Picker.Item label="Low Active" value="lowactive" />
-        <Picker.Item label="Moderate" value="moderate" />
-        <Picker.Item label="Active" value="active" />
-        <Picker.Item label="Super Active" value="superactive" />
+        <Picker.Item label={t('sedentary')} value="sedentary" />
+        <Picker.Item label={t("lowactive")} value="lowactive" />
+        <Picker.Item label={t("moderate")} value="moderate" />
+        <Picker.Item label={t("active")} value="active" />
+        <Picker.Item label={t("superactive")} value="superactive" />
       </Picker>
 
       <TouchableOpacity style={[styles.saveButton,{backgroundColor: colors.primary}]} onPress={handleSave}>
-        <Text style={[styles.saveButtonText]}>Save Changes</Text>
+        <Text style={[styles.saveButtonText]}>{t('save')}</Text>
       </TouchableOpacity>
 
       <Modal
@@ -191,14 +194,14 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              Your calorie and nutritional goals will be recalculated and all custom settings will be replaced with the new changes.{"\n"}REQUIERE a logout !{"\n"} Do you want to continue?
+              {t('saveText')}
             </Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={styles.cancelButtonText}>{t('cancel')}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.confirmButton, {backgroundColor: colors.primary}]} onPress={confirmSave}>
-                <Text style={styles.confirmButtonText}>Confirm</Text>
+                <Text style={styles.confirmButtonText}>{t('confirm')}</Text>
               </TouchableOpacity>
             </View>
           </View>

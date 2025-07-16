@@ -164,7 +164,7 @@ const ProfileScreen = () => {
 
       <View style={[styles.section, {backgroundColor: colors.white}]}>
         <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('activity')}</Text>
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('activityLevel')}: {userData[0]?.activityLevel}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('activityLevel')}: {`${t(`${userData[0]?.activityLevel}`)}`}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
       </View>
 
       <View style={[styles.section, {backgroundColor: colors.white}]}>
@@ -201,15 +201,13 @@ const ProfileScreen = () => {
           <View style={modal.modalContainer}>
             <View style={modal.modalContent}>
               <Text style={modal.modalText}>
-                Your account is about to be deleted. You will lose all data related to it!{"\n"}
-                This requires a logout!{"\n"}
-                To confirm, please corfim with **DELETE** below:
+                {t('textDelete')}
               </Text>
 
               {/* Input Field for Confirmation */}
               <TextInput
                 style={modal.textInput}
-                placeholder="Type DELETE to confirm"
+                placeholder={t('placeholderDelete')}
                 value={confirmationText}
                 onChangeText={setConfirmationText}
                 autoCapitalize="none"
@@ -217,7 +215,7 @@ const ProfileScreen = () => {
 
               <View style={modal.modalButtons}>
                 <TouchableOpacity style={modal.cancelButton} onPress={() => setModalVisible(false)}>
-                  <Text style={modal.cancelButtonText}>Cancel</Text>
+                  <Text style={modal.cancelButtonText}>{t('cancel')}</Text>
                 </TouchableOpacity>
 
                 {/* Disable the confirm button until the correct text is entered */}
@@ -232,7 +230,7 @@ const ProfileScreen = () => {
                   onPress={handleDeleteAccount}
                   disabled={confirmationText !== "DELETE"} // Disable button if text doesn't match
                 >
-                  <Text style={modal.confirmButtonText}>Confirm</Text>
+                  <Text style={modal.confirmButtonText}>{t('confirm')}</Text>
                 </TouchableOpacity>
               </View>
             </View>

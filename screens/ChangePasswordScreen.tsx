@@ -3,10 +3,12 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useUser } from '@/components/context/UserContext';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { useTranslation } from 'react-i18next';
 
 const ChangePasswordScreen = ({ navigation }: any) => {
 
     const { user } = useUser();
+    const { t } = useTranslation();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const {colors} = useTheme();
@@ -14,17 +16,17 @@ const ChangePasswordScreen = ({ navigation }: any) => {
 
     const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) {
-            setPasswordError("Passwords do not match”, “Please try again.");
+            setPasswordError(t('passwordError'));
             return;
         }
         setPasswordError('')
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
         if (!confirmPassword || confirmPassword.length < 6) {
-            setPasswordError("Password must be at least 6 characters long.");
+            setPasswordError(t('passwordError2'));
             return
         }
         else if(!passwordRegex.test(confirmPassword)) {
-            setPasswordError("Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            setPasswordError(t('passwordError3'));
             return
         }
         else {
@@ -51,20 +53,20 @@ const ChangePasswordScreen = ({ navigation }: any) => {
         <View style={[styles.container, { backgroundColor: colors.whiteMode}]}>
             <TextInput
                 style={[styles.input, { backgroundColor: colors.grayPress}]}
-                placeholder="New password"
+                placeholder={t('newPassord')}
                 secureTextEntry
                 value={newPassword}
                 onChangeText={setNewPassword}
             />
             <TextInput
                 style={[styles.input, { backgroundColor: colors.grayPress}]}
-                placeholder="Confirm new password"
+                placeholder={t('confirmNewPassword')}
                 secureTextEntry
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
             />
             {passwordError && <Text style={styles.messageError}>{passwordError}</Text>}
-            <Button color={colors.primary} title="Update password" onPress={handleChangePassword} />
+            <Button color={colors.primary} title={t('updatePassword')} onPress={handleChangePassword} />
         </View>
     );
 };

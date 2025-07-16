@@ -18,5 +18,13 @@
     "contactSupport": "Contactar soporte",
     "logout": "Cerrar sesión",
     "deleteAccount": "Eliminar cuenta",
-    "proteins": "Proteinas"
+    "proteins": "Proteinas",
+    "sedentary": "Sedentario",
+    "lowactive": "Poco activo",
+    "moderate": "Moderado",
+    "active": "Activo",
+    "superactive": "Muy activo"
+
+
+    
 }

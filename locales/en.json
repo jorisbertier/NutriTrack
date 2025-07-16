@@ -22,5 +22,25 @@
     "gender_male": "male",
     "gender_female": "female",
     "gender_other": "other",
-    "proteins": "Proteins"
+    "proteins": "Proteins",
+    "textDelete": "Your account is about to be deleted. You will lose all data related to it!\n This requires a logout!\n To confirm, please corfim with **DELETE** below:",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "placeholderDelete": "Type DELETE to confirm",
+    "sedentary": "sedentary",
+    "lowactive": "lowactive",
+    "moderate": "moderate",
+    "active": "active",
+    "superactive": "superactive",
+    "newPassord": "New password",
+    "confirmNewPassord": "Confirm new password",
+    "updatePassword": "UPDATE PASSWORD",
+    "profile": "Profile",
+    "search": "Search",
+    "save": "SAVE CHANGES",
+    "saveText": "Your calorie and nutritional goals will be recalculated and all custom settings will be replaced with the new changes.\nREQUIERE a logout !\n Do you want to continue?",
+    "passwordError": "Passwords do not match”, “Please try again.",
+    "passwordError2": "Password must be at least 6 characters long.",
+    "passwordError3": "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character."
+
 }

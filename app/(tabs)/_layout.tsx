@@ -10,9 +10,11 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import Subscription from '@/screens/Subscription/Subscription';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Stats from '@/screens/Stats';
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
   
+  const { t } = useTranslation();
   const {colors} = useTheme();
   const Tab = createBottomTabNavigator();
 
@@ -34,7 +36,7 @@ export default function TabLayout() {
 
     {/* Onglet 2 : Search */}
     <Tab.Screen 
-      name="Search" 
+      name="Nutri search" 
       component={Search} 
       // options={{ tabBarLabel: 'Search', tabBarIcon: ({ color, size }) => (
       options={{ 
@@ -106,7 +108,7 @@ export default function TabLayout() {
       ),
       tabBarActiveTintColor : colors.primary,
       headerShown: true,
-      headerTitle: 'Profile',
+      headerTitle: t('profile'),
       headerTitleAlign: 'center',
       headerStyle: {
         backgroundColor: '#000',

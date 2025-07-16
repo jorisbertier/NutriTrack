@@ -27,12 +27,15 @@ import ReportIssue from '@/screens/Report';
 import { Provider } from 'react-redux';
 import { store } from '@/redux/store'
 import Subscription from '@/screens/Subscription/Subscription';
+import { useTranslation } from 'react-i18next';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+
+  const { t } = useTranslation();
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -42,6 +45,7 @@ export default function RootLayout() {
 
   // Empêche l'écran de démarrage de se cacher avant la fin du chargement des assets
   useEffect(() => {
+
     if (loaded) {
       SplashScreen.hideAsync();
       NavigationBar.setBackgroundColorAsync('#111419');
@@ -89,7 +93,7 @@ export default function RootLayout() {
               <Stack.Screen name="Policy" component={PrivacyPolicy}
                 options={{
                   headerShown: true,
-                  headerTitle: 'Privacy Policy',
+                  headerTitle: t('privacyPolicy'),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
@@ -103,7 +107,7 @@ export default function RootLayout() {
               <Stack.Screen name="Terms" component={Terms}
                 options={{
                   headerShown: true,
-                  headerTitle: 'Terms of use',
+                  headerTitle: t('termsOfUse'),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
@@ -117,7 +121,7 @@ export default function RootLayout() {
               <Stack.Screen name="Report" component={ReportIssue}
                 options={{
                   headerShown: true,
-                  headerTitle: 'Contact support',
+                  headerTitle: t('contactSupport'),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
@@ -145,7 +149,7 @@ export default function RootLayout() {
               <Stack.Screen name="EditProfile" component={EditProfileScreen} 
                 options={{
                   headerShown: true,
-                  headerTitle: 'Edit Profile',
+                  headerTitle: t('editProfile'),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
@@ -159,7 +163,7 @@ export default function RootLayout() {
               <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}
                 options={{
                   headerShown: true,
-                  headerTitle: 'Change password',
+                  headerTitle: t('changePassword'),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
