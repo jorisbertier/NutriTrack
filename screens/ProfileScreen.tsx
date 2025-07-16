@@ -133,14 +133,31 @@ const ProfileScreen = () => {
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
-
+console.log(i18n.language)
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.whiteMode}]} persistentScrollbar={true}>
       
-      
+{/*       
       <Button title="FR" onPress={() => changeLanguage('fr')} />
       <Button title="EN" onPress={() => changeLanguage('en')} />
-      <Button title="ES" onPress={() => changeLanguage('es')} />
+      <Button title="ES" onPress={() => changeLanguage('es')} /> */}
+        <View style={styles.containerTranslate}>
+          <View style={{width: '30%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <View></View>
+          </View>
+          <View style={{marginLeft: 10, backgroundColor: '#F6F6F6', gap: 3, display: 'flex', alignItems: 'center', padding: 4, borderRadius: 5, justifyContent: "space-between", flexDirection: 'row', width: '40%'}}>
+            <Image source={require('@/assets/images/traduction.png')} style={{width: 30, height: 30}}/>
+            <TouchableOpacity  onPress={() => changeLanguage('en')} style={[styles.langButton, i18n.language === "en" && styles.isActive ]}>
+              <Text >EN</Text>
+            </TouchableOpacity >
+            <TouchableOpacity onPress={() => changeLanguage('fr')} style={[styles.langButton, i18n.language === "fr" && styles.isActive]}>
+              <Text>FR</Text>
+            </TouchableOpacity >
+            <TouchableOpacity onPress={() => changeLanguage('es')} style={[styles.langButton, i18n.language === "es" && styles.isActive]}>
+              <Text>ES</Text>
+            </TouchableOpacity >
+          </View>
+        </View>
       <View style={styles.profileHeader}>
       <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
@@ -244,6 +261,21 @@ const ProfileScreen = () => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
+  containerTranslate: {
+backgroundColor: "white",
+   borderRadius: 8,
+    display: "flex",
+     justifyContent: 'space-between',
+     paddingHorizontal: 10,
+      width: '100%', 
+      flexDirection: "row",
+       padding: 7,
+           shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 2,
+  },
   container: {
     flexGrow: 1,
     padding: 20,
@@ -309,6 +341,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FF4D4D',
   },
+  langButton: {
+  borderRadius: 4,
+  padding: 5,
+},
+  isActive: {
+    backgroundColor: "white",
+    borderRadius: 4,
+  }
 });
 
 const modal = StyleSheet.create({
