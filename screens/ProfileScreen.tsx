@@ -2,7 +2,7 @@ import { User } from '@/interface/User';
 import { deleteUser, EmailAuthProvider, getAuth, reauthenticateWithPopup, signOut } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
@@ -11,20 +11,26 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import { deleteByCollection, getIdAvatarProfile } from '@/functions/function';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '@/redux/userSlice';
+import { useTranslation } from 'react-i18next';
+import '../locales/i18n';
+
 
 const ProfileScreen = () => {
 
   const {colors} = useTheme();
+  const { t, i18n } = useTranslation();
 
   const auth = getAuth();
   const user = auth.currentUser;
 
+  
   const [userData, setUserData] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const dispatch = useDispatch();
   const [ modalVisible, setModalVisible] = useState(false)
-
+  
   const navigation = useNavigation()
+  const genderKey = userData[0]?.gender;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -126,6 +132,11 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.whiteMode}]} persistentScrollbar={true}>
+      
+      
+      <Button title="FR" onPress={() => i18n.changeLanguage('fr')} />
+      <Button title="EN" onPress={() => i18n.changeLanguage('en')} />
+      <Button title="ES" onPress={() => i18n.changeLanguage('es')} />
       <View style={styles.profileHeader}>
       <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
@@ -135,48 +146,48 @@ const ProfileScreen = () => {
         {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
       </View>
       <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>Personal information</Text>
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Firstname: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={100}/> }
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Lastname: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Gender: {userData[0]?.gender}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={200}/></View> }
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Date of birth: {userData[0]?.dateOfBirth}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
+        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('personal_information')}</Text>
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('firstName')}: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={100}/> }
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('lastName')}: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('gender')}: {t(`gender_${genderKey}`)}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={200}/></View> }
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('dateOfBirth')}: {userData[0]?.dateOfBirth}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
       <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>Health Details</Text>
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Height: {userData[0]?.height} cm</Text> : <Skeleton colorMode={colorMode} width={200}/> }
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Weight: {userData[0]?.weight} kg</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
-      </View>
-
-      <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>Activity</Text>
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>Activity level: {userData[0]?.activityLevel}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
+        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('healthDetails')}</Text>
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('height')}: {userData[0]?.height} cm</Text> : <Skeleton colorMode={colorMode} width={200}/> }
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('weight')}: {userData[0]?.weight} kg</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
 
       <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>Options</Text>
+        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('activity')}</Text>
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('activityLevel')}: {userData[0]?.activityLevel}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
+      </View>
+
+      <View style={[styles.section, {backgroundColor: colors.white}]}>
+        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('Options')}</Text>
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Edit profile</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>{t('editProfile')}</Text>
         </TouchableOpacity>
         {/* <TouchableOpacity style={styles.optionButton}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
           </TouchableOpacity> */}
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Change password</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>{t('changePassword')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('Terms')}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Terms of use</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>{t('termsOfUse')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('Policy')}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Privacy policy</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>{t('privacyPolicy')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("Report")}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Contact Support</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>{t('contactSupport')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionButton} onPress={handleSignOut}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>Logout</Text>
+          <Text style={[styles.optionText, {color : colors.primary}]}>{t('logout')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.deleteButton} onPress={handleSave}>
-          <Text style={styles.deleteText}>Delete account</Text>
+          <Text style={styles.deleteText}>{t('deleteAccount')}</Text>
         </TouchableOpacity>
         <Modal
           transparent={true}

@@ -1,0 +1,21 @@
+{
+    "welcome": "Bienvenido",
+    "change_language": "Cambiar idioma",
+    "personal_information": "Información personal",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "gender": "Género",
+    "dateOfBirth": "Fecha de nacimiento",
+    "height": "Altura",
+    "weight": "Peso",
+    "activity": "Actividad",
+    "activityLevel": "Nivel de actividad",
+    "options": "Opciones",
+    "editProfile": "Editar perfil",
+    "changePassword": "Cambiar contraseña",
+    "termsOfUse": "Términos de uso",
+    "privacyPolicy": "Política de privacidad",
+    "contactSupport": "Contactar soporte",
+    "logout": "Cerrar sesión",
+    "deleteAccount": "Eliminar cuenta"
+}
