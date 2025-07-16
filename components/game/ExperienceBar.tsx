@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         width: '100%',
         marginVertical: 0,
         marginTop: 20,
-        marginBottom: -30
+        marginBottom: -30,
     },
     levelText: {
         fontSize: 16,

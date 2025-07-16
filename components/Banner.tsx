@@ -110,7 +110,7 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                 </View>
             <Row style={{marginTop: 30}}>
                 {isLoading ?
-                <View>
+                <View style={{ width: '100%'}}>
                     {/* <ExperienceBar level={userRedux?.level} title={'Apprenti gourmet'} currentXP={userData[0]?.xp}/> */}
                     
                     <ExperienceBar level={Number(userRedux?.level)} title={'Apprenti gourmet'} currentXP={Number(userRedux?.xp)} levelSecure={userData[0]?.level} currentXpSecure={userData[0]?.xp}/>
