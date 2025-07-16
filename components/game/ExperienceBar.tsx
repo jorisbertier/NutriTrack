@@ -62,10 +62,11 @@ const ExperienceBar: React.FC<ExperienceBarProps> = ({ level, title, currentXP }
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: '90%',
         marginVertical: 0,
         marginTop: 20,
         marginBottom: -30,
+        margin: "auto"
     },
     levelText: {
         fontSize: 16,
