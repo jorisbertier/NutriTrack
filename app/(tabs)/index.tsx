@@ -1,4 +1,4 @@
-import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType, View, Modal, Button, TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType, View, Modal, Button, TouchableOpacity, Linking, Image } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -191,7 +191,6 @@ useEffect(() => {
     <>
       <StatusBar barStyle="light-content" />
       <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)}/>
-      
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Row style={{marginTop: 40}}>
