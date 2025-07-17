@@ -69,7 +69,7 @@ const Registration = () => {
 
   const validateStep = () => {
     let isValid = true;
-    if (currentStep === 0) {
+    if (currentStep === 2) {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
             setEmailError('Please enter a valid email.');
             isValid = false;
@@ -126,7 +126,7 @@ const Registration = () => {
         }
     }
 
-    if (currentStep === 2) {
+    if (currentStep === 0) {
       const w = parseFloat(weight);
       const h = parseFloat(height);
       if (!w || isNaN(w) || w < 15 || w > 250) {
@@ -203,7 +203,7 @@ const Registration = () => {
       <ScrollView>
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
-        {currentStep === 0 && (
+        {currentStep ===  2 && (
             <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError }} />
         )}
         {currentStep === 1 && (
@@ -224,7 +224,7 @@ const Registration = () => {
             fiveYearsAgo,
           }} />
         )}
-        {currentStep === 2 && (
+        {currentStep === 0 && (
           <BodyInfoStep {...{ weight, setWeight, height, setHeight, weightError, heightError, colors, styles }} />
         )}
         {currentStep === 3 && (
