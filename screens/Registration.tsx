@@ -29,7 +29,7 @@ const Registration = () => {
   const [height, setHeight] = useState(0);
   const [activityLevel, setActivityLevel] = useState('');
   const [gender, setGender] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState('');
 
   const [isDateSelected, setIsDateSelected] = useState(false); 
 
@@ -69,7 +69,7 @@ const Registration = () => {
 
   const validateStep = () => {
     let isValid = true;
-    if (currentStep === 2) {
+    if (currentStep === 3) {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
             setEmailError('Please enter a valid email.');
             isValid = false;
@@ -126,7 +126,7 @@ const Registration = () => {
         }
     }
 
-    if (currentStep === 0) {
+    if (currentStep === 2) {
       const w = parseFloat(weight);
       const h = parseFloat(height);
       if (!w || isNaN(w) || w < 15 || w > 250) {
@@ -140,16 +140,16 @@ const Registration = () => {
       } else setHeightError('');
     }
 
-    if (currentStep === 3) {
+    if (currentStep === 0) {
       if (!activityLevel) {
         setActivityError('Please select an activity level.');
         isValid = false;
       } else setActivityError('');
 
-      if (!profileImage) {
-        setProfileImageError('Please select an avatar.');
-        isValid = false;
-      } else setProfileImageError('');
+    //   if (!profileImage) {
+    //     setProfileImageError('Please select an avatar.');
+    //     isValid = false;
+    //   } else setProfileImageError('');
 
       if (!gender) {
         setGenderError('Please select a gender.');
@@ -203,7 +203,7 @@ const Registration = () => {
       <View>
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
-        {currentStep ===  2 && (
+        {currentStep ===  3 && (
             <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError }} />
         )}
         {currentStep === 1 && (
@@ -220,14 +220,14 @@ const Registration = () => {
             firstnameError,
             dateOfBirthError ,
             dateOfBirth,
-            DateTimePicker,
+            // DateTimePicker,
             fiveYearsAgo,
           }} />
         )}
-        {currentStep === 0 && (
+        {currentStep === 2 && (
           <BodyInfoStep {...{ weight, setWeight, height, setHeight, weightError, heightError }} />
         )}
-        {currentStep === 3 && (
+        {currentStep === 0 && (
           <PreferencesStep {...{
             activityLevel,
             setActivityLevel,
@@ -238,8 +238,6 @@ const Registration = () => {
             setGender,
             genderError,
             profileImageError,
-            colors,
-            styles,
             avatars,
           }} />
         )}

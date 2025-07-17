@@ -1,6 +1,7 @@
 import { useTheme } from '@/hooks/ThemeProvider';
 import React, { useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 type PersonalInfoStepProps = {
     name: string;
@@ -20,7 +21,7 @@ type PersonalInfoStepProps = {
 
 
 
-const PersonalInfoStep = ({ name, setName, firstname, setFirstname, dateOfBirthFormatted, showDatePicker, setShowDatePicker, onChangeDate, nameError, firstnameError, dateOfBirthError, DateTimePicker, dateOfBirth, fiveYearsAgo }: PersonalInfoStepProps) => {
+const PersonalInfoStep = ({ name, setName, firstname, setFirstname, dateOfBirthFormatted, showDatePicker, setShowDatePicker, onChangeDate, nameError, firstnameError, dateOfBirthError, dateOfBirth, fiveYearsAgo }: PersonalInfoStepProps) => {
     
     const {colors} = useTheme();
     const [isNameFocused, setIsNameFocused] = useState(false);
@@ -30,7 +31,7 @@ const PersonalInfoStep = ({ name, setName, firstname, setFirstname, dateOfBirthF
         <>
             <Text style={[styles.label, { color: colors.blackFix }]}>Name</Text>
             <TextInput
-                style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayDarkFix,  borderWidth: isNameFocused ? 2 : 1 }]}
+                style={[styles.input, { borderColor: isNameFocused ? colors.blue : colors.grayDarkFix,  borderWidth: isNameFocused ? 2 : 1 }]}
                 value={name}
                 onChangeText={setName}
                 placeholder="Name"
@@ -44,7 +45,7 @@ const PersonalInfoStep = ({ name, setName, firstname, setFirstname, dateOfBirthF
             <TextInput
                 onFocus={() => setIsFirstnameFocused(true)}
                 onBlur={() => setIsFirstnameFocused(false)}
-                style={[styles.input, { borderColor: isFirstnameFocused ? colors.blackFix : colors.grayDarkFix,  borderWidth: isFirstnameFocused ? 2 : 1 }]}
+                style={[styles.input, { borderColor: isFirstnameFocused ? colors.blue : colors.grayDarkFix,  borderWidth: isFirstnameFocused ? 2 : 1 }]}
                 value={firstname}
                 onChangeText={setFirstname}
                 placeholder="First Name"
