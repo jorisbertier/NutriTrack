@@ -59,7 +59,7 @@ const PersonalInfoStep = ({ name, setName, firstname, setFirstname, dateOfBirthF
                 </TouchableOpacity >
                 <View>
                     <Text style={styles.textDateFirst}>Date</Text>
-                    <Text style={styles.textDate}>{dateOfBirthFormatted}</Text>
+                    <Text style={styles.textDate}>{dateOfBirthFormatted || "- - - -"}</Text>
                 </View>
                 </View>
             {showDatePicker && (

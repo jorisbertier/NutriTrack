@@ -69,7 +69,7 @@ const Registration = () => {
 
   const validateStep = () => {
     let isValid = true;
-    if (currentStep === 1) {
+    if (currentStep === 0) {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
             setEmailError('Please enter a valid email.');
             isValid = false;
@@ -91,7 +91,7 @@ const Registration = () => {
     }
         
 
-    if (currentStep === 0) {
+    if (currentStep === 1) {
         if (!name.trim()) {
             setNameError('Name is required.');
             isValid = false;
@@ -203,10 +203,10 @@ const Registration = () => {
       <ScrollView>
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
-        {currentStep === 1 && (
-          <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError }} />
-        )}
         {currentStep === 0 && (
+            <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError }} />
+        )}
+        {currentStep === 1 && (
           <PersonalInfoStep {...{
             name,
             setName,
@@ -253,20 +253,20 @@ const Registration = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  nextButton: {
-    position: 'absolute',
-    right: 20,
-    bottom: 30,
-    backgroundColor: 'black',
-    borderRadius: 50,
-    padding: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        padding: 16,
+    },
+    nextButton: {
+        position: 'absolute',
+        right: 20,
+        bottom: 30,
+        backgroundColor: 'black',
+        borderRadius: 50,
+        padding: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
 
 export default Registration;
