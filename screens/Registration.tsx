@@ -65,7 +65,7 @@ const Registration = () => {
 
   const validateStep = () => {
     let isValid = true;
-    if (currentStep === 0) {
+    if (currentStep === 1) {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
             setEmailError('Please enter a valid email.');
             isValid = false;
@@ -87,7 +87,7 @@ const Registration = () => {
     }
         
 
-    if (currentStep === 1) {
+    if (currentStep === 0) {
         if (!name.trim()) {
             setNameError('Name is required.');
             isValid = false;
@@ -194,10 +194,10 @@ const Registration = () => {
       <ScrollView>
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
-        {currentStep === 0 && (
-          <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError, colors }} />
-        )}
         {currentStep === 1 && (
+          <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError }} />
+        )}
+        {currentStep === 0 && (
           <PersonalInfoStep {...{
             name,
             setName,
@@ -209,8 +209,6 @@ const Registration = () => {
             onChangeDate,
             nameError,
             firstnameError,
-            colors,
-            styles,
             DateTimePicker,
             dateOfBirth,
             fiveYearsAgo,

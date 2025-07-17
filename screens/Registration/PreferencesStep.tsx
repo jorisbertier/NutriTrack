@@ -1,21 +1,39 @@
 import React from 'react';
-import { Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { useTheme } from '@/hooks/ThemeProvider';
+
+type Props = {
+    activityLevel: string;
+    setActivityLevel: (value: string) => void;
+    activityError: string;
+    profileImage: string;
+    setProfileImage: (value: string) => void;
+    setPassword: (value: string) => void;
+    gender: string;
+    setGender: (value: string) => void;
+    genderError: string;
+    profileImageError: string;
+    avatars: any;
+}
+
 
 const PreferencesStep = ({
-  activityLevel,
-  setActivityLevel,
-  activityError,
-  profileImage,
-  setProfileImage,
-  gender,
-  setGender,
-  genderError,
-  profileImageError,
-  colors,
-  styles,
-  avatars,
-}) => (
+    activityLevel,
+    setActivityLevel,
+    activityError,
+    profileImage,
+    setProfileImage,
+    gender,
+    setGender,
+    genderError,
+    profileImageError,
+    avatars,
+}: Props) => {
+
+    const {colors} = useTheme();
+
+    return (
     <>
         <Text style={[styles.label, { color: colors.black }]}>Activity level -</Text>
         <Picker
@@ -36,16 +54,16 @@ const PreferencesStep = ({
         data={avatars}
         keyExtractor={(item) => item.id.toString()}
         horizontal
-        contentContainerStyle={styles.avatarList}
+        // contentContainerStyle={styles.avatarList}
         renderItem={({ item }) => (
             <TouchableOpacity
             style={[
-                styles.avatarContainer,
+                // styles.avatarContainer,
                 profileImage === item.id && { borderColor: colors.black },
             ]}
             onPress={() => setProfileImage(item.id)}
             >
-            <Image source={item.uri} style={styles.avatarImage} />
+            <Image source={item.uri} />
             </TouchableOpacity>
         )}
         />
@@ -57,17 +75,48 @@ const PreferencesStep = ({
             style={[styles.genderButton, gender === 'male' && styles.selectedButton]}
             onPress={() => setGender('male')}
         >
-            <Text style={styles.genderText}>Male</Text>
+            <Text>Male</Text>
         </TouchableOpacity>
         <TouchableOpacity
             style={[styles.genderButton, gender === 'female' && styles.selectedButton]}
             onPress={() => setGender('female')}
         >
-            <Text style={styles.genderText}>Female</Text>
+            <Text>Female</Text>
         </TouchableOpacity>
         </View>
         {genderError ? <Text style={styles.errorText}>{genderError}</Text> : null}
     </>
-);
+    )
+}
 
+const styles = StyleSheet.create({
+    input : {
+        backgroundColor: 'white',
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 15,
+        height: 50,
+        marginBottom: 20
+    },
+    label : {
+        fontWeight: 500,
+        fontSize: 15,
+        marginBottom: 5
+    },
+    errorText: {
+
+    },
+    genderContainer : {
+
+    },
+    genderButton : {
+
+    },
+    selectedButton: {
+    
+    },
+    picker : {
+
+    }
+})
 export default PreferencesStep;
