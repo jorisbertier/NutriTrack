@@ -31,13 +31,13 @@ export const ProgressBarKcal: React.FC<ProgressBarProps> = ({isLoading, progress
                         colors={['#A9B8E3', '#8592F2', '#5B6FD2']}
                         style={[
                             styles.progressBar2,
-                            { width: `${Math.min(percentage, 100)}%`, height },
+                            { width: `${Math.min(percentage, 100)}%` },
                         ]}
                     />
                 {progress < quantityGoal ? (
-                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>{t('work')}</ThemedText>
+                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>{t('work')} ...</ThemedText>
                 ) : (
-                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>{t('workDone')}</ThemedText>
+                    <ThemedText variant="title2" color={colors.black} style={styles.textProgress}>{t('workDone')} !</ThemedText>
                 )}
                 </View>
             :
@@ -59,10 +59,10 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 7,
         overflow: 'visible',
-        height: 40
+        height: 15
     },
     progressBar2: {
-        height: '95%',
+        height: 15,
         borderRadius: 5,
     },
     text : {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     textProgress : {
-        position: 'absolute',
+        // position: 'absolute',
         zIndex: 2,
         justifyContent: 'center',
         alignItems: 'center',
