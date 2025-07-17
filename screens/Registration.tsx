@@ -31,10 +31,13 @@ const Registration = () => {
   const [gender, setGender] = useState('');
   const [profileImage, setProfileImage] = useState(null);
 
+  const [isDateSelected, setIsDateSelected] = useState(false); 
+
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [nameError, setNameError] = useState('');
   const [firstnameError, setFirstnameError] = useState('');
+  const [dateOfBirthError, setDateOfBirthError] = useState('');
   const [weightError, setWeightError] = useState('');
   const [heightError, setHeightError] = useState('');
   const [activityError, setActivityError] = useState('');
@@ -56,6 +59,7 @@ const Registration = () => {
     const currentDate = selectedDate || dateOfBirth;
     setShowDatePicker(false);
     setDateOfBirth(currentDate);
+    setIsDateSelected(true);
 
     const day = String(currentDate.getDate()).padStart(2, '0');
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -114,6 +118,11 @@ const Registration = () => {
         }
         else {
             setFirstnameError('');
+        }
+        if(!isDateSelected) {
+            setDateOfBirthError(`Please select a date of birth`)
+        }else {
+            setDateOfBirthError('')
         }
     }
 
@@ -209,8 +218,9 @@ const Registration = () => {
             onChangeDate,
             nameError,
             firstnameError,
-            DateTimePicker,
+            dateOfBirthError ,
             dateOfBirth,
+            DateTimePicker,
             fiveYearsAgo,
           }} />
         )}
