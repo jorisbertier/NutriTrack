@@ -25,8 +25,8 @@ const Registration = () => {
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [dateOfBirthFormatted, setDateOfBirthFormatted] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [weight, setWeight] = useState('');
-  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState(0);
   const [activityLevel, setActivityLevel] = useState('');
   const [gender, setGender] = useState('');
   const [profileImage, setProfileImage] = useState(null);
@@ -200,7 +200,7 @@ const Registration = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.whiteMode }]}>
-      <ScrollView>
+      <View>
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
         {currentStep ===  2 && (
@@ -225,7 +225,7 @@ const Registration = () => {
           }} />
         )}
         {currentStep === 0 && (
-          <BodyInfoStep {...{ weight, setWeight, height, setHeight, weightError, heightError, colors, styles }} />
+          <BodyInfoStep {...{ weight, setWeight, height, setHeight, weightError, heightError }} />
         )}
         {currentStep === 3 && (
           <PreferencesStep {...{
@@ -243,7 +243,7 @@ const Registration = () => {
             avatars,
           }} />
         )}
-      </ScrollView>
+      </View>
 
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={{ color: 'white', fontSize: 18 }}>→</Text>
