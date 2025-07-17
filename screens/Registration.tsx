@@ -12,13 +12,14 @@ import PreferencesStep from './Registration/PreferencesStep';
 import StepProgressBar from './Registration/ProgressBarStep';
 import { Image } from 'react-native';
 import AvatarStep from './Registration/AvatarStep';
+import SuccessStep from './Registration/SuccessStep';
 
 const Registration = () => {
   const { colors } = useTheme();
   const Auth = getAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
-  const steps = ['Credentials', 'Personal', 'Body', 'Preferences', 'Avatar'];
+  const steps = ['Credentials', 'Personal', 'Body', 'Preferences', 'Avatar', 'Success'];
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -173,6 +174,15 @@ const Registration = () => {
       }
     }
   };
+//   const handleNext = () => {
+//   if (validateStep()) {
+//     if (currentStep === 4) {
+//       handleSubmit(); // On crée le compte ici
+//     } else {
+//       setCurrentStep(currentStep + 1);
+//     }
+//   }
+// };
 
   const handleSubmit = async () => {
     try {
@@ -197,6 +207,7 @@ const Registration = () => {
         fatsTotal: {},
       });
       // Alert.alert('Success', 'Account created successfully!');
+      // setCurrentStep(5);
     } catch (err) {
       Alert.alert('Error', err.message);
     }
@@ -207,7 +218,7 @@ const Registration = () => {
       <View>
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
-        {currentStep ===  0 && (
+        {currentStep ===  5 && (
             <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError }} />
         )}
         {currentStep === 1 && (
@@ -247,6 +258,9 @@ const Registration = () => {
         )}
         {currentStep === 4  && (
           <AvatarStep {...{ profileImage, setProfileImage, profileImageError, avatars }}/>
+        )}
+        {currentStep === 0  && (
+          <SuccessStep/>
         )}
       </View>
 
