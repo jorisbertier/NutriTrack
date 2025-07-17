@@ -195,7 +195,7 @@ const Registration = () => {
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
         {currentStep === 0 && (
-          <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError, colors, styles }} />
+          <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError, colors }} />
         )}
         {currentStep === 1 && (
           <PersonalInfoStep {...{
