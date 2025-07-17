@@ -31,7 +31,7 @@ const PersonalInfoStep = ({ name, setName, firstname, setFirstname, dateOfBirthF
         <>
             <Text style={[styles.label, { color: colors.blackFix }]}>Name</Text>
             <TextInput
-                style={[styles.input, { borderColor: isNameFocused ? colors.blue : colors.grayDarkFix,  borderWidth: isNameFocused ? 2 : 1 }]}
+                style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayDarkFix,  borderWidth: isNameFocused ? 2 : 1 }]}
                 value={name}
                 onChangeText={setName}
                 placeholder="Name"
@@ -45,7 +45,7 @@ const PersonalInfoStep = ({ name, setName, firstname, setFirstname, dateOfBirthF
             <TextInput
                 onFocus={() => setIsFirstnameFocused(true)}
                 onBlur={() => setIsFirstnameFocused(false)}
-                style={[styles.input, { borderColor: isFirstnameFocused ? colors.blue : colors.grayDarkFix,  borderWidth: isFirstnameFocused ? 2 : 1 }]}
+                style={[styles.input, { borderColor: isFirstnameFocused ? colors.blackFix : colors.grayDarkFix,  borderWidth: isFirstnameFocused ? 2 : 1 }]}
                 value={firstname}
                 onChangeText={setFirstname}
                 placeholder="First Name"
