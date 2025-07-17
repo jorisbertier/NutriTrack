@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Text, View, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useTheme } from '@/hooks/ThemeProvider';
+import LottieView from 'lottie-react-native';
+
+
 
 type Props = {
     activityLevel: string;
@@ -34,6 +37,12 @@ const PreferencesStep = ({
     const {colors} = useTheme();
     return (
     <>
+  <LottieView
+    source={require('@/assets/lottie/success.json')} // ou depuis une URL
+    autoPlay
+    loop={false}
+    style={{ width: 150, height: 150 }}
+  />
         <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>Activity level</Text>
         <View style={styles.picker}>
             <Picker
@@ -89,7 +98,7 @@ const PreferencesStep = ({
                 {gender === "female" && <View style={{backgroundColor: colors.whiteFix, height: 5, width: 5, borderRadius: "50%"}}></View>}
             </View>
         </TouchableOpacity>
-        {genderError ? <Text style={styles.errorText}>{genderError}</Text> : null}
+        {genderError ? <Text style={styles.errorTextGender}>{genderError}</Text> : null}
     </>
     )
 }
@@ -114,6 +123,11 @@ const styles = StyleSheet.create({
         color: 'red',
         marginTop: -10,
         marginBottom: 10
+    },
+    errorTextGender: {
+        color: 'red',
+        marginTop: -5,
+        marginBottom: 15
     },
     genderContainer : {
         borderWidth: 1,

@@ -10,6 +10,7 @@ import PersonalInfoStep from './Registration/PersonalInfoStep';
 import BodyInfoStep from './Registration/BodyInfosStep';
 import PreferencesStep from './Registration/PreferencesStep';
 import StepProgressBar from './Registration/ProgressBarStep';
+import { Image } from 'react-native';
 
 const Registration = () => {
   const { colors } = useTheme();
@@ -244,7 +245,9 @@ const Registration = () => {
       </View>
 
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-        <Text style={{ color: 'white', fontSize: 18 }}>→</Text>
+        <Text style={{ color: 'white', fontSize: 18 }}>
+          <Image source={require('@/assets/images/arrow-right.png')} style={{ alignSelf: 'center', height: 18, width: 18 }} />
+        </Text>
       </TouchableOpacity>
     </View>
   );
