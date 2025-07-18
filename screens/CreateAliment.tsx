@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { fetchUserDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
@@ -10,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { User } from '@/interface/User';
 import { repertoryFood } from '@/data/createAliment/repertoryFood';
 import NutritionBox from '@/components/NutritionBox';
+import { Switch } from 'react-native-paper';
 
 function CreateAliment() {
 
@@ -428,9 +430,19 @@ const isDisabled =
   Number(inputValueGram) < 10 ||
   Number(inputValueGram) > 250;
 
+    const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]} contentContainerStyle={{ paddingBottom: 20 }}>
-            <Text style={{fontSize: 15, width: '100%', textAlign: 'center'}}>Create a food item based on the official data. Enter a quantity, and you can modify the nutritional values as needed.</Text>
+            <Text style={{fontSize: 24, fontWeight: 500, margin: 'auto', marginBottom: 10}}>Switch Mode</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20}}>
+                <Text style={{width: 100, textAlign: 'center',fontWeight: 500, fontSize: 19, color: isSwitchOn ? colors.grayDarkFix : colors.black}}>Generate</Text>
+            <Switch color='black' value={isSwitchOn} onValueChange={onToggleSwitch} />
+                <Text style={{width: 100,fontSize: 20, fontWeight: 500, textAlign: 'center', color: isSwitchOn ? colors.black : colors.grayDarkFix}}>Create</Text>
+            </View>
+            <Text style={{fontSize: 16, width: '100%', textAlign: 'center'}}>Create a food item based on the official data. Enter a quantity, and you can modify the nutritional values as needed.</Text>
             <Text style={[styles.label, { color: colors.black }]}>Name</Text>
             <View style={{position: 'relative'}}>
                 <TextInput
