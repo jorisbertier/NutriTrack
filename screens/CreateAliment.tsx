@@ -390,6 +390,8 @@ function CreateAliment() {
     const [foodRepertorySelected, setFoodRepertorySelected] = useState('');
     const [repertoryOpened, setRepertoryOpened] = useState(false);
     const [generateFood, setGenerateFood] = useState<any>(null);
+    const [isNameFocused, setIsNameFocused] = useState(false);
+    const [isQuantityFocused, setIsQuantityFocused] = useState(false);
 
     const filteredRepertoryFood = repertoryFood.filter((food: any) => {
         return food.name.toLowerCase().includes(inputValue.toLowerCase())
@@ -446,12 +448,14 @@ const isDisabled =
             <Text style={[styles.label, { color: colors.black }]}>Name</Text>
             <View style={{position: 'relative'}}>
                 <TextInput
-                value={inputValue}
-                        onChangeText={(text) => {
-                        setInputValue(text);
-                        setRepertoryOpened(text.length > 0);
-                    }}
-                    style={[styles.input, { borderColor: colors.grayPress, borderRadius: 10 }]}
+                    value={inputValue}
+                            onChangeText={(text) => {
+                            setInputValue(text);
+                            setRepertoryOpened(text.length > 0);
+                        }}
+                onFocus={() => setIsNameFocused(true)}
+                onBlur={() => setIsNameFocused(false)}
+                    style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayPress, borderRadius: 10 }]}
                 />
                 {repertoryOpened && filteredRepertoryFood.length > 0 && (
                 <ScrollView style={styles.containerSearch}>
@@ -477,7 +481,9 @@ const isDisabled =
                 value={inputValueGram}
                 onChangeText={(text) => setInputValueGram(text)}
                 keyboardType="numeric"
-                style={[styles.input, { borderColor: colors.grayPress, borderRadius: 10 }]}
+                onFocus={() => setIsQuantityFocused(true)}
+                onBlur={() => setIsQuantityFocused(false)}
+                style={[styles.input, { borderColor: isQuantityFocused ? colors.blackFix : colors.grayPress, borderRadius: 10 }]}
             ></TextInput>
             <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
                 <TouchableOpacity
