@@ -149,7 +149,7 @@ useEffect(() => {
     }
   }, [selectedChallenge]);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
   
   useEffect(() => {
     const checkWelcomeMessage = async () => {
@@ -275,12 +275,12 @@ useEffect(() => {
                 <View style={modal.modalContainer}>
                   <View style={modal.modalContent}>
                     <Text style={modal.modalText}>
-                      Welcome to Nutri Track! 🎉{'\n'}{'\n'}
-                      Nutri Track helps you track your nutrition and achieve your health goals. 🥗{'\n'}{'\n'}
-                      You can earn 20XP per day by completing your daily objectives! 🚀{'\n'}{'\n'}
-                      Start tracking now to improve your nutrition and earn exciting levels ⚡!
+                      {t('modalTitle')} 🎉{'\n'}{'\n'}
+                      {t('modalText')} 🥗{'\n'}{'\n'}
+                      {t('modalText2')}🚀{'\n'}{'\n'}
+                      {t('modalText3')}⚡!
                     </Text>
-                    <Button title="Got it!" color={colors.primary} onPress={handleClose} accessibilityLabel="Close the presentation modal"/>
+                    <Button title={t('modalButton')} color={colors.primary} onPress={handleClose} accessibilityLabel="Close the presentation modal"/>
                   </View>
                 </View>
               </Modal>

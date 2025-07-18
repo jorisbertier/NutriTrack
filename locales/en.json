@@ -70,6 +70,12 @@
     "workDone": "Work done !",
     "today": "Today",
     "searchFood": "Search a food",
-    "list": "My list"
+    "list": "My list",
+
+    "modalTitle": "Welcome to Nutri Track! ",
+    "modalText": "Nutri Track helps you track your nutrition and achieve your health goals.",
+    "modalText2": "You can earn 20XP per day by completing your daily objectives!",
+    "modalText3": " Start tracking now to improve your nutrition and earn exciting levels",
+    "modalButton": "Got it",
 
 }

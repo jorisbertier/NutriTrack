@@ -70,5 +70,11 @@
     "workDone": "Objectif atteint !",
     "today": "Aujourd'hui",
     "searchFood": "Rechercher un aliment",
-    "list": "Ma liste"
+    "list": "Ma liste",
+
+    "modalTitle": "Bienvenue sur Nutri Track !",
+    "modalText": "Nutri Track vous aide à suivre votre nutrition et à atteindre vos objectifs de santé.",
+    "modalText2": "Vous pouvez gagner 20 XP par jour en complétant vos objectifs quotidiens !",
+    "modalText3": "Commencez le suivi dès maintenant pour améliorer votre nutrition et atteindre des niveaux passionnants.",
+    "modalButton": "J'ai compris"
 }

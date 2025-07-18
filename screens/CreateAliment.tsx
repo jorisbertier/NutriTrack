@@ -3,11 +3,12 @@ import { fetchUserDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
 import { getAuth } from 'firebase/auth';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { collection, doc, getDocs, setDoc } from "firebase/firestore"; 
 import { firestore } from '@/firebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '@/interface/User';
+import { repertoryFood } from '@/data/createAliment/repertoryFood';
 
 function CreateAliment() {
 
@@ -381,10 +382,57 @@ function CreateAliment() {
         setFolate('')
         setSugar('')
     };
+    const [inputValue, setInputValue] = useState('');
+    const [foodRepertorySelected, setFoodRepertorySelected] = useState('');
+    const [repertoryOpened, setRepertoryOpened] = useState(false);
+
+    const filteredRepertoryFood = repertoryFood.filter((food: any) => {
+        return food.name.toLowerCase().includes(inputValue.toLowerCase())
+    })
+    console.log(inputValue)
+    console.log(foodRepertorySelected)
+
+    const handleGenerateAliment = () => {
+        console.log('ouiiii')
+    }
     
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]} contentContainerStyle={{ paddingBottom: 20 }}>
-            <Text style={[styles.label, {color : colors.black}]}>Name -</Text>
+            <Text style={[styles.label, { color: colors.black }]}>Name -</Text>
+            <TextInput
+            value={inputValue}
+                    onChangeText={(text) => {
+                    setInputValue(text);
+                    setRepertoryOpened(text.length > 0);
+                }}
+                style={[styles.input, { borderColor: colors.grayPress, borderRadius: 10 }]}
+            ></TextInput>
+            {/* <Button
+                title="Generate an Aliment"
+                color={colors.black}
+                onPress={handleGenerateAliment}
+                // style={{ borderRadius: 10, marginBottom: 20, marginTop: 10 , width: '90%', color: colors.white, backgroundColor: colors.black}}
+                /> */}
+                {repertoryOpened && filteredRepertoryFood.length > 0 && (
+                <ScrollView style={styles.containerSearch}>
+                    {filteredRepertoryFood.map((food: any) => (
+                    <TouchableOpacity
+                        key={food.id}
+                        style={styles.boxSearch}
+                        onPress={() => {
+                            setFoodRepertorySelected(food.name);
+                            setInputValue(food.name);
+                            setRepertoryOpened(false);
+                        }}
+                    >
+                        <Text style={[styles.label, { color: colors.black }]}>{food.name}</Text>
+                    </TouchableOpacity>
+                    ))}
+                </ScrollView>
+)} {foodRepertorySelected && (<Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>Selected Food : {foodRepertorySelected}</Text>)}
+            
+            
+            {/* <Text style={[styles.label, {color : colors.black}]}>Name -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
                     placeholder="Name (required)"
@@ -657,7 +705,7 @@ function CreateAliment() {
                     }}
                 >
                 <Text style={{ color: colors.white}}>Create aliment</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </ScrollView>
     )
 }
@@ -686,6 +734,24 @@ const styles = StyleSheet.create({
         marginTop: 0,
         marginBottom: 8
     },
+    containerSearch : {
+        maxHeight: 250,
+        overflow: 'hidden',
+        margin: 0
+    },
+    boxSearch: {
+        backgroundColor: '#f0f0f0',
+        padding: 2,
+        margin: 0,
+        gap: 0,
+        width: '100%',
+        height: 50,
+        borderColor: 'red',
+        borderWidth: 1,
+        justifyContent: 'center',
+        paddingLeft: 10
+        
+    }
 
 });
 
