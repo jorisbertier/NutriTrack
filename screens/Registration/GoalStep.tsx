@@ -30,7 +30,7 @@ const GoalStep = ({
 
         </View>
         <View style={[styles.circle, { backgroundColor: goal === "loss" ? colors.blackFix : colors.whiteFix}]}>
-             {goal === "loss" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
+            {goal === "loss" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
         </View>
     </TouchableOpacity>
     <TouchableOpacity
@@ -42,7 +42,7 @@ const GoalStep = ({
             <Text>Maintain your weight</Text>
         </View>
         <View style={[styles.circle, { backgroundColor: goal === "maintain" ? colors.blackFix : colors.whiteFix}]}>
-             {goal === "maintain" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
+            {goal === "maintain" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
         </View>
     </TouchableOpacity>
     <TouchableOpacity

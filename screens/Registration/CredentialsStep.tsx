@@ -43,7 +43,7 @@ const CredentialsStep = ({ email, setEmail, password, setPassword, emailError, p
                 onFocus={() => setIsPasswordFocused(true)}
                 onBlur={() => setIsPasswordFocused(false)}
             />
-            {passwordError ? <Text>{passwordError}</Text> : null}
+            {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
         </>
     )
 }
@@ -77,8 +77,10 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     errorText: {
-
-    }
+        color: 'red',
+        marginTop: -10,
+        marginBottom: 10
+    },
 });
 
 export default CredentialsStep;

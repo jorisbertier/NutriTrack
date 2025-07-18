@@ -1,18 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { useNavigation } from '@react-navigation/native';
 
 const SuccessStep = () => {
 
-    const navigation = useNavigation();
-
     const confettiRef = useRef<LottieView>(null);
     const successRef = useRef<LottieView>(null);
-
-    const handleGoToHome = () => {
-        navigation.navigate('home')
-    }
     
     useEffect(() => {
         successRef.current?.play();
@@ -42,9 +35,6 @@ const SuccessStep = () => {
             <Text style={styles.subtext}>
                 Ton aventure nutrition commence à partir d'aujourd'hui.{"\n"}{"\n"}Nous t'accompagnerons à réaliser tes objectifs quotidiennement !
             </Text>
-            <TouchableOpacity onPress={handleGoToHome}>
-                <Text style={styles.button}>Accéder à votre tableau de bord</Text>
-            </TouchableOpacity>
             <View style={styles.confetti}>
                 <LottieView
                     ref={confettiRef}
@@ -79,16 +69,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         textAlign: 'center',
         color: 'gray',
-    },
-    button: {
-        marginTop: 30,
-        backgroundColor: 'black',
-        color: 'white',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        fontSize: 16,
-        textAlign: 'center',
     },
     confetti: {
         position: 'absolute',

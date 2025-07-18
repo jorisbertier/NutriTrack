@@ -14,13 +14,14 @@ import { Image } from 'react-native';
 import AvatarStep from './Registration/AvatarStep';
 import SuccessStep from './Registration/SuccessStep';
 import GoalStep from './Registration/GoalStep';
+import { current } from '@reduxjs/toolkit';
 
 const Registration = () => {
   const { colors } = useTheme();
   const Auth = getAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
-  const steps = ['Credentials', 'Personal', 'Body', 'Preferences', 'Avatar', 'Success'];
+  const steps = ['Credentials', 'Personal', 'Body', 'Preferences', 'Goal', 'Avatar', 'Success'];
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -75,97 +76,97 @@ const Registration = () => {
 
   const validateStep = () => {
     let isValid = true;
-    // if (currentStep === 0) {
-    //     if (!email || !/\S+@\S+\.\S+/.test(email)) {
-    //         setEmailError('Please enter a valid email.');
-    //         isValid = false;
-    //     } else setEmailError('');
-
-    //     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
-    //     if (!password || password.length < 6) {
-    //         setPasswordError("Password must be at least 6 characters long.");
-    //         isValid = false;
-    //     }
-    //     else if(!passwordRegex.test(password)) {
-    //         setPasswordError("Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.");
-    //         isValid = false;
-    //     }
-    //     else {
-    //         setPasswordError('');
-    //     }
-
-    // }
-        
-
-    // if (currentStep === 1) {
-    //     if (!name.trim()) {
-    //         setNameError('Name is required.');
-    //         isValid = false;
-    //     } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-    //         setNameError('Name must contain only letters.');
-    //         isValid = false;
-    //     } else if(name.length > 15) {
-    //         setNameError('Name must contain 15 caracters maximum.');
-    //         isValid = false;
-    //     }
-    //     else {
-    //         setNameError('');
-    //     }
-        
-    //     if (!firstname.trim()) {
-    //         setFirstnameError('First name is required.');
-    //         isValid = false;
-    //     } else if (!/^[a-zA-Z\s]+$/.test(firstname)) {
-    //         setFirstnameError('First name must contain only letters.');
-    //         isValid = false;
-    //     }else if(firstname.length > 15) {
-    //         setNameError('First name must contain 15 caracters maximum.');
-    //         isValid = false;
-    //     }
-    //     else {
-    //         setFirstnameError('');
-    //     }
-    //     if(!isDateSelected) {
-    //         setDateOfBirthError(`Please select a date of birth`)
-    //     }else {
-    //         setDateOfBirthError('')
-    //     }
-    // }
-
-    // if (currentStep === 2) {
-    //   const w = parseFloat(weight);
-    //   const h = parseFloat(height);
-    //   if (!w || isNaN(w) || w < 15 || w > 250) {
-    //     setWeightError('Weight must be between 15 and 250kg');
-    //     isValid = false;
-    //   } else setWeightError('');
-
-    //   if (!h || isNaN(h) || h < 50 || h > 250) {
-    //     setHeightError('Height must be between 50 and 250cm');
-    //     isValid = false;
-    //   } else setHeightError('');
-    // }
-
-    // if (currentStep === 3) {
-    //   if (!activityLevel) {
-    //     setActivityError('Please select an activity level.');
-    //     isValid = false;
-    //   } else setActivityError('');
-
-    //   if (!gender) {
-    //     setGenderError('Please select a gender.');
-    //     isValid = false;
-    //   } else setGenderError('');
-    // }
-
-    // if(currentStep === 4) {
-    //   if (!profileImage) {
-    //     setProfileImageError('Please select an avatar.');
-    //     isValid = false;
-    //   } else setProfileImageError('');
-    // }
-
     if (currentStep === 0) {
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+            setEmailError('Please enter a valid email.');
+            isValid = false;
+        } else setEmailError('');
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+        if (!password || password.length < 6) {
+            setPasswordError("Password must be at least 6 characters long.");
+            isValid = false;
+        }
+        else if(!passwordRegex.test(password)) {
+            setPasswordError("Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            isValid = false;
+        }
+        else {
+            setPasswordError('');
+        }
+    }
+        
+
+    if (currentStep === 1) {
+        if (!name.trim()) {
+            setNameError('Name is required.');
+            isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+            setNameError('Name must contain only letters.');
+            isValid = false;
+        } else if(name.length > 15) {
+            setNameError('Name must contain 15 caracters maximum.');
+            isValid = false;
+        }
+        else {
+            setNameError('');
+        }
+        
+        if (!firstname.trim()) {
+            setFirstnameError('First name is required.');
+            isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(firstname)) {
+            setFirstnameError('First name must contain only letters.');
+            isValid = false;
+        }else if(firstname.length > 15) {
+            setNameError('First name must contain 15 caracters maximum.');
+            isValid = false;
+        }
+        else {
+            setFirstnameError('');
+        }
+        if(!isDateSelected) {
+            setDateOfBirthError(`Please select a date of birth`);
+            isValid = false;
+        }else {
+            setDateOfBirthError('')
+        }console.log(isDateSelected)
+    }
+
+    if (currentStep === 2) {
+      const w = parseFloat(weight);
+      const h = parseFloat(height);
+      if (!w || isNaN(w) || w < 15 || w > 250) {
+        setWeightError('Weight must be between 15 and 250kg');
+        isValid = false;
+      } else setWeightError('');
+
+      if (!h || isNaN(h) || h < 50 || h > 250) {
+        setHeightError('Height must be between 50 and 250cm');
+        isValid = false;
+      } else setHeightError('');
+    }
+
+    if (currentStep === 3) {
+      if (!activityLevel) {
+        setActivityError('Please select an activity level.');
+        isValid = false;
+      } else setActivityError('');
+
+      if (!gender) {
+        setGenderError('Please select a gender.');
+        isValid = false;
+      } else setGenderError('');
+    }
+
+    if(currentStep === 4) {
+      if (!profileImage) {
+        setProfileImageError('Please select an avatar.');
+        isValid = false;
+      } else setProfileImageError('');
+    }
+
+    if (currentStep === 5) {
       if (!goal) {
         setGoalError('Please select a goal.');
         isValid = false;
@@ -175,24 +176,24 @@ const Registration = () => {
     return isValid;
   };
 
+  // const handleNext = () => {
+  //   if (validateStep()) {
+  //     if (currentStep < steps.length - 1) {
+  //       setCurrentStep(currentStep + 1);
+  //     } else {
+  //       handleSubmit();
+  //     }
+  //   }
+  // };
   const handleNext = () => {
-    if (validateStep()) {
-      if (currentStep < steps.length - 1) {
-        setCurrentStep(currentStep + 1);
-      } else {
-        handleSubmit();
-      }
-    }
-  };
-//   const handleNext = () => {
-//   if (validateStep()) {
-//     if (currentStep === 4) {
-//       handleSubmit(); // On crée le compte ici
-//     } else {
-//       setCurrentStep(currentStep + 1);
-//     }
-//   }
-// };
+  if (validateStep()) {
+    // if (currentStep === 6) {
+    //   handleSubmit(); // On crée le compte ici
+    // } else {
+      setCurrentStep(currentStep + 1);
+    // }
+  }
+};
 
   const handleSubmit = async () => {
     try {
@@ -229,7 +230,7 @@ const Registration = () => {
       <View>
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
-        {currentStep ===  5 && (
+        {currentStep === 0 && (
             <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError }} />
         )}
         {currentStep === 1 && (
@@ -258,31 +259,32 @@ const Registration = () => {
             activityLevel,
             setActivityLevel,
             activityError,
-            profileImage,
-            setProfileImage,
             gender,
             setGender,
             genderError,
-            profileImageError,
-            avatars,
           }} />
         )}
         {currentStep === 4  && (
           <AvatarStep {...{ profileImage, setProfileImage, profileImageError, avatars }}/>
         )}
-        {currentStep === 2  && (
-          <SuccessStep/>
-        )}
-        {currentStep === 0  && (
+        {currentStep === 5  && (
           <GoalStep {...{ goal, setGoal, goalError }}/>
         )}
+        {currentStep === 6  && (
+          <SuccessStep/>
+        )}
       </View>
-
+      {currentStep !== 6 ? (
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={{ color: 'white', fontSize: 18 }}>
           <Image source={require('@/assets/images/arrow-right.png')} style={{ alignSelf: 'center', height: 18, width: 18 }} />
         </Text>
       </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={handleSubmit}>
+            <Text style={styles.button}>Accéder à votre tableau de bord</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -301,6 +303,16 @@ const styles = StyleSheet.create({
         padding: 15,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    button: {
+      marginTop: 30,
+      backgroundColor: 'black',
+      color: 'white',
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: 10,
+      fontSize: 16,
+      textAlign: 'center',
     },
 });
 
