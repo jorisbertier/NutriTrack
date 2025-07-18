@@ -50,7 +50,7 @@ const SuccessStep = () => {
                     ref={confettiRef}
                     source={require('@/assets/lottie/Confetti.json')}
                     loop={false}
-                    style={{ width: "100%", height: 300, top: -200 }}
+                    style={{ width: "100%", height: 300, top: -150 }}
                 />
             </View>
         </View>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        marginTop: 100,
+        marginTop: 50,
         position: 'relative',
     },
     text: {

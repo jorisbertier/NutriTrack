@@ -59,26 +59,6 @@ const PreferencesStep = ({
         </View>
         {activityError ? <Text style={styles.errorText}>{activityError}</Text> : null}
 
-        {/* <Text style={[styles.label, { color: colors.black }]}>Select an avatar -</Text>
-        <FlatList
-        data={avatars}
-        keyExtractor={(item) => item.id.toString()}
-        horizontal
-        // contentContainerStyle={styles.avatarList}
-        renderItem={({ item }) => (
-            <TouchableOpacity
-            style={[
-                // styles.avatarContainer,
-                profileImage === item.id && { borderColor: colors.black },
-            ]}
-            onPress={() => setProfileImage(item.id)}
-            >
-            <Image source={item.uri} />
-            </TouchableOpacity>
-        )}
-        />
-        {profileImageError ? <Text style={styles.errorText}>{profileImageError}</Text> : null} */}
-
         <Text style={[styles.label, { color: colors.black }]}>Select your gender</Text>
         <TouchableOpacity
             style={[styles.genderContainer, { backgroundColor: gender === "male" ? colors.primary : colors.whiteFix, borderColor: gender === "male" ? colors.blackFix : colors.grayDarkFix }]}

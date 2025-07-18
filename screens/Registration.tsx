@@ -13,6 +13,7 @@ import StepProgressBar from './Registration/ProgressBarStep';
 import { Image } from 'react-native';
 import AvatarStep from './Registration/AvatarStep';
 import SuccessStep from './Registration/SuccessStep';
+import GoalStep from './Registration/GoalStep';
 
 const Registration = () => {
   const { colors } = useTheme();
@@ -25,6 +26,7 @@ const Registration = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [firstname, setFirstname] = useState('');
+  const [goal, setGoal] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [dateOfBirthFormatted, setDateOfBirthFormatted] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -46,6 +48,7 @@ const Registration = () => {
   const [activityError, setActivityError] = useState('');
   const [genderError, setGenderError] = useState('');
   const [profileImageError, setProfileImageError] = useState('');
+  const [goalError, setGoalError] = useState('');
 
   const avatars = [
     { id: 1, uri: require('@/assets/images/avatar/pinguin.png') },
@@ -162,6 +165,13 @@ const Registration = () => {
     //   } else setProfileImageError('');
     // }
 
+    if (currentStep === 0) {
+      if (!goal) {
+        setGoalError('Please select a goal.');
+        isValid = false;
+      } else setGoalError('');
+    }
+
     return isValid;
   };
 
@@ -200,6 +210,7 @@ const Registration = () => {
         gender,
         xp: 0,
         level: 1,
+        goal: goal,
         xpLogs: {},
         consumeByDays: {},
         proteinsTotal: {},
@@ -259,8 +270,11 @@ const Registration = () => {
         {currentStep === 4  && (
           <AvatarStep {...{ profileImage, setProfileImage, profileImageError, avatars }}/>
         )}
-        {currentStep === 0  && (
+        {currentStep === 2  && (
           <SuccessStep/>
+        )}
+        {currentStep === 0  && (
+          <GoalStep {...{ goal, setGoal, goalError }}/>
         )}
       </View>
 
