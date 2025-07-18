@@ -3,12 +3,13 @@ import { fetchUserDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
 import { getAuth } from 'firebase/auth';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { collection, doc, getDocs, setDoc } from "firebase/firestore"; 
 import { firestore } from '@/firebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '@/interface/User';
 import { repertoryFood } from '@/data/createAliment/repertoryFood';
+import NutritionBox from '@/components/NutritionBox';
 
 function CreateAliment() {
 
@@ -383,8 +384,10 @@ function CreateAliment() {
         setSugar('')
     };
     const [inputValue, setInputValue] = useState('');
+    const [inputValueGram, setInputValueGram] = useState("");
     const [foodRepertorySelected, setFoodRepertorySelected] = useState('');
     const [repertoryOpened, setRepertoryOpened] = useState(false);
+    const [generateFood, setGenerateFood] = useState<any>(null);
 
     const filteredRepertoryFood = repertoryFood.filter((food: any) => {
         return food.name.toLowerCase().includes(inputValue.toLowerCase())
@@ -393,7 +396,10 @@ function CreateAliment() {
     console.log(foodRepertorySelected)
 
     const handleGenerateAliment = () => {
-        console.log('ouiiii')
+        console.log('jai ',inputValueGram)
+        console.log('jai ',foodRepertorySelected)
+        setGenerateFood(repertoryFood.find((food: any) => food.name.toLowerCase() === foodRepertorySelected.toLowerCase()))
+        console.log('generateFood', generateFood)
     }
     
     return (
@@ -430,8 +436,77 @@ function CreateAliment() {
                     ))}
                 </ScrollView>
 )} {foodRepertorySelected && (<Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>Selected Food : {foodRepertorySelected}</Text>)}
-            
-            
+            <Text style={[styles.label, { color: colors.black }]}>QUantity gramme entre 10 et 250 g</Text>
+            <TextInput
+            value={inputValueGram}
+              onChangeText={(text) => setInputValueGram(text)} // garder une string
+  keyboardType="numeric"
+                style={[styles.input, { borderColor: colors.grayPress, borderRadius: 10 }]}
+            ></TextInput>
+            <Text>{inputValueGram}</Text>
+            <Button
+                title="Generate an Aliment"
+                onPress={handleGenerateAliment}
+                color={
+                    !foodRepertorySelected ||
+                    isNaN(Number(inputValueGram)) ||
+                    Number(inputValueGram) < 10 ||
+                    Number(inputValueGram) > 250
+                    ? 'gray'
+                    : colors.black
+                }
+                disabled={
+                    !foodRepertorySelected ||
+                    isNaN(Number(inputValueGram)) ||
+                    Number(inputValueGram) < 10 ||
+                    Number(inputValueGram) > 250
+}
+                />
+<View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20}}>
+ {generateFood?.calories !== undefined && (
+    <NutritionBox
+      icon={require('@/assets/images/nutritional/burn.png')}
+      label="Calories"
+      value={generateFood.calories}
+      onEdit={() => console.log('Edit calories')}
+      colors={colors}
+      inputValueGram={inputValueGram}
+    />
+  )}
+
+  {generateFood?.proteins !== undefined && (
+    <NutritionBox
+      icon={require('@/assets/images/nutritional/protein.png')}
+      label="Protéines"
+      value={generateFood.proteins}
+      onEdit={() => console.log('Edit proteins')}
+      colors={colors}
+      inputValueGram={inputValueGram}
+    />
+  )}
+
+  {generateFood?.fats !== undefined && (
+    <NutritionBox
+      icon={require('@/assets/images/nutritional/fat.png')}
+      label="Lipides"
+      value={generateFood.fats}
+      onEdit={() => console.log('Edit fats')}
+      colors={colors}
+      inputValueGram={inputValueGram}
+    />
+  )}
+
+  {generateFood?.carbohydrates !== undefined && (
+    <NutritionBox
+      icon={require('@/assets/images/nutritional/carbs.png')}
+      label="Glucides"
+      value={generateFood.carbohydrates}
+      onEdit={() => console.log('Edit carbs')}
+      colors={colors}
+      inputValueGram={inputValueGram}
+    />
+  )}
+                </View>
             {/* <Text style={[styles.label, {color : colors.black}]}>Name -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
