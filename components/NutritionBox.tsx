@@ -40,12 +40,20 @@ const NutritionBox = ({ icon, label, value, inputValueGram, onChangeValue }) => 
                 width: '48%',
                 alignItems: 'center',
                 marginBottom: 10,
-                borderColor: colors.blackFix,
+                borderColor: colors.grayPress,
                 borderWidth: 1,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 padding: 10,
                 borderRadius: 15,
+                backgroundColor: 'white',
+                // iOS
+                shadowColor: 'black',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.9,
+                shadowRadius: 1,
+                // Android
+                elevation: 1,
             }}
         >
             <View style={{ width: '35%' }}>
