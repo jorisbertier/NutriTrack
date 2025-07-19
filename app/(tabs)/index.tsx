@@ -149,7 +149,7 @@ useEffect(() => {
     }
   }, [selectedChallenge]);
 
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   
   useEffect(() => {
     const checkWelcomeMessage = async () => {
