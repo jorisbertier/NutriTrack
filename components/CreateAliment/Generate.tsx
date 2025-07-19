@@ -4,6 +4,10 @@ import { repertoryFood } from '@/data/createAliment/repertoryFood';
 import { useState } from "react";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useTranslation } from "react-i18next";
+import { Food } from "@/interface/Food";
+import { FoodItemGenerate } from "@/interface/FoodItemGenerate";
+import { set } from "date-fns";
+import { getVitaminPercentageMg } from "@/functions/function";
 
 function Generate() {
 
@@ -11,12 +15,16 @@ function Generate() {
     const { t } = useTranslation();
 
     const [inputValue, setInputValue] = useState('');
+    const [title, setTitle] = useState('');
+    const [isTitleFocused, setIsTitleFocused] = useState(false);
     const [inputValueGram, setInputValueGram] = useState("");
     const [foodRepertorySelected, setFoodRepertorySelected] = useState('');
     const [repertoryOpened, setRepertoryOpened] = useState(false);
     const [generateFood, setGenerateFood] = useState<any>(null);
     const [isNameFocused, setIsNameFocused] = useState(false);
     const [isQuantityFocused, setIsQuantityFocused] = useState(false);
+
+    const [ errorMessageTitle, setErrorMessageTitle] = useState('');
 
     const filteredRepertoryFood = repertoryFood.filter((food: any) => {
         return food.name.toLowerCase().includes(inputValue.toLowerCase())
@@ -26,23 +34,36 @@ function Generate() {
         // console.log(foodRepertorySelected)
 
     const [nutritionValues, setNutritionValues] = useState({
-        calories: 0,
-        proteins: 0,
-        carbohydrates: 0,
-        fats: 0,
+        calories: 0,proteins: 0,carbohydrates: 0,fats: 0,magnesium: 0,potassium: 0,calcium: 0,sodium: 0,iron: 0,folate: 0,vitaminA: 0,vitaminB1: 0,vitaminB6: 0,vitaminB12: 0,vitaminC: 0,vitaminD: 0,vitaminE: 0,vitaminK: 0,cholesterol: 0,sugar: 0
     });
     
     const handleGenerateAliment = () => {
-        const food = repertoryFood.find(f => f.name.toLowerCase() === foodRepertorySelected.toLowerCase());
+        const food : FoodItemGenerate | undefined = repertoryFood.find(f => f.name.toLowerCase() === foodRepertorySelected.toLowerCase());
         if (food) {
             setGenerateFood(food);
             setNutritionValues({
-            calories: (food.calories * Number(inputValueGram || 0)).toFixed(2),
-            proteins: (food.proteins * Number(inputValueGram || 0)).toFixed(2),
-            fats: (food.fats * Number(inputValueGram || 0)).toFixed(2),
-            carbohydrates: (food.carbohydrates * Number(inputValueGram || 0)).toFixed(2),
+                calories:  Number((food.calories * Number(inputValueGram || 0)).toFixed(2)),
+                proteins: Number((food.proteins * Number(inputValueGram || 0)).toFixed(2)),
+                fats: Number((food.fats * Number(inputValueGram || 0)).toFixed(2)),
+                carbohydrates: Number((food.carbohydrates * Number(inputValueGram || 0)).toFixed(2)),
+                magnesium: Number(((food.magnesium ?? 0)* Number(inputValueGram || 0)).toFixed(2)),
+                potassium:  Number(((food.potassium ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                calcium: Number(((food.calcium ?? 0) * Number(inputValueGram || 0)).toFixed(2)),
+                sodium: Number(((food.sodium ?? 0) * Number(inputValueGram || 0)).toFixed(2)),
+                iron: Number(((food.iron ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                folate: Number(((food.folate ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                vitaminA: Number(((food?.vitaminA ?? 0) * Number(inputValueGram || 0)).toFixed(2)),
+                vitaminB1: Number(((food.vitaminB1 ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                vitaminB6: Number(((food.vitaminB6 ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                vitaminB12: Number(((food.vitaminB12 ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                vitaminC: Number(((food.vitaminC ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                vitaminD: Number(((food.vitaminD ?? 0 ) *  Number(inputValueGram || 0)).toFixed(2)),
+                vitaminE: Number(((food.vitaminE ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                vitaminK: ((food.vitaminK ?? 0 ) * Number(inputValueGram || 0)).toFixed(2),
+                sugar: Number(((food.sugar ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
             });
         }
+       
     };
     
     // Met à jour une valeur particulière
@@ -53,16 +74,30 @@ function Generate() {
         }));
     };
     
+   
     const isDisabled = 
-        !foodRepertorySelected ||
-        isNaN(Number(inputValueGram)) ||
-        Number(inputValueGram) < 10 ||
-        Number(inputValueGram) > 250;
-    
+    !foodRepertorySelected ||
+    isNaN(Number(inputValueGram)) ||
+    Number(inputValueGram) < 10 ||
+    Number(inputValueGram) > 250;
 
+
+    const handleCreateAliment = () => {
+        if (title.trim() === '' && typeof title === 'string' && title.length < 3 ) {
+            setErrorMessageTitle("The title must contain only letters and be at least 3 characters long.");
+            return;
+        }
+        setErrorMessageTitle('');
+        console.log(nutritionValues)
+            const filteredNutritionValues = Object.fromEntries(
+                Object.entries(nutritionValues).filter(([key, value]) => {
+                    return Number(value) !== 0;
+                })
+            );
+            console.log('sort', filteredNutritionValues)
+    }
     return (
         <View style={{marginBottom: 80}}>
-            <Text style={{fontSize: 24, fontWeight: 500, margin: 'auto', marginBottom: 10}}>Switch Mode</Text>
             <Text style={{fontSize: 16, width: '100%', textAlign: 'center'}}>Create a food item based on the official data. Enter a quantity, and you can modify the nutritional values as needed.</Text>
             <Text style={[styles.label, { color: colors.black }]}>Name</Text>
             <View style={{position: 'relative'}}>
@@ -74,7 +109,7 @@ function Generate() {
                         }}
                 onFocus={() => setIsNameFocused(true)}
                 onBlur={() => setIsNameFocused(false)}
-                    style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayPress, borderRadius: 10 }]}
+                    style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayPress }]}
                 />
                 {repertoryOpened && filteredRepertoryFood.length > 0 && (
                 <ScrollView style={styles.containerSearch}>
@@ -102,35 +137,47 @@ function Generate() {
                 keyboardType="numeric"
                 onFocus={() => setIsQuantityFocused(true)}
                 onBlur={() => setIsQuantityFocused(false)}
-                style={[styles.input, { borderColor: isQuantityFocused ? colors.blackFix : colors.grayPress, borderRadius: 10 }]}
+                style={[styles.input, { borderColor: isQuantityFocused ? colors.blackFix : colors.grayPress}]}
             ></TextInput>
             <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
                 <TouchableOpacity
-                    onPress={isDisabled ? null : handleGenerateAliment}  // bloque le clic si disabled
-                    style={{
+                    onPress={isDisabled ? null : handleGenerateAliment} 
+                    style={[styles.button, {
                         backgroundColor: isDisabled ? 'gray' : colors.black,
-                        height: 50,
-                        width: '90%',
-                        padding: 5,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 30,
-                        opacity: isDisabled ? 0.6 : 1, // optionnel, pour montrer visuellement
-                    }}
-                    activeOpacity={isDisabled ? 1 : 0.7} // désactive l'effet d'opacité si désactivé
+                        opacity: isDisabled ? 0.6 : 1,
+                    }]}
+                    activeOpacity={isDisabled ? 1 : 0.7}
                     >
                     <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Generate an aliment</Text>
-                    </TouchableOpacity>
+                </TouchableOpacity>
+            </View>
+                {generateFood?.calories !== undefined && (
+                <View style={{marginTop: 10, width: '100%', alignSelf: 'center'}}>
+                    <Text style={[styles.label, { color: colors.blackFix }]}>Title</Text>
+                    <TextInput
+                        onFocus={() => setIsTitleFocused(true)}
+                        onBlur={() => setIsTitleFocused(false)}
+                        style={[styles.input, { borderColor: isTitleFocused ? colors.blackFix : colors.grayPress}]}
+                        value={title}
+                        onChangeText={setTitle}
+                        autoCapitalize='words'
+                    />
                 </View>
+                )}
+                {errorMessageTitle && (
+                    <Text style={{color: 'red', marginTop: 10}}>{errorMessageTitle}</Text>
+                )}
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20}}>
                 {generateFood?.calories !== undefined && (
-                    <NutritionBox
-                    icon={require('@/assets/images/nutritional/burn.png')}
-                    label={t('calories')}
-                    value={generateFood.calories}
-                    onChangeValue={(val) => handleValueChange('calories', val)}
-                    inputValueGram={inputValueGram}
-                    />
+                    <>
+                        <NutritionBox
+                        icon={require('@/assets/images/nutritional/burn.png')}
+                        label={t('calories')}
+                        value={generateFood.calories}
+                        onChangeValue={(val) => handleValueChange('calories', val)}
+                        inputValueGram={inputValueGram}
+                        />
+                    </>
                 )}
 
                 {generateFood?.proteins !== undefined && (
@@ -148,7 +195,7 @@ function Generate() {
                     icon={require('@/assets/images/nutritional/carbs.png')}
                     label={t('carbs')}
                     value={generateFood.carbohydrates}
-                    onChangeValue={(val) => handleValueChange('carbs', val)}
+                    onChangeValue={(val) => handleValueChange('carbohydrates', val)}
                     inputValueGram={inputValueGram}
                     />
                 )}
@@ -163,7 +210,7 @@ function Generate() {
                 )}
                 {generateFood?.potassium !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/ions.png')}
                     label={t('potassium')}
                     value={generateFood.potassium}
                     onChangeValue={(val) => handleValueChange('potassium', val)}
@@ -172,16 +219,25 @@ function Generate() {
                 )}
                 {generateFood?.magnesium !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/ions.png')}
                     label={t('magnesium')}
                     value={generateFood.magnesium}
                     onChangeValue={(val) => handleValueChange('magnesium', val)}
                     inputValueGram={inputValueGram}
                     />
                 )}
+                {generateFood?.sodium !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/ions.png')}
+                    label={t('sodium')}
+                    value={generateFood.sodium}
+                    onChangeValue={(val) => handleValueChange('sodium', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
                 {generateFood?.calcium !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/calcium.png')}
                     label={t('calcium')}
                     value={generateFood.calcium}
                     onChangeValue={(val) => handleValueChange('calcium', val)}
@@ -199,7 +255,7 @@ function Generate() {
                 )}
                 {generateFood?.vitaminA !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
                     label={t('vitaminA')}
                     value={generateFood.vitaminA}
                     onChangeValue={(val) => handleValueChange('vitaminA', val)}
@@ -208,7 +264,7 @@ function Generate() {
                 )}
                 {generateFood?.vitaminB1 !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
                     label={t('vitaminB1')}
                     value={generateFood.vitaminB1}
                     onChangeValue={(val) => handleValueChange('vitaminB1', val)}
@@ -217,7 +273,7 @@ function Generate() {
                 )}
                 {generateFood?.vitaminB6 !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
                     label={t('vitaminB6')}
                     value={generateFood.vitaminB6}
                     onChangeValue={(val) => handleValueChange('vitaminB6', val)}
@@ -226,7 +282,7 @@ function Generate() {
                 )}
                 {generateFood?.vitaminB12 !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
                     label={t('vitaminB12')}
                     value={generateFood.vitaminB12}
                     onChangeValue={(val) => handleValueChange('vitaminB12', val)}
@@ -235,8 +291,8 @@ function Generate() {
                 )}
                 {generateFood?.vitaminC !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
-                    label={t('vitaminC')}
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
+                    label={t('vitaminC') + " %"}
                     value={generateFood.vitaminC}
                     onChangeValue={(val) => handleValueChange('vitaminC', val)}
                     inputValueGram={inputValueGram}
@@ -244,7 +300,7 @@ function Generate() {
                 )}
                 {generateFood?.vitaminD !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
                     label={t('vitaminD')}
                     value={generateFood.vitaminD}
                     onChangeValue={(val) => handleValueChange('vitaminD', val)}
@@ -253,7 +309,7 @@ function Generate() {
                 )}
                 {generateFood?.vitaminE !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
                     label={t('vitaminE')}
                     value={generateFood.vitaminE}
                     onChangeValue={(val) => handleValueChange('vitaminE', val)}
@@ -262,7 +318,7 @@ function Generate() {
                 )}
                 {generateFood?.vitaminK !== undefined && (
                     <NutritionBox
-                    icon={require('@/assets/images/nutritional/fat.png')}
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
                     label={t('vitaminK')}
                     value={generateFood.vitaminK}
                     onChangeValue={(val) => handleValueChange('vitaminK', val)}
@@ -278,6 +334,25 @@ function Generate() {
                     inputValueGram={inputValueGram}
                     />
                 )}
+                {generateFood?.sugar !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('sugar')}
+                    value={generateFood.sugar}
+                    onChangeValue={(val) => handleValueChange('sugar', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.calories !== undefined && (
+                    <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
+                        <TouchableOpacity
+                            onPress={handleCreateAliment} 
+                            style={[styles.button , { backgroundColor: colors.black, borderWidth: 1}]}
+                            >
+                            <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Create an aliment</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
         </View>
     )
@@ -288,7 +363,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderColor: '#ccc',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 10,
         marginBottom: 3,
         paddingHorizontal: 10,
     },
@@ -319,7 +394,14 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         paddingLeft: 10
-        
+    },
+    button: {
+        height: 50,
+        width: '90%',
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30,
     }
 })
 

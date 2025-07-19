@@ -394,12 +394,16 @@ function CreateAliment() {
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]} contentContainerStyle={{ paddingBottom: 20 }}>
+            
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20}}>
                 <Text style={{width: 100, textAlign: 'center',fontWeight: 500, fontSize: 19, color: isSwitchOn ? colors.grayDarkFix : colors.black}}>Generate</Text>
                 <Switch color='black' value={isSwitchOn} onValueChange={onToggleSwitch} />
                 <Text style={{width: 100,fontSize: 20, fontWeight: 500, textAlign: 'center', color: isSwitchOn ? colors.black : colors.grayDarkFix}}>Create</Text>
             </View>
-            <Generate/>
+            <Text style={{fontSize: 24, fontWeight: 500, margin: 'auto', marginBottom: 10}}>Switch Mode</Text>
+            {!isSwitchOn && (
+                <Generate/>
+            )}
             {/* <Text style={[styles.label, {color : colors.black}]}>Name -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.grayPress}]}
