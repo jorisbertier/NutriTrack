@@ -3,10 +3,13 @@ import NutritionBox from "../NutritionBox";
 import { repertoryFood } from '@/data/createAliment/repertoryFood';
 import { useState } from "react";
 import { useTheme } from "@/hooks/ThemeProvider";
+import { useTranslation } from "react-i18next";
 
 function Generate() {
 
     const { colors } = useTheme();
+    const { t } = useTranslation();
+
     const [inputValue, setInputValue] = useState('');
     const [inputValueGram, setInputValueGram] = useState("");
     const [foodRepertorySelected, setFoodRepertorySelected] = useState('');
@@ -58,8 +61,8 @@ function Generate() {
     
 
     return (
-    <>
-<Text style={{fontSize: 24, fontWeight: 500, margin: 'auto', marginBottom: 10}}>Switch Mode</Text>
+        <View style={{marginBottom: 80}}>
+            <Text style={{fontSize: 24, fontWeight: 500, margin: 'auto', marginBottom: 10}}>Switch Mode</Text>
             <Text style={{fontSize: 16, width: '100%', textAlign: 'center'}}>Create a food item based on the official data. Enter a quantity, and you can modify the nutritional values as needed.</Text>
             <Text style={[styles.label, { color: colors.black }]}>Name</Text>
             <View style={{position: 'relative'}}>
@@ -123,7 +126,7 @@ function Generate() {
                 {generateFood?.calories !== undefined && (
                     <NutritionBox
                     icon={require('@/assets/images/nutritional/burn.png')}
-                    label="Calories"
+                    label={t('calories')}
                     value={generateFood.calories}
                     onChangeValue={(val) => handleValueChange('calories', val)}
                     inputValueGram={inputValueGram}
@@ -133,7 +136,7 @@ function Generate() {
                 {generateFood?.proteins !== undefined && (
                     <NutritionBox
                     icon={require('@/assets/images/nutritional/protein.png')}
-                    label="Protéines"
+                    label={t('proteins')}
                     value={generateFood.proteins}
                     onChangeValue={(val) => handleValueChange('proteins', val)}
                     inputValueGram={inputValueGram}
@@ -143,7 +146,7 @@ function Generate() {
                 {generateFood?.carbohydrates !== undefined && (
                     <NutritionBox
                     icon={require('@/assets/images/nutritional/carbs.png')}
-                    label="Carbs"
+                    label={t('carbs')}
                     value={generateFood.carbohydrates}
                     onChangeValue={(val) => handleValueChange('carbs', val)}
                     inputValueGram={inputValueGram}
@@ -152,16 +155,132 @@ function Generate() {
                 {generateFood?.fats !== undefined && (
                     <NutritionBox
                     icon={require('@/assets/images/nutritional/fat.png')}
-                    label="Fats"
+                    label={t('fats')}
                     value={generateFood.fats}
                     onChangeValue={(val) => handleValueChange('fats', val)}
                     inputValueGram={inputValueGram}
                     />
                 )}
-
-                </View>
-                </>
-        )
+                {generateFood?.potassium !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('potassium')}
+                    value={generateFood.potassium}
+                    onChangeValue={(val) => handleValueChange('potassium', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.magnesium !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('magnesium')}
+                    value={generateFood.magnesium}
+                    onChangeValue={(val) => handleValueChange('magnesium', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.calcium !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('calcium')}
+                    value={generateFood.calcium}
+                    onChangeValue={(val) => handleValueChange('calcium', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.iron !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('iron')}
+                    value={generateFood.iron}
+                    onChangeValue={(val) => handleValueChange('iron', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminA !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('vitaminA')}
+                    value={generateFood.vitaminA}
+                    onChangeValue={(val) => handleValueChange('vitaminA', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminB1 !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('vitaminB1')}
+                    value={generateFood.vitaminB1}
+                    onChangeValue={(val) => handleValueChange('vitaminB1', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminB6 !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('vitaminB6')}
+                    value={generateFood.vitaminB6}
+                    onChangeValue={(val) => handleValueChange('vitaminB6', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminB12 !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('vitaminB12')}
+                    value={generateFood.vitaminB12}
+                    onChangeValue={(val) => handleValueChange('vitaminB12', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminC !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('vitaminC')}
+                    value={generateFood.vitaminC}
+                    onChangeValue={(val) => handleValueChange('vitaminC', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminD !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('vitaminD')}
+                    value={generateFood.vitaminD}
+                    onChangeValue={(val) => handleValueChange('vitaminD', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminE !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('vitaminE')}
+                    value={generateFood.vitaminE}
+                    onChangeValue={(val) => handleValueChange('vitaminE', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminK !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('vitaminK')}
+                    value={generateFood.vitaminK}
+                    onChangeValue={(val) => handleValueChange('vitaminK', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.folate !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/fat.png')}
+                    label={t('folate')}
+                    value={generateFood.folate}
+                    onChangeValue={(val) => handleValueChange('folate', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+            </View>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
