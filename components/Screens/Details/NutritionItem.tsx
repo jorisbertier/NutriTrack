@@ -10,12 +10,16 @@ type Props = {
 }
 
 export default function NutritionItem({name, quantity, unit}: Props) {
+
     const {colors} = useTheme();
+    const formattedQuantity = Number.isInteger(quantity)
+    ? quantity
+    : quantity.toFixed(1);
 
         return (
         <View style={styles.nutri}>
             <ThemedText color={colors.black} variant="title1">{name}</ThemedText>
-            <ThemedText color={colors.black} variant="title1">{quantity} {unit}</ThemedText>
+            <ThemedText color={colors.black} variant="title1">{formattedQuantity} {unit}</ThemedText>
         </View>
     )
 }
