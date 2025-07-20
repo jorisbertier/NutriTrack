@@ -383,7 +383,8 @@ function Create() {
 
         
     return (
-                        <>
+        <>
+            <Text style={styles.title}>Create a food item and custom all nutrional values as you wish.</Text>
             <Text style={[styles.label, {color : colors.black}]}>Name</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
@@ -647,16 +648,9 @@ function Create() {
                 
                 <TouchableOpacity
                     onPress={createAliment}
-                    style={{
-                    backgroundColor: colors.black,
-                    padding: 10,
-                    marginBottom: 100,
-                    marginTop: 30,
-                    borderRadius: 3,
-                    alignItems: 'center',
-                    }}
+                    style={[styles.button, { backgroundColor: colors.black }]}
                 >
-                    <Text style={{ color: colors.white}}>Create aliment</Text>
+                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Create aliment</Text>
                 </TouchableOpacity>
             </>
     )
@@ -666,6 +660,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
+    },
+    title : {
+        fontSize: 16,
+        width: '100%',
+        textAlign: 'center'
     },
     input: {
         height: 50,
@@ -685,6 +684,16 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: 0,
         marginBottom: 8
+    },
+    button: {
+        height: 50,
+        width: '90%',
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30,
+        marginTop: 20,
+        marginBottom: 70
     },
 });
 export default Create;

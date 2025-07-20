@@ -41,11 +41,11 @@ function CreateAliment() {
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]} contentContainerStyle={{ paddingBottom: 20 }}>
-            <Text style={{fontSize: 24, fontWeight: 500, margin: 'auto', marginBottom: 10}}>Switch Mode</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20}}>
-                <Text style={{width: 100, textAlign: 'center',fontWeight: 500, fontSize: 19, color: isSwitchOn ? colors.grayDarkFix : colors.black}}>Generate</Text>
+            <Text style={[styles.title, { color: colors.black}]}>Switch Mode</Text>
+            <View style={styles.containerSwitch}>
+                <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.grayDarkFix : colors.black}]}>Generate</Text>
                 <Switch color='black' value={isSwitchOn} onValueChange={onToggleSwitch} />
-                <Text style={{width: 100,fontSize: 20, fontWeight: 500, textAlign: 'center', color: isSwitchOn ? colors.black : colors.grayDarkFix}}>Create</Text>
+                <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.black : colors.grayDarkFix}]}>Create</Text>
             </View>
             
             {!isSwitchOn && (
@@ -62,6 +62,30 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
+    },
+    title : {
+        fontSize: 24,
+        fontWeight: 500,
+        margin: 'auto',
+        marginBottom: 10
+    },
+    containerSwitch : {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20
+    },
+    textSwitch: {
+        width: 100,
+        textAlign: 'center',
+        fontWeight: 500,
+        fontSize: 19
+    },
+    text : {
+        width: 100,
+        fontSize: 20,
+        fontWeight: 500,
+        textAlign: 'center'
     }
 });
 

@@ -185,7 +185,7 @@ function Generate() {
 
     return (
         <View style={{marginBottom: 80}}>
-            <Text style={{fontSize: 16, width: '100%', textAlign: 'center'}}>Create a food item based on the official data. Enter a quantity, and you can modify the nutritional values as needed.</Text>
+            <Text style={styles.title}>Create a food item based on the official data. Enter a quantity, and you can modify the nutritional values as needed.</Text>
             <Text style={[styles.label, { color: colors.black }]}>Name</Text>
             <View style={{position: 'relative'}}>
                 <TextInput
@@ -475,7 +475,7 @@ function Generate() {
                     <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
                         <TouchableOpacity
                             onPress={handleCreateAliment} 
-                            style={[styles.button , { backgroundColor: colors.black, borderWidth: 1}]}
+                            style={[styles.button , { backgroundColor: colors.black}]}
                             >
                             <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Create an aliment</Text>
                         </TouchableOpacity>
@@ -494,6 +494,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 3,
         paddingHorizontal: 10,
+    },
+    title : {
+        fontSize: 16,
+        width: '100%',
+        textAlign: 'center'
     },
     searchBox : {
         width: '90%',
