@@ -1,17 +1,23 @@
-import { Button, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import NutritionBox from "../NutritionBox";
 import { repertoryFood } from '@/data/createAliment/repertoryFood';
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useTranslation } from "react-i18next";
-import { Food } from "@/interface/Food";
 import { FoodItemGenerate } from "@/interface/FoodItemGenerate";
-import { set } from "date-fns";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore"; 
+import { firestore, getAuth } from '@/firebaseConfig';
+import { User } from "@/interface/User";
+import { fetchUserDataConnected } from "@/functions/function";
 
 function Generate() {
 
     const { colors } = useTheme();
     const { t } = useTranslation();
+
+    const [userData, setUserData] = useState<User[]>([])
+    const auth = getAuth();
+    const user = auth.currentUser;
 
     const [inputValue, setInputValue] = useState('');
     const [title, setTitle] = useState('');
@@ -26,6 +32,17 @@ function Generate() {
     const [ errorMessageTitle, setErrorMessageTitle] = useState('');
 
     const inputInModalRef = useRef(null);
+
+    useEffect(() => {
+        try {
+            const fetch = async () => {
+                fetchUserDataConnected(user, setUserData)
+            }
+            fetch()
+        } catch (e) {
+            console.log('Error processing data', e);
+        }
+    }, [user]);
 
     const filteredRepertoryFood = repertoryFood.filter((food: any) => {
         return food.name.toLowerCase().includes(inputValue.toLowerCase())
@@ -76,20 +93,88 @@ function Generate() {
     Number(inputValueGram) < 10 ||
     Number(inputValueGram) > 250;
 
+    const generateManualId = () => {
+        return `ID-${Date.now()}`;
+    }
 
-    const handleCreateAliment = () => {
+
+    const handleCreateAliment = async (event: any) => {
+        event.preventDefault();
         if (title.trim() === '' && typeof title === 'string' && title.length < 3 ) {
             setErrorMessageTitle("The title must contain only letters and be at least 3 characters long.");
             return;
         }
         setErrorMessageTitle('');
         console.log(nutritionValues)
-            const filteredNutritionValues = Object.fromEntries(
-                Object.entries(nutritionValues).filter(([key, value]) => {
-                    return Number(value) !== 0;
-                })
-            );
-            console.log('sort', filteredNutritionValues)
+        const filteredNutritionValues = Object.fromEntries(
+            Object.entries(nutritionValues).filter(([key, value]) => {
+                return Number(value) !== 0;
+            })
+        );
+        console.log('sort', filteredNutritionValues)
+        console.log('title', title)
+        console.log('inputValueGram', inputValueGram)
+        try {
+            const collectionRef = collection(firestore, "UserCreatedFoods");
+
+            // Récupérez tous les documents de la collection
+            const querySnapshot = await getDocs(collectionRef);
+        
+            // Calculez le prochain ID en trouvant le plus grand ID existant
+            let maxId = 0;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data.id && data.id > maxId) {
+                    maxId = data.id;
+                }
+            });
+        
+            const newId = maxId + 1;
+        
+            const dataToSave = {
+                magnesium: Number(filteredNutritionValues.magnesium) || null,
+                potassium: Number(filteredNutritionValues.potassium) || null,
+                calcium: Number(filteredNutritionValues.calcium) || null,
+                sodium: Number(filteredNutritionValues.sodium) || null,
+                iron: Number(filteredNutritionValues.iron) || null,
+                vitaminA: Number(filteredNutritionValues.vitaminA) || null,
+                vitaminB1: Number(filteredNutritionValues.vitaminB1) || null,
+                vitaminB5: Number(filteredNutritionValues.vitaminB5) || null,
+                vitaminB6: Number(filteredNutritionValues.vitaminB6) || null,
+                vitaminB12: Number(filteredNutritionValues.vitaminB12) || null,
+                vitaminC: Number(filteredNutritionValues.vitaminC) || null,
+                vitaminD: Number(filteredNutritionValues.vitaminD) || null,
+                vitaminE: Number(filteredNutritionValues.vitaminE) || null,
+                vitaminK: Number(filteredNutritionValues.vitaminK) || null,
+                folate: Number(filteredNutritionValues.folate) || null,
+                sugar: Number(filteredNutritionValues.sugar) || null,
+            };
+            
+            Object.keys(dataToSave).forEach((key) => {
+                if (dataToSave[key] === null || dataToSave[key] === undefined || dataToSave[key] === '') {
+                    delete dataToSave[key];
+                }
+            });
+            console.log('data save :', dataToSave)
+
+            await setDoc(doc(firestore, "UserCreatedFoods",  generateManualId()), {
+                id: newId,
+                title: title,
+                quantity: Number(inputValueGram),
+                calories: Number(filteredNutritionValues.calories),
+                proteins: Number(filteredNutritionValues.proteins),
+                carbohydrates: Number(filteredNutritionValues.carbohydrates),
+                fats: Number(filteredNutritionValues.fats),
+                idUser: userData[0]?.id,
+                ...dataToSave
+            });
+            Alert.alert('Aliment created')
+    //         resetForm()
+        } catch(error: any) {
+            Alert.alert('Create an aliment error', error.message)
+        }
+
+            
     }
     const [modalVisible, setModalVisible] = useState(false);
     
