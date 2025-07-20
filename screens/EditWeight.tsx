@@ -6,6 +6,7 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import { fetchUserDataConnected } from '@/functions/function';
 import { useNavigation } from '@react-navigation/native';
+import WeightPicker from '@/components/WeightPicker';
 
 const EditProfileScreen = () => {
 
@@ -18,11 +19,11 @@ const EditProfileScreen = () => {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    const [weight, setWeight] = useState(0);
-    const [ isFocused, setIsFocused] = useState(false);
+    const [weight, setWeight] = useState(80);
     const [refreshKey, setRefreshKey] = useState(0);
+
     useEffect(() => {
-  // Re-fetch les données utilisateur à chaque mise à jour
+    // Re-fetch datas users when to each update
     // fetchUserDataConnected(user, setUserData);
     }, [refreshKey]);
 
@@ -80,28 +81,21 @@ const handleSave = async () => {
         });
 
         console.log('Poids et journal mis à jour avec succès');
-        navigation.replace('home'); // Redirige vers l'écran d'accueil après la mise à jour
-        // navigation.replace('Home');
+        navigation.replace('home');
         Alert.alert('Succès', 'Poids mis à jour avec succès.');
     } catch (error) {
         console.error('Erreur lors de la mise à jour :', error);
         Alert.alert('Erreur', 'Impossible de mettre à jour le poids.');
     }
 };
-
-
+console.log('quantity', weight);
     return (
         <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
 
-            <View style={styles.inputContainer}>
-            <TextInput
-                style={[styles.input, {borderColor: isFocused ? colors.black : colors.grayDarkFix, color: colors.black, backgroundColor: colors.whiteMode}]}
-                keyboardType='numeric'
-                onChange={(text) => setWeight(text.nativeEvent.text)}
-            />
-            {/* {errors[key] ? <Text style={styles.errorText}>{errors[key]}</Text> : null} */}
-            </View>
-        <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
+        <Text style={[styles.title, {color : colors.black}]}>Please update your weight regularly, especially when experiencing weight loss or gain, to ensure your data stays accurate and personalized recommendations remain effective.</Text>
+        <WeightPicker selectedWeight={weight} onChange={setWeight} />
+{/* {quantityError ? <Text style={styles.errorText}>{quantityError}</Text> : null} */}
+        <View style={{alignItems: 'center', justifyContent: 'center', width: '100%'}}>
             <TouchableOpacity style={[styles.button, { backgroundColor: colors.black}]} onPress={handleSave}>
                 <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('save')}</Text>
             </TouchableOpacity>
@@ -165,8 +159,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         height: 20,
-        
     },
+    title: {
+        fontSize: 16,
+        width: '100%',
+        textAlign: 'center',
+        marginTop: 40
+    }
     // modalContainer: {
     //     flex: 1,
     //     justifyContent: 'center',
