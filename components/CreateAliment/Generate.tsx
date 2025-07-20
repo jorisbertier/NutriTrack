@@ -1,7 +1,7 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Button, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import NutritionBox from "../NutritionBox";
 import { repertoryFood } from '@/data/createAliment/repertoryFood';
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useTranslation } from "react-i18next";
 import { Food } from "@/interface/Food";
@@ -25,6 +25,8 @@ function Generate() {
     const [isQuantityFocused, setIsQuantityFocused] = useState(false);
 
     const [ errorMessageTitle, setErrorMessageTitle] = useState('');
+
+    const inputInModalRef = useRef(null);
 
     const filteredRepertoryFood = repertoryFood.filter((food: any) => {
         return food.name.toLowerCase().includes(inputValue.toLowerCase())
@@ -63,7 +65,6 @@ function Generate() {
                 sugar: Number(((food.sugar ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
             });
         }
-       
     };
     
     // Met à jour une valeur particulière
@@ -96,6 +97,13 @@ function Generate() {
             );
             console.log('sort', filteredNutritionValues)
     }
+    const [modalVisible, setModalVisible] = useState(false);
+    
+    const handleClose = () => {
+        setModalVisible(false);
+    };
+
+
     return (
         <View style={{marginBottom: 80}}>
             <Text style={{fontSize: 16, width: '100%', textAlign: 'center'}}>Create a food item based on the official data. Enter a quantity, and you can modify the nutritional values as needed.</Text>
@@ -106,28 +114,69 @@ function Generate() {
                             onChangeText={(text) => {
                             setInputValue(text);
                             setRepertoryOpened(text.length > 0);
+                            setModalVisible(true);
                         }}
                 onFocus={() => setIsNameFocused(true)}
                 onBlur={() => setIsNameFocused(false)}
                     style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayPress }]}
                 />
+                {filteredRepertoryFood.length === 0 && (<Text style={styles.errorMessage}>There is no food matching with {inputValue}.</Text>)}
+
                 {repertoryOpened && filteredRepertoryFood.length > 0 && (
-                <ScrollView style={styles.containerSearch}>
-                    {filteredRepertoryFood.map((food: any, index : number) => (
-                    <TouchableOpacity
-                        key={`${food.name}-${index}`}
-                        style={[styles.boxSearch, { borderColor: colors.grayDarkFix}]}
-                        onPress={() => {
-                            setFoodRepertorySelected(food.name);
-                            setInputValue(food.name);
-                            setRepertoryOpened(false);
-                        }}
-                    >
-                        <Text style={[styles.label, { color: colors.black }]}>{food.name}</Text>
-                    </TouchableOpacity>
-                    ))}
-                </ScrollView>
-            )}
+                    <Modal transparent={true} visible={modalVisible} animationType="slide" onShow={() => {
+                        if (inputInModalRef.current) {
+                        inputInModalRef.current.focus();
+                        }
+                    }}>
+                        <TouchableWithoutFeedback onPress={handleClose}>
+                            <View style={modal.modalContainer}>
+                                <View style={[styles.searchBox, {backgroundColor: colors.white}]}>
+                                    <TextInput
+                                        ref={inputInModalRef} 
+                                        value={inputValue}
+                                                onChangeText={(text) => {
+                                                setInputValue(text);
+                                                setRepertoryOpened(text.length > 0);
+                                                setModalVisible(true);
+                                            }}
+                                    onFocus={() => setIsNameFocused(true)}
+                                    onBlur={() => setIsNameFocused(false)}
+                                    style={[styles.input2, {backgroundColor: 'white', borderColor: isNameFocused ? colors.blackFix : colors.grayPress }]}
+                                    />
+                                </View>
+                            <ScrollView style={styles.containerSearch} persistentScrollbar={true}>
+                            {filteredRepertoryFood.map((food: any, index : number) => {
+                                const isLast = index == filteredRepertoryFood.length - 1;
+                                return (
+                                    <TouchableOpacity
+                                            key={`${food.name}-${index}`}
+                                            style={[
+                                                styles.boxSearch,
+                                                isLast ? {
+                                                borderBottomLeftRadius: 10,
+                                                borderBottomRightRadius: 10,
+                                                    borderTopColor: colors.grayPress,
+                                                    borderTopWidth: 1,
+                                                } : {
+                                                    borderTopColor: colors.grayPress,
+                                                    borderTopWidth: 1,
+                                                },
+                                            ]}
+                                            onPress={() => {
+                                                setFoodRepertorySelected(food.name);
+                                                setInputValue(food.name);
+                                                setRepertoryOpened(false);
+                                                setModalVisible(false)
+                                            }}
+                                        >
+                                            <Text style={[styles.label, { color: colors.black }]}>{food.name}</Text>
+                                    </TouchableOpacity>
+                                )})}
+                            </ScrollView>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    </Modal>
+                )}
             </View>
             {foodRepertorySelected && (<View style={{marginTop: 10,backgroundColor: colors.white, width: "30%", justifyContent: 'center', paddingLeft: 5, borderColor: colors.black, borderWidth: 1, padding: 2, height: 30, borderRadius: 10}}><Text style={[{fontWeight: 500, color: "black" }]}>{foodRepertorySelected}</Text></View>)}
             <Text style={[styles.label, { color: colors.black }]}>Quantity between 10 & 250 g</Text>
@@ -165,7 +214,7 @@ function Generate() {
                 </View>
                 )}
                 {errorMessageTitle && (
-                    <Text style={{color: 'red', marginTop: 10}}>{errorMessageTitle}</Text>
+                    <Text style={styles.errorMessage}>{errorMessageTitle}</Text>
                 )}
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20}}>
                 {generateFood?.calories !== undefined && (
@@ -367,26 +416,40 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         paddingHorizontal: 10,
     },
+    searchBox : {
+        width: '90%',
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10
+    },
+    input2: {
+        height: 50,
+        width: '90%',
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 10,
+        marginBottom: 3,
+        paddingHorizontal: 10,
+    },
     label: {
         marginTop: 8,
         marginBottom: 4,
         fontWeight: 'bold',
     },
-        containerSearch : {
+    containerSearch : {
         maxHeight: 250,
         overflow: 'hidden',
         borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 20,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
         margin: 0,
-        position: 'absolute',
-        top: 55,
-        width: '100%',
+        width: '90%',
         zIndex: 10
     },
     boxSearch: {
         backgroundColor: 'white',
-        borderBottomWidth: 1,
         padding: 2,
         margin: 0,
         gap: 0,
@@ -402,7 +465,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 30,
+    },
+    errorMessage : {
+        color: 'red',
+        marginTop: 10
     }
 })
+
+
+const modal = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: 300,
+        padding: 20,
+        backgroundColor: 'white',
+        borderRadius: 30,
+        alignItems: 'center',
+    },
+    modalText: {
+        fontSize: 18,
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+});
 
 export default Generate;
