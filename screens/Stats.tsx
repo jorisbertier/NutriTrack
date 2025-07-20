@@ -14,6 +14,7 @@ import { RootState } from "@/redux/store";
 import CustomPie from "@/components/Chart/Pie/CustomPie";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from '@/constants/Colors';
+import WeightChart from "@/components/Chart/WeightChart";
 
 
 function Stats() {
@@ -132,6 +133,10 @@ function Stats() {
         <View style={[styles.container, { backgroundColor: colors.white}]}>
             <Row style={{marginBottom: 80,marginTop: totalMacronutrients == 0 ? -160 : 40, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
+            </Row>
+            <Row>
+                <WeightChart/>
+
             </Row>
             <WeeklyBarChart
                 weeks={data2}

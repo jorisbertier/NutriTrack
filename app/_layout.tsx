@@ -28,6 +28,7 @@ import { Provider } from 'react-redux';
 import { store } from '@/redux/store'
 import Subscription from '@/screens/Subscription/Subscription';
 import { useTranslation } from 'react-i18next';
+import EditWeight from '@/screens/EditWeight';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -211,6 +212,22 @@ export default function RootLayout() {
                   options={{
                     headerShown: true,
                     headerTitle: 'Create Aliment',
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                      backgroundColor: '#000',
+                    },
+                    headerTitleStyle: {
+                      color: 'white',
+                    },
+                    headerTintColor: '#ffffff'
+                  }}
+                />
+                <Stack.Screen
+                  name="Editweight"
+                  component={EditWeight}
+                  options={{
+                    headerShown: true,
+                    headerTitle: 'Editweight',
                     headerTitleAlign: 'center',
                     headerStyle: {
                       backgroundColor: '#000',
