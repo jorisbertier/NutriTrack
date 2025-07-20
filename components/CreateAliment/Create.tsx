@@ -650,7 +650,7 @@ function Create() {
                     onPress={createAliment}
                     style={[styles.button, { backgroundColor: colors.black }]}
                 >
-                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Create aliment</Text>
+                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Create an aliment</Text>
                 </TouchableOpacity>
             </>
     )
@@ -671,7 +671,7 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 10,
-        marginBottom: 3,
+        marginBottom: 5,
         paddingHorizontal: 10,
     },
     label: {
