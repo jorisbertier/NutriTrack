@@ -9,7 +9,7 @@ import { useState, useEffect, useContext } from "react";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { navigationRef } from "@/app/_layout";
 import { getAuth } from "firebase/auth";
-import { fetchUserDataConnected, getVitaminPercentageMg, getVitaminPercentageUg } from "@/functions/function";
+import { fetchUserDataConnected } from "@/functions/function";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { FoodContext } from "@/hooks/FoodContext";
@@ -191,15 +191,15 @@ export default function DetailsFoodCreated() {
                 {filterUniqueFood?.iron ? <NutritionItem name={'Iron'} quantity={filterUniqueFood?.iron} unit={'g'}/> : null}
                 {filterUniqueFood?.folate ? <NutritionItem name={'Folate'} quantity={filterUniqueFood?.folate} unit={'g'}/> : null}
 
-                {filterUniqueFood?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminA, 800))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB1 ? <NutritionItem name={'Vitamins B1'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB1, 1.1))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB5 ? <NutritionItem name={'Vitamins B5'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB5, 5))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB6 ? <NutritionItem name={'Vitamins B6'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminB6, 1.3))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB12 ? <NutritionItem name={'Vitamins B12'} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminB12, 2.4))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminC ? <NutritionItem name={'Vitamins C'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminC,90))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminD ? <NutritionItem name={'Vitamins D'} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminD, 15))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminE ? <NutritionItem name={'Vitamins E'} quantity={Number(getVitaminPercentageMg(filterUniqueFood?.vitaminE, 15))} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminK ? <NutritionItem name={'Vitamins K'} quantity={Number(getVitaminPercentageUg(filterUniqueFood?.vitaminK, 120))} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={filterUniqueFood?.vitaminA} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB1 ? <NutritionItem name={'Vitamins B1'} quantity={filterUniqueFood?.vitaminB1} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB5 ? <NutritionItem name={'Vitamins B5'} quantity={filterUniqueFood?.vitaminB5} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB6 ? <NutritionItem name={'Vitamins B6'} quantity={filterUniqueFood?.vitaminB6} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB12 ? <NutritionItem name={'Vitamins B12'} quantity={filterUniqueFood?.vitaminB12} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminC ? <NutritionItem name={'Vitamins C'} quantity={filterUniqueFood?.vitaminC} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminD ? <NutritionItem name={'Vitamins D'} quantity={filterUniqueFood?.vitaminD} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminE ? <NutritionItem name={'Vitamins E'} quantity={filterUniqueFood?.vitaminE} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminK ? <NutritionItem name={'Vitamins K'} quantity={filterUniqueFood?.vitaminK} unit={'%'}/> : null}
                 
             
             </View>

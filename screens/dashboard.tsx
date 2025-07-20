@@ -7,7 +7,7 @@ import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals, UserMealsCreated } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
-import { fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, getVitaminPercentageMg, getVitaminPercentageUg, addExperience } from "@/functions/function";
+import { fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, addExperience } from "@/functions/function";
 import { firestore } from "@/firebaseConfig";
 import { collection, getDocs, doc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
@@ -375,15 +375,15 @@ export default function Dashboard() {
         { name: t('magnesium'), quantity: magnesium, unit: 'g' },
         { name: t('calcium'), quantity: calcium, unit: 'g' },
         { name: t('sodium'), quantity: sodium, unit: 'g' },
-        { name: t('vitaminA'), quantity: getVitaminPercentageUg(vitaminA, 800), unit: '%' },
-        { name: t('vitaminB1'), quantity: getVitaminPercentageMg(vitaminB1, 1.1), unit: '%' },
-        { name: t('vitaminB5'), quantity: getVitaminPercentageMg(vitaminB5, 5), unit: '%' },
-        { name: t('vitaminB6'), quantity: getVitaminPercentageMg(vitaminB6, 1.3), unit: '%' },
-        { name: t('vitaminB12'), quantity: getVitaminPercentageUg(vitaminB12, 2.4), unit: '%' },
-        { name: t('vitaminC'), quantity: getVitaminPercentageMg(vitaminC, 90), unit: '%' },
-        { name: t('vitaminD'), quantity: getVitaminPercentageUg(vitaminD, 15), unit: '%' },
-        { name: t('vitaminE'), quantity: getVitaminPercentageMg(vitaminE, 15), unit: '%' },
-        { name: t('vitaminK'), quantity: getVitaminPercentageUg(vitaminK, 120), unit: '%' },
+        { name: t('vitaminA'), quantity: vitaminA, unit: '%' },
+        { name: t('vitaminB1'), quantity: vitaminB1, unit: '%' },
+        { name: t('vitaminB5'), quantity: vitaminB5, unit: '%' },
+        { name: t('vitaminB6'), quantity: vitaminB6, unit: '%' },
+        { name: t('vitaminB12'), quantity: vitaminB12, unit: '%' },
+        { name: t('vitaminC'), quantity: vitaminC, unit: '%' },
+        { name: t('vitaminD'), quantity: vitaminD, unit: '%' },
+        { name: t('vitaminE'), quantity: vitaminE, unit: '%' },
+        { name: t('vitaminK'), quantity: vitaminK, unit: '%' },
         { name: t('folate'), quantity: folate, unit: 'g' },
         { name: t('iron'), quantity: iron, unit: 'g' },
         // { name: 'Fiber', quantity: 0, unit: 'g' },

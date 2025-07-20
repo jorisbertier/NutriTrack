@@ -35,7 +35,7 @@ import { Svg, Circle } from 'react-native-svg';
     const circumferenceInner = 2 * Math.PI * radiusInner;
 
     return (
-        <View style={[styles.container, {backgroundColor: colors.grayMode}]}>
+        <View style={[styles.container, {backgroundColor: colors.white, borderColor: colors.gray, borderWidth: 1, elevation: 2}]}>
             <View style={{width: '50%'}}>
             <Svg height={150} width={150}>
                 {/* Cercle des graisses */}

@@ -394,19 +394,21 @@ function CreateAliment() {
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]} contentContainerStyle={{ paddingBottom: 20 }}>
-            
+            <Text style={{fontSize: 24, fontWeight: 500, margin: 'auto', marginBottom: 10}}>Switch Mode</Text>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20}}>
                 <Text style={{width: 100, textAlign: 'center',fontWeight: 500, fontSize: 19, color: isSwitchOn ? colors.grayDarkFix : colors.black}}>Generate</Text>
                 <Switch color='black' value={isSwitchOn} onValueChange={onToggleSwitch} />
                 <Text style={{width: 100,fontSize: 20, fontWeight: 500, textAlign: 'center', color: isSwitchOn ? colors.black : colors.grayDarkFix}}>Create</Text>
             </View>
-            <Text style={{fontSize: 24, fontWeight: 500, margin: 'auto', marginBottom: 10}}>Switch Mode</Text>
+            
             {!isSwitchOn && (
                 <Generate/>
             )}
-            {/* <Text style={[styles.label, {color : colors.black}]}>Name -</Text>
+            {isSwitchOn && (
+                <>
+            <Text style={[styles.label, {color : colors.black}]}>Name</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Name (required)"
                     value={title}
                     onChangeText={setTitle}
@@ -415,9 +417,9 @@ function CreateAliment() {
                     onSubmitEditing={() => quantityRef.current?.focus()}
                 />
                 {titleError ? <Text style={styles.errorText}>{titleError}</Text> : null}
-                <Text style={[styles.label, {color : colors.black}]}>Quantity -</Text>
+                <Text style={[styles.label, {color : colors.black}]}>Quantity</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Quantity (required)"
                     value={quantity}
                     onChangeText={setQuantity}
@@ -427,9 +429,9 @@ function CreateAliment() {
                     onSubmitEditing={() => unitRef.current?.focus()} 
                 />
                 {quantityError ? <Text style={styles.errorText}>{quantityError}</Text> : null}
-                <Text style={[styles.label, {color : colors.black}]}>Unit /g, ml, cup, slice -</Text>
+                <Text style={[styles.label, {color : colors.black}]}>Unit /g, ml, cup, slice</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Unit (required)"
                     value={unit}
                     onChangeText={setUnit}
@@ -442,7 +444,7 @@ function CreateAliment() {
                 {unitError ? <Text style={styles.errorText}>{unitError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Calories -</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Calories (required)"
                     value={calories}
                     onChangeText={setCalories}
@@ -452,9 +454,9 @@ function CreateAliment() {
                     onSubmitEditing={() => proteinsRef.current?.focus()}
                 />
                 {caloriesError ? <Text style={styles.errorText}>{caloriesError}</Text> : null}
-                <Text style={[styles.label, {color : colors.black}]}>Proteins -</Text>
+                <Text style={[styles.label, {color : colors.black}]}>Proteins</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Proteins (required)"
                     value={proteins}
                     onChangeText={setProteins}
@@ -464,9 +466,9 @@ function CreateAliment() {
                     onSubmitEditing={() => carbsRef.current?.focus()}
                 />
                 {proteinsError ? <Text style={styles.errorText}>{proteinsError}</Text> : null}
-                <Text style={[styles.label, {color : colors.black}]}>Carbohydrates -</Text>
+                <Text style={[styles.label, {color : colors.black}]}>Carbohydrates</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Carbohydrates (required)"
                     value={carbs}
                     onChangeText={setCarbs}
@@ -476,9 +478,9 @@ function CreateAliment() {
                     onSubmitEditing={() => fatsRef.current?.focus()}
                 />
                 {carbsError ? <Text style={styles.errorText}>{carbsError}</Text> : null}
-                <Text style={[styles.label, {color : colors.black}]}>Fats -</Text>
+                <Text style={[styles.label, {color : colors.black}]}>Fats</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Fats (required)"
                     value={fats}
                     onChangeText={setFats}
@@ -490,7 +492,7 @@ function CreateAliment() {
                 {fatsError ? <Text style={styles.errorText}>{fatsError}</Text> : null}
                 <Text style={[styles.label, {color : colors.black}]}>Others macronutrient (optional)-</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Magnesium (optional) max 350"
                     value={magnesium}
                     onChangeText={setMagnesium}
@@ -501,7 +503,7 @@ function CreateAliment() {
                 />
                 {magnesiumError ? <Text style={styles.errorText}>{magnesiumError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Potassium (optional) max 4700"
                     value={potassium}
                     onChangeText={setPotassium}
@@ -512,7 +514,7 @@ function CreateAliment() {
                 />
                 {potassiumError ? <Text style={styles.errorText}>{potassiumError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Calcium (optional) max 1300"
                     value={calcium}
                     onChangeText={setCalcium}
@@ -523,7 +525,7 @@ function CreateAliment() {
                 />
                 {calciumError ? <Text style={styles.errorText}>{calciumError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Sodium (optional) max 1300"
                     value={sodium}
                     onChangeText={setSodium}
@@ -534,7 +536,7 @@ function CreateAliment() {
                 />
                 {sodiumError ? <Text style={styles.errorText}>{sodiumError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Iron (optional) max 45"
                     value={iron}
                     onChangeText={setIron}
@@ -545,7 +547,7 @@ function CreateAliment() {
                 />
                 {ironError ? <Text style={styles.errorText}>{ironError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Sugar (optional) max 100"
                     value={sugar}
                     onChangeText={setSugar}
@@ -556,7 +558,7 @@ function CreateAliment() {
                 />
                 {sugarError ? <Text style={styles.errorText}>{sugarError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Folate (optional) max 400"
                     value={folate}
                     onChangeText={setFolate}
@@ -567,7 +569,7 @@ function CreateAliment() {
                 />
                 {folateError ? <Text style={styles.errorText}>{folateError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminA (optional)(value µg) max 2000"
                     value={vitaminA}
                     onChangeText={setVitaminA}
@@ -578,7 +580,7 @@ function CreateAliment() {
                 />
                 {vitaminAError ? <Text style={styles.errorText}>{vitaminAError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminB1 (optional)(value mg) max 1.2"
                     value={vitaminB1}
                     onChangeText={setVitaminB1}
@@ -589,7 +591,7 @@ function CreateAliment() {
                 />
                 {vitaminB1Error ? <Text style={styles.errorText}>{vitaminB1Error}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminB5 (optional)(value mg) max 5"
                     value={vitaminB5}
                     onChangeText={setVitaminB5}
@@ -600,7 +602,7 @@ function CreateAliment() {
                 />
                 {vitaminB5Error ? <Text style={styles.errorText}>{vitaminB5Error}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminB6 (optional)(value mg) max 1.3"
                     value={vitaminB6}
                     onChangeText={setVitaminB6}
@@ -611,7 +613,7 @@ function CreateAliment() {
                 />
                 {vitaminB6Error ? <Text style={styles.errorText}>{vitaminB6Error}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminB12 (optional)(value µg) max 2.4"
                     value={vitaminB12}
                     onChangeText={setVitaminB12}
@@ -622,7 +624,7 @@ function CreateAliment() {
                 />
                 {vitaminB12Error ? <Text style={styles.errorText}>{vitaminB12Error}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminC (optional)(value mg) max 130"
                     value={vitaminC}
                     onChangeText={setVitaminC}
@@ -633,7 +635,7 @@ function CreateAliment() {
                 />
                 {vitaminCError ? <Text style={styles.errorText}>{vitaminCError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminD (optional)(value µg) max 15"
                     value={vitaminD}
                     onChangeText={setVitaminD}
@@ -644,7 +646,7 @@ function CreateAliment() {
                 />
                 {vitaminDError ? <Text style={styles.errorText}>{vitaminDError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminE (optional)(value mg) max 15"
                     value={vitaminE}
                     onChangeText={setVitaminE}
@@ -655,7 +657,7 @@ function CreateAliment() {
                 />
                 {vitaminEError ? <Text style={styles.errorText}>{vitaminEError}</Text> : null}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.grayPress}]}
+                    style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminK (optional)(value µg) max 100"
                     value={vitaminK}
                     onChangeText={setVitaminK}
@@ -676,8 +678,10 @@ function CreateAliment() {
                     alignItems: 'center',
                     }}
                 >
-                <Text style={{ color: colors.white}}>Create aliment</Text>
-            </TouchableOpacity> */}
+                    <Text style={{ color: colors.white}}>Create aliment</Text>
+                </TouchableOpacity>
+            </>
+            )}
         </ScrollView>
     )
 }
@@ -691,7 +695,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderColor: '#ccc',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 10,
         marginBottom: 3,
         paddingHorizontal: 10,
     },

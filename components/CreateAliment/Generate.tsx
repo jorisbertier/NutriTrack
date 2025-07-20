@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 import { Food } from "@/interface/Food";
 import { FoodItemGenerate } from "@/interface/FoodItemGenerate";
 import { set } from "date-fns";
-import { getVitaminPercentageMg } from "@/functions/function";
 
 function Generate() {
 
