@@ -24,7 +24,8 @@ export default function Search() {
     const [notificationVisible, setNotificationVisible] = useState(false); 
     const [isLoading, setIsLoading] = useState(false);
     const colorMode: 'light' | 'dark' = 'light';
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
+    const [isFocuded, setIsFocused] = useState(false);
     
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -102,11 +103,13 @@ export default function Search() {
                 
                 <View style={styles.wrapperInput}>
                     <TextInput
-                        style={[styles.input, {backgroundColor: colors.grayMode, color: colors.black}]}
+                        style={[styles.input, {backgroundColor: colors.white, color: colors.black, borderColor: isFocuded ? colors.back : colors.grayDarkFix}]}
                         onChangeText={onChangeText}
                         value={text}
                         placeholder={t('searchFood')}
                         placeholderTextColor={'grey'}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
                     >
                     </TextInput>
                         {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
@@ -130,13 +133,13 @@ export default function Search() {
                 <Row style={[styles.wrapperFood]}>
                     {text.length === 0 &&
                     <Row style={{justifyContent: 'space-around', width: '100%'}}>
-                        <TouchableOpacity  style={[styles.wrapperBloc, {backgroundColor: colors.primary}]} onPress={() => navigation.navigate("CreateAliment")}>
+                        <TouchableOpacity  style={[styles.wrapperBloc, {backgroundColor: colors.blueLight}]} onPress={() => navigation.navigate("CreateAliment")}>
                             <View style={{ alignItems: 'center', flexDirection: 'row' }}>
                                 <Image source={require('@/assets/images/add.png')} style={[styles.addSearch, {tintColor: colors.white}]} />
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("SearchAlimentCreated")}
-                            style={[styles.wrapperBloc, {backgroundColor: colors.primary}]}
+                            style={[styles.wrapperBloc, {backgroundColor: colors.blueLight}]}
                         >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }}>
                                 <ThemedText variant='title2' color={colors.white} style={{ fontWeight: 'bold' }}>{t('list')}</ThemedText>
@@ -194,27 +197,21 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     input: {
-        height: 50,
-        margin: 12,
-        borderRadius: 15,
+        width: "90%",
+        borderWidth: 1,
         padding: 10,
-        paddingLeft: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingStart: 40,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
-        elevation: 3,
-        borderBlockColor: 'transparent',
-        width: '100%'
+        borderRadius: 15,
+        height: 50,
+        marginBottom: 20,
+        fontSize: 15,
+        fontWeight: 500,
+        paddingLeft: 40
     },
     iconSearch : {
         position: 'absolute',
-        left: 12,
+        left: 30,
         top: '50%',
-        transform: [{ translateY: -9.5 }], 
+        transform: [{ translateY: -19 }], 
         width: 20,
         height: 20,
         tintColor: '#8a8a8a',
@@ -222,9 +219,9 @@ const styles = StyleSheet.create({
     },
     wrapperDelete : {
         position: 'absolute',
-        right: 30,
+        right: 40,
         top: '50%',
-        transform: [{ translateY: -13 }],
+        transform: [{ translateY: -23 }],
         padding: 7,
         borderRadius: 8
     },
@@ -238,6 +235,7 @@ const styles = StyleSheet.create({
         height: 15,
         width: 15,
         tintColor: '#8a8a8a',
+        
     },
     wrapperFood : {
         flexDirection: 'column',

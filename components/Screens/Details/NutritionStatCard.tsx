@@ -23,9 +23,9 @@ export default function NutritionStatCard({nutri, height, quantity, unit, source
         <View>
             <View style={[styles.statFirst, {backgroundColor: colors.gray}]}>
                 <Image source={source} style={styles.iconNutri} />
-            <View style={[styles.statContainer, { backgroundColor: colors.primary, height: height}]}>
-                <ThemedText variant="title2" color={colors.white} style={styles.statTitle}>{capitalizeFirstLetter(nutri)}</ThemedText>
-                <ThemedText variant="title1" color={colors.white} style={styles.statValue}>{quantity} {unit}</ThemedText>
+            <View style={[styles.statContainer, { backgroundColor: colors.blueLight, height: height}]}>
+                <ThemedText variant="title2" color={colors.black} style={styles.statTitle}>{capitalizeFirstLetter(nutri)}</ThemedText>
+                <ThemedText variant="title1" color={colors.black} style={styles.statValue}>{quantity} {unit}</ThemedText>
             </View>
             </View>
         </View>

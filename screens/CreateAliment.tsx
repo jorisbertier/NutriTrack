@@ -225,64 +225,64 @@ function CreateAliment() {
             setSugarError('');
         }
         const vitaminANumber = parseFloat(vitaminA);
-        if (vitaminANumber > 2000 || vitaminANumber < 0) {
-            setVitaminAError('Please enter a valid number of vitamin a. Max 2000');
+        if (vitaminANumber > 300 || vitaminANumber < 0) {
+            setVitaminAError('Please enter a valid number of vitamin a. Max 300');
             isValid = false;
         } else {
             setVitaminAError('');
         }
         const vitaminB1Number = parseFloat(vitaminB1);
-        if (vitaminB1Number > 1.2 || vitaminB1Number < 0) {
-            setVitaminB1Error('Please enter a valid number of vitamin b1. Max 1.2');
+        if (vitaminB1Number > 300 || vitaminB1Number < 0) {
+            setVitaminB1Error('Please enter a valid number of vitamin b1. Max 300');
             isValid = false;
         } else {
             setVitaminB1Error('');
         }
         const vitaminB5Number = parseFloat(vitaminB5);
-        if (vitaminB5Number > 5 || vitaminB5Number < 0) {
-            setVitaminB5Error('Please enter a valid number of vitamin b5. Max 5');
+        if (vitaminB5Number > 300 || vitaminB5Number < 0) {
+            setVitaminB5Error('Please enter a valid number of vitamin b5. Max 300');
             isValid = false;
         } else {
             setVitaminB5Error('');
         }
         const vitaminB6Number = parseFloat(vitaminB6);
-        if (vitaminB6Number > 1.3 || vitaminB6Number < 0) {
-            setVitaminB6Error('Please enter a valid number of vitamin b6. Max 1.3');
+        if (vitaminB6Number > 300 || vitaminB6Number < 0) {
+            setVitaminB6Error('Please enter a valid number of vitamin b6. Max 300');
             isValid = false;
         } else {
             setVitaminB6Error('');
         }
         const vitaminB12Number = parseFloat(vitaminB12);
-        if (vitaminB12Number > 2.4 || vitaminB12Number < 0) {
-            setVitaminB12Error('Please enter a valid number of vitamin b12. Max 1.3');
+        if (vitaminB12Number > 300 || vitaminB12Number < 0) {
+            setVitaminB12Error('Please enter a valid number of vitamin b12. Max 300');
             isValid = false;
         } else {
             setVitaminB12Error('');
         }
         const vitaminCNumber = parseFloat(vitaminC);
-        if (vitaminCNumber > 130 || vitaminCNumber < 0) {
-            setVitaminCError('Please enter a valid number of vitamin c. Max 130');
+        if (vitaminCNumber > 300 || vitaminCNumber < 0) {
+            setVitaminCError('Please enter a valid number of vitamin c. Max 300');
             isValid = false;
         } else {
             setVitaminCError('');
         }
         const vitaminDNumber = parseFloat(vitaminD);
-        if (vitaminDNumber > 15 || vitaminDNumber < 0) {
-            setVitaminDError('Please enter a valid number of vitamin D. Max 15');
+        if (vitaminDNumber > 300 || vitaminDNumber < 0) {
+            setVitaminDError('Please enter a valid number of vitamin D. Max 300');
             isValid = false;
         } else {
             setVitaminDError('');
         }
         const vitaminENumber = parseFloat(vitaminE);
-        if (vitaminENumber > 15 || vitaminENumber < 0) {
-            setVitaminEError('Please enter a valid number of vitamin E. Max 15');
+        if (vitaminENumber > 300 || vitaminENumber < 0) {
+            setVitaminEError('Please enter a valid number of vitamin E. Max 300');
             isValid = false;
         } else {
             setVitaminEError('');
         }
         const vitaminKNumber = parseFloat(vitaminE);
-        if (vitaminKNumber > 130 || vitaminKNumber < 0) {
-            setVitaminKError('Please enter a valid number of vitamin K. Max 130');
+        if (vitaminKNumber > 300 || vitaminKNumber < 0) {
+            setVitaminKError('Please enter a valid number of vitamin K. Max 300');
             isValid = false;
         } else {
             setVitaminKError('');
@@ -294,8 +294,6 @@ function CreateAliment() {
     const generateManualId = () => {
         return `ID-${Date.now()}`;
     }
-
-
 
     const createAliment = async (event: any) => {
         event.preventDefault();
@@ -319,7 +317,6 @@ function CreateAliment() {
             });
         
             const newId = maxId + 1;
-
         
             const dataToSave = {
                 magnesium: Number(magnesium) || null,
@@ -570,7 +567,7 @@ function CreateAliment() {
                 {folateError ? <Text style={styles.errorText}>{folateError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminA (optional)(value µg) max 2000"
+                    placeholder="VitaminA % (optional) max 300"
                     value={vitaminA}
                     onChangeText={setVitaminA}
                     keyboardType="numeric"
@@ -581,7 +578,7 @@ function CreateAliment() {
                 {vitaminAError ? <Text style={styles.errorText}>{vitaminAError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminB1 (optional)(value mg) max 1.2"
+                    placeholder="VitaminB1 % (optional) max 300"
                     value={vitaminB1}
                     onChangeText={setVitaminB1}
                     keyboardType="numeric"
@@ -592,7 +589,7 @@ function CreateAliment() {
                 {vitaminB1Error ? <Text style={styles.errorText}>{vitaminB1Error}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminB5 (optional)(value mg) max 5"
+                    placeholder="VitaminB5 % (optional) max 300"
                     value={vitaminB5}
                     onChangeText={setVitaminB5}
                     keyboardType="numeric"
@@ -603,7 +600,7 @@ function CreateAliment() {
                 {vitaminB5Error ? <Text style={styles.errorText}>{vitaminB5Error}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminB6 (optional)(value mg) max 1.3"
+                    placeholder="VitaminB6 % (optional) max 300"
                     value={vitaminB6}
                     onChangeText={setVitaminB6}
                     keyboardType="numeric"
@@ -614,7 +611,7 @@ function CreateAliment() {
                 {vitaminB6Error ? <Text style={styles.errorText}>{vitaminB6Error}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminB12 (optional)(value µg) max 2.4"
+                    placeholder="VitaminB12 % (optional) max 300"
                     value={vitaminB12}
                     onChangeText={setVitaminB12}
                     keyboardType="numeric"
@@ -625,7 +622,7 @@ function CreateAliment() {
                 {vitaminB12Error ? <Text style={styles.errorText}>{vitaminB12Error}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminC (optional)(value mg) max 130"
+                    placeholder="VitaminC % (optional) max 300"
                     value={vitaminC}
                     onChangeText={setVitaminC}
                     keyboardType="numeric"
@@ -636,7 +633,7 @@ function CreateAliment() {
                 {vitaminCError ? <Text style={styles.errorText}>{vitaminCError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminD (optional)(value µg) max 15"
+                    placeholder="VitaminD % (optional) max 300"
                     value={vitaminD}
                     onChangeText={setVitaminD}
                     keyboardType="numeric"
@@ -647,7 +644,7 @@ function CreateAliment() {
                 {vitaminDError ? <Text style={styles.errorText}>{vitaminDError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminE (optional)(value mg) max 15"
+                    placeholder="VitaminE % (optional) max 300"
                     value={vitaminE}
                     onChangeText={setVitaminE}
                     keyboardType="numeric"
@@ -658,7 +655,7 @@ function CreateAliment() {
                 {vitaminEError ? <Text style={styles.errorText}>{vitaminEError}</Text> : null}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
-                    placeholder="VitaminK (optional)(value µg) max 100"
+                    placeholder="VitaminK % (optional) max 300"
                     value={vitaminK}
                     onChangeText={setVitaminK}
                     keyboardType="numeric"
