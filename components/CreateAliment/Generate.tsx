@@ -32,9 +32,6 @@ function Generate() {
         return food.name.toLowerCase().includes(inputValue.toLowerCase())
     })
 
-        // console.log(inputValue)
-        // console.log(foodRepertorySelected)
-
     const [nutritionValues, setNutritionValues] = useState({
         calories: 0,proteins: 0,carbohydrates: 0,fats: 0,magnesium: 0,potassium: 0,calcium: 0,sodium: 0,iron: 0,folate: 0,vitaminA: 0,vitaminB1: 0,vitaminB6: 0,vitaminB12: 0,vitaminC: 0,vitaminD: 0,vitaminE: 0,vitaminK: 0,cholesterol: 0,sugar: 0
     });
@@ -67,7 +64,6 @@ function Generate() {
         }
     };
     
-    // Met à jour une valeur particulière
     const handleValueChange = (key, newValue) => {
         setNutritionValues(prev => ({
             ...prev,
@@ -75,7 +71,6 @@ function Generate() {
         }));
     };
     
-   
     const isDisabled = 
     !foodRepertorySelected ||
     isNaN(Number(inputValueGram)) ||
