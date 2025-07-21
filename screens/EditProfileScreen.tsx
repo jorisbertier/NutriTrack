@@ -9,12 +9,13 @@ import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { Picker } from '@react-native-picker/picker';
 import { useDispatch } from 'react-redux';
-import { clearUser } from '@/redux/userSlice';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
 
-const EditProfileScreen = ({ navigation, updateUserInfo }) => {
+const EditProfileScreen = ({ updateUserInfo }) => {
 
   const {colors} = useTheme();
+  const navigation = useNavigation();
 
   const { t} = useTranslation();
 
@@ -23,7 +24,11 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  const dispatch = useDispatch()
+  const [focusedFields, setFocusedFields] = useState<{ [key: string]: boolean }>({});
+
+    const handleFocus = (field: string) => {
+        setFocusedFields(prev => ({ ...prev, [field]: true }));
+    };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,19 +73,6 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
     setModalVisible(true);
   };
 
-  const handleSignOut = async () => {
-    try {
-      // await setPersistence(auth, browserSessionPersistence);
-      dispatch(clearUser());
-      await signOut(auth); // Déconnexion de l'utilisateur
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'auth' }],
-      });
-    } catch (error: unknown) {
-      Alert.alert('Erreur de déconnexion', error.message);
-    }
-  };
 
   const updateUserData = async (userId, updatedData) => {
     const db = getFirestore();
@@ -109,8 +101,7 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         activityLevel: formData.activityLevel,
       });
       updateUserInfo && updateUserInfo(formData);
-      handleSignOut();
-      navigation.navigate('auth');
+       navigation.replace('home');
     } catch (error) {
       console.error('Error updating user info:', error);
     } finally {
@@ -157,11 +148,14 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
 
       {keysOrder.map((key) => (
         <View key={key} style={styles.inputContainer}>
+          <Text style={[styles.label, {color : colors.black}]}>{t(key)}</Text>
           <TextInput
-            style={[styles.input, {backgroundColor: colors.grayPress}]}
+            style={[styles.input, {backgroundColor: colors.white, borderColor: focusedFields[key] ? colors.black : colors.grayDarkFix}]}
             placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
             value={formData[key]}
             onChangeText={(text) => validateInput(key, text)}
+            onFocus={() => handleFocus(key)}
+            onBlur={() => setFocusedFields((prev) => ({ ...prev, [key]: false }))}
           />
           {errors[key] ? <Text style={styles.errorText}>{errors[key]}</Text> : null}
         </View>
@@ -182,9 +176,11 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
         <Picker.Item label={t("superactive")} value="superactive" />
       </Picker>
 
-      <TouchableOpacity style={[styles.saveButton,{backgroundColor: colors.primary}]} onPress={handleSave}>
-        <Text style={[styles.saveButtonText]}>{t('save')}</Text>
-      </TouchableOpacity>
+      <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
+        <TouchableOpacity style={[styles.button,{backgroundColor: colors.black}]} onPress={handleSave}>
+          <Text style={[styles.buttonText, { color : colors.white}]}>{t('save')}</Text>
+        </TouchableOpacity>
+      </View>
 
       <Modal
         transparent={true}
@@ -200,8 +196,8 @@ const EditProfileScreen = ({ navigation, updateUserInfo }) => {
               <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
                 <Text style={styles.cancelButtonText}>{t('cancel')}</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.confirmButton, {backgroundColor: colors.primary}]} onPress={confirmSave}>
-                <Text style={styles.confirmButtonText}>{t('confirm')}</Text>
+              <TouchableOpacity style={[styles.confirmButton, {backgroundColor: colors.black}]} onPress={confirmSave}>
+                <Text style={[styles.confirmButtonText, { color: colors.white}]}>{t('confirm')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -227,7 +223,6 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#cccccc',
     borderRadius: 8,
     padding: 15,
     fontSize: 14,
@@ -250,23 +245,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 5,
   },
-  saveButton: {
-    padding: 15,
-    borderRadius: 8,
+  button: {
+    height: 50,
+    width: '90%',
+    padding: 5,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5
+    borderRadius: 30,
   },
-  saveButtonText: {
-    color: '#ffffff',
+  buttonText: {
     fontSize: 16,
     fontWeight: 'bold',
     height: 20,
-    
   },
   modalContainer: {
     flex: 1,
@@ -313,7 +303,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   confirmButtonText: {
-    color: '#ffffff',
     fontWeight: '600',
   },
 });

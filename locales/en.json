@@ -2,8 +2,9 @@
     "welcome": "Welcome",
     "change_language": "Change language",
     "personal_information": "Personal informations",
-    "firstName": "Firstname",
+    "firstName": "First name",
     "lastName": "Lastname",
+    "name": "Last name",
     "gender": "Gender",
     "dateOfBirth" : "Date of birth",
     "height": "Height",
@@ -76,6 +77,6 @@
     "modalText": "Nutri Track helps you track your nutrition and achieve your health goals.",
     "modalText2": "You can earn 20XP per day by completing your daily objectives!",
     "modalText3": " Start tracking now to improve your nutrition and earn exciting levels",
-    "modalButton": "Got it",
+    "modalButton": "Got it"
 
 }

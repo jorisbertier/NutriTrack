@@ -4,6 +4,7 @@
     "personal_information": "Informations personnelles",
     "firstName": "Prénom",
     "lastName": "Nom",
+    "name": "Nom",
     "gender": "Sexe",
     "dateOfBirth": "Date de naissance",
     "height": "Taille",

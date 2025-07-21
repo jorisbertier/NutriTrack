@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { useUser } from '@/components/context/UserContext';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { useTheme } from '@/hooks/ThemeProvider';
@@ -12,7 +12,16 @@ const ChangePasswordScreen = ({ navigation }: any) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const {colors} = useTheme();
-    const [passwordError, setPasswordError] = useState('')
+    const [passwordError, setPasswordError] = useState('');
+    const [focusedFields, setFocusedFields] = useState<{ [key: string]: boolean }>({});
+
+    const handleFocus = (field: string) => {
+        setFocusedFields(prev => ({ ...prev, [field]: true }));
+    };
+
+    const handleBlur = (field: string) => {
+        setFocusedFields(prev => ({ ...prev, [field]: false }));
+    };
 
     const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) {
@@ -50,23 +59,33 @@ const ChangePasswordScreen = ({ navigation }: any) => {
     };
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.whiteMode}]}>
+        <View style={[styles.container]}>
             <TextInput
-                style={[styles.input, { backgroundColor: colors.grayPress}]}
+                style={[styles.input, { borderColor: focusedFields['newPassword'] ? colors.black : colors.grayDarkFix}]}
                 placeholder={t('newPassord')}
                 secureTextEntry
                 value={newPassword}
                 onChangeText={setNewPassword}
+                onFocus={() => handleFocus('newPassword')}
+                onBlur={() => handleBlur('newPassword')}
             />
             <TextInput
-                style={[styles.input, { backgroundColor: colors.grayPress}]}
+                style={[styles.input, { backgroundColor: colors.white, borderColor: focusedFields['confirmPassword'] ? colors.black : colors.grayDarkFix}]}
                 placeholder={t('confirmNewPassword')}
                 secureTextEntry
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
+                onFocus={() => handleFocus('confirmPassword')}
+                onBlur={() => handleBlur('confirmPassword')}
             />
             {passwordError && <Text style={styles.messageError}>{passwordError}</Text>}
-            <Button color={colors.primary} title={t('updatePassword')} onPress={handleChangePassword} />
+            {/* <Button color={colors.primary} title={t('updatePassword')} onPress={handleChangePassword} /> */}
+                <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
+                <TouchableOpacity style={[styles.button,{backgroundColor: colors.black}]} onPress={handleChangePassword}>
+                    <Text style={[styles.buttonText, { color : colors.white}]}>{t('save')}</Text>
+                </TouchableOpacity>
+                </View>
+            
         </View>
     );
 };
@@ -82,17 +101,31 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
+        height: 50,
         borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 15,
+        borderRadius: 10,
+        marginBottom: 3,
+        paddingHorizontal: 10,
+        marginTop: 20
     },
     messageError: {
         color: 'red',
         marginBottom: 20,
         marginTop: -5
-    }
+    },
+    button: {
+        height: 50,
+        width: '90%',
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30,
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        height: 20,
+    },
 });
 
 export default ChangePasswordScreen;
