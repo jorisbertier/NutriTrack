@@ -115,6 +115,32 @@
     "termsContent11": "En utilisant cette application, vous acceptez que les lois françaises régissent tout litige ou problème découlant de son utilisation. Bien que nous opérions en France, les données que vous fournissez peuvent être stockées et traitées sur différents serveurs Google Cloud situés dans diverses régions, y compris en dehors de l'Union européenne. Nous respectons toutes les réglementations applicables en matière de protection des données, notamment le Règlement général sur la protection des données (RGPD), et nous prenons les mesures nécessaires pour garantir que vos données soient traitées de manière sécurisée et conforme à la loi.",
 
     "termsTitle12": "Contact",
-    "termsContent12": "Si vous avez des questions concernant ces conditions d'utilisation, veuillez nous contacter à :"
-    
+    "termsContent12": "Si vous avez des questions concernant ces conditions d'utilisation, veuillez nous contacter à :",
+
+    "privcayPolicy": "Politique de confidentialité",
+    "effectiveDate": "Date d’entrée en vigueur : 17 juillet 2025",
+
+    "privacyTitle1": "Introduction",
+    "privacyContent1": "Bienvenue sur Nutrition Track ! Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations personnelles lorsque vous utilisez notre application. En utilisant Nutrition Track, vous acceptez la collecte et l'utilisation de vos informations conformément à cette politique.",
+
+    "privacyTitle2": "2. Comment nous utilisons vos informations",
+    "privacyContent2": "Nous utilisons les informations que nous collectons à diverses fins, notamment :\n\n- Fournir et améliorer notre application\n\n- Personnaliser votre expérience\n\n- Communiquer avec vous, y compris pour vous envoyer des informations promotionnelles ou répondre à vos demandes de service client\n\n- Analyser l’utilisation de l’application et améliorer nos services",
+
+    "privacyTitle3": "3. Partage de vos informations",
+    "privacyContent3": "Nous ne vendons, n’échangeons, ni ne transférons vos informations personnelles à des tiers sans votre consentement, sauf si la loi l’exige. Toutefois, nous pouvons partager vos informations avec :\n\n- Prestataires de services : Des prestataires tiers de confiance qui nous aident à exploiter notre application ou à mener nos activités.\n\n- Obligations légales : Si cela est requis par la loi ou pour protéger les droits, la propriété ou la sécurité de nos utilisateurs ou du public, nous pouvons divulguer vos informations.",
+
+    "privacyTitle4": "4. Sécurité des données",
+    "privacyContent4": "Nous prenons des mesures raisonnables pour protéger la sécurité de vos informations. Toutefois, aucune méthode de transmission sur Internet n’est totalement sécurisée, et nous ne pouvons garantir une sécurité absolue.",
+
+    "privacyTitle5": "5. Vos choix",
+    "privacyContent5": "- Accéder et mettre à jour vos informations : Vous pouvez consulter et mettre à jour vos informations personnelles via les paramètres de l’application ou en nous contactant.\n\n- Se désinscrire : Vous pouvez vous désinscrire des emails promotionnels en cliquant sur le lien de désinscription dans l’email ou en ajustant vos préférences dans l’application.",
+
+    "privacyTitle6": "6. Confidentialité des enfants",
+    "privacyContent6": "Notre application n’est pas destinée aux enfants de moins de 5 ans. Nous ne collectons pas sciemment d’informations personnelles auprès d’enfants. Si vous pensez que nous avons collecté des informations personnelles sur un enfant, veuillez nous contacter afin que nous puissions supprimer ces informations.",
+
+    "privacyTitle7": "7. Modifications de cette politique de confidentialité",
+    "privacyContent7": "Nous pouvons mettre à jour cette politique de confidentialité de temps à autre. Toute modification sera publiée sur cette page avec une nouvelle date d’entrée en vigueur. Nous vous encourageons à consulter régulièrement cette politique.",
+
+    "privacyTitle8": "8. Contactez-nous",
+    "privacyContent8": "Si vous avez des questions ou des préoccupations concernant cette politique de confidentialité, veuillez nous contacter à :"
 }

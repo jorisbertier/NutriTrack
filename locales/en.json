@@ -104,6 +104,32 @@
     "termsTitle11": "Governing Law and Data Storage",
     "termsContent11": "By using this app, you agree that the laws of France will govern any disputes or issues arising from the use of this app. Although we operate in France, the data you provide may be stored and processed in various Google Cloud servers located in different regions, including outside of the European Union. We comply with all applicable data protection regulations, including the General Data Protection Regulation (GDPR), and take necessary steps to ensure that your data is handled securely and in accordance with these laws.",
     "termsTitle12": "Contact Us",
-    "termsContent12": "If you have any questions regarding these Terms of Service, please contact us at:"
+    "termsContent12": "If you have any questions regarding these Terms of Service, please contact us at:",
+
+    "privcayPolicy": "Privacy Policy",
+    "effectiveDate": "Effective Date: July 17, 2025",
+    "privacyTitle1": "Introduction",
+    "privacyContent1": "Welcome to Nutrition Track! This Privacy Policy explains how we collect, use, and protect your personal information when you use our application. By using Nutrition Track, you agree to the collection and use of information in accordance with this policy.",
+    
+    "privacyTitle2": "2. How We Use Your Information",
+    "privacyContent2": "We use the information we collect for various purposes, including:\n\n- To provide and improve our App\n\n- To personalize your experience\n\n- To communicate with you, including sending promotional materials or customer service inquiries\n\n- To analyze App usage and improve our services",
+
+    "privacyTitle3": "3. Sharing Your Information",
+    "privacyContent3": "We do not sell, trade, or otherwise transfer your personal information to outside parties unless we have your consent or are required by law. However, we may share your information with:\n\n- Service Providers: Trusted third-party providers who assist us in operating our App or conducting business.\n\n- Legal Requirements: If required by law or to protect the rights, property, or safety of our users or the public, we may disclose your information.",
+
+    "privacyTitle4": "4. Data Security",
+    "privacyContent4": "We take reasonable measures to protect the security of your information. However, no method of transmission over the Internet is completely secure, and we cannot guarantee absolute security.",
+
+    "privacyTitle5": "5. Your Choices",
+    "privacyContent5": "- Access and Update Information: You can review and update your personal information through the App settings or by contacting us.\n\n- Opt-out: You can opt out of promotional emails by clicking the unsubscribe link in the email or adjusting your preferences in the App.",
+
+    "privacyTitle6": "6. Children's Privacy",
+    "privacyContent6": "Our App is not intended for children under the age of 5. We do not knowingly collect personal information from children. If you believe we have collected personal information from a child, please contact us, and we will take steps to delete such information.",
+
+    "privacyTitle7": "7. Changes to This Privacy Policy",
+    "privacyContent7": "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this policy periodically.",
+
+    "privacyTitle8": "8. Contact Us",
+    "privacyContent8": "If you have any questions or concerns about this Privacy Policy, please contact us at:"
 
 }
