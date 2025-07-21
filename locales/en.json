@@ -80,7 +80,7 @@
     "modalButton": "Got it",
 
     "termsTitle": "Terms of Service for Nutrition Track Application",
-    "date": "Last updated: July 17, 2025",
+    "dateterms": "Last updated: July 17, 2025",
     "termsTitle1": "Introduction",
     "termsContent": "Welcome to Nutrition Track! By using our application, you agree to these Terms of Service. If you do not agree with these terms, please do not use the application. We reserve the right to modify or update these terms at any time. It is your responsibility to review this page regularly for any changes. Your continued use of the application after any changes will constitute your acceptance of the new terms",
     "termsTitle2": "Application description",
@@ -130,6 +130,12 @@
     "privacyContent7": "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this policy periodically.",
 
     "privacyTitle8": "8. Contact Us",
-    "privacyContent8": "If you have any questions or concerns about this Privacy Policy, please contact us at:"
-
+    "privacyContent8": "If you have any questions or concerns about this Privacy Policy, please contact us at:",
+    "report": "Report an Issue",
+    "subject": "Select Subject",
+    "selectCategory": "Select Category",
+    "yourMessage": "Your Message",
+    "placeholderMessage": "Describe your issue or feedback... (max 2300 caracters)",
+    "date": "Date",
+    "sendReport": "Send Report"
 }

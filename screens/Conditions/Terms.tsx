@@ -8,7 +8,7 @@ const Terms = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.title}>{t('termsTitle')}</Text>
-            <Text style={styles.date}>{t('date')}</Text>
+            <Text style={styles.date}>{t('dateTerms')}</Text>
 
             <Text style={styles.sectionTitle}>1. {t('termsTitle1')}</Text>
             <Text style={styles.text}>{t('termsContent')}</Text>

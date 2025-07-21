@@ -80,7 +80,7 @@
     "modalButton": "J'ai compris",
 
     "termsTitle": "Conditions d'utilisation de l'application Nutrition Track",
-    "date": "Dernière mise à jour : 17 juillet 2025",
+    "dateTerms": "Dernière mise à jour : 17 juillet 2025",
     "termsTitle1": "Introduction",
     "termsContent": "Bienvenue sur Nutrition Track ! En utilisant notre application, vous acceptez ces conditions d'utilisation. Si vous n'êtes pas d'accord avec ces conditions, veuillez ne pas utiliser l'application. Nous nous réservons le droit de modifier ou de mettre à jour ces conditions à tout moment. Il est de votre responsabilité de consulter régulièrement cette page pour prendre connaissance des éventuelles modifications. Votre utilisation continue de l'application après tout changement constitue votre acceptation des nouvelles conditions.",
     
@@ -142,5 +142,12 @@
     "privacyContent7": "Nous pouvons mettre à jour cette politique de confidentialité de temps à autre. Toute modification sera publiée sur cette page avec une nouvelle date d’entrée en vigueur. Nous vous encourageons à consulter régulièrement cette politique.",
 
     "privacyTitle8": "8. Contactez-nous",
-    "privacyContent8": "Si vous avez des questions ou des préoccupations concernant cette politique de confidentialité, veuillez nous contacter à :"
+    "privacyContent8": "Si vous avez des questions ou des préoccupations concernant cette politique de confidentialité, veuillez nous contacter à :",
+    "report": "Signaler un problème",
+    "subject": "Sélectionner un sujet",
+    "selectCategory": "Sélectionner une catégorie",
+    "yourMessage": "Votre message",
+    "placeholderMessage": "Décrivez votre problème ou votre retour... (2300 caractères max)",
+    "date": "Date",
+    "sendReport": "Envoyer le rapport"
 }
