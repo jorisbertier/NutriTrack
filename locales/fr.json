@@ -77,5 +77,44 @@
     "modalText": "Nutri Track vous aide à suivre votre nutrition et à atteindre vos objectifs de santé.",
     "modalText2": "Vous pouvez gagner 20 XP par jour en complétant vos objectifs quotidiens !",
     "modalText3": "Commencez le suivi dès maintenant pour améliorer votre nutrition et atteindre des niveaux passionnants.",
-    "modalButton": "J'ai compris"
+    "modalButton": "J'ai compris",
+
+    "termsTitle": "Conditions d'utilisation de l'application Nutrition Track",
+    "date": "Dernière mise à jour : 17 juillet 2025",
+    "termsTitle1": "Introduction",
+    "termsContent": "Bienvenue sur Nutrition Track ! En utilisant notre application, vous acceptez ces conditions d'utilisation. Si vous n'êtes pas d'accord avec ces conditions, veuillez ne pas utiliser l'application. Nous nous réservons le droit de modifier ou de mettre à jour ces conditions à tout moment. Il est de votre responsabilité de consulter régulièrement cette page pour prendre connaissance des éventuelles modifications. Votre utilisation continue de l'application après tout changement constitue votre acceptation des nouvelles conditions.",
+    
+    "termsTitle2": "Description de l'application",
+    "termsContent2": "Nutrition Track est une application conçue pour vous aider à suivre vos habitudes alimentaires, surveiller votre apport calorique, vos macronutriments, et atteindre vos objectifs de santé et de nutrition. L'application vous permet de suivre les aliments que vous consommez, consulter des données nutritionnelles, définir des objectifs, et analyser vos progrès.",
+
+    "termsTitle3": "Utilisation de l'application",
+    "termsContent3": "Vous acceptez d'utiliser l'application légalement et conformément à toutes les lois applicables. Vous vous engagez à ne pas utiliser l'application de manière abusive ou à nuire à son bon fonctionnement. Vous êtes responsable de la confidentialité de vos informations personnelles et de la gestion de votre compte.",
+
+    "termsTitle4": "Inscription et compte utilisateur",
+    "termsContent4": "Pour accéder à certaines fonctionnalités de l'application, vous devrez créer un compte utilisateur. Vous devez fournir des informations exactes et complètes lors de votre inscription. Il est de votre responsabilité de maintenir la confidentialité de vos identifiants de connexion et d'empêcher tout accès non autorisé à votre compte.",
+
+    "termsTitle5": "Collecte et utilisation des données",
+    "termsContent5": "L'application collecte certaines données personnelles nécessaires à son bon fonctionnement, telles que des informations relatives à votre nutrition, vos habitudes alimentaires et les détails de votre compte utilisateur. Veuillez consulter notre politique de confidentialité pour plus d'informations sur la manière dont nous collectons, utilisons et protégeons vos données personnelles.",
+
+    "termsTitle6": "Contenu de l'application",
+    "termsContent6": "L'application peut contenir des informations nutritionnelles, des conseils santé et des suggestions, mais ces contenus sont fournis à titre informatif uniquement. Consultez toujours un professionnel de santé avant de prendre des décisions concernant votre nutrition, votre santé ou votre bien-être.",
+
+    "termsTitle7": "Propriété intellectuelle",
+    "termsContent7": "Tous les droits de propriété intellectuelle relatifs au contenu, aux fonctionnalités et à la conception de l'application, y compris mais sans s'y limiter les logos, graphiques, icônes et le code source, sont la propriété exclusive de [Nom de l'entreprise]. Vous acceptez de ne pas reproduire, modifier, distribuer ou utiliser tout élément de l'application sans autorisation préalable.",
+
+    "termsTitle8": "Limitation de responsabilité",
+    "termsContent8": "L'application est fournie « en l'état », et nous ne garantissons pas qu'elle soit exempte d'erreurs ou de bugs. Nous ne sommes pas responsables des dommages directs ou indirects résultant de l'utilisation de l'application, y compris la perte de données, les erreurs de calcul ou les problèmes de santé.",
+
+    "termsTitle9": "Modifications et résiliation",
+    "termsContent9": "Nous nous réservons le droit de suspendre, modifier ou supprimer toute fonctionnalité de l'application à tout moment, sans préavis. Vous pouvez résilier votre compte à tout moment en nous contactant. Nous pouvons également suspendre ou résilier votre accès à l'application si vous violez ces conditions d'utilisation.",
+
+    "termsTitle10": "Liens externes",
+    "termsContent10": "L'application peut contenir des liens vers des sites web tiers. Ces liens sont fournis uniquement à titre informatif, et nous ne sommes pas responsables du contenu ou des pratiques de confidentialité de ces sites.",
+
+    "termsTitle11": "Loi applicable et stockage des données",
+    "termsContent11": "En utilisant cette application, vous acceptez que les lois françaises régissent tout litige ou problème découlant de son utilisation. Bien que nous opérions en France, les données que vous fournissez peuvent être stockées et traitées sur différents serveurs Google Cloud situés dans diverses régions, y compris en dehors de l'Union européenne. Nous respectons toutes les réglementations applicables en matière de protection des données, notamment le Règlement général sur la protection des données (RGPD), et nous prenons les mesures nécessaires pour garantir que vos données soient traitées de manière sécurisée et conforme à la loi.",
+
+    "termsTitle12": "Contact",
+    "termsContent12": "Si vous avez des questions concernant ces conditions d'utilisation, veuillez nous contacter à :"
+    
 }
