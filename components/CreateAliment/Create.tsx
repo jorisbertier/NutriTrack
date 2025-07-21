@@ -82,6 +82,17 @@ function Create() {
         setErrors(prev => ({ ...prev, [field]: message }));
     };
 
+    /* FOCUSED */
+    const [focusedFields, setFocusedFields] = useState<{ [key: string]: boolean }>({});
+
+    const handleFocus = (field: string) => {
+        setFocusedFields(prev => ({ ...prev, [field]: true }));
+    };
+
+    const handleBlur = (field: string) => {
+        setFocusedFields(prev => ({ ...prev, [field]: false }));
+    };
+
     useEffect(() => {
         try {
             const fetch = async () => {
@@ -381,262 +392,309 @@ function Create() {
             <Text style={styles.title}>Create a food item and custom all nutrional values as you wish.</Text>
             <Text style={[styles.label, {color : colors.black}]}>Name</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['title'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Name (required)"
                     value={formValues.title}
                     onChangeText={value => handleChange('title', value)}
                     autoCapitalize='words'
                     returnKeyType='next'
                     onSubmitEditing={() => quantityRef.current?.focus()}
+                    onFocus={() => handleFocus('title')}
+                    onBlur={() => handleBlur('title')}
                 />
                 {errors.title && <Text style={styles.errorText}>{errors.title}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Quantity</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['quantity'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Quantity (required)"
                     value={formValues.quantity}
                     onChangeText={value => handleChange('quantity', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={quantityRef}
-                    onSubmitEditing={() => unitRef.current?.focus()} 
+                    onSubmitEditing={() => unitRef.current?.focus()}
+                    onFocus={() => handleFocus('quantity')}
+                    onBlur={() => handleBlur('quantity')}
                 />
                 {errors.quantity && <Text style={styles.errorText}>{errors.quantity}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Unit /g, ml, cup, slice</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['unit'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Unit (required)"
                     value={formValues.unit}
-                     onChangeText={value => handleChange('unit', value)}
+                    onChangeText={value => handleChange('unit', value)}
                     autoCapitalize='words'
                     returnKeyType="next"
                     ref={unitRef} // Lier la référence
-                    onSubmitEditing={() => caloriesRef.current?.focus()} 
+                    onSubmitEditing={() => caloriesRef.current?.focus()}
+                    onFocus={() => handleFocus('unit')}
+                    onBlur={() => handleBlur('unit')}
                 />
                 <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* The unit must only contain g / cl / ml / l / cup</ThemedText>
                 {errors.unit && <Text style={styles.errorText}>{errors.unit}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Calories -</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['calories'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Calories (required)"
                     value={formValues.calories}
-                     onChangeText={value => handleChange('calories', value)}
+                    onChangeText={value => handleChange('calories', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={caloriesRef} // Lier la référence
                     onSubmitEditing={() => proteinsRef.current?.focus()}
+                    onFocus={() => handleFocus('calories')}
+                    onBlur={() => handleBlur('calories')}
                 />
                 {errors.calories && <Text style={styles.errorText}>{errors.calories}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Proteins</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['proteins'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Proteins (required)"
                     value={formValues.proteins}
-                     onChangeText={value => handleChange('proteins', value)}
+                    onChangeText={value => handleChange('proteins', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={proteinsRef} // Lier la référence
                     onSubmitEditing={() => carbsRef.current?.focus()}
+                    onFocus={() => handleFocus('proteins')}
+                    onBlur={() => handleBlur('proteins')}
                 />
                 {errors.proteins && <Text style={styles.errorText}>{errors.proteins}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Carbohydrates</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['carbs'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Carbohydrates (required)"
                     value={formValues.carbs}
-                     onChangeText={value => handleChange('carbs', value)}
+                    onChangeText={value => handleChange('carbs', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={carbsRef} // Lier la référence
                     onSubmitEditing={() => fatsRef.current?.focus()}
+                    onFocus={() => handleFocus('carbs')}
+                    onBlur={() => handleBlur('carbs')}
                 />
                 {errors.carbs && <Text style={styles.errorText}>{errors.carbs}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Fats</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['fats'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Fats (required)"
                     value={formValues.fats}
-                     onChangeText={value => handleChange('fats', value)}
+                    onChangeText={value => handleChange('fats', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={fatsRef}
                     onSubmitEditing={() => magnesiumRef.current?.focus()}
+                    onFocus={() => handleFocus('fats')}
+                    onBlur={() => handleBlur('fats')}
+
                 />
                 {errors.fats && <Text style={styles.errorText}>{errors.fats}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Others macronutrient (optional)-</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['magnesium'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Magnesium (optional) max 350"
                     value={formValues.magnesium}
-                     onChangeText={value => handleChange('magnesium', value)}
+                    onChangeText={value => handleChange('magnesium', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={magnesiumRef}
                     onSubmitEditing={() => potassiumRef.current?.focus()}
+                    onFocus={() => handleFocus('magnesium')}
+                    onBlur={() => handleBlur('magnesium')}
                 />
                 {errors.magnesium && <Text style={styles.errorText}>{errors.magnesium}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['potassium'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Potassium (optional) max 4700"
                     value={formValues.potassium}
-                     onChangeText={value => handleChange('potassium', value)}
+                    onChangeText={value => handleChange('potassium', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={potassiumRef}
                     onSubmitEditing={() => calciumRef.current?.focus()}
+                    onFocus={() => handleFocus('potassium')}
+                    onBlur={() => handleBlur('potassium')}
                 />
                 {errors.potassium && <Text style={styles.errorText}>{errors.potassium}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['calcium'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Calcium (optional) max 1300"
                     value={formValues.calcium}
-                     onChangeText={value => handleChange('calcium', value)}
+                    onChangeText={value => handleChange('calcium', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={calciumRef}
                     onSubmitEditing={() => sodiumRef.current?.focus()}
+                    onFocus={() => handleFocus('calcium')}
+                    onBlur={() => handleBlur('calcium')}
                 />
                 {errors.calcium && <Text style={styles.errorText}>{errors.calcium}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['sodium'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Sodium (optional) max 1300"
                     value={formValues.sodium}
-                     onChangeText={value => handleChange('sodium', value)}
+                    onChangeText={value => handleChange('sodium', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={sodiumRef}
                     onSubmitEditing={() => ironRef.current?.focus()}
+                    onFocus={() => handleFocus('sodium')}
+                    onBlur={() => handleBlur('sodium')}
                 />
                 {errors.sodium && <Text style={styles.errorText}>{errors.sodium}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['iron'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Iron (optional) max 45"
                     value={formValues.iron}
-                     onChangeText={value => handleChange('iron', value)}
+                    onChangeText={value => handleChange('iron', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={ironRef}
                     onSubmitEditing={() => sugarRef.current?.focus()}
+                    onFocus={() => handleFocus('iron')}
+                    onBlur={() => handleBlur('iron')}
                 />
                 {errors.iron && <Text style={styles.errorText}>{errors.iron}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['sugar'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Sugar (optional) max 100"
                     value={formValues.sugar}
-                     onChangeText={value => handleChange('sugar', value)}
+                    onChangeText={value => handleChange('sugar', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={sugarRef}
                     onSubmitEditing={() => folateRef.current?.focus()}
+                    onFocus={() => handleFocus('sugar')}
+                    onBlur={() => handleBlur('sugar')}
                 />
                 {errors.sugar && <Text style={styles.errorText}>{errors.sugar}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['folate'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="Folate (optional) max 400"
                     value={formValues.folate}
-                     onChangeText={value => handleChange('folate', value)}
+                    onChangeText={value => handleChange('folate', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={folateRef}
                     onSubmitEditing={() => vitaminARef.current?.focus()}
+                    onFocus={() => handleFocus('folate')}
+                    onBlur={() => handleBlur('folate')}
                 />
                 {errors.folate && <Text style={styles.errorText}>{errors.folate}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminA'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminA % (optional) max 300"
                     value={formValues.vitaminA}
-                     onChangeText={value => handleChange('vitaminA', value)}
+                    onChangeText={value => handleChange('vitaminA', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminARef}
                     onSubmitEditing={() => vitaminB1Ref.current?.focus()}
+                    onFocus={() => handleFocus('vitaminA')}
+                    onBlur={() => handleBlur('vitaminA')}
                 />
                 {errors.vitamina && <Text style={styles.errorText}>{errors.vitamina}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB1'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminB1 % (optional) max 300"
                     value={formValues.vitaminB1}
-                     onChangeText={value => handleChange('vitaminB1', value)}
+                    onChangeText={value => handleChange('vitaminB1', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminB1Ref}
                     onSubmitEditing={() => vitaminB5Ref.current?.focus()}
+                    onFocus={() => handleFocus('vitaminB1')}
+                    onBlur={() => handleBlur('vitaminB1')}
                 />
                 {errors.vitaminb1 && <Text style={styles.errorText}>{errors.vitaminb1}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB5'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminB5 % (optional) max 300"
                     value={formValues.vitaminB5}
-                     onChangeText={value => handleChange('vitaminB5', value)}
+                    onChangeText={value => handleChange('vitaminB5', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminB5Ref}
                     onSubmitEditing={() => vitaminB6Ref.current?.focus()}
+                    onFocus={() => handleFocus('vitaminB5')}
+                    onBlur={() => handleBlur('vitaminB5')}
                 />
                 {errors.vitaminb5 && <Text style={styles.errorText}>{errors.vitaminb5}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB6'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminB6 % (optional) max 300"
                     value={formValues.vitaminB6}
-                     onChangeText={value => handleChange('vitaminB6', value)}
+                    onChangeText={value => handleChange('vitaminB6', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminB6Ref}
                     onSubmitEditing={() => vitaminB12Ref.current?.focus()}
+                    onFocus={() => handleFocus('vitaminB6')}
+                    onBlur={() => handleBlur('vitaminB6')}
                 />
                 {errors.vitaminb6 && <Text style={styles.errorText}>{errors.vitaminb6}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB12'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminB12 % (optional) max 300"
                     value={formValues.vitaminB12}
-                     onChangeText={value => handleChange('vitaminB12', value)}
+                    onChangeText={value => handleChange('vitaminB12', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminB12Ref}
                     onSubmitEditing={() => vitaminCRef.current?.focus()}
+                    onFocus={() => handleFocus('vitaminB12')}
+                    onBlur={() => handleBlur('vitaminB12')}
                 />
                 {errors.vitaminb12 && <Text style={styles.errorText}>{errors.vitaminb12}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminC'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminC % (optional) max 300"
                     value={formValues.vitaminC}
-                     onChangeText={value => handleChange('vitaminC', value)}
+                    onChangeText={value => handleChange('vitaminC', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminCRef}
                     onSubmitEditing={() => vitaminDRef.current?.focus()}
+                    onFocus={() => handleFocus('vitaminC')}
+                    onBlur={() => handleBlur('vitaminC')}
                 />
                 {errors.vitaminc && <Text style={styles.errorText}>{errors.vitaminc}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminD'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminD % (optional) max 300"
                     value={formValues.vitaminD}
-                     onChangeText={value => handleChange('vitaminD', value)}
+                    onChangeText={value => handleChange('vitaminD', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminDRef}
                     onSubmitEditing={() => vitaminERef.current?.focus()}
+                    onFocus={() => handleFocus('vitaminD')}
+                    onBlur={() => handleBlur('vitaminD')}
                 />
                 {errors.vitamind && <Text style={styles.errorText}>{errors.vitamind}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminE'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminE % (optional) max 300"
                     value={formValues.vitaminE}
-                     onChangeText={value => handleChange('vitaminE', value)}
+                    onChangeText={value => handleChange('vitaminE', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminERef}
                     onSubmitEditing={() => vitaminKRef.current?.focus()}
+                    onFocus={() => handleFocus('vitaminE')}
+                    onBlur={() => handleBlur('vitaminE')}
                 />
                 {errors.vitamine && <Text style={styles.errorText}>{errors.vitamine}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white}]}
+                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminK'] ? colors.black : colors.grayDarkFix}]}
                     placeholder="VitaminK % (optional) max 300"
                     value={formValues.vitaminK}
-                     onChangeText={value => handleChange('vitaminK', value)}
+                    onChangeText={value => handleChange('vitaminK', value)}
                     keyboardType="numeric"
                     returnKeyType="done"
                     ref={vitaminKRef}
+                    onFocus={() => handleFocus('vitaminK')}
+                    onBlur={() => handleBlur('vitaminK')}
                 />
                 {errors.vitamink && <Text style={styles.errorText}>{errors.vitamink}</Text>}
                 
@@ -662,7 +720,6 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 50,
-        borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 10,
         marginBottom: 5,
