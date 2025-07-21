@@ -67,29 +67,11 @@ function Create() {
     const [sugar, setSugar] = useState('');
 
     /**ERROR MESSAGE */
-    const [titleError, setTitleError] = useState('');
-    const [quantityError, setQuantityError] = useState('');
-    const [unitError, setUnitError] = useState('');
-    const [caloriesError, setCaloriesError] = useState('');
-    const [proteinsError, setProteinsError] = useState('');
-    const [carbsError, setCarbsError] = useState('');
-    const [fatsError, setFatsError] = useState('');
-    const [magnesiumError, setMagnesiumError] = useState('');
-    const [potassiumError, setPotassiumError] = useState('');
-    const [calciumError, setCalciumError] = useState('');
-    const [sodiumError, setSodiumError] = useState('');
-    const [ironError, setIronError] = useState('');
-    const [folateError, setFolateError] = useState('');
-    const [sugarError, setSugarError] = useState('');
-    const [vitaminAError, setVitaminAError] = useState('');
-    const [vitaminB1Error, setVitaminB1Error] = useState('');
-    const [vitaminB5Error, setVitaminB5Error] = useState('');
-    const [vitaminB6Error, setVitaminB6Error] = useState('');
-    const [vitaminB12Error, setVitaminB12Error] = useState('');
-    const [vitaminCError, setVitaminCError] = useState('');
-    const [vitaminDError, setVitaminDError] = useState('');
-    const [vitaminEError, setVitaminEError] = useState('');
-    const [vitaminKError, setVitaminKError] = useState('');
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+    const setFieldError = (field: string, message: string) => {
+        setErrors(prev => ({ ...prev, [field]: message }));
+    };
 
     useEffect(() => {
         try {
@@ -106,179 +88,179 @@ function Create() {
         let isValid = true;
 
         if (!title.trim()) {
-            setTitleError('Name is required.');
+            setFieldError('title', 'Name is required.');
             isValid = false;
         } else if (!/^[a-zA-Z\s]+$/.test(title)) {
-            setTitleError('Name must contain only letters.');
+            setFieldError('title', 'Name must contain only letters.');
             isValid = false;
         } else if(title.length > 15) {
-            setTitleError('Name must contain 15 caracters maximum.');
+            setFieldError('title', 'Name must contain 15 caracters maximum.');
             isValid = false;
         }
         else {
-            setTitleError('');
+            setFieldError('title', '');
         }
 
         if (!['g', 'cl', 'ml', 'cup', 'l'].includes(unit.toLowerCase())) {
             isValid = false;
-            setUnitError('The unit must only contain g / cl / ml / l / cup');
+            setFieldError('unit', 'The unit must only contain g / cl / ml / l / cup');
         } else {
-            setUnitError('');
+            setFieldError('unit', '');
         }
 
         const quantityNumber = parseFloat(quantity);
 
         if (!quantityNumber || isNaN(quantityNumber) || quantityNumber > 1000 || quantityNumber < 0) {
-            setQuantityError('Please enter in centimeters a valid height. Max 1000');
+            setFieldError('quantity', 'Please enter a valid number of quantity. Max 1000');
             isValid = false;
         } else {
-            setQuantityError('');
+            setFieldError('quantity', '');
         }
 
         const caloriesNumber = parseFloat(calories);
         if (!caloriesNumber || isNaN(caloriesNumber) || caloriesNumber > 1500 || caloriesNumber < 0) {
-            setCaloriesError('Please enter in centimeters a valid height. Max 1000');
+            setFieldError('calories', 'Please enter a valid number of calories. Max 1000');
             isValid = false;
         } else {
-            setCaloriesError('');
+            setFieldError('calories', '');
         }
 
         const carbsNumber = parseFloat(carbs);
         if (!carbsNumber || isNaN(carbsNumber) || carbsNumber > 200 || carbsNumber < 0) {
-            setCarbsError('Please enter a valid number of carbs. Max 1000');
+            setFieldError('carbs', 'Please enter a valid number of carbs. Max 1000');
             isValid = false;
         } else {
-            setCarbsError('');
+            setFieldError('carbs', '');
         }
 
         const proteinsNumber = parseFloat(proteins);
         if (!proteinsNumber || isNaN(proteinsNumber) || proteinsNumber > 200 || proteinsNumber < 0) {
-            setProteinsError('Please enter a valid number of calories. Max 200');
+            setFieldError('proteins', 'Please enter a valid number of proteins. Max 200');
             isValid = false;
         } else {
-            setProteinsError('');
+            setFieldError('proteins', '');
         }
 
         const fatsNumber = parseFloat(fats);
         if (!fatsNumber || isNaN(fatsNumber) || fatsNumber > 600 || fatsNumber < 0) {
-            setFatsError('Please enter a valid number of fats. Max 600');
+            setFieldError('fats', 'Please enter a valid number of fats. Max 600');
             isValid = false;
         } else {
-            setFatsError('');
+            setFieldError('fats', '');
         }
         const magnesiumNumber = parseFloat(magnesium);
         if (magnesiumNumber > 300 || magnesiumNumber < 0) {
-            setMagnesiumError('Please enter a valid number of Magnesium. Max 300');
+            setFieldError('magnesium', 'Please enter a valid number of magnesium. Max 300');
             isValid = false;
         } else {
-            setMagnesiumError('');
+            setFieldError('magnesium', '');
         }
         const potassiumNumber = parseFloat(potassium);
         if (potassiumNumber > 4500 || potassiumNumber < 0) {
-            setPotassiumError('Please enter a valid number of Potassium. Max 4500');
+            setFieldError('potassium', 'Please enter a valid number of potassium. Max 4500');
             isValid = false;
         } else {
-            setPotassiumError('');
+            setFieldError('potassium', '');
         }
         const calciumNumber = parseFloat(calcium);
         if (calciumNumber > 1300 || calciumNumber < 0) {
-            setCalciumError('Please enter a valid number of Calcium. Max 1300');
+            setFieldError('calcium', 'Please enter a valid number of calcium. Max 1300');
             isValid = false;
         } else {
-            setCalciumError('');
+            setFieldError('calcium', '');
         }
     
         const sodiumNumber = parseFloat(sodium);
         if (sodiumNumber > 1300 || sodiumNumber < 0) {
-            setSodiumError('Please enter a valid number of sodium. Max 1300');
+            setFieldError('sodium', 'Please enter a valid number of sodium. Max 1300');
             isValid = false;
         } else {
-            setSodiumError('');
+            setFieldError('sodium', '');
         }
     
         const ironNumber = parseFloat(iron);
         if (ironNumber > 1300 || ironNumber < 0) {
-            setIronError('Please enter a valid number of Calcuim. Max 45');
+            setFieldError('iron', 'Please enter a valid number of iron. Max 45');
             isValid = false;
         } else {
-            setIronError('');
+            setFieldError('iron', '');
         }
         const folateNumber = parseFloat(folate);
         if (folateNumber > 400 || folateNumber < 0) {
-            setFolateError('Please enter a valid number of Folate. Max 400');
+            setFieldError('folate', 'Please enter a valid number of folate. Max 400');
             isValid = false;
         } else {
-            setFolateError('');
+            setFieldError('folate', '');
         }
         const sugarNumber = parseFloat(sugar);
         if (sugarNumber > 100 || sugarNumber < 0) {
-            setSugarError('Please enter a valid number of iron. Max 100');
+            setFieldError('sugar','Please enter a valid number of sugar. Max 100');
             isValid = false;
         } else {
-            setSugarError('');
+            setFieldError('sugar','');
         }
         const vitaminANumber = parseFloat(vitaminA);
         if (vitaminANumber > 300 || vitaminANumber < 0) {
-            setVitaminAError('Please enter a valid number of vitamin a. Max 300');
+            setFieldError('vitamina', 'Please enter a valid number of vitamin A. Max 300');
             isValid = false;
         } else {
-            setVitaminAError('');
+            setFieldError('vitamina', '');
         }
         const vitaminB1Number = parseFloat(vitaminB1);
         if (vitaminB1Number > 300 || vitaminB1Number < 0) {
-            setVitaminB1Error('Please enter a valid number of vitamin b1. Max 300');
+            setFieldError('vitaminb1', 'Please enter a valid number of vitamin B1. Max 300');
             isValid = false;
         } else {
-            setVitaminB1Error('');
+            setFieldError('vitaminb1', '');
         }
         const vitaminB5Number = parseFloat(vitaminB5);
         if (vitaminB5Number > 300 || vitaminB5Number < 0) {
-            setVitaminB5Error('Please enter a valid number of vitamin b5. Max 300');
+            setFieldError('vitaminb5', 'Please enter a valid number of vitamin B5. Max 300');
             isValid = false;
         } else {
-            setVitaminB5Error('');
+            setFieldError('vitaminb5', '');
         }
         const vitaminB6Number = parseFloat(vitaminB6);
         if (vitaminB6Number > 300 || vitaminB6Number < 0) {
-            setVitaminB6Error('Please enter a valid number of vitamin b6. Max 300');
+            setFieldError('vitaminb6', 'Please enter a valid number of vitamin B6. Max 300');
             isValid = false;
         } else {
-            setVitaminB6Error('');
+            setFieldError('vitaminb6', '');
         }
         const vitaminB12Number = parseFloat(vitaminB12);
         if (vitaminB12Number > 300 || vitaminB12Number < 0) {
-            setVitaminB12Error('Please enter a valid number of vitamin b12. Max 300');
+            setFieldError('vitaminb12', 'Please enter a valid number of vitamin B12. Max 300');
             isValid = false;
         } else {
-            setVitaminB12Error('');
+            setFieldError('vitaminb12', '');
         }
         const vitaminCNumber = parseFloat(vitaminC);
         if (vitaminCNumber > 300 || vitaminCNumber < 0) {
-            setVitaminCError('Please enter a valid number of vitamin c. Max 300');
+            setFieldError('vitaminc', 'Please enter a valid number of vitamin C. Max 300');
             isValid = false;
         } else {
-            setVitaminCError('');
+            setFieldError('vitaminc', '');
         }
         const vitaminDNumber = parseFloat(vitaminD);
         if (vitaminDNumber > 300 || vitaminDNumber < 0) {
-            setVitaminDError('Please enter a valid number of vitamin D. Max 300');
+            setFieldError('vitamind', 'Please enter a valid number of vitamin D. Max 300');
             isValid = false;
         } else {
-            setVitaminDError('');
+            setFieldError('vitamind', '');
         }
         const vitaminENumber = parseFloat(vitaminE);
         if (vitaminENumber > 300 || vitaminENumber < 0) {
-            setVitaminEError('Please enter a valid number of vitamin E. Max 300');
+            setFieldError('vitamine', 'Please enter a valid number of vitamin E. Max 300');
             isValid = false;
         } else {
-            setVitaminEError('');
+            setFieldError('vitamine', '');
         }
-        const vitaminKNumber = parseFloat(vitaminE);
+        const vitaminKNumber = parseFloat(vitaminK);
         if (vitaminKNumber > 300 || vitaminKNumber < 0) {
-            setVitaminKError('Please enter a valid number of vitamin K. Max 300');
+            setFieldError('vitamink', 'Please enter a valid number of vitamin K. Max 300');
             isValid = false;
         } else {
-            setVitaminKError('');
+            setFieldError('vitamink', '');
         }
     
         return isValid;
@@ -395,7 +377,7 @@ function Create() {
                     returnKeyType='next'
                     onSubmitEditing={() => quantityRef.current?.focus()}
                 />
-                {titleError ? <Text style={styles.errorText}>{titleError}</Text> : null}
+                {errors.title && <Text style={styles.errorText}>{errors.title}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Quantity</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
@@ -407,7 +389,7 @@ function Create() {
                     ref={quantityRef}
                     onSubmitEditing={() => unitRef.current?.focus()} 
                 />
-                {quantityError ? <Text style={styles.errorText}>{quantityError}</Text> : null}
+                {errors.quantity && <Text style={styles.errorText}>{errors.quantity}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Unit /g, ml, cup, slice</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
@@ -420,7 +402,7 @@ function Create() {
                     onSubmitEditing={() => caloriesRef.current?.focus()} 
                 />
                 <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* The unit must only contain g / cl / ml / l / cup</ThemedText>
-                {unitError ? <Text style={styles.errorText}>{unitError}</Text> : null}
+                {errors.unit && <Text style={styles.errorText}>{errors.unit}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Calories -</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
@@ -432,7 +414,7 @@ function Create() {
                     ref={caloriesRef} // Lier la référence
                     onSubmitEditing={() => proteinsRef.current?.focus()}
                 />
-                {caloriesError ? <Text style={styles.errorText}>{caloriesError}</Text> : null}
+                {errors.calories && <Text style={styles.errorText}>{errors.calories}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Proteins</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
@@ -444,7 +426,7 @@ function Create() {
                     ref={proteinsRef} // Lier la référence
                     onSubmitEditing={() => carbsRef.current?.focus()}
                 />
-                {proteinsError ? <Text style={styles.errorText}>{proteinsError}</Text> : null}
+                {errors.proteins && <Text style={styles.errorText}>{errors.proteins}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Carbohydrates</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
@@ -456,7 +438,7 @@ function Create() {
                     ref={carbsRef} // Lier la référence
                     onSubmitEditing={() => fatsRef.current?.focus()}
                 />
-                {carbsError ? <Text style={styles.errorText}>{carbsError}</Text> : null}
+                {errors.carbs && <Text style={styles.errorText}>{errors.carbs}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Fats</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
@@ -468,7 +450,7 @@ function Create() {
                     ref={fatsRef}
                     onSubmitEditing={() => magnesiumRef.current?.focus()}
                 />
-                {fatsError ? <Text style={styles.errorText}>{fatsError}</Text> : null}
+                {errors.fats && <Text style={styles.errorText}>{errors.fats}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>Others macronutrient (optional)-</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
@@ -480,7 +462,7 @@ function Create() {
                     ref={magnesiumRef}
                     onSubmitEditing={() => potassiumRef.current?.focus()}
                 />
-                {magnesiumError ? <Text style={styles.errorText}>{magnesiumError}</Text> : null}
+                {errors.mangesium && <Text style={styles.errorText}>{errors.mangesium}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Potassium (optional) max 4700"
@@ -491,7 +473,7 @@ function Create() {
                     ref={potassiumRef}
                     onSubmitEditing={() => calciumRef.current?.focus()}
                 />
-                {potassiumError ? <Text style={styles.errorText}>{potassiumError}</Text> : null}
+                {errors.potassium && <Text style={styles.errorText}>{errors.potassium}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Calcium (optional) max 1300"
@@ -502,7 +484,7 @@ function Create() {
                     ref={calciumRef}
                     onSubmitEditing={() => sodiumRef.current?.focus()}
                 />
-                {calciumError ? <Text style={styles.errorText}>{calciumError}</Text> : null}
+                {errors.calcium && <Text style={styles.errorText}>{errors.calcium}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Sodium (optional) max 1300"
@@ -513,7 +495,7 @@ function Create() {
                     ref={sodiumRef}
                     onSubmitEditing={() => ironRef.current?.focus()}
                 />
-                {sodiumError ? <Text style={styles.errorText}>{sodiumError}</Text> : null}
+                {errors.sodium && <Text style={styles.errorText}>{errors.sodium}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Iron (optional) max 45"
@@ -524,7 +506,7 @@ function Create() {
                     ref={ironRef}
                     onSubmitEditing={() => sugarRef.current?.focus()}
                 />
-                {ironError ? <Text style={styles.errorText}>{ironError}</Text> : null}
+                {errors.iron && <Text style={styles.errorText}>{errors.iron}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Sugar (optional) max 100"
@@ -535,7 +517,7 @@ function Create() {
                     ref={sugarRef}
                     onSubmitEditing={() => folateRef.current?.focus()}
                 />
-                {sugarError ? <Text style={styles.errorText}>{sugarError}</Text> : null}
+                {errors.sugar && <Text style={styles.errorText}>{errors.sugar}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="Folate (optional) max 400"
@@ -546,7 +528,7 @@ function Create() {
                     ref={folateRef}
                     onSubmitEditing={() => vitaminARef.current?.focus()}
                 />
-                {folateError ? <Text style={styles.errorText}>{folateError}</Text> : null}
+                {errors.folate && <Text style={styles.errorText}>{errors.folate}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminA % (optional) max 300"
@@ -557,7 +539,7 @@ function Create() {
                     ref={vitaminARef}
                     onSubmitEditing={() => vitaminB1Ref.current?.focus()}
                 />
-                {vitaminAError ? <Text style={styles.errorText}>{vitaminAError}</Text> : null}
+                {errors.vitamina && <Text style={styles.errorText}>{errors.vitamina}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminB1 % (optional) max 300"
@@ -568,7 +550,7 @@ function Create() {
                     ref={vitaminB1Ref}
                     onSubmitEditing={() => vitaminB5Ref.current?.focus()}
                 />
-                {vitaminB1Error ? <Text style={styles.errorText}>{vitaminB1Error}</Text> : null}
+                {errors.vitaminb1 && <Text style={styles.errorText}>{errors.vitaminb1}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminB5 % (optional) max 300"
@@ -579,7 +561,7 @@ function Create() {
                     ref={vitaminB5Ref}
                     onSubmitEditing={() => vitaminB6Ref.current?.focus()}
                 />
-                {vitaminB5Error ? <Text style={styles.errorText}>{vitaminB5Error}</Text> : null}
+                {errors.vitaminb5 && <Text style={styles.errorText}>{errors.vitaminb5}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminB6 % (optional) max 300"
@@ -590,7 +572,7 @@ function Create() {
                     ref={vitaminB6Ref}
                     onSubmitEditing={() => vitaminB12Ref.current?.focus()}
                 />
-                {vitaminB6Error ? <Text style={styles.errorText}>{vitaminB6Error}</Text> : null}
+                {errors.vitaminb6 && <Text style={styles.errorText}>{errors.vitaminb6}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminB12 % (optional) max 300"
@@ -601,7 +583,7 @@ function Create() {
                     ref={vitaminB12Ref}
                     onSubmitEditing={() => vitaminCRef.current?.focus()}
                 />
-                {vitaminB12Error ? <Text style={styles.errorText}>{vitaminB12Error}</Text> : null}
+                {errors.vitaminb12 && <Text style={styles.errorText}>{errors.vitaminb12}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminC % (optional) max 300"
@@ -612,7 +594,7 @@ function Create() {
                     ref={vitaminCRef}
                     onSubmitEditing={() => vitaminDRef.current?.focus()}
                 />
-                {vitaminCError ? <Text style={styles.errorText}>{vitaminCError}</Text> : null}
+                {errors.vitaminc && <Text style={styles.errorText}>{errors.vitaminc}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminD % (optional) max 300"
@@ -623,7 +605,7 @@ function Create() {
                     ref={vitaminDRef}
                     onSubmitEditing={() => vitaminERef.current?.focus()}
                 />
-                {vitaminDError ? <Text style={styles.errorText}>{vitaminDError}</Text> : null}
+                {errors.vitamind && <Text style={styles.errorText}>{errors.vitamind}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminE % (optional) max 300"
@@ -634,7 +616,7 @@ function Create() {
                     ref={vitaminERef}
                     onSubmitEditing={() => vitaminKRef.current?.focus()}
                 />
-                {vitaminEError ? <Text style={styles.errorText}>{vitaminEError}</Text> : null}
+                {errors.vitamine && <Text style={styles.errorText}>{errors.vitamine}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white}]}
                     placeholder="VitaminK % (optional) max 300"
@@ -644,7 +626,7 @@ function Create() {
                     returnKeyType="done"
                     ref={vitaminKRef}
                 />
-                {vitaminKError ? <Text style={styles.errorText}>{vitaminKError}</Text> : null}
+                {errors.vitamink && <Text style={styles.errorText}>{errors.vitamink}</Text>}
                 
                 <TouchableOpacity
                     onPress={createAliment}

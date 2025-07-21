@@ -29,6 +29,7 @@ import { store } from '@/redux/store'
 import Subscription from '@/screens/Subscription/Subscription';
 import { useTranslation } from 'react-i18next';
 import EditWeight from '@/screens/EditWeight';
+import EditGoalScreen from '@/screens/EditGoalScreen';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -228,6 +229,22 @@ export default function RootLayout() {
                   options={{
                     headerShown: true,
                     headerTitle: 'Editweight',
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                      backgroundColor: '#000',
+                    },
+                    headerTitleStyle: {
+                      color: 'white',
+                    },
+                    headerTintColor: '#ffffff'
+                  }}
+                />
+                <Stack.Screen
+                  name="Editgoal"
+                  component={EditGoalScreen}
+                  options={{
+                    headerShown: true,
+                    headerTitle: 'Editgoal',
                     headerTitleAlign: 'center',
                     headerStyle: {
                       backgroundColor: '#000',

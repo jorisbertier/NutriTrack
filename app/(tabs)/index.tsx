@@ -199,6 +199,9 @@ useEffect(() => {
                           <TouchableOpacity style={{marginTop: 100}} onPress={() => navigation.navigate("Editweight")}>
                             <Text style={[ {color : colors.primary}]}>Edit weight</Text>
                           </TouchableOpacity>
+                          <TouchableOpacity style={{marginTop: 100}} onPress={() => navigation.navigate("Editgoal")}>
+                            <Text style={[ {color : colors.primary}]}>Edit goal</Text>
+                          </TouchableOpacity>
           <Row style={{marginTop: 40}}>
             <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
           </Row>
