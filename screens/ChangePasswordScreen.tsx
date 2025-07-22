@@ -61,7 +61,7 @@ const ChangePasswordScreen = ({ navigation }: any) => {
     return (
         <View style={[styles.container]}>
             <TextInput
-                style={[styles.input, { borderColor: focusedFields['newPassword'] ? colors.black : colors.grayDarkFix}]}
+                style={[styles.input, {backgroundColor: colors.white, borderColor: focusedFields['newPassword'] ? colors.black : colors.grayDarkFix}]}
                 placeholder={t('newPassord')}
                 secureTextEntry
                 value={newPassword}
