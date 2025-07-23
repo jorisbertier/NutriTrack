@@ -1,6 +1,8 @@
 export const repertoryFood = [
     {
         name: "Banana",
+        name_en: "Banana",
+        name_fr: "Banane",
         category: "Fruit",
         unit: 1,
         calories: 0.89,
@@ -14,6 +16,8 @@ export const repertoryFood = [
     },
     {
         name: "Apple",
+        name_en: "Apple",
+        name_fr: "Pomme",
         category: "Fruit",
         unit: 1,
         calories: 0.522,
@@ -40,6 +44,8 @@ export const repertoryFood = [
     },
     {
         name: "Strawberry",
+        name_en: "Strawberry",
+        name_fr: "Fraise",
         category: "Fruit",
         unit: 1,
         calories: 0.322,

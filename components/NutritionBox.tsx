@@ -7,24 +7,18 @@ const NutritionBox = ({ icon, label, value, inputValueGram, onChangeValue }) => 
 
     const colors = useThemeColors();
 
-    // Calcul de la valeur initiale * grammes, arrondie à 2 décimales
     const initialValue = (value * Number(inputValueGram || 0)).toFixed(2);
 
-    // Etat local pour gérer la modification temporaire dans le TextInput
     const [localValue, setLocalValue] = useState(initialValue);
 
-    // Met à jour localValue si inputValueGram ou value changent
     useEffect(() => {
         setLocalValue((value * Number(inputValueGram || 0)).toFixed(2));
     }, [value, inputValueGram]);
 
-    // Gestion changement valeur dans l'input
     const handleChange = (text) => {
-        // Accepter uniquement chiffres et '.' (valeur float)
         const regex = /^(\d+)?(\.\d{0,2})?$/;
         if (regex.test(text)) {
             setLocalValue(text);
-            // Remonter la valeur en nombre float si possible
             const numberVal = parseFloat(text);
             if (!isNaN(numberVal)) {
                 onChangeValue(numberVal);

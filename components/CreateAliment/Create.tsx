@@ -109,13 +109,13 @@ function Create() {
         let isValid = true;
 
         if (!formValues.title.trim()) {
-            setFieldError('title', 'Name is required.');
+            setFieldError('title', t('titleRequired'));
             isValid = false;
         } else if (!/^[a-zA-Z\s]+$/.test(formValues.title)) {
-            setFieldError('title', 'Name must contain only letters.');
+            setFieldError('title', t('titleLettersOnly'));
             isValid = false;
         } else if(formValues.title.length > 15) {
-            setFieldError('title', 'Name must contain 15 caracters maximum.');
+            setFieldError('title', t('titleMaxLength'));
             isValid = false;
         }
         else {
@@ -124,7 +124,7 @@ function Create() {
 
         if (!['g', 'cl', 'ml', 'cup', 'l'].includes(formValues.unit.toLowerCase())) {
             isValid = false;
-            setFieldError('unit', 'The unit must only contain g / cl / ml / l / cup');
+            setFieldError('unit', t('inform'));
         } else {
             setFieldError('unit', '');
         }
@@ -133,6 +133,7 @@ function Create() {
 
         if (!quantityNumber || isNaN(quantityNumber) || quantityNumber > 1000 || quantityNumber < 0) {
             setFieldError('quantity', 'Please enter a valid number of quantity. Max 1000');
+            setFieldError('quantity', `${t('errorValidNumber')} ${t('quantity')}. Max 1000`);
             isValid = false;
         } else {
             setFieldError('quantity', '');
@@ -140,7 +141,7 @@ function Create() {
 
         const caloriesNumber = parseFloat(formValues.calories);
         if (!caloriesNumber || isNaN(caloriesNumber) || caloriesNumber > 1500 || caloriesNumber < 0) {
-            setFieldError('calories', 'Please enter a valid number of calories. Max 1000');
+            setFieldError('calories', `${t('errorValidNumber')} ${t('calories')}. Max 1000`);
             isValid = false;
         } else {
             setFieldError('calories', '');
@@ -148,7 +149,7 @@ function Create() {
 
         const carbsNumber = parseFloat(formValues.carbs);
         if (!carbsNumber || isNaN(carbsNumber) || carbsNumber > 200 || carbsNumber < 0) {
-            setFieldError('carbs', 'Please enter a valid number of carbs. Max 1000');
+            setFieldError('carbs', `${t('errorValidNumber')} ${t('carbs')}. Max 1000`);
             isValid = false;
         } else {
             setFieldError('carbs', '');
@@ -156,7 +157,7 @@ function Create() {
 
         const proteinsNumber = parseFloat(formValues.proteins);
         if (!proteinsNumber || isNaN(proteinsNumber) || proteinsNumber > 200 || proteinsNumber < 0) {
-            setFieldError('proteins', 'Please enter a valid number of proteins. Max 200');
+            setFieldError('proteins', `${t('errorValidNumber')} ${t('proteins')}. Max 200`);
             isValid = false;
         } else {
             setFieldError('proteins', '');
@@ -164,7 +165,7 @@ function Create() {
 
         const fatsNumber = parseFloat(formValues.fats);
         if (!fatsNumber || isNaN(fatsNumber) || fatsNumber > 600 || fatsNumber < 0) {
-            setFieldError('fats', 'Please enter a valid number of fats. Max 600');
+            setFieldError('fats', `${t('errorValidNumber')} ${t('fats')}. Max 600`);
             isValid = false;
         } else {
             setFieldError('fats', '');
@@ -172,20 +173,21 @@ function Create() {
         const magnesiumNumber = parseFloat(formValues.magnesium);
         if (magnesiumNumber > 300 || magnesiumNumber < 0) {
             setFieldError('magnesium', 'Please enter a valid number of magnesium. Max 300');
+            setFieldError('magnesium', `${t('errorValidNumber')} ${t('magnesium')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('magnesium', '');
         }
         const potassiumNumber = parseFloat(formValues.potassium);
         if (potassiumNumber > 4500 || potassiumNumber < 0) {
-            setFieldError('potassium', 'Please enter a valid number of potassium. Max 4500');
+            setFieldError('potassium', `${t('errorValidNumber')} ${t('potassium')}. Max 4500`);
             isValid = false;
         } else {
             setFieldError('potassium', '');
         }
         const calciumNumber = parseFloat(formValues.calcium);
         if (calciumNumber > 1300 || calciumNumber < 0) {
-            setFieldError('calcium', 'Please enter a valid number of calcium. Max 1300');
+            setFieldError('calcium', `${t('errorValidNumber')} ${t('calcium')}. Max 1300`);
             isValid = false;
         } else {
             setFieldError('calcium', '');
@@ -193,22 +195,22 @@ function Create() {
     
         const sodiumNumber = parseFloat(formValues.sodium);
         if (sodiumNumber > 1300 || sodiumNumber < 0) {
-            setFieldError('sodium', 'Please enter a valid number of sodium. Max 1300');
+            setFieldError('sodium', `${t('errorValidNumber')} ${t('sodium')}. Max 1300`);
             isValid = false;
         } else {
             setFieldError('sodium', '');
         }
     
         const ironNumber = parseFloat(formValues.iron);
-        if (ironNumber > 1300 || ironNumber < 0) {
-            setFieldError('iron', 'Please enter a valid number of iron. Max 45');
+        if (ironNumber > 45 || ironNumber < 0) {
+            setFieldError('iron', `${t('errorValidNumber')} ${t('iron')}. Max 45`);
             isValid = false;
         } else {
             setFieldError('iron', '');
         }
         const folateNumber = parseFloat(formValues.folate);
         if (folateNumber > 400 || folateNumber < 0) {
-            setFieldError('folate', 'Please enter a valid number of folate. Max 400');
+            setFieldError('folate', `${t('errorValidNumber')} ${t('folate')}. Max 400`);
             isValid = false;
         } else {
             setFieldError('folate', '');
@@ -216,69 +218,70 @@ function Create() {
         const sugarNumber = parseFloat(formValues.sugar);
         if (sugarNumber > 100 || sugarNumber < 0) {
             setFieldError('sugar','Please enter a valid number of sugar. Max 100');
+            setFieldError('sugar', `${t('errorValidNumber')} ${t('sugar')}. Max 100`);
             isValid = false;
         } else {
             setFieldError('sugar','');
         }
         const vitaminANumber = parseFloat(formValues.vitaminA);
         if (vitaminANumber > 300 || vitaminANumber < 0) {
-            setFieldError('vitamina', 'Please enter a valid number of vitamin A. Max 300');
+            setFieldError('vitamina', `${t('errorValidNumber')} ${t('vitaminA')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitamina', '');
         }
         const vitaminB1Number = parseFloat(formValues.vitaminB1);
         if (vitaminB1Number > 300 || vitaminB1Number < 0) {
-            setFieldError('vitaminb1', 'Please enter a valid number of vitamin B1. Max 300');
+            setFieldError('vitaminb1', `${t('errorValidNumber')} ${t('vitaminB1')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitaminb1', '');
         }
         const vitaminB5Number = parseFloat(formValues.vitaminB5);
         if (vitaminB5Number > 300 || vitaminB5Number < 0) {
-            setFieldError('vitaminb5', 'Please enter a valid number of vitamin B5. Max 300');
+            setFieldError('vitaminb5', `${t('errorValidNumber')} ${t('vitaminB5')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitaminb5', '');
         }
         const vitaminB6Number = parseFloat(formValues.vitaminB6);
         if (vitaminB6Number > 300 || vitaminB6Number < 0) {
-            setFieldError('vitaminb6', 'Please enter a valid number of vitamin B6. Max 300');
+            setFieldError('vitaminb6', `${t('errorValidNumber')} ${t('vitaminB6')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitaminb6', '');
         }
         const vitaminB12Number = parseFloat(formValues.vitaminB12);
         if (vitaminB12Number > 300 || vitaminB12Number < 0) {
-            setFieldError('vitaminb12', 'Please enter a valid number of vitamin B12. Max 300');
+            setFieldError('vitaminb12', `${t('errorValidNumber')} ${t('vitaminB12')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitaminb12', '');
         }
         const vitaminCNumber = parseFloat(formValues.vitaminC);
         if (vitaminCNumber > 300 || vitaminCNumber < 0) {
-            setFieldError('vitaminc', 'Please enter a valid number of vitamin C. Max 300');
+            setFieldError('vitaminc', `${t('errorValidNumber')} ${t('vitaminC')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitaminc', '');
         }
         const vitaminDNumber = parseFloat(formValues.vitaminD);
         if (vitaminDNumber > 300 || vitaminDNumber < 0) {
-            setFieldError('vitamind', 'Please enter a valid number of vitamin D. Max 300');
+            setFieldError('vitamind', `${t('errorValidNumber')} ${t('vitaminD')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitamind', '');
         }
         const vitaminENumber = parseFloat(formValues.vitaminE);
         if (vitaminENumber > 300 || vitaminENumber < 0) {
-            setFieldError('vitamine', 'Please enter a valid number of vitamin E. Max 300');
+            setFieldError('vitamine', `${t('errorValidNumber')} ${t('vitaminE')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitamine', '');
         }
         const vitaminKNumber = parseFloat(formValues.vitaminK);
         if (vitaminKNumber > 300 || vitaminKNumber < 0) {
-            setFieldError('vitamink', 'Please enter a valid number of vitamin K. Max 300');
+            setFieldError('vitamink', `${t('errorValidNumber')} ${t('vitaminK')}. Max 300`);
             isValid = false;
         } else {
             setFieldError('vitamink', '');
@@ -389,11 +392,11 @@ function Create() {
         
     return (
         <>
-            <Text style={styles.title}>Create a food item and custom all nutrional values as you wish.</Text>
-            <Text style={[styles.label, {color : colors.black}]}>Name</Text>
+            <Text style={styles.title}>{t('textCreate')}</Text>
+            <Text style={[styles.label, {color : colors.black}]}>{t('name')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['title'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Name (required)"
+                    placeholder={`${t('name')} (${t('required')})`}
                     value={formValues.title}
                     onChangeText={value => handleChange('title', value)}
                     autoCapitalize='words'
@@ -403,10 +406,10 @@ function Create() {
                     onBlur={() => handleBlur('title')}
                 />
                 {errors.title && <Text style={styles.errorText}>{errors.title}</Text>}
-                <Text style={[styles.label, {color : colors.black}]}>Quantity</Text>
+                <Text style={[styles.label, {color : colors.black}]}>{t('quantity')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['quantity'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Quantity (required)"
+                    placeholder={`${t('quantity')} (${t('required')})`}
                     value={formValues.quantity}
                     onChangeText={value => handleChange('quantity', value)}
                     keyboardType="numeric"
@@ -417,10 +420,10 @@ function Create() {
                     onBlur={() => handleBlur('quantity')}
                 />
                 {errors.quantity && <Text style={styles.errorText}>{errors.quantity}</Text>}
-                <Text style={[styles.label, {color : colors.black}]}>Unit /g, ml, cup, slice</Text>
+                <Text style={[styles.label, {color : colors.black}]}>{t('unit')} {t('informUnit')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['unit'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Unit (required)"
+                    placeholder={`${t('unit')} (${t('required')})`}
                     value={formValues.unit}
                     onChangeText={value => handleChange('unit', value)}
                     autoCapitalize='words'
@@ -430,12 +433,12 @@ function Create() {
                     onFocus={() => handleFocus('unit')}
                     onBlur={() => handleBlur('unit')}
                 />
-                <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* The unit must only contain g / cl / ml / l / cup</ThemedText>
+                <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* {t('inform')}</ThemedText>
                 {errors.unit && <Text style={styles.errorText}>{errors.unit}</Text>}
-                <Text style={[styles.label, {color : colors.black}]}>Calories -</Text>
+                <Text style={[styles.label, {color : colors.black}]}>{t('calories')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['calories'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Calories (required)"
+                    placeholder={`${t('calories')} (${t('required')})`}
                     value={formValues.calories}
                     onChangeText={value => handleChange('calories', value)}
                     keyboardType="numeric"
@@ -446,10 +449,10 @@ function Create() {
                     onBlur={() => handleBlur('calories')}
                 />
                 {errors.calories && <Text style={styles.errorText}>{errors.calories}</Text>}
-                <Text style={[styles.label, {color : colors.black}]}>Proteins</Text>
+                <Text style={[styles.label, {color : colors.black}]}>{t('proteins')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['proteins'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Proteins (required)"
+                    placeholder={`${t('proteins')} (${t('required')})`}
                     value={formValues.proteins}
                     onChangeText={value => handleChange('proteins', value)}
                     keyboardType="numeric"
@@ -460,10 +463,10 @@ function Create() {
                     onBlur={() => handleBlur('proteins')}
                 />
                 {errors.proteins && <Text style={styles.errorText}>{errors.proteins}</Text>}
-                <Text style={[styles.label, {color : colors.black}]}>Carbohydrates</Text>
+                <Text style={[styles.label, {color : colors.black}]}>{t('carbs')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['carbs'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Carbohydrates (required)"
+                    placeholder={`${t('carbs')} (${t('required')})`}
                     value={formValues.carbs}
                     onChangeText={value => handleChange('carbs', value)}
                     keyboardType="numeric"
@@ -474,10 +477,10 @@ function Create() {
                     onBlur={() => handleBlur('carbs')}
                 />
                 {errors.carbs && <Text style={styles.errorText}>{errors.carbs}</Text>}
-                <Text style={[styles.label, {color : colors.black}]}>Fats</Text>
+                <Text style={[styles.label, {color : colors.black}]}>{t('fats')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['fats'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Fats (required)"
+                    placeholder={`${t('fats')} (${t('required')})`}
                     value={formValues.fats}
                     onChangeText={value => handleChange('fats', value)}
                     keyboardType="numeric"
@@ -489,10 +492,10 @@ function Create() {
 
                 />
                 {errors.fats && <Text style={styles.errorText}>{errors.fats}</Text>}
-                <Text style={[styles.label, {color : colors.black}]}>Others macronutrient (optional)-</Text>
+                <Text style={[styles.label, {color : colors.black}]}>{t('otherMacro')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['magnesium'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Magnesium (optional) max 350"
+                    placeholder={`${t('magnesium')} (${t('optional')}) max 300`}
                     value={formValues.magnesium}
                     onChangeText={value => handleChange('magnesium', value)}
                     keyboardType="numeric"
@@ -505,7 +508,7 @@ function Create() {
                 {errors.magnesium && <Text style={styles.errorText}>{errors.magnesium}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['potassium'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Potassium (optional) max 4700"
+                    placeholder={`${t('potassium')} (${t('optional')}) max 4700`}
                     value={formValues.potassium}
                     onChangeText={value => handleChange('potassium', value)}
                     keyboardType="numeric"
@@ -518,7 +521,7 @@ function Create() {
                 {errors.potassium && <Text style={styles.errorText}>{errors.potassium}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['calcium'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Calcium (optional) max 1300"
+                    placeholder={`${t('calcium')} (${t('optional')}) max 1300`}
                     value={formValues.calcium}
                     onChangeText={value => handleChange('calcium', value)}
                     keyboardType="numeric"
@@ -531,7 +534,7 @@ function Create() {
                 {errors.calcium && <Text style={styles.errorText}>{errors.calcium}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['sodium'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Sodium (optional) max 1300"
+                    placeholder={`${t('sodium')} (${t('optional')}) max 1300`}
                     value={formValues.sodium}
                     onChangeText={value => handleChange('sodium', value)}
                     keyboardType="numeric"
@@ -544,7 +547,7 @@ function Create() {
                 {errors.sodium && <Text style={styles.errorText}>{errors.sodium}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['iron'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Iron (optional) max 45"
+                    placeholder={`${t('iron')} (${t('optional')}) max 45`}
                     value={formValues.iron}
                     onChangeText={value => handleChange('iron', value)}
                     keyboardType="numeric"
@@ -557,7 +560,7 @@ function Create() {
                 {errors.iron && <Text style={styles.errorText}>{errors.iron}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['sugar'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Sugar (optional) max 100"
+                    placeholder={`${t('sugar')} (${t('optional')}) max 1300`}
                     value={formValues.sugar}
                     onChangeText={value => handleChange('sugar', value)}
                     keyboardType="numeric"
@@ -570,7 +573,7 @@ function Create() {
                 {errors.sugar && <Text style={styles.errorText}>{errors.sugar}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['folate'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="Folate (optional) max 400"
+                    placeholder={`${t('folate')} (${t('optional')}) max 400`}
                     value={formValues.folate}
                     onChangeText={value => handleChange('folate', value)}
                     keyboardType="numeric"
@@ -583,7 +586,7 @@ function Create() {
                 {errors.folate && <Text style={styles.errorText}>{errors.folate}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminA'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminA % (optional) max 300"
+                    placeholder={`${t('vitaminA')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminA}
                     onChangeText={value => handleChange('vitaminA', value)}
                     keyboardType="numeric"
@@ -596,7 +599,7 @@ function Create() {
                 {errors.vitamina && <Text style={styles.errorText}>{errors.vitamina}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB1'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminB1 % (optional) max 300"
+                    placeholder={`${t('vitaminB1')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminB1}
                     onChangeText={value => handleChange('vitaminB1', value)}
                     keyboardType="numeric"
@@ -609,7 +612,7 @@ function Create() {
                 {errors.vitaminb1 && <Text style={styles.errorText}>{errors.vitaminb1}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB5'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminB5 % (optional) max 300"
+                    placeholder={`${t('vitaminB5')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminB5}
                     onChangeText={value => handleChange('vitaminB5', value)}
                     keyboardType="numeric"
@@ -622,7 +625,7 @@ function Create() {
                 {errors.vitaminb5 && <Text style={styles.errorText}>{errors.vitaminb5}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB6'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminB6 % (optional) max 300"
+                    placeholder={`${t('vitaminB6')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminB6}
                     onChangeText={value => handleChange('vitaminB6', value)}
                     keyboardType="numeric"
@@ -635,7 +638,7 @@ function Create() {
                 {errors.vitaminb6 && <Text style={styles.errorText}>{errors.vitaminb6}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB12'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminB12 % (optional) max 300"
+                    placeholder={`${t('vitaminB12')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminB12}
                     onChangeText={value => handleChange('vitaminB12', value)}
                     keyboardType="numeric"
@@ -648,7 +651,7 @@ function Create() {
                 {errors.vitaminb12 && <Text style={styles.errorText}>{errors.vitaminb12}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminC'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminC % (optional) max 300"
+                    placeholder={`${t('vitaminC')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminC}
                     onChangeText={value => handleChange('vitaminC', value)}
                     keyboardType="numeric"
@@ -661,7 +664,7 @@ function Create() {
                 {errors.vitaminc && <Text style={styles.errorText}>{errors.vitaminc}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminD'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminD % (optional) max 300"
+                    placeholder={`${t('vitaminD')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminD}
                     onChangeText={value => handleChange('vitaminD', value)}
                     keyboardType="numeric"
@@ -674,7 +677,7 @@ function Create() {
                 {errors.vitamind && <Text style={styles.errorText}>{errors.vitamind}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminE'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminE % (optional) max 300"
+                    placeholder={`${t('vitaminE')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminE}
                     onChangeText={value => handleChange('vitaminE', value)}
                     keyboardType="numeric"
@@ -687,7 +690,7 @@ function Create() {
                 {errors.vitamine && <Text style={styles.errorText}>{errors.vitamine}</Text>}
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminK'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder="VitaminK % (optional) max 300"
+                    placeholder={`${t('vitaminK')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminK}
                     onChangeText={value => handleChange('vitaminK', value)}
                     keyboardType="numeric"
@@ -702,7 +705,7 @@ function Create() {
                     onPress={createAliment}
                     style={[styles.button, { backgroundColor: colors.black }]}
                 >
-                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Create an aliment</Text>
+                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('buttonCreate')}</Text>
                 </TouchableOpacity>
             </>
     )

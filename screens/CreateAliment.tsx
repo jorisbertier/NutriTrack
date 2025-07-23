@@ -12,12 +12,14 @@ import { User } from '@/interface/User';
 import Generate from '@/components/CreateAliment/Generate';
 import { Switch } from 'react-native-paper';
 import Create from '@/components/CreateAliment/Create'
+import { useTranslation } from 'react-i18next';
 
 
 
 function CreateAliment() {
 
     const {colors} = useTheme();
+    const { t } = useTranslation();
 
     /*Get id user*/
     const [userData, setUserData] = useState<User[]>([])
@@ -41,11 +43,11 @@ function CreateAliment() {
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.whiteMode}]} contentContainerStyle={{ paddingBottom: 20 }}>
-            <Text style={[styles.title, { color: colors.black}]}>Switch Mode</Text>
+            <Text style={[styles.title, { color: colors.black}]}>{t('switch')}</Text>
             <View style={styles.containerSwitch}>
-                <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.grayDarkFix : colors.black}]}>Generate</Text>
+                <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.grayDarkFix : colors.black}]}>{t('generate')}</Text>
                 <Switch color='black' value={isSwitchOn} onValueChange={onToggleSwitch} />
-                <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.black : colors.grayDarkFix}]}>Create</Text>
+                <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.black : colors.grayDarkFix}]}>{t('create')}</Text>
             </View>
             
             {!isSwitchOn && (

@@ -212,7 +212,7 @@ export default function RootLayout() {
                   component={CreateAliment}
                   options={{
                     headerShown: true,
-                    headerTitle: 'Create Aliment',
+                    headerTitle: t('buttonCreate'),
                     headerTitleAlign: 'center',
                     headerStyle: {
                       backgroundColor: '#000',

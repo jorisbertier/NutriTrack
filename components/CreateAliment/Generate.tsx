@@ -13,7 +13,9 @@ import { fetchUserDataConnected } from "@/functions/function";
 function Generate() {
 
     const { colors } = useTheme();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+
+    console.log('lnague:', i18n.language)
 
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
@@ -24,6 +26,7 @@ function Generate() {
     const [isTitleFocused, setIsTitleFocused] = useState(false);
     const [inputValueGram, setInputValueGram] = useState("");
     const [foodRepertorySelected, setFoodRepertorySelected] = useState('');
+    const [displayFoodTranslate, setDisplayFoodTranslate] = useState('');
     const [repertoryOpened, setRepertoryOpened] = useState(false);
     const [generateFood, setGenerateFood] = useState<any>(null);
     const [isNameFocused, setIsNameFocused] = useState(false);
@@ -44,9 +47,10 @@ function Generate() {
         }
     }, [user]);
 
-    const filteredRepertoryFood = repertoryFood.filter((food: any) => {
-        return food.name.toLowerCase().includes(inputValue.toLowerCase())
-    })
+const filteredRepertoryFood = repertoryFood.filter((food: any) => {
+    const localizedName = food[`name_${i18n.language}`]?.toLowerCase();
+    return localizedName?.includes(inputValue.toLowerCase());
+});
 
     const [nutritionValues, setNutritionValues] = useState({
         calories: 0,proteins: 0,carbohydrates: 0,fats: 0,magnesium: 0,potassium: 0,calcium: 0,sodium: 0,iron: 0,folate: 0,vitaminA: 0,vitaminB1: 0,vitaminB6: 0,vitaminB12: 0,vitaminC: 0,vitaminD: 0,vitaminE: 0,vitaminK: 0,cholesterol: 0,sugar: 0
@@ -101,7 +105,7 @@ function Generate() {
     const handleCreateAliment = async (event: any) => {
         event.preventDefault();
         if (title.trim() === '' && typeof title === 'string' && title.length < 3 ) {
-            setErrorMessageTitle("The title must contain only letters and be at least 3 characters long.");
+            setErrorMessageTitle(t("errorTitle"));
             return;
         }
         setErrorMessageTitle('');
@@ -185,8 +189,8 @@ function Generate() {
 
     return (
         <View style={{marginBottom: 80}}>
-            <Text style={styles.title}>Create a food item based on the official data. Enter a quantity, and you can modify the nutritional values as needed.</Text>
-            <Text style={[styles.label, { color: colors.black }]}>Name</Text>
+            <Text style={styles.title}>{t('textGenerate')}</Text>
+            <Text style={[styles.label, { color: colors.black }]}>{t('name')}</Text>
             <View style={{position: 'relative'}}>
                 <TextInput
                     value={inputValue}
@@ -199,7 +203,7 @@ function Generate() {
                 onBlur={() => setIsNameFocused(false)}
                     style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayPress }]}
                 />
-                {filteredRepertoryFood.length === 0 && (<Text style={styles.errorMessage}>There is no food matching with {inputValue}.</Text>)}
+                {filteredRepertoryFood.length === 0 && (<Text style={styles.errorMessage}>{t('errorMatching')} {inputValue}.</Text>)}
 
                 {repertoryOpened && filteredRepertoryFood.length > 0 && (
                     <Modal transparent={true} visible={modalVisible} animationType="slide" onShow={() => {
@@ -243,12 +247,13 @@ function Generate() {
                                             ]}
                                             onPress={() => {
                                                 setFoodRepertorySelected(food.name);
-                                                setInputValue(food.name);
+                                                setDisplayFoodTranslate(food[`name_${i18n.language}`])
+                                                setInputValue(food[`name_${i18n.language}`]);
                                                 setRepertoryOpened(false);
                                                 setModalVisible(false)
                                             }}
                                         >
-                                            <Text style={[styles.label, { color: colors.black }]}>{food.name}</Text>
+                                            <Text style={[styles.label, { color: colors.black }]}>{food[`name_${i18n.language}`]}</Text>
                                     </TouchableOpacity>
                                 )})}
                             </ScrollView>
@@ -257,8 +262,8 @@ function Generate() {
                     </Modal>
                 )}
             </View>
-            {foodRepertorySelected && (<View style={{marginTop: 10,backgroundColor: colors.white, width: "30%", justifyContent: 'center', paddingLeft: 5, borderColor: colors.black, borderWidth: 1, padding: 2, height: 30, borderRadius: 10}}><Text style={[{fontWeight: 500, color: "black" }]}>{foodRepertorySelected}</Text></View>)}
-            <Text style={[styles.label, { color: colors.black }]}>Quantity between 10 & 250 g</Text>
+            {foodRepertorySelected && (<View style={{marginTop: 10,backgroundColor: colors.white, width: "30%", justifyContent: 'center', paddingLeft: 5, borderColor: colors.black, borderWidth: 1, padding: 2, height: 30, borderRadius: 10}}><Text style={[{fontWeight: 500, color: "black" }]}>{displayFoodTranslate}</Text></View>)}
+            <Text style={[styles.label, { color: colors.black }]}>{t('quantityGenerate')}</Text>
             <TextInput
                 value={inputValueGram}
                 onChangeText={(text) => setInputValueGram(text)}
@@ -276,12 +281,12 @@ function Generate() {
                     }]}
                     activeOpacity={isDisabled ? 1 : 0.7}
                     >
-                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Generate an aliment</Text>
+                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('buttonGenerate')}</Text>
                 </TouchableOpacity>
             </View>
                 {generateFood?.calories !== undefined && (
                 <View style={{marginTop: 10, width: '100%', alignSelf: 'center'}}>
-                    <Text style={[styles.label, { color: colors.blackFix }]}>Title</Text>
+                    <Text style={[styles.label, { color: colors.blackFix }]}>{t('title')}</Text>
                     <TextInput
                         onFocus={() => setIsTitleFocused(true)}
                         onBlur={() => setIsTitleFocused(false)}
@@ -477,7 +482,7 @@ function Generate() {
                             onPress={handleCreateAliment} 
                             style={[styles.button , { backgroundColor: colors.black}]}
                             >
-                            <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>Create an aliment</Text>
+                            <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('buttonCreate')}</Text>
                         </TouchableOpacity>
                     </View>
                 )}
