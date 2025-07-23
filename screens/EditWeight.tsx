@@ -6,6 +6,8 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import WeightPicker from '@/components/WeightPicker';
+import { fetchUserDataConnected } from '@/functions/function';
+import { User } from '@/interface/User';
 
 const EditProfileScreen = () => {
 
@@ -19,8 +21,20 @@ const EditProfileScreen = () => {
     const user = auth.currentUser;
 
     const [weight, setWeight] = useState(80);
+    const [userData, setUserData] = useState<User[]>([]);
     const [refreshKey, setRefreshKey] = useState(0);
+console.log("ici", userData)
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        fetchUserDataConnected(user, setUserData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchData();
+  }, []);
     useEffect(() => {
     // Re-fetch datas users when to each update
     // fetchUserDataConnected(user, setUserData);
@@ -91,36 +105,13 @@ console.log('quantity', weight);
     return (
         <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
 
-        <Text style={[styles.title, {color : colors.black}]}>Please update your weight regularly, especially when experiencing weight loss or gain, to ensure your data stays accurate and personalized recommendations remain effective.</Text>
-        <WeightPicker selectedWeight={weight} onChange={setWeight} />
-{/* {quantityError ? <Text style={styles.errorText}>{quantityError}</Text> : null} */}
-        <View style={{alignItems: 'center', justifyContent: 'center', width: '100%'}}>
-            <TouchableOpacity style={[styles.button, { backgroundColor: colors.black}]} onPress={handleSave}>
-                <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('save')}</Text>
-            </TouchableOpacity>
-        </View>
-
-        {/* <Modal
-            transparent={true}
-            visible={modalVisible}
-            animationType="slide"
-        >
-            <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-                <Text style={styles.modalText}>
-                {t('saveText')}
-                </Text>
-                <View style={styles.modalButtons}>
-                <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-                    <Text style={styles.cancelButtonText}>{t('cancel')}</Text>
+            <Text style={[styles.title, {color : colors.black}]}>Please update your weight regularly, especially when experiencing weight loss or gain, to ensure your data stays accurate and personalized recommendations remain effective.</Text>
+            <WeightPicker selectedWeight={weight} onChange={setWeight} weight={userData[0]?.weight}/>
+            <View style={{alignItems: 'center', justifyContent: 'center', width: '100%'}}>
+                <TouchableOpacity style={[styles.button, { backgroundColor: colors.black}]} onPress={handleSave}>
+                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('save')}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.confirmButton, {backgroundColor: colors.primary}]} onPress={confirmSave}>
-                    <Text style={styles.confirmButtonText}>{t('confirm')}</Text>
-                </TouchableOpacity>
-                </View>
             </View>
-            </View>
-        </Modal> */}
         </View>
     );
 };
@@ -152,6 +143,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 30,
+        marginTop: 30
     },
     buttonText: {
         color: '#ffffff',
@@ -165,54 +157,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 40
     }
-    // modalContainer: {
-    //     flex: 1,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    // },
-    // modalContent: {
-    //     width: '80%',
-    //     backgroundColor: '#ffffff',
-    //     borderRadius: 10,
-    //     padding: 20,
-    //     alignItems: 'center',
-    // },
-    // modalText: {
-    //     marginBottom: 15,
-    //     textAlign: 'center',
-    //     fontSize: 16,
-    //     color: '#333333',
-    //     lineHeight: 25
-    // },
-    // modalButtons: {
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     width: '100%',
-    // },
-    // cancelButton: {
-    //     flex: 1,
-    //     marginRight: 5,
-    //     backgroundColor: '#cccccc',
-    //     padding: 10,
-    //     borderRadius: 5,
-    //     alignItems: 'center',
-    // },
-    // cancelButtonText: {
-    //     color: '#333333',
-    //     fontWeight: '600',
-    // },
-    // confirmButton: {
-    //     flex: 1,
-    //     marginLeft: 5,
-    //     padding: 10,
-    //     borderRadius: 5,
-    //     alignItems: 'center',
-    // },
-    // confirmButtonText: {
-    //     color: '#ffffff',
-    //     fontWeight: '600',
-    // },
 });
 
 export default EditProfileScreen;

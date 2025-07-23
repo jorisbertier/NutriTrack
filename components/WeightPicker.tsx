@@ -1,3 +1,4 @@
+import { useTheme } from '@/hooks/ThemeProvider';
 import React, { useRef, useEffect } from 'react';
 import {
     View,
@@ -6,6 +7,7 @@ import {
     StyleSheet,
     Dimensions,
     Animated,
+    Image,
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -15,7 +17,11 @@ const MAX_WEIGHT = 250;
 
 const weights = Array.from({ length: MAX_WEIGHT - MIN_WEIGHT + 1 }, (_, i) => MIN_WEIGHT + i);
 
-const WeightPicker = ({ selectedWeight, onChange }) => {
+const WeightPicker = ({ selectedWeight, onChange, weight }) => {
+
+    const { colors } = useTheme();
+
+
     const flatListRef = useRef(null);
     const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -63,7 +69,15 @@ const WeightPicker = ({ selectedWeight, onChange }) => {
 
     return (
         <View style={styles.wrapper}>
-        <Text style={styles.weightText}>{selectedWeight} kg</Text>
+            <View style={{marginBottom: 20, display: 'flex', flexDirection: 'row',alignItems: 'center', justifyContent: 'space-evenly', width: '100%'}}>
+                <View style={{backgroundColor: colors.gray, height: 100, width: 120,borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={styles.weightText}>{weight}</Text>
+                </View>
+                <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: 'black', width: 20, height: 20}}  />
+                <View style={{backgroundColor: colors.blueLight, height: 100, width: 120,borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={styles.weightText}>{selectedWeight}</Text>
+                </View>
+            </View>
 
         <View style={styles.rulerContainer}>
             <View style={styles.centerMarker} />
@@ -99,6 +113,7 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 30,
         height: 200,
+        display: 'flex'
     },
     weightText: {
         fontSize: 28,
@@ -109,7 +124,7 @@ const styles = StyleSheet.create({
     },
     rulerContainer: {
         position: 'relative',
-        marginTop: 10
+        marginTop: 20
     },
     tickContainer: {
         width: ITEM_WIDTH,
