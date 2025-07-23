@@ -228,7 +228,7 @@ export default function RootLayout() {
                   component={EditWeight}
                   options={{
                     headerShown: true,
-                    headerTitle: 'Editweight',
+                    headerTitle: t('editWeight'),
                     headerTitleAlign: 'center',
                     headerStyle: {
                       backgroundColor: '#000',

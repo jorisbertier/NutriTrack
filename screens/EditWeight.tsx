@@ -105,7 +105,7 @@ console.log('quantity', weight);
     return (
         <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
 
-            <Text style={[styles.title, {color : colors.black}]}>Please update your weight regularly, especially when experiencing weight loss or gain, to ensure your data stays accurate and personalized recommendations remain effective.</Text>
+            <Text style={[styles.title, {color : colors.black}]}>{t('textEditWeight')}</Text>
             <WeightPicker selectedWeight={weight} onChange={setWeight} weight={userData[0]?.weight}/>
             <View style={{alignItems: 'center', justifyContent: 'center', width: '100%'}}>
                 <TouchableOpacity style={[styles.button, { backgroundColor: colors.black}]} onPress={handleSave}>

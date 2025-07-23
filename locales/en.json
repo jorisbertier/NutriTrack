@@ -159,5 +159,7 @@
     "errorValidNumber": "Please enter a valid number of",
     "titleRequired": "Name is required.",
     "titleLettersOnly": "Name must contain only letters.",
-    "titleMaxLength": "Name must contain 15 characters maximum."
+    "titleMaxLength": "Name must contain 15 characters maximum.",
+    "editWeight": "Edit weight",
+    "textEditWeight": "Please update your weight regularly, especially when experiencing weight loss or gain, to ensure your data stays up to date and personalized recommendations remain effective."
 }
