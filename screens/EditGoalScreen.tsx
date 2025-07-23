@@ -6,6 +6,10 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import Svg, { Path } from 'react-native-svg';
 import ProgressBarSlider from '@/components/ProgressBar/ProgressBarSlider';
+import CustomSlider from '@/components/ProgressBar/ProgressBarSlider';
+import CursorSlider from '@/components/ProgressBar/ProgressBarSlider';
+import Slider from '@/components/ProgressBar/ProgressBarSlider';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 type Goal = 'lose' | 'maintain' | 'gain';
 
@@ -28,7 +32,10 @@ const numericCalories = parseInt(calories, 10);
   console.log("calories", calories)
     return (
         <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
-          <ProgressBarSlider/>
+          <GestureHandlerRootView>
+          <Slider/>
+
+          </GestureHandlerRootView>
       <View style={{width: '100%', marginTop: 50}}>
         <View style={{width: '30%', height: 80, borderRadius: 20, backgroundColor: 'green', display: 'flex', flexDirection: "column"}}>
           <View style={{flexDirection: 'row'}}>

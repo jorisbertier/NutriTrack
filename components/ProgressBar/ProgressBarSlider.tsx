@@ -1,113 +1,94 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
-  Animated,
-  PanResponder,
   StyleSheet,
-  Dimensions,
   Text,
+  Dimensions,
 } from 'react-native';
+import Animated, {
+  useAnimatedGestureHandler,
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  useAnimatedReaction,
+  runOnJS,
+} from 'react-native-reanimated';
+import {
+  PanGestureHandler,
+} from 'react-native-gesture-handler';
 
 const { width } = Dimensions.get('window');
-const SLIDER_WIDTH = width * 0.8;
-const CURSOR_SIZE = 40;
+const SLIDER_WIDTH = width - 100;
+const THUMB_RADIUS = 15;
 
-const ProgressBarSlider = () => {
-  const pan = useRef(new Animated.Value(0)).current;
-  const [displayValue, setDisplayValue] = useState(0);
-  const panValue = useRef(0);
-  const trackRef = useRef(null);
-  const [trackLeft, setTrackLeft] = useState(0);
+const Slider = () => {
+  const translateX = useSharedValue(0);
+  const [value, setValue] = useState(0);
 
-  useEffect(() => {
-    const listenerId = pan.addListener(({ value }) => {
-      panValue.current = value;
-    });
-    return () => pan.removeListener(listenerId);
-  }, [pan]);
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (_, ctx: any) => {
+      ctx.startX = translateX.value;
+    },
+    onActive: (event, ctx: any) => {
+      let newX = ctx.startX + event.translationX;
+      newX = Math.max(0, Math.min(newX, SLIDER_WIDTH));
+      translateX.value = newX;
+    },
+  });
 
-  // Mesure la position du track une fois monté
-  useEffect(() => {
-    setTimeout(() => {
-      if (trackRef.current) {
-        trackRef.current.measure((fx, fy, width, height, px) => {
-          setTrackLeft(px);
-        });
-      }
-    }, 100); // petit délai pour que le layout soit prêt
-  }, []);
+  const thumbStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
 
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onPanResponderGrant: (_, gesture) => {
-        // Rien de spécial à faire ici désormais
-      },
-      onPanResponderMove: (_, gesture) => {
-        const relativeX = gesture.moveX - trackLeft - CURSOR_SIZE / 2;
-        const newX = Math.max(0, Math.min(SLIDER_WIDTH - CURSOR_SIZE, relativeX));
-        pan.setValue(newX);
-        setDisplayValue(Math.round((newX / (SLIDER_WIDTH - CURSOR_SIZE)) * 100));
-      },
-      onPanResponderRelease: (_, gesture) => {
-        const relativeX = gesture.moveX - trackLeft - CURSOR_SIZE / 2;
-        const newX = Math.max(0, Math.min(SLIDER_WIDTH - CURSOR_SIZE, relativeX));
-        pan.setValue(newX);
-      },
-    })
-  ).current;
+  // Met à jour le state React à chaque changement de translateX.value
+  useAnimatedReaction(
+    () => translateX.value,
+    (current) => {
+      const percent = Math.round((current / SLIDER_WIDTH) * 100);
+      runOnJS(setValue)(percent);
+    }
+  );
 
   return (
     <View style={styles.container}>
-      <View
-        style={styles.track}
-        ref={trackRef}
-        onLayout={() => {
-          if (trackRef.current) {
-            trackRef.current.measure((fx, fy, width, height, px) => {
-              setTrackLeft(px);
-            });
-          }
-        }}
-      >
-        <Animated.View
-          style={[
-            styles.cursor,
-            {
-              transform: [{ translateX: pan }],
-            },
-          ]}
-          {...panResponder.panHandlers}
-        />
+      <View style={styles.slider}>
+        <PanGestureHandler onGestureEvent={gestureHandler}>
+          <Animated.View style={[styles.thumb, thumbStyle]} />
+        </PanGestureHandler>
       </View>
-      <Text style={{ marginTop: 20 }}>{displayValue} %</Text>
+      <Text style={styles.valueText}>
+        {value * 5} calories
+      </Text>
     </View>
   );
 };
 
+export default Slider;
+
 const styles = StyleSheet.create({
   container: {
+    padding: 20,
     alignItems: 'center',
-    marginTop: 50,
   },
-  track: {
+  slider: {
     width: SLIDER_WIDTH,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: '#f5f5f5',
-    overflow: 'hidden',
+    height: 10,
+    backgroundColor: 'black',
+    borderRadius: 2,
     justifyContent: 'center',
   },
-  cursor: {
+  thumb: {
     position: 'absolute',
-    width: CURSOR_SIZE,
-    height: CURSOR_SIZE,
-    borderRadius: CURSOR_SIZE / 2,
-    backgroundColor: '#FF6600',
-    borderWidth: 2,
-    borderColor: '#fff',
-    top: -10,
+    width: THUMB_RADIUS * 2,
+    height: THUMB_RADIUS * 2,
+    borderRadius: THUMB_RADIUS,
+    backgroundColor: '#007AFF',
+    top: -THUMB_RADIUS + 2,
+    left: -12
+  },
+  valueText: {
+    marginTop: 20,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
-
-export default ProgressBarSlider;
