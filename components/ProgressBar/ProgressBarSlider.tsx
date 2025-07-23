@@ -1,105 +1,113 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
-  StyleSheet,
+  Animated,
   PanResponder,
+  StyleSheet,
+  Dimensions,
   Text,
-  findNodeHandle,
-  UIManager,
 } from 'react-native';
 
-const BAR_WIDTH = 300;
-const CURSOR_RADIUS = 30;
+const { width } = Dimensions.get('window');
+const SLIDER_WIDTH = width * 0.8;
+const CURSOR_SIZE = 40;
 
 const ProgressBarSlider = () => {
-  const [value, setValue] = useState(50);
-  const [barLayout, setBarLayout] = useState({ x: 0, width: BAR_WIDTH });
-  const [dragOffset, setDragOffset] = useState(0);
-
-  const barRef = useRef<View>(null);
-
-  const cursorX = (value / 100) * barLayout.width;
+  const pan = useRef(new Animated.Value(0)).current;
+  const [displayValue, setDisplayValue] = useState(0);
+  const panValue = useRef(0);
+  const trackRef = useRef(null);
+  const [trackLeft, setTrackLeft] = useState(0);
 
   useEffect(() => {
-    if (barRef.current) {
-      const handle = findNodeHandle(barRef.current);
-      if (handle) {
-        UIManager.measure(handle, (_x, _y, width, _height, pageX, _pageY) => {
-          setBarLayout({ x: pageX, width });
+    const listenerId = pan.addListener(({ value }) => {
+      panValue.current = value;
+    });
+    return () => pan.removeListener(listenerId);
+  }, [pan]);
+
+  // Mesure la position du track une fois monté
+  useEffect(() => {
+    setTimeout(() => {
+      if (trackRef.current) {
+        trackRef.current.measure((fx, fy, width, height, px) => {
+          setTrackLeft(px);
         });
       }
-    }
+    }, 100); // petit délai pour que le layout soit prêt
   }, []);
 
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-
-      // enregistrer l’offset entre le doigt et le centre du curseur
-      onPanResponderGrant: (_, gestureState) => {
-        const offset = gestureState.x0 - (barLayout.x + cursorX);
-        setDragOffset(offset);
+      onPanResponderGrant: (_, gesture) => {
+        // Rien de spécial à faire ici désormais
       },
-
-      onPanResponderMove: (_, gestureState) => {
-        const relativeX = gestureState.moveX - barLayout.x - dragOffset;
-        const clampedX = Math.max(0, Math.min(relativeX, barLayout.width));
-        const newValue = Math.round((clampedX / barLayout.width) * 100);
-        setValue(newValue);
+      onPanResponderMove: (_, gesture) => {
+        const relativeX = gesture.moveX - trackLeft - CURSOR_SIZE / 2;
+        const newX = Math.max(0, Math.min(SLIDER_WIDTH - CURSOR_SIZE, relativeX));
+        pan.setValue(newX);
+        setDisplayValue(Math.round((newX / (SLIDER_WIDTH - CURSOR_SIZE)) * 100));
+      },
+      onPanResponderRelease: (_, gesture) => {
+        const relativeX = gesture.moveX - trackLeft - CURSOR_SIZE / 2;
+        const newX = Math.max(0, Math.min(SLIDER_WIDTH - CURSOR_SIZE, relativeX));
+        pan.setValue(newX);
       },
     })
   ).current;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.valueText}>{value}</Text>
-      <View ref={barRef} style={styles.barContainer}>
-        <View style={styles.barBackground} />
-        <View style={[styles.barFill, { width: cursorX }]} />
-        <View
-          style={[styles.cursor, { left: cursorX - CURSOR_RADIUS }]}
+      <View
+        style={styles.track}
+        ref={trackRef}
+        onLayout={() => {
+          if (trackRef.current) {
+            trackRef.current.measure((fx, fy, width, height, px) => {
+              setTrackLeft(px);
+            });
+          }
+        }}
+      >
+        <Animated.View
+          style={[
+            styles.cursor,
+            {
+              transform: [{ translateX: pan }],
+            },
+          ]}
           {...panResponder.panHandlers}
         />
       </View>
+      <Text style={{ marginTop: 20 }}>{displayValue} %</Text>
     </View>
   );
 };
-
-export default ProgressBarSlider;
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginTop: 50,
   },
-  valueText: {
-    fontSize: 18,
-    marginBottom: 16,
-  },
-  barContainer: {
-    width: BAR_WIDTH,
+  track: {
+    width: SLIDER_WIDTH,
     height: 20,
+    borderRadius: 10,
+    backgroundColor: '#f5f5f5',
+    overflow: 'hidden',
     justifyContent: 'center',
-  },
-  barBackground: {
-    height: 6,
-    backgroundColor: '#ccc',
-    borderRadius: 3,
-    position: 'absolute',
-    width: '100%',
-  },
-  barFill: {
-    height: 6,
-    backgroundColor: '#4CAF50',
-    borderRadius: 3,
-    position: 'absolute',
   },
   cursor: {
     position: 'absolute',
-    width: CURSOR_RADIUS * 2,
-    height: CURSOR_RADIUS * 2,
-    borderRadius: CURSOR_RADIUS,
-    backgroundColor: '#000',
-    top: -8,
+    width: CURSOR_SIZE,
+    height: CURSOR_SIZE,
+    borderRadius: CURSOR_SIZE / 2,
+    backgroundColor: '#FF6600',
+    borderWidth: 2,
+    borderColor: '#fff',
+    top: -10,
   },
 });
+
+export default ProgressBarSlider;
