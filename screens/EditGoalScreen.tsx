@@ -29,6 +29,25 @@ const EditGoalScreen = () => {
     setSelected(goal);
   };
 const numericCalories = parseInt(calories, 10);
+// +10 à +50 g max en surplus (prise de muscle)
+
+// Pour une personne sportive : 1,6 à 2,2 g/kg de poids corporel (ne pas dépasser 2,5 g/kg)
+
+// 2. Glucides :
+
+// +30 à +100 g max, selon l'activité physique
+
+// Peut monter plus si entraînement intensif (sport d'endurance)
+
+// 3. Lipides :
+
+// +10 à +30 g max
+
+// Toujours garder au moins 0,8 g/kg de poids corporel
+
+// Ne pas dépasser 1,2 g/kg en surplus
+
+
   console.log("calories", calories)
     return (
         <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
@@ -36,14 +55,18 @@ const numericCalories = parseInt(calories, 10);
           <Slider/>
 
           </GestureHandlerRootView>
-      <View style={{width: '100%', marginTop: 50}}>
-        <View style={{width: '30%', height: 80, borderRadius: 20, backgroundColor: 'green', display: 'flex', flexDirection: "column"}}>
-          <View style={{flexDirection: 'row'}}>
-            <View><Text>Logo</Text></View>
-            <View><Text>Logo</Text></View>
-          </View>
-          <View><Text>-------</Text></View>
-          <View></View>
+      <View style={{justifyContent: 'space-between', flexDirection: 'row', width: '90%', flexWrap: "wrap"}}>
+        <View style={{width: '30%', height: 100, paddingVertical: 10, borderRadius: 20, backgroundColor: colors.gray, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flexDirection: "column"}}>
+          <View><TextInput style={{fontWeight: 600, fontSize:18, color: colors.black}} value={'120'}/></View>
+          <View><Text style={{fontSize: 12}}>Proteins</Text></View>
+        </View>
+        <View style={{width: '30%', height: 100, paddingVertical: 10, borderRadius: 20, backgroundColor: colors.gray, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flexDirection: "column"}}>
+          <View><TextInput value={'120'}/></View>
+          <View><Text>carbs</Text></View>
+        </View>
+        <View style={{width: '30%', height: 100, paddingVertical: 10, borderRadius: 20, backgroundColor: colors.gray, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flexDirection: "column"}}>
+          <View><TextInput value={'120g'}/></View>
+          <View><Text>Fats</Text></View>
         </View>
       </View>
           <Text>Calories</Text>
