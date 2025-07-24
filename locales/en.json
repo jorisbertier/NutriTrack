@@ -164,6 +164,7 @@
     "textEditWeight": "Please update your weight regularly, especially when experiencing weight loss or gain, to ensure your data stays up to date and personalized recommendations remain effective.",
     "errorEditgoal": "Proteins, Carbs, fats must be a number between 0 and 100",
     "informEdit": "Values are limited to 100g for nutritional health reasons.",
-    "editGoal": "Edit goal"
+    "editGoal": "Edit goal",
+    "informGoal": "To preserve your health, a moderate gap of 300 to 500 kcal is generally recommended."
 
 }

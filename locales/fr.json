@@ -176,5 +176,6 @@
     "textEditWeight": "Veuillez mettre à jour votre poids régulièrement, en particulier lorsque vous perdez ou prenez du poids, afin de garantir que vos données restent à jour et que les recommandations personnalisées restent efficaces.",
     "errorEditGoal": "Les protéines, les glucides et les lipides doivent être un nombre compris entre 0 et 100.",
     "informEdit": "Les valeurs sont limitées à 100g pour des raisons de santé nutritionnelle.",
-    "editGoal": "Mettre à jour l'objectif"
+    "editGoal": "Mettre à jour l'objectif",
+    "informGoal": "Pour préserver votre santé, un écart modéré entre 300 et 500 kcal est généralement recommandé."
 }
