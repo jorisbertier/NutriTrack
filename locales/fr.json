@@ -172,11 +172,12 @@
     "titleRequired": "Le nom est requis.",
     "titleLettersOnly": "Le nom ne doit contenir que des lettres.",
     "titleMaxLength": "Le nom doit contenir 15 caractères maximum.",
-    "editWeight": "Éditer le poids",
+    "editWeight": "Mettre à jour le poids",
     "textEditWeight": "Veuillez mettre à jour votre poids régulièrement, en particulier lorsque vous perdez ou prenez du poids, afin de garantir que vos données restent à jour et que les recommandations personnalisées restent efficaces.",
     "errorEditGoal": "Les protéines, les glucides et les lipides doivent être un nombre compris entre 0 et 100.",
     "informEdit": "Les valeurs sont limitées à 100 pour des raisons de santé nutritionnelle.",
     "editGoal": "Mettre à jour l'objectif",
+    "goal": "Objectif",
     "informGoal": "Pour préserver votre santé, un écart modéré entre 300 et 500 kcal est généralement recommandé.",
     "titleEdit": "Ajustez votre apport quotidien en fonction de vos besoins. Que vous souhaitiez perdre ou prendre du poids, personnalisez votre plan facilement."
 }

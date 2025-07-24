@@ -186,6 +186,21 @@ console.log(i18n.language)
       </View>
 
       <View style={[styles.section, {backgroundColor: colors.white}]}>
+        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('goal')}</Text>
+        <EditLink
+          label={t('editGoal')}
+          iconSource={require('@/assets/images/icon/goal.png')}
+          navigateTo="Editgoal"
+        />
+        <EditLink
+          label={t('editWeight')}
+          iconSource={require('@/assets/images/icon/weight.png')}
+          navigateTo="Editweight"
+          isLast
+        />
+      </View>
+
+      <View style={[styles.section, {backgroundColor: colors.white}]}>
         <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('Options')}</Text>
 
         {/* <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
@@ -226,6 +241,7 @@ console.log(i18n.language)
           label={t('logout')}
           iconSource={require('@/assets/images/icon/logout.png')}
           onPress={handleSignOut}
+          isLast 
         />
         {/* <TouchableOpacity style={styles.optionButton}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
@@ -362,8 +378,8 @@ const styles = StyleSheet.create({
   //   borderBottomColor: '#ddd',
   // },
   optionText: {
-    fontSize: 16,
-    fontWeight: '600'
+        fontSize: 15,
+        fontWeight: '400',
   },
   deleteButton: {
     marginTop: 10,

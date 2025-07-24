@@ -165,6 +165,7 @@
     "errorEditgoal": "Proteins, Carbs, fats must be a number between 0 and 100",
     "informEdit": "Values are limited to 100 for nutritional health reasons.",
     "editGoal": "Edit goal",
+    "goal": "Goal",
     "informGoal": "To preserve your health, a moderate gap of 300 to 500 kcal is generally recommended.",
     "titleEdit": "Adjust your daily intake to your needs. Whether you want to lose or gain weight, customize your plan effortlessly."
 }

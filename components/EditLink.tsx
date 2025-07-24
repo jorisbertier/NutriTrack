@@ -9,9 +9,10 @@ type EditLinkProps = {
     iconSource: any;
     navigateTo?: string;
     onPress?: () => void;
+    isLast?: boolean;
 };
 
-const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPress }) => {
+const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPress, isLast }) => {
     const navigation = useNavigation();
     const { colors } = useTheme();
 
@@ -25,7 +26,7 @@ const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPr
 
     return (
         <TouchableOpacity
-            style={[styles.optionButton, { backgroundColor: colors.whiteMode }]}
+            style={[styles.optionButton, { backgroundColor: colors.whiteMode, borderBottomWidth: isLast ? 0 : 1, borderBottomColor: isLast ? 'none' : '#ddd' }]}
             onPress={handlePress}
             >
             <View style={styles.leftSection}>
@@ -50,8 +51,6 @@ const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPr
 const styles = StyleSheet.create({
     optionButton: {
         paddingVertical: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
         flexDirection: 'row',
         justifyContent:'space-between'
     },
