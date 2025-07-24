@@ -244,7 +244,7 @@ export default function RootLayout() {
                   component={EditGoalScreen}
                   options={{
                     headerShown: true,
-                    headerTitle: 'Editgoal',
+                    headerTitle: t('editGoal'),
                     headerTitleAlign: 'center',
                     headerStyle: {
                       backgroundColor: '#000',
