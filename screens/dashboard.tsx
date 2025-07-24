@@ -59,7 +59,10 @@ export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
-    const [notificationVisible, setNotificationVisible] = useState(false); 
+    const [notificationVisible, setNotificationVisible] = useState(false);
+
+    const showIcon = userData[0]?.goalLogs['calories'] > 0;
+    console.log('icicicic', userData[0]?.goalLogs['calories'])
 
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -299,7 +302,7 @@ export default function Dashboard() {
         deleteFromMeals()
     }
 
-    const basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
+    let basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
         Number(userData[0]?.weight),
         Number(userData[0]?.height),
         Number(calculAge(userData[0]?.dateOfBirth)),
@@ -396,7 +399,20 @@ export default function Dashboard() {
     if (goal < 0) {
         goal = 0
     }
-    
+    console.log('totalCaloriegoal', totalCaloriesGoal)
+    console.log('basal metalobic rate', basalMetabolicRate)
+    console.log('goal = bsr - totalkcalcosnuemtoday ', goal)
+    console.log('total k consume today ', totalKcalConsumeToday)
+    console.log('userData[0] calories', userData[0]?.goalLogs["calories"])
+    let logCalories = userData[0]?.goalLogs["calories"] ?? 0;
+    if (userData[0]?.goal === 'lose') {
+        basalMetabolicRate -= logCalories; // on retire
+        goal -= logCalories; // on retire
+        } else if (userData[0]?.goal === 'gain') {
+        basalMetabolicRate += logCalories; // on ajoute
+        goal += logCalories; // on ajoute
+        }
+     console.log('basal metalobic rate', basalMetabolicRate)
     const dispatch = useDispatch()
     const handleXPUpdate = async () => {
 
@@ -557,7 +573,11 @@ export default function Dashboard() {
                                 timeZoneName={timeZone}
                     />)}
                     {!isLoading ?
-                        <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{totalCaloriesGoal}cal</Text>
+                        <>
+                        {/* <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{showIcon && '🎯'}  {totalCaloriesGoal}cal</Text> */}
+                        <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{showIcon && '🎯'}  {basalMetabolicRate}cal</Text>
+                        
+                        </>
                     :
                         <View style={{ marginTop: 10 }}><Skeleton width={300} height={40} colorMode={colorMode} /></View>
                     }
@@ -567,7 +587,11 @@ export default function Dashboard() {
                         <View style={{ marginTop: 5 }}><Skeleton width={260} height={30} colorMode={colorMode} /></View>
                     }
                     {!isLoading ?
-                        <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {totalCaloriesGoal} {userData[0]?.goalLogs["calories"]} cal</ThemedText>
+                    <>
+                    {/* <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {totalCaloriesGoal} cal</ThemedText> */}
+                    <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {basalMetabolicRate} cal</ThemedText>
+                    
+                    </>
                     :
                         <View style={{ marginTop: 5 }}><Skeleton width={230} height={30} colorMode={colorMode} /></View>
                     }
