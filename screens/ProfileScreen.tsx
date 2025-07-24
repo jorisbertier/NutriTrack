@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { clearUser } from '@/redux/userSlice';
 import { useTranslation } from 'react-i18next';
 import '../locales/i18n';
+import EditLink from '@/components/EditLink';
 
 
 const ProfileScreen = () => {
@@ -186,27 +187,52 @@ console.log(i18n.language)
 
       <View style={[styles.section, {backgroundColor: colors.white}]}>
         <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('Options')}</Text>
-        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>{t('editProfile')}</Text>
-        </TouchableOpacity>
+
+        {/* <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
+          <View style={{flexDirection: 'row', justifyContent:'center', alignItems: 'center', gap: 15}}>
+            <Image source={require('@/assets/images/icon/settings.png')} style={{width: 20, height: 20, tintColor: colors.black}} />
+          <Text style={[styles.optionText, {color : colors.black}]}>{t('editProfile')}</Text>
+          </View>
+          <View>
+            <Image source={require('@/assets/images/arrow-right.png')} style={{width: 15, height: 15, tintColor: colors.black}}/>
+          </View>
+        </TouchableOpacity> */}
+        <EditLink
+          label={t('editProfile')}
+          iconSource={require('@/assets/images/icon/settings.png')}
+          navigateTo="EditProfile"
+        />
+        <EditLink
+          label={t('changePassword')}
+          iconSource={require('@/assets/images/icon/switch.png')}
+          navigateTo="ChangePassword"
+        />
+        <EditLink
+          label={t('termsOfUse')}
+          iconSource={require('@/assets/images/icon/terms.png')}
+          navigateTo="Terms"
+        />
+        <EditLink
+          label={t('privacyPolicy')}
+          iconSource={require('@/assets/images/icon/privacy.png')}
+          navigateTo="Policy"
+        />
+        <EditLink
+          label={t('contactSupport')}
+          iconSource={require('@/assets/images/icon/email.png')}
+          navigateTo="Report"
+        />
+        <EditLink
+          label={t('logout')}
+          iconSource={require('@/assets/images/icon/logout.png')}
+          onPress={handleSignOut}
+        />
         {/* <TouchableOpacity style={styles.optionButton}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
           </TouchableOpacity> */}
-        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("ChangePassword")}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>{t('changePassword')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('Terms')}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>{t('termsOfUse')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('Policy')}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>{t('privacyPolicy')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate("Report")}>
-          <Text style={[styles.optionText, {color : colors.primary}]}>{t('contactSupport')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={handleSignOut}>
+        {/* <TouchableOpacity style={styles.optionButton} onPress={handleSignOut}>
           <Text style={[styles.optionText, {color : colors.primary}]}>{t('logout')}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity style={styles.deleteButton} onPress={handleSave}>
           <Text style={styles.deleteText}>{t('deleteAccount')}</Text>
         </TouchableOpacity>
@@ -262,15 +288,15 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   containerTranslate: {
-backgroundColor: "white",
-   borderRadius: 8,
+    backgroundColor: "white",
+    borderRadius: 8,
     display: "flex",
-     justifyContent: 'space-between',
-     paddingHorizontal: 10,
-      width: '100%', 
-      flexDirection: "row",
-       padding: 7,
-           shadowColor: '#000',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    width: '100%', 
+    flexDirection: "row",
+    padding: 7,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
@@ -327,7 +353,14 @@ backgroundColor: "white",
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
+    flexDirection: 'row',
+    justifyContent:'space-between'
   },
+  // optionButton: {
+  //   paddingVertical: 10,
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: '#ddd',
+  // },
   optionText: {
     fontSize: 16,
     fontWeight: '600'
