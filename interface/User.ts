@@ -11,7 +11,10 @@ export interface User {
     profilPicture: string;
     xp: number;
     level: number;
+    goal?: string;
     xpLogs?: any;
+    goalLogs?: any;
+    weightLog?: any;
     consumeByDays?: any;
     proteinsTotal?: any;
     carbsTotal?: any;

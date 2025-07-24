@@ -30,6 +30,8 @@ export const fetchUserDataConnected = async (user: FirebaseUser | null, setUser:
             xp: doc.data().xp as Number,
             level: doc.data().level,
             xpLogs: doc.data().xpLogs,
+            goalLogs: doc.data().goalLogs,
+            goal: doc.data().goal,
             consumeByDays: doc.data().consumeByDays,
             proteinsTotal: doc.data().proteinsTotal,
             carbsTotal: doc.data().carbsTotal,

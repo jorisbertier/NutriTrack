@@ -9,21 +9,28 @@ import { Svg, Circle } from 'react-native-svg';
 
     const screenWidth = Dimensions.get('window').width;
 
-    const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal, progressCarbs, carbsGoal, progressFats, fatsGoal}) => {
+    const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal, progressCarbs, carbsGoal, progressFats, fatsGoal,goal, goalProteins, goalCarbs, goalFats}) => {
 
     const { colors } = useTheme();
     const { t } = useTranslation();
+    const showGoalIconProteins = goalProteins > 0;
+    const showGoalIconCarbs = goalCarbs > 0;
+    const showGoalIconFats = goalFats > 0;
+    // const showGoalIcon = goal !== "maintain";
+    const effectiveProteinGoal = proteinsGoal + (goalProteins && goalProteins > 0 ? goalProteins : 0);
+    const effectiveCarbsGoal = carbsGoal + (goalCarbs && goalCarbs > 0 ? goalCarbs : 0);
+    const effectiveFatsGoal = fatsGoal + (goalFats && goalFats > 0 ? goalFats : 0);
 
-    let percentageProteins = (typeof progressProteins === 'number' && typeof proteinsGoal === 'number' && proteinsGoal > 0)
-        ? calculatePercentage(progressProteins, proteinsGoal)
+    let percentageProteins = (typeof progressProteins === 'number' && typeof effectiveProteinGoal === 'number' && effectiveProteinGoal > 0)
+        ? calculatePercentage(progressProteins, effectiveProteinGoal)
     : 0;
 
-    let percentageCarbs = (typeof progressCarbs === 'number' && typeof carbsGoal === 'number' && carbsGoal > 0)
-        ? calculatePercentage(progressCarbs, carbsGoal)
+    let percentageCarbs = (typeof progressCarbs === 'number' && typeof effectiveCarbsGoal === 'number' && effectiveCarbsGoal > 0)
+        ? calculatePercentage(progressCarbs, effectiveCarbsGoal)
     : 0;
 
-    let percentageFats = (typeof progressFats === 'number' && typeof fatsGoal === 'number' && fatsGoal > 0)
-        ? calculatePercentage(progressFats, fatsGoal)
+    let percentageFats = (typeof progressFats === 'number' && typeof effectiveFatsGoal === 'number' && effectiveFatsGoal > 0)
+        ? calculatePercentage(progressFats, effectiveFatsGoal)
     : 0;
 
     const radiusOuter = 70;   // Rayon pour le cercle des graisses
@@ -111,7 +118,7 @@ import { Svg, Circle } from 'react-native-svg';
                 {isLoading ?
                     <View>
                         <Text style={[styles.percentageText, {color: colors.black}]}>{t('proteins')} {(percentageProteins * 100).toFixed(0)} %</Text>
-                        <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressProteins} / {proteinsGoal} g</Text>
+                        <Text style={[styles.percentageSubtext, {color: colors.black}]}>{showGoalIconProteins && '🎯'} {progressProteins} / {effectiveProteinGoal} g</Text>
                     </View>
                 :
                     <Skeleton colorMode={colorMode} width={150} />
@@ -119,15 +126,15 @@ import { Svg, Circle } from 'react-native-svg';
                 {isLoading ?
                 <View>
                     <Text style={[styles.percentageText, {color: colors.black}]}>{t('carbs')} {(percentageCarbs * 100).toFixed(0)} %</Text>
-                    <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressCarbs} / {carbsGoal} g</Text>
+                    <Text style={[styles.percentageSubtext, {color: colors.black}]}>{showGoalIconCarbs && '🎯'} {progressCarbs} / {effectiveCarbsGoal} g</Text>
                 </View>
                 :
                     <Skeleton colorMode={colorMode} width={150} />
                 }
                 {isLoading ?
                 <View>
-                    <Text style={[styles.percentageText, {color: colors.black}]}>{t('fats')} {(percentageFats * 100).toFixed(0)} %</Text>
-                    <Text style={[styles.percentageSubtext, {color: colors.black}]}>{progressFats} / {fatsGoal} g</Text>
+                    <Text style={[styles.percentageText, {color: colors.black}]}>{t('fats')} {typeof percentageFats === 'number' ? Math.round(percentageFats * 100) : 0} %</Text>
+                    <Text style={[styles.percentageSubtext, {color: colors.black}]}>{showGoalIconFats && '🎯'} {progressFats} / {effectiveFatsGoal} g</Text>
                 </View>
                 :
                     <Skeleton colorMode={colorMode} width={150} />

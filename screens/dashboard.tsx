@@ -22,7 +22,6 @@ import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch } from 'react-redux';
 import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
-import { handleAnimation } from '../functions/function';
 import { useTranslation } from "react-i18next";
 
 
@@ -68,7 +67,7 @@ export default function Dashboard() {
     useEffect(()=> {
 
     }, [sortByBreakfast])
-    
+    console.log("goal user", userData[0])
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         setIsOpen(false)
         if(date) {
@@ -451,7 +450,6 @@ export default function Dashboard() {
 
     async function handleTotalKcalConsumeToday() {
         const today = selectedDate.toLocaleDateString('fr-CA');
-        // console.log('date,', today)
         const userId = userData[0].id;
         if (!userId) {
             console.error("User ID is undefined");
@@ -459,7 +457,6 @@ export default function Dashboard() {
         }
         
         try {
-            // console.log("Calories consommées aujourd'hui :", totalKcalConsumeToday);
             const userDocRef = doc(firestore, "User", userId);
             
             await updateDoc(userDocRef, {
@@ -570,7 +567,7 @@ export default function Dashboard() {
                         <View style={{ marginTop: 5 }}><Skeleton width={260} height={30} colorMode={colorMode} /></View>
                     }
                     {!isLoading ?
-                        <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {totalCaloriesGoal} cal</ThemedText>
+                        <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {totalCaloriesGoal} {userData[0]?.goalLogs["calories"]} cal</ThemedText>
                     :
                         <View style={{ marginTop: 5 }}><Skeleton width={230} height={30} colorMode={colorMode} /></View>
                     }
@@ -578,7 +575,7 @@ export default function Dashboard() {
                 <View style={{marginBottom: 20}}>
                     <ProgressBarKcal isLoading={!isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
                 </View>
-                <ProgressRing isLoading={!isLoading} progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={fats} fatsGoal={calculFats(basalMetabolicRate)}/>
+                <ProgressRing isLoading={!isLoading} progressProteins={proteins} proteinsGoal={proteinsGoal} progressCarbs={carbs} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={Number(fats.toFixed(0))} fatsGoal={calculFats(basalMetabolicRate)} goal={userData[0]?.goal} goalProteins={userData[0]?.goalLogs['proteins']} goalCarbs={userData[0]?.goalLogs['carbs']} goalFats={userData[0]?.goalLogs['fats']}/>
                 
                 <View style={styles.wrapperMeals}>
                     {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false )}
