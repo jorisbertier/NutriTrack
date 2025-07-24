@@ -230,7 +230,7 @@ const Registration = () => {
       <View>
         <StepProgressBar steps={steps} currentStep={currentStep} colors={colors} />
 
-        {currentStep === 1 && (
+        {currentStep === 0 && (
             <CredentialsStep {...{ email, setEmail, password, setPassword, emailError, passwordError }} />
         )}
         {currentStep === 1 && (
@@ -251,7 +251,7 @@ const Registration = () => {
             fiveYearsAgo,
           }} />
         )}
-        {currentStep === 0 && (
+        {currentStep === 2 && (
           <BodyInfoStep {...{ weight, setWeight, height, setHeight, weightError, heightError }} />
         )}
         {currentStep === 3 && (

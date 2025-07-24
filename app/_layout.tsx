@@ -74,7 +74,7 @@ export default function RootLayout() {
             <Stack.Screen name="registration" component={Registration}
               options={{
                 headerShown: true,
-                headerTitle: 'Registration',
+                headerTitle: t('registration'),
                 headerTitleAlign: 'center',
                 headerStyle: {
                   backgroundColor: '#000',

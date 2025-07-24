@@ -167,5 +167,8 @@
     "editGoal": "Edit goal",
     "goal": "Goal",
     "informGoal": "To preserve your health, a moderate gap of 300 to 500 kcal is generally recommended.",
-    "titleEdit": "Adjust your daily intake to your needs. Whether you want to lose or gain weight, customize your plan effortlessly."
+    "titleEdit": "Adjust your daily intake to your needs. Whether you want to lose or gain weight, customize your plan effortlessly.",
+    "metric": "Metric",
+    "imperial": "Imperial",
+    "registration": "Registration"
 }

@@ -1,5 +1,6 @@
 import { useTheme } from '@/hooks/ThemeProvider';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { Switch } from 'react-native-paper';
 import WheelPickerExpo from 'react-native-wheel-picker-expo';
@@ -21,9 +22,13 @@ const BodyInfoStep = ({
     weightError,
     heightError,
 }: BodyInfosProps) => {
+
     const [isSwitchOn, setIsSwitchOn] = React.useState(false);
     const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+    
     const { colors } = useTheme();
+    const { t } = useTranslation();
+
     // Weight conversions
     const kgToLbs = (kg: number) => Math.round(kg * 2.20462);
     const lbsToKg = (lbs: number) => Math.round(lbs / 2.20462);
@@ -55,7 +60,7 @@ const BodyInfoStep = ({
             }}
         >
             <Switch color="black" value={isSwitchOn} onValueChange={onToggleSwitch} />
-            <Text style={{color: colors.black, fontWeight: "500", fontSize: 20}}>{!isSwitchOn ? "Métrique" : "Impériale"}</Text>
+            <Text style={{color: colors.black, fontWeight: "500", fontSize: 20}}>{!isSwitchOn ? t('metric') : t('imperial')}</Text>
         </View>
 
         <View
@@ -69,7 +74,7 @@ const BodyInfoStep = ({
         >
             {/* Weight */}
             <View style={{ width: '50%', display: 'flex', alignItems: 'center' }}>
-            <Text style={{ marginTop: 20, fontSize: 20 }}>Weight</Text>
+            <Text style={{ marginTop: 20, fontSize: 20 }}>{t('weight')}</Text>
             <WheelPickerExpo
                 key={isSwitchOn ? 'lbs' : 'kg'}
                 height={250}
@@ -87,7 +92,7 @@ const BodyInfoStep = ({
 
             {/* Height */}
             <View style={{ width: '50%', display: 'flex', alignItems: 'center' }}>
-            <Text style={{ marginTop: 20, fontSize: 20 }}>Height</Text>
+            <Text style={{ marginTop: 20, fontSize: 20 }}>{t('height')}</Text>
             <WheelPickerExpo
                 key="cm"
                 height={250}

@@ -179,5 +179,8 @@
     "editGoal": "Mettre à jour l'objectif",
     "goal": "Objectif",
     "informGoal": "Pour préserver votre santé, un écart modéré entre 300 et 500 kcal est généralement recommandé.",
-    "titleEdit": "Ajustez votre apport quotidien en fonction de vos besoins. Que vous souhaitiez perdre ou prendre du poids, personnalisez votre plan facilement."
+    "titleEdit": "Ajustez votre apport quotidien en fonction de vos besoins. Que vous souhaitiez perdre ou prendre du poids, personnalisez votre plan facilement.",
+    "metric": "Métrique",
+    "imperial": "Impériale",
+    "registration": "Inscription"
 }
