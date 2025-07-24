@@ -8,6 +8,7 @@ import {
     Dimensions,
     Animated,
     Image,
+    ActivityIndicator,
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -17,7 +18,7 @@ const MAX_WEIGHT = 250;
 
 const weights = Array.from({ length: MAX_WEIGHT - MIN_WEIGHT + 1 }, (_, i) => MIN_WEIGHT + i);
 
-const WeightPicker = ({ selectedWeight, onChange, weight }) => {
+const WeightPicker = ({ selectedWeight, onChange, weight, isLoading }) => {
 
     const { colors } = useTheme();
 
@@ -71,7 +72,11 @@ const WeightPicker = ({ selectedWeight, onChange, weight }) => {
         <View style={styles.wrapper}>
             <View style={{marginBottom: 20, display: 'flex', flexDirection: 'row',alignItems: 'center', justifyContent: 'space-evenly', width: '100%'}}>
                 <View style={{backgroundColor: colors.gray, height: 100, width: 120,borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}>
+                    {isLoading ? (
+                        <ActivityIndicator size="large" color={colors.black} />
+                    ) : (
                     <Text style={styles.weightText}>{weight}</Text>
+                    )}
                 </View>
                 <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: 'black', width: 20, height: 20}}  />
                 <View style={{backgroundColor: colors.blueLight, height: 100, width: 120,borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}>

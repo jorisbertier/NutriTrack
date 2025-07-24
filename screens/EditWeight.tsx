@@ -23,18 +23,22 @@ const EditProfileScreen = () => {
     const [weight, setWeight] = useState(80);
     const [userData, setUserData] = useState<User[]>([]);
     const [refreshKey, setRefreshKey] = useState(0);
-console.log("ici", userData)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        fetchUserDataConnected(user, setUserData);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+    const [ isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setIsLoading(true);
+                await fetchUserDataConnected(user, setUserData);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }finally {
+                setIsLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
     useEffect(() => {
     // Re-fetch datas users when to each update
     // fetchUserDataConnected(user, setUserData);
@@ -106,7 +110,7 @@ console.log('quantity', weight);
         <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
 
             <Text style={[styles.title, {color : colors.black}]}>{t('textEditWeight')}</Text>
-            <WeightPicker selectedWeight={weight} onChange={setWeight} weight={userData[0]?.weight}/>
+            <WeightPicker selectedWeight={weight} onChange={setWeight} weight={userData[0]?.weight} isLoading={isLoading}/>
             <View style={{alignItems: 'center', justifyContent: 'center', width: '100%'}}>
                 <TouchableOpacity style={[styles.button, { backgroundColor: colors.black}]} onPress={handleSave}>
                     <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('save')}</Text>
