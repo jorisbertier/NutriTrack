@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import Slider from '@/components/ProgressBar/Slider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomButton from '@/components/button/CustomButton';
+import GoalToggle from '@/components/GoalToggle';
 
 type Goal = 'lose' | 'maintain' | 'gain';
 
@@ -14,48 +15,85 @@ const EditGoalScreen = () => {
 
   const {colors} = useTheme();
 
+  const auth = getAuth();
+  const db = getFirestore();
+  const uid = auth.currentUser?.uid;
+
+
   const [ calories, setCalories] = useState<number>(0);
-  const [ proteins, setProteins] = useState<number>(0);
-  const [ fats, setFats] = useState<number>(0);
-  const [ carbs, setCarbs] = useState<number>(0);
-  const [errorMessage, setErrorMessage] = useState('')
+const [proteins, setProteins] = useState<string>('');
+const [carbs, setCarbs] = useState<string>('');
+const [fats, setFats] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
 
   const { t} = useTranslation();
 
-  const handleEditGoal = () => {
-    const proteinVal = parseFloat(proteins as any);
-    const carbVal = parseFloat(carbs as any);
-    const fatVal = parseFloat(fats as any);
+  const handleEditGoal = async () => {
+const proteinVal = Number(proteins);
+const carbVal = Number(carbs);
+const fatVal = Number(fats);
 
-    const isValidNumber = (val: number) => !isNaN(val) && val > 0 && val <= 100;
+    const isValidNumber = (val: number) => !isNaN(val) && val >= 0 && val <= 100;
 
-    if (!isValidNumber(proteinVal) || !isValidNumber(carbVal) || !isValidNumber(fatVal)) {
-      setErrorMessage(t('errorEditGoal'))
-      return;
-    }
+if (
+  String(proteins).trim() === "" ||
+  String(carbs).trim() === "" ||
+  String(fats).trim() === "" ||
+  !isValidNumber(proteinVal) ||
+  !isValidNumber(carbVal) ||
+  !isValidNumber(fatVal)
+) {
+  setErrorMessage(t('errorEditGoal'));
+  return;
+}
     setErrorMessage('')
-    setProteins(proteinVal);
-    setCarbs(carbVal);
-    setFats(fatVal);
 
     console.log('calories', calories);
     console.log('proteins', proteinVal);
     console.log('carbs', carbVal);
     console.log('fats', fatVal);
     console.log('data sent');
-  };
+    console.log("goal", selectedGoal)
+    if (!uid || !selectedGoal) {
+      Alert.alert("Erreur", "Utilisateur ou objectif non défini.");
+      return;
+    }
 
+    const userRef = doc(db, 'User', uid);
+
+    try {
+      await updateDoc(userRef, {
+        goal: selectedGoal,
+        goalLogs: {
+          calories,
+          proteins: proteinVal,
+          carbs: carbVal,
+          fats: fatVal
+          // updatedAt: new Date()
+        }
+      });
+
+      Alert.alert("Succès", "Objectif mis à jour !");
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour :", error);
+      Alert.alert("Erreur", "Impossible de mettre à jour l'objectif.");
+    }
+  };
   return (
         <GestureHandlerRootView>
           <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
+          <GoalToggle selectedGoal={selectedGoal} onSelect={setSelectedGoal} />
+{!selectedGoal || selectedGoal !== "maintain" && (
+  <>
             <Slider onValueChange={(val) => setCalories(val * 5)}/>
 
             <View style={{height: 120,elevation: 1, justifyContent: 'center', flexDirection: 'row',alignItems: 'center', width: '90%', backgroundColor: colors.gray, borderRadius: 30, marginTop: 20}}>
               <View style={{borderRightColor: colors.grayDark,borderRightWidth: 1,width: '30%', height: 80, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column"}}>
                 <View>
                   <TextInput style={{fontWeight: 600, fontSize:18, color: colors.black}}
-                    value={proteins}
-                    onChangeText={(value) => setProteins(value)}
+                    value={proteins} 
+                    onChangeText={setProteins}
                     placeholder="0"
                     placeholderTextColor={colors.black}
                     keyboardType='numeric'
@@ -67,7 +105,7 @@ const EditGoalScreen = () => {
                 <View>
                   <TextInput style={{fontWeight: 600, fontSize:18, color: colors.black}}
                     value={carbs}
-                    onChangeText={(value) => setCarbs(value)}
+                    onChangeText={setCarbs}
                     placeholder="0"
                     placeholderTextColor={colors.black}
                     keyboardType='numeric'
@@ -79,7 +117,7 @@ const EditGoalScreen = () => {
                 <View>
                   <TextInput style={{fontWeight: 600, fontSize:18, color: colors.black}}
                 value={fats}
-                onChangeText={(value) => setFats(value)}
+                onChangeText={setFats}
                 placeholder="0"
                 placeholderTextColor={colors.black}
                 keyboardType='numeric'
@@ -91,6 +129,7 @@ const EditGoalScreen = () => {
             <Text style={{textAlign: 'center', width: '90%', marginVertical: 10}}>* {t('informEdit')}</Text>
             {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
           <CustomButton titleButton={t('editGoal')} handlePersistData={handleEditGoal}/>
+            </>)}
           </View>
       </GestureHandlerRootView>
   );
