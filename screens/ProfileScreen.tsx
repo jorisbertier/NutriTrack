@@ -193,6 +193,11 @@ console.log(i18n.language)
           navigateTo="Editgoal"
         />
         <EditLink
+          label={t('faq')}
+          iconSource={require('@/assets/images/icon/goal.png')}
+          navigateTo="faq"
+        />
+        <EditLink
           label={t('editWeight')}
           iconSource={require('@/assets/images/icon/weight.png')}
           navigateTo="Editweight"

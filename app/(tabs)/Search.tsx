@@ -147,7 +147,7 @@ export default function Search() {
                     />
                     <ThemedText
                         variant='title3'
-                        style={{ marginLeft: 8, color: colors.black, fontSize: 12, fontWeight: '600' }}
+                        style={{ marginLeft: 8, color: colors.black, fontSize: 13, fontWeight: '600' }}
                     >
                         {t('create')}
                     </ThemedText>
@@ -160,7 +160,7 @@ export default function Search() {
                     >
                     <ThemedText
                         variant='title3'
-                        style={{ color: colors.black,fontSize: 12, fontWeight: '600' }}
+                        style={{ color: colors.black,fontSize: 13, fontWeight: '600' }}
                     >
                         {t('list')}
                     </ThemedText>

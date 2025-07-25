@@ -105,7 +105,7 @@ const handleSave = async () => {
         Alert.alert('Erreur', 'Impossible de mettre à jour le poids.');
     }
 };
-console.log('quantity', weight);
+
     return (
         <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
 

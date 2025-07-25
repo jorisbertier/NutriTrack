@@ -31,6 +31,7 @@ import { useTranslation } from 'react-i18next';
 import EditWeight from '@/screens/EditWeight';
 import EditGoalScreen from '@/screens/EditGoalScreen';
 import ForgotPasswordScreen from '@/screens/ForgotPasswordScreen';
+import FaqScreen from '@/screens/FaqScreen';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -139,6 +140,20 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerTitle: t('forgotPassword'),
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
+              <Stack.Screen name="faq" component={FaqScreen}
+                options={{
+                  headerShown: true,
+                  headerTitle: t('FAq'),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
