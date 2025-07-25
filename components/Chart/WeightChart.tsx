@@ -18,7 +18,7 @@ type WeightEntry = {
 };
 
 const MAX_Y = 120;
-const MIN_Y = 50;
+const MIN_Y = 30;
 
 const WeightChart = () => {
   const [userData, setUserData] = useState<User[]>([]);
@@ -81,8 +81,17 @@ const entries: WeightEntry[] = useMemo(() => {
 
   // Génère les ticks dynamiques pour l'axe Y
   const yTicks = [];
-  const tickStep = 10;
-  for (let y = 50; y <= topYValue; y += tickStep) {
+  console.log('maw wieght', maxWeight)
+let tickStep = 10;
+
+if (maxWeight > 100) {
+  tickStep = 30;
+} else if (maxWeight > 200) {
+  tickStep = 40;
+} else if (maxWeight > 300) {
+  tickStep = 50;
+}
+  for (let y = MIN_Y; y <= topYValue; y += tickStep) {
     yTicks.push(y);
   }
 
@@ -138,7 +147,7 @@ const entries: WeightEntry[] = useMemo(() => {
             return (
               <React.Fragment key={yVal}>
                 <Line x1={paddingHorizontal} x2={chartWidth - paddingHorizontal} y1={y} y2={y} stroke="#e5e7eb" strokeWidth="1" />
-                <SvgText x={0} y={y} fontSize="12" fill="#6b7280" textAnchor="start">
+                <SvgText x={0} y={y - 3} fontSize="12" fill="#6b7280" textAnchor="start">
                   {yVal} kg
                 </SvgText>
               </React.Fragment>
