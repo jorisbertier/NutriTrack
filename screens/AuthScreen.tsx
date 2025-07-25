@@ -106,14 +106,14 @@ const AuthScreen = () => {
       <View style={styles.header}>
         <Image source={require('@/assets/images/logo/nutritrackLogoWhitoutBg.png')} style={styles.logo} />
         <ThemedText variant="title" color={colors.black}>Nutri Track</ThemedText>
-        <ThemedText variant="subtitle" color={colors.grayDark}>Please sign in to continue</ThemedText>
+        <ThemedText variant="subtitle" color={colors.grayDark}>{t('textInformAuthscreen')}</ThemedText>
       </View>
 
       <View style={styles.form}>
         <View style={styles.wrapper}>
           <TextInput
             style={[styles.inputField, { color: colors.black, borderColor: colors.grayDark }]}
-            placeholder="Email"
+            placeholder={t('email')}
             placeholderTextColor={colors.grayDark}
             value={email}
             onChangeText={setEmail}
@@ -125,7 +125,7 @@ const AuthScreen = () => {
         <View style={styles.wrapper}>
           <TextInput
             style={[styles.inputField, { flex: 1, color: colors.black, borderColor: colors.grayDark }]}
-            placeholder="Password"
+            placeholder={t('password')}
             placeholderTextColor={colors.grayDark}
             secureTextEntry={showPassword}
             value={password}
@@ -155,14 +155,15 @@ const AuthScreen = () => {
         </TouchableOpacity>
 
         <Text style={styles.footerText}>
-          Don’t have an account?{' '}
+          {t('textAuthscreen')}{' '}
           <Text
             style={[styles.link, { color: colors.primary }]}
             onPress={() => navigation.navigate('registration')}
           >
-            Register here
+            {t('registerHere')}
           </Text>
         </Text>
+        <View><Text>Mot de passe oublié</Text></View>
       </View>
     </View>
   );

@@ -194,5 +194,10 @@
     "sentence9": "Si cela prend trop de temps, blâmez Internet.",
     "sentence10": "Les bits circulent lentement aujourd’hui...",
     "sentence11": "On fait courir le hamster…",
-    "login": "Connexion"
+    "login": "Connexion",
+    "textAuthscreen": "Vous n’avez pas de compte ?",
+    "textInformAuthscreen": "Veuillez vous connecter pour continuer",
+    "email": "Email",
+    "password": "Mot de passe",
+    "registerHere": "Inscrivez-vous ici"
 }

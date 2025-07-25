@@ -182,5 +182,10 @@
     "sentence9": "If this takes too long, blame the internet.",
     "sentence10": "The bits are flowing slowly today...",
     "sentence11": "Spinning the hamster…",
-    "login": "Login"
+    "login": "Login",
+    "textAuthscreen": "Don’t have an account?",
+    "textInformAuthscreen": "Please sign in to continue",
+    "email": "Email",
+    "password": "Password",
+    "registerHere": "Register here"
 }
