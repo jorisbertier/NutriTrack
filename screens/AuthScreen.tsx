@@ -20,6 +20,8 @@ const AuthScreen = () => {
   const {theme, colors} = useTheme();
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(true);
+  const [isEmailFocused, setIsEmailFocused] = useState(false)
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false)
 
   const [loading, isLoading] = useState(true);
 
@@ -59,7 +61,7 @@ const AuthScreen = () => {
 
       navigation.navigate('home');
     } catch (error) {
-      setErrorMessage('Incorrect email or password. Please try again.');
+      setErrorMessage(t('errorAuthscreen'));
     }
   };
 
@@ -112,34 +114,38 @@ const AuthScreen = () => {
       <View style={styles.form}>
         <View style={styles.wrapper}>
           <TextInput
-            style={[styles.inputField, { color: colors.black, borderColor: colors.grayDark }]}
+            style={[styles.inputField, { color: colors.black, borderColor: isEmailFocused ? colors.black : colors.grayDark }]}
             placeholder={t('email')}
             placeholderTextColor={colors.grayDark}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
+            onFocus={() => setIsEmailFocused(true)}
+            onBlur={() => setIsEmailFocused(false)}
           />
-          <Image source={require('@/assets/images/profil/user.png')} style={[styles.logoForm, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
+          <Image source={require('@/assets/images/profil/user.png')} style={[styles.logoForm, { tintColor: isEmailFocused ? colors.black : colors.grayDark}]} />
         </View>
         <View style={styles.wrapper}>
           <TextInput
-            style={[styles.inputField, { flex: 1, color: colors.black, borderColor: colors.grayDark }]}
+            style={[styles.inputField, { flex: 1, color: colors.black, borderColor: isPasswordFocused ? colors.black : colors.grayDark }]}
             placeholder={t('password')}
             placeholderTextColor={colors.grayDark}
             secureTextEntry={showPassword}
             value={password}
             onChangeText={setPassword}
+            onFocus={() => setIsPasswordFocused(true)}
+            onBlur={() => setIsPasswordFocused(false)}
           />
-            <Image source={require('@/assets/images/profil/key.png')} style={[styles.logoForm, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
+            <Image source={require('@/assets/images/profil/key.png')} style={[styles.logoForm, { tintColor: isPasswordFocused ? colors.black : colors.grayDark}]} />
           {showPassword ? (
             <TouchableOpacity style={styles.wrapperLogo} onPress={() => setShowPassword(false)}>
-              <Image source={require('@/assets/images/eye-off.png')} style={[styles.logoPassword, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
+              <Image source={require('@/assets/images/eye-show.png')} style={[styles.logoPassword, { tintColor: isPasswordFocused ? colors.black : colors.grayDark}]} />
 
             </TouchableOpacity>
           ):  (
             <TouchableOpacity style={styles.wrapperLogo} onPress={() => setShowPassword(true)}>
-              <Image source={require('@/assets/images/eye-show.png')} style={[styles.logoPassword, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
+              <Image source={require('@/assets/images/eye-off.png')} style={[styles.logoPassword, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
             </TouchableOpacity>
               
           )}
@@ -163,7 +169,7 @@ const AuthScreen = () => {
             {t('registerHere')}
           </Text>
         </Text>
-        <View><Text>Mot de passe oublié</Text></View>
+        <Text style={{marginTop: 20, color: colors.black}} onPress={() => navigation.navigate('forgotpassword')}>{t('forgot')}</Text>
       </View>
     </View>
   );

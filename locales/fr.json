@@ -199,5 +199,10 @@
     "textInformAuthscreen": "Veuillez vous connecter pour continuer",
     "email": "Email",
     "password": "Mot de passe",
-    "registerHere": "Inscrivez-vous ici"
+    "registerHere": "Inscrivez-vous ici",
+    "errorAuthscreen": "L'email ou le mot de passe est incorrecte. Veuillez réessayer.",
+    "forgot": "Mot de passe oublié?",
+    "forgotPassword": "Mot de passe oublié",
+    "reset": "Réinitialiser votre mot de passe",
+    "sent": "Envoyer le lien"
 }

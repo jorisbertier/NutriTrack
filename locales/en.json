@@ -187,5 +187,10 @@
     "textInformAuthscreen": "Please sign in to continue",
     "email": "Email",
     "password": "Password",
-    "registerHere": "Register here"
+    "registerHere": "Register here",
+    "errorAuthScreen": "Incorrect email or password. Please try again.",
+    "forgot": "Forgot password?",
+    "forgotPassword": "Forgot password",
+    "reset": "Reset password",
+    "sent": "Send reset link"
 }

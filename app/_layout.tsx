@@ -30,6 +30,7 @@ import Subscription from '@/screens/Subscription/Subscription';
 import { useTranslation } from 'react-i18next';
 import EditWeight from '@/screens/EditWeight';
 import EditGoalScreen from '@/screens/EditGoalScreen';
+import ForgotPasswordScreen from '@/screens/ForgotPasswordScreen';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -124,6 +125,20 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerTitle: t('contactSupport'),
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
+              <Stack.Screen name="forgotpassword" component={ForgotPasswordScreen}
+                options={{
+                  headerShown: true,
+                  headerTitle: t('forgotPassword'),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
