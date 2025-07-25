@@ -19,6 +19,7 @@ const AuthScreen = () => {
   const navigation = useNavigation();
   const {theme, colors} = useTheme();
   const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(true);
 
   const [loading, isLoading] = useState(true);
 
@@ -62,14 +63,14 @@ const AuthScreen = () => {
     }
   };
 
-  const signUp = async () => {
-    try {
-      await createUserWithEmailAndPassword(Auth, email, password);
-      Alert.alert('Inscription réussie!');
-    } catch (error: any) {
-      Alert.alert('Erreur d\'inscription', error.message);
-    }
-  };
+  // const signUp = async () => {
+  //   try {
+  //     await createUserWithEmailAndPassword(Auth, email, password);
+  //     Alert.alert('Inscription réussie!');
+  //   } catch (error: any) {
+  //     Alert.alert('Erreur d\'inscription', error.message);
+  //   }
+  // };
 
   const sentences = [
     t('sentence1'),
@@ -99,66 +100,70 @@ const AuthScreen = () => {
     }
 
   return (
-    <View style={[styles.container, {backgroundColor: colors.whiteMode}]}>
-      {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" /> }
-       {/* <StatusBar style="dark" /> */}
-      {/* <StatusBar barStyle={theme === "light" ? "dark-content" : "light-content"} backgroundColor={(theme === "light" ? "#ffff" : '#000')}/> */}
-      <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
-          <Image source={require('@/assets/images/logo/nutritrackLogoWhitoutBg.png')} style={styles.logo}/>
-        <ThemedText variant="title" color={colors.black}>SIGN IN</ThemedText>
-        <ThemedText variant="subtitle" color={colors.grayDark}>Please enter your details.</ThemedText>
-      </Row>
-      <View style={styles.formContainer}>
-        {theme === "light" ?
-          <Image source={require('@/assets/images/profil/user.png')} style={styles.logoForm} />
-        :
-          <Image source={require('@/assets/images/profil/userWhite.png')} style={styles.logoForm} />
-        }
-        <TextInput
-          style={[styles.input, { color: colors.black}]}
-          placeholderTextColor={colors.black}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      <View style={[styles.underline, {backgroundColor: colors.black}]} />
-    </View>
-    <View style={styles.formContainer}>
-      {theme === "light" ?
-        <Image source={require('@/assets/images/profil/key.png')} style={styles.logoForm} />
-      :
-        <Image source={require('@/assets/images/profil/keyWhite.png')} style={styles.logoForm} />
-      }
-        <TextInput
-          style={[styles.input, { color: colors.black}]}
-          placeholderTextColor={colors.black}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-      <View style={[styles.underline, {backgroundColor: colors.black}]} />
-    </View>
-      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-      <View style={styles.wrapperButton}>
+    <View style={[styles.container, { backgroundColor: colors.whiteMode }]}>
+      {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" />}
+
+      <View style={styles.header}>
+        <Image source={require('@/assets/images/logo/nutritrackLogoWhitoutBg.png')} style={styles.logo} />
+        <ThemedText variant="title" color={colors.black}>Nutri Track</ThemedText>
+        <ThemedText variant="subtitle" color={colors.grayDark}>Please sign in to continue</ThemedText>
+      </View>
+
+      <View style={styles.form}>
+        <View style={styles.wrapper}>
+          <TextInput
+            style={[styles.inputField, { color: colors.black, borderColor: colors.grayDark }]}
+            placeholder="Email"
+            placeholderTextColor={colors.grayDark}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <Image source={require('@/assets/images/profil/user.png')} style={[styles.logoForm, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
+        </View>
+        <View style={styles.wrapper}>
+          <TextInput
+            style={[styles.inputField, { flex: 1, color: colors.black, borderColor: colors.grayDark }]}
+            placeholder="Password"
+            placeholderTextColor={colors.grayDark}
+            secureTextEntry={showPassword}
+            value={password}
+            onChangeText={setPassword}
+          />
+            <Image source={require('@/assets/images/profil/key.png')} style={[styles.logoForm, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
+          {showPassword ? (
+            <TouchableOpacity style={styles.wrapperLogo} onPress={() => setShowPassword(false)}>
+              <Image source={require('@/assets/images/eye-off.png')} style={[styles.logoPassword, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
+
+            </TouchableOpacity>
+          ):  (
+            <TouchableOpacity style={styles.wrapperLogo} onPress={() => setShowPassword(true)}>
+              <Image source={require('@/assets/images/eye-show.png')} style={[styles.logoPassword, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
+            </TouchableOpacity>
+              
+          )}
+        </View>
+
+        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+
         <TouchableOpacity
           onPress={signIn}
-          style={{
-            backgroundColor: colors.black,
-            padding: 10,
-            borderRadius: 3,
-            alignItems: 'center',
-          }}
+          style={[styles.signInButton, { backgroundColor: colors.black }]}
         >
-        <Text style={{ color: colors.white }}>Login</Text>
-      </TouchableOpacity>
+          <Text style={styles.signInText}>{t('login')}</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.footerText}>
+          Don’t have an account?{' '}
+          <Text
+            style={[styles.link, { color: colors.primary }]}
+            onPress={() => navigation.navigate('registration')}
+          >
+            Register here
+          </Text>
+        </Text>
       </View>
-      <Text style={styles.footerText}>
-        Don't have an account? <Text style={[styles.link, {color: colors.primary}]} onPress={() => navigation.navigate('registration')}>Register here</Text>
-      </Text>
-      <Image source={require('@/assets/images/svg/wave2.png')} style={styles.svg}/>
     </View>
   );
 };
@@ -166,82 +171,85 @@ const AuthScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 24,
     justifyContent: 'center',
-    padding: 16,
+    backgroundColor: '#fff',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  logo: {
+    width: 90,
+    height: 90,
+    marginBottom: 10,
+  },
+  form: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  inputField: {
+    width: '100%',
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingLeft: 50,
+    marginBottom: 16,
+    backgroundColor: '#f7f7f7',
+  },
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
     position: 'relative',
-    zIndex: 3
   },
-  logo : {
-    height: 130,
-    width: 130
+  logoForm : {
+    position: "absolute",
+    left: 15,
+    top: "50%",
+    transform: [{ translateY: -17 }],
+    width: 20,
+    height: 20
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 8,
+  wrapperLogo : {
+    position: "absolute",
+    right: 15,
+    top: "50%",
+    transform: [{ translateY: -17 }],
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  subtitle: {
-    fontSize: 50,
-    textAlign: 'center',
-    marginBottom: 24,
+  logoPassword : {
+    width: 20,
+    height: 20
   },
-  wrapperButton: {
-    marginVertical: 12,
-    flexDirection: 'column',
-    gap: 12,
-    width: '30%',
-    alignSelf: 'center',
-    zIndex: 3
+  signInButton: {
+    height: 50,
+    width: '100%',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 16,
+    elevation: 2,
+  },
+  signInText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
   footerText: {
-    textAlign: 'center',
     marginTop: 20,
     color: '#666',
+    fontSize: 14,
+    textAlign: 'center',
   },
   link: {
     fontWeight: 'bold',
   },
-  svg: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 180,
-    width: 'auto',
-    maxWidth: 500,
-    objectFit: 'fill',
-    zIndex: 1
-  },
-  errorText: { 
+  errorText: {
     color: 'red',
+    marginBottom: 10,
     textAlign: 'center',
-    marginBottom: 16,
-  },
-  formContainer: {
-    width: '80%',
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    zIndex: 3
-  },
-  logoForm: {
-    width: 24, 
-    height: 24,
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    padding: 10,
-    fontSize: 16,
-  },
-  underline: {
-    height: 2,
-    width: '100%',
-    position: 'absolute',
-    bottom: 0,
   },
   loadingContainer: {
     flex: 1,
