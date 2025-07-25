@@ -192,5 +192,7 @@
     "forgot": "Forgot password?",
     "forgotPassword": "Forgot password",
     "reset": "Reset password",
-    "sent": "Send reset link"
+    "sent": "Send reset link",
+    "added": "Added food",
+    "matchFood": "No food matches with the search"
 }

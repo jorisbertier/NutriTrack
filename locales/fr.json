@@ -204,5 +204,7 @@
     "forgot": "Mot de passe oublié?",
     "forgotPassword": "Mot de passe oublié",
     "reset": "Réinitialiser votre mot de passe",
-    "sent": "Envoyer le lien"
+    "sent": "Envoyer le lien",
+    "added": "Aliment ajouté",
+    "matchFood": "Aucun aliment ne correspond à la recherche"
 }

@@ -9,12 +9,15 @@ import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/d
 import { FoodItem } from "@/interface/FoodItem";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { t } from "i18next";
+import LottieView from "lottie-react-native";
+import { useTranslation } from "react-i18next";
 
 export default function Search() {
 
     const {theme, colors} = useTheme();
+    const { t } = useTranslation();
     const navigation = useNavigation();
 
     const [data, setData] = useState<FoodItem[]>([]);
@@ -92,7 +95,6 @@ export default function Search() {
                             {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                             </ThemedText>
                     </View> */}
-                    {}
                     {isOpen && (<RNDateTimePicker
                         onChange={setDate}
                         value={selectedDate}
@@ -166,17 +168,22 @@ export default function Search() {
                         />
                         
                     {filteredFood.length === 0 && <Text style={{color: colors.black}}>
-                        No food matches with the search {text}.</Text>
+                        {t('matchFood')} {text}.</Text>
                     }
                 </Row>
-                {notificationVisible &&
+                {notificationVisible && (
                     <View style={styles.notification}>
-                        <View style={[styles.wrapperNotification, {backgroundColor: "#8592F2"}]}>
-                            <Text style={styles.notificationText}>Added Food</Text>
-                            <Image style={styles.verify} source={require('@/assets/images/verify2.png')} />
+                        <View style={styles.wrapperNotification}>
+                        <Text style={styles.notificationText}>✓ {t('added')}</Text>
+                                    <LottieView
+                                        source={require('@/assets/lottie/check-popup.json')}
+                                        loop={false}
+                                        style={{ width: 30, height: 30 }}
+                                        autoPlay={true}
+                                    />
                         </View>
                     </View>
-                }
+                )}
             </SafeAreaView>
         </>
     );
@@ -276,33 +283,32 @@ const styles = StyleSheet.create({
     },
     notification: {
         position: "absolute",
-        bottom: 20,
-        width: '100%',
-        alignSelf: 'center'
+        bottom: 30,
+        width: "100%",
+        alignItems: "center",
+        zIndex: 999
     },
-    wrapperNotification : {
-        flexDirection: 'row',
-        justifyContent:'center',
-        gap: 20,
-        padding: 10,
-        borderRadius: 5,
+    wrapperNotification: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "white",
+        borderRadius: 20,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2, 
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.5,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
         elevation: 5,
+        borderWidth: 1,
+        borderColor: "#e0e0e0",
     },
     notificationText: {
-        color: "white",
-        fontWeight: "bold",
+        color: "#333",
+        fontWeight: "600",
+        fontSize: 16,
         textAlign: "center",
-    },
-    verify : {
-        width: 20,
-        height: 20
+        marginRight: 10
     },
     wrapperBloc: {
         borderRadius: 10,

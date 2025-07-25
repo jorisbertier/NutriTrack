@@ -51,7 +51,7 @@ import { Svg, Circle } from 'react-native-svg';
                     cy="75"
                     r={radiusOuter}
                     stroke="#E0E0E0"
-                    strokeWidth="8"
+                    strokeWidth="7"
                     fill="none"
                 />
                 {/* Cercle des graisses */}
@@ -60,7 +60,7 @@ import { Svg, Circle } from 'react-native-svg';
                     cy="75"
                     r={radiusOuter}
                     stroke="#8592F2"
-                    strokeWidth="8"
+                    strokeWidth="7"
                     fill="none"
                     strokeDasharray={`${circumferenceOuter} ${circumferenceOuter}`}
                     strokeDashoffset={circumferenceOuter * (1 - percentageFats)} 
@@ -73,7 +73,7 @@ import { Svg, Circle } from 'react-native-svg';
                     cy="75"
                     r={radiusMiddle}
                     stroke="#E0E0E0"
-                    strokeWidth="8"
+                    strokeWidth="7"
                     fill="none"
                 />
                 {/* Cercle des glucides */}
@@ -82,7 +82,7 @@ import { Svg, Circle } from 'react-native-svg';
                     cy="75"
                     r={radiusMiddle}
                     stroke="#8592F2"
-                    strokeWidth="8"
+                    strokeWidth="7"
                     fill="none"
                     strokeDasharray={`${circumferenceMiddle} ${circumferenceMiddle}`}
                     strokeDashoffset={circumferenceMiddle * (1 - percentageCarbs)}
@@ -95,7 +95,7 @@ import { Svg, Circle } from 'react-native-svg';
                     cy="75"
                     r={radiusInner}
                     stroke="#E0E0E0"
-                    strokeWidth="8"
+                    strokeWidth="7"
                     fill="none"
                 />
                 {/* Cercle des protéines */}
@@ -104,7 +104,7 @@ import { Svg, Circle } from 'react-native-svg';
                     cy="75"
                     r={radiusInner}
                     stroke="#8592F2"
-                    strokeWidth="8"
+                    strokeWidth="7"
                     fill="none"
                     strokeDasharray={`${circumferenceInner} ${circumferenceInner}`}
                     strokeDashoffset={circumferenceInner * (1 - percentageProteins)}

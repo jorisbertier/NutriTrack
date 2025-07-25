@@ -93,7 +93,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
 
             setTimeout(() => {
                 setNotification(false)
-            }, 1500);
+            }, 2100);
 
             console.log("Document successfully written with ID: ", newId)
         } catch(e) {

@@ -61,8 +61,8 @@ export default function Dashboard() {
     const [isLoading, setIsLoading] = useState(true);
     const [notificationVisible, setNotificationVisible] = useState(false);
 
-    const showIcon = userData[0]?.goalLogs['calories'] > 0;
-    console.log('icicicic', userData[0]?.goalLogs['calories'])
+    const showIcon = (userData[0]?.goalLogs?.calories ?? 0) > 0;
+    // console.log('icicicic', userData[0]?.goalLogs['calories'])
 
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -403,7 +403,7 @@ export default function Dashboard() {
     console.log('basal metalobic rate', basalMetabolicRate)
     console.log('goal = bsr - totalkcalcosnuemtoday ', goal)
     console.log('total k consume today ', totalKcalConsumeToday)
-    console.log('userData[0] calories', userData[0]?.goalLogs["calories"])
+    // console.log('userData[0] calories', userData[0]?.goalLogs["calories"])
     let logCalories = userData[0]?.goalLogs["calories"] ?? 0;
     if (userData[0]?.goal === 'lose') {
         basalMetabolicRate -= logCalories; // on retire
@@ -589,7 +589,7 @@ export default function Dashboard() {
                     {!isLoading ?
                     <>
                     {/* <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {totalCaloriesGoal} cal</ThemedText> */}
-                    <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {basalMetabolicRate} cal</ThemedText>
+                    <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {basalMetabolicRate}</ThemedText>
                     
                     </>
                     :
