@@ -111,7 +111,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                     </ThemedText>
                 </View>
                 <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
-                    <Image source={require("@/assets/images/add.png")} style={styles.add} />
+                    <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: 0.9}]} />
                 </Pressable>
                 <Modal
                     animationType="fade"

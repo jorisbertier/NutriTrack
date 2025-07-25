@@ -28,7 +28,8 @@ export default function Search() {
     const [isLoading, setIsLoading] = useState(false);
     const colorMode: 'light' | 'dark' = 'light';
     const [error, setError] = useState('');
-    const [isFocuded, setIsFocused] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+
     
     let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -105,7 +106,7 @@ export default function Search() {
                 
                 <View style={styles.wrapperInput}>
                     <TextInput
-                        style={[styles.input, {backgroundColor: colors.white, color: colors.black, borderColor: isFocuded ? colors.back : colors.grayDarkFix}]}
+                        style={[styles.input, {backgroundColor: colors.white, color: colors.black, borderColor: isFocused ? colors.back : colors.grayDarkFix}]}
                         onChangeText={onChangeText}
                         value={text}
                         placeholder={t('searchFood')}
@@ -123,7 +124,7 @@ export default function Search() {
                             null
                         )}
                         
-                        <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/>
+                        <Image source={require('@/assets/images/search.png')} style={[styles.iconSearch, { tintColor: isFocused ? colors.black : '#8a8a8a'}]}/>
 
                 </View>
                 {/* <Row>
@@ -133,22 +134,40 @@ export default function Search() {
                     </View>
                 </Row> */}
                 <Row style={[styles.wrapperFood]}>
-                    {text.length === 0 &&
-                    <Row style={{justifyContent: 'space-around', width: '100%'}}>
-                        <TouchableOpacity  style={[styles.wrapperBloc, {backgroundColor: colors.blueLight}]} onPress={() => navigation.navigate("CreateAliment")}>
-                            <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                                <Image source={require('@/assets/images/add.png')} style={[styles.addSearch, {tintColor: colors.white}]} />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate("SearchAlimentCreated")}
-                            style={[styles.wrapperBloc, {backgroundColor: colors.blueLight}]}
-                        >
-                            <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                                <ThemedText variant='title2' color={colors.white} style={{ fontWeight: 'bold' }}>{t('list')}</ThemedText>
-                            </View>
-                            </TouchableOpacity>
-                    </Row>
-                    }
+                {text.length === 0 && (
+                <Row style={styles.row}>
+                    <TouchableOpacity
+                    onPress={() => navigation.navigate("CreateAliment")}
+                    style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
+                    activeOpacity={0.85}
+                    >
+                    <Image
+                        source={require('@/assets/images/add.png')}
+                        style={{ width: 22, height: 22, tintColor: colors.black }} // Soft blue
+                    />
+                    <ThemedText
+                        variant='title3'
+                        style={{ marginLeft: 8, color: colors.black, fontSize: 12, fontWeight: '600' }}
+                    >
+                        {t('create')}
+                    </ThemedText>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("SearchAlimentCreated")}
+                        style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
+                        activeOpacity={0.85}
+                    >
+                    <ThemedText
+                        variant='title3'
+                        style={{ color: colors.black,fontSize: 12, fontWeight: '600' }}
+                    >
+                        {t('list')}
+                    </ThemedText>
+                    </TouchableOpacity>
+                </Row>
+                )}
+
                         <FlatList<FoodItem>
                             data={filteredFood}
                             renderItem={({ item }) => (
@@ -221,7 +240,6 @@ const styles = StyleSheet.create({
         transform: [{ translateY: -19 }], 
         width: 20,
         height: 20,
-        tintColor: '#8a8a8a',
         
     },
     wrapperDelete : {
@@ -232,11 +250,23 @@ const styles = StyleSheet.create({
         padding: 7,
         borderRadius: 8
     },
-    addSearch : {
-        height: 20,
-        width: 20,
-        marginRight: 10 
-        
+    row : {
+        justifyContent: 'space-between',
+        width: '100%',
+        paddingHorizontal: 12,
+        gap: 12,
+    },
+    wrapper : {
+        flex: 1,
+        height: 60,
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        shadowColor: '#000',
+        shadowOpacity: 0.05,
+        shadowOffset: { width: 0, height: 4 },
+        shadowRadius: 6,
     },
     deleteSearch : {
         height: 15,
