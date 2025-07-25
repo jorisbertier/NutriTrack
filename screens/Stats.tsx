@@ -131,20 +131,20 @@ function Stats() {
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.white}]}>
-            <Row>
-                <WeightChart/>
-
-            </Row>
-            <Row style={{marginBottom: 80,marginTop: totalMacronutrients == 0 ? -160 : 40, marginLeft: 10}}>
-                <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
+            <Row style={{marginBottom: 80,marginTop: 20, marginLeft: 10}}>
+                <ThemedText variant='title' color={colors.black}>Nutriweek calories</ThemedText>
             </Row>
             <WeeklyBarChart
                 weeks={data2}
                 activeWeekIndex={activeWeekIndex}
                 onWeekChange={setActiveWeekIndex}
             />
+                        <Row style={{marginBottom: 30, marginTop: 20, marginLeft: 10}}>
+                <ThemedText variant='title' color={colors.black}>Nutriweek weight</ThemedText>
+            </Row>
+                <WeightChart/>
             <Row style={{marginBottom: 0, marginTop: 20, marginLeft: 10}}>
-                <ThemedText variant='title' color={colors.black}>Nutri ratio</ThemedText>
+                <ThemedText variant='title' color={colors.black}>Nutriratio all time</ThemedText>
             </Row>
             {totalMacronutrients == 0 ?
             <Row style={{paddingTop: 70 , alignSelf: 'center'}}>

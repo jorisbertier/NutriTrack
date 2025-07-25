@@ -10,6 +10,7 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import { StatusBar } from 'expo-status-bar'; 
 import { fetchUserData } from '@/redux/userSlice';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const AuthScreen = () => {
 
@@ -19,7 +20,9 @@ const AuthScreen = () => {
   const {theme, colors} = useTheme();
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [loading, isLoading] = useState(true)
+  const [loading, isLoading] = useState(true);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -69,28 +72,28 @@ const AuthScreen = () => {
   };
 
   const sentences = [
-    "Loading… Because good things take time!",
-    "It's not you. It's me.",
-    "Don't panic...",
-    "We're making you a cookie.",
-    "We're testing your patience",
-    "As if you had any other choice",
-    "Please wait as we count the last surviving dinosaurs...",
-    "Grabbing data from the virtual fridge!",
-    "If this takes too long, blame the internet.",
-    "The bits are flowing slowly today...",
-    "Spinning the hamster…",
+    t('sentence1'),
+    t('sentence2'),
+    t('sentence3'),
+    t('sentence4'),
+    t('sentence5'),
+    t('sentence6'),
+    t('sentence7'),
+    t('sentence8'),
+    t('sentence9'),
+    t('sentence10'),
+    t('sentence11'),
   ]
 
   const randomSentenceIndex = Math.floor(Math.random() * sentences.length);
     if (loading) {
       // Display a full-screen loading indicator while checking the authentication state
       return (
-        <View style={[styles.loadingContainer, { backgroundColor: colors.primaryLoading, gap: 40}]}>
+        <View style={[styles.loadingContainer, { backgroundColor: colors.blueLight, gap: 40}]}>
           {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" /> }
-          <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
-          <ActivityIndicator size="large" color={colors.whiteFix} />
-          <ThemedText style={{width: '90%', flexWrap: 'wrap', flexShrink: 1, textAlign: 'center'}} variant={"title1"} color={colors.whiteFix}>{sentences[randomSentenceIndex]}</ThemedText>
+          <Image source={require('@/assets/images/logo/nutritrackLogoWhitoutBg.png')} style={styles.logo}/>
+          <ActivityIndicator size="large" color={colors.black} />
+          <ThemedText style={{width: '90%', flexWrap: 'wrap', flexShrink: 1, textAlign: 'center'}} variant={"title1"} color={colors.black}>{sentences[randomSentenceIndex]}</ThemedText>
         </View>
       );
     }
@@ -101,7 +104,7 @@ const AuthScreen = () => {
        {/* <StatusBar style="dark" /> */}
       {/* <StatusBar barStyle={theme === "light" ? "dark-content" : "light-content"} backgroundColor={(theme === "light" ? "#ffff" : '#000')}/> */}
       <Row style={{justifyContent: 'center', flexDirection: 'column', gap: 10, marginBottom: 50}}>
-          <Image source={require('@/assets/images/realmLogo.png')} style={styles.logo}/>
+          <Image source={require('@/assets/images/logo/nutritrackLogoWhitoutBg.png')} style={styles.logo}/>
         <ThemedText variant="title" color={colors.black}>SIGN IN</ThemedText>
         <ThemedText variant="subtitle" color={colors.grayDark}>Please enter your details.</ThemedText>
       </Row>
@@ -169,8 +172,8 @@ const styles = StyleSheet.create({
     zIndex: 3
   },
   logo : {
-    height: 75,
-    width: 75
+    height: 130,
+    width: 130
   },
   title: {
     fontSize: 32,

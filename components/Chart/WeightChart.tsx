@@ -5,7 +5,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Svg, { Path, Line, Circle, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 
-type Period = 'Days'; // Pour l’instant, on affiche juste les données quotidiennes
+type Period = 'Weeks';
 
 const { width } = Dimensions.get('window');
 const chartWidth = width - 100;
@@ -22,7 +22,7 @@ const MIN_Y = 50;
 
 const WeightChart = () => {
   const [userData, setUserData] = useState<User[]>([]);
-  const [selectedPeriod, setSelectedPeriod] = useState<Period>('Days');
+  const [selectedPeriod, setSelectedPeriod] = useState<Period>('Weeks');
   const auth = getAuth();
   const user = auth.currentUser;
 
@@ -184,7 +184,7 @@ const entries: WeightEntry[] = useMemo(() => {
 
       {/* Boutons de période (optionnel pour plus tard) */}
       <View style={styles.buttonsContainer}>
-        {(['Days'] as Period[]).map((period) => (
+        {(['Weeks'] as Period[]).map((period) => (
           <TouchableOpacity
             key={period}
             onPress={() => setSelectedPeriod(period)}
@@ -209,7 +209,8 @@ const styles = StyleSheet.create({
     elevation: 2,
     margin: 20,
     justifyContent: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    alignItems: 'center'
   },
   title: {
     fontSize: 16,
@@ -226,6 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f1f5f9',
     borderRadius: 10,
     paddingVertical: 6,
+    width: '90%'
   },
   button: {
     paddingHorizontal: 14,
