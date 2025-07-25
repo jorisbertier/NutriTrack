@@ -82,15 +82,15 @@ const entries: WeightEntry[] = useMemo(() => {
   // Génère les ticks dynamiques pour l'axe Y
   const yTicks = [];
   console.log('maw wieght', maxWeight)
-let tickStep = 10;
+  let tickStep = 10;
 
-if (maxWeight > 100) {
-  tickStep = 30;
-} else if (maxWeight > 200) {
-  tickStep = 40;
-} else if (maxWeight > 300) {
-  tickStep = 50;
-}
+  if (maxWeight > 100) {
+    tickStep = 30;
+  } else if (maxWeight > 200) {
+    tickStep = 40;
+  } else if (maxWeight > 300) {
+    tickStep = 50;
+  }
   for (let y = MIN_Y; y <= topYValue; y += tickStep) {
     yTicks.push(y);
   }
