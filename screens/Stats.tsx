@@ -1,7 +1,7 @@
 import { WeeklyBarChart } from "@/components/Chart/BarChart";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
@@ -130,13 +130,13 @@ function Stats() {
     console.log('proteins',typeof totalMacronutrients)
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.white}]}>
-            <Row style={{marginBottom: 80,marginTop: totalMacronutrients == 0 ? -160 : 40, marginLeft: 10}}>
-                <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
-            </Row>
+        <ScrollView style={[styles.container, { backgroundColor: colors.white}]}>
             <Row>
                 <WeightChart/>
 
+            </Row>
+            <Row style={{marginBottom: 80,marginTop: totalMacronutrients == 0 ? -160 : 40, marginLeft: 10}}>
+                <ThemedText variant='title' color={colors.black}>Nutri week calories</ThemedText>
             </Row>
             <WeeklyBarChart
                 weeks={data2}
@@ -166,7 +166,7 @@ function Stats() {
                     totalMacronutrients={totalMacronutrients}
                 />
             }
-        </View>
+        </ScrollView>
     )
 }
 
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
     }
 })
 

@@ -1,77 +1,124 @@
-import React, { useState } from 'react';
+import { fetchUserDataConnected } from '@/functions/function';
+import { User } from '@/interface/User';
+import { getAuth } from 'firebase/auth';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Svg, { Path, Line, Circle, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 
-type Period = 'Days' | 'Weeks' | 'Months' | 'Years';
+type Period = 'Days'; // Pour l’instant, on affiche juste les données quotidiennes
 
 const { width } = Dimensions.get('window');
-const chartWidth = width - 40;
+const chartWidth = width - 100;
 const chartHeight = 180;
 
 type WeightEntry = {
-  date: string; // format: dd/mm/yyyy
+  date: string;
+  label: string;
   weight: number;
-};
-
-// const generateDates = (count: number) => {
-//   const today = new Date();
-//   return Array.from({ length: count }, (_, i) => {
-//     const date = new Date(today);
-//     date.setDate(date.getDate() - (count - i - 1));
-//     return date.toLocaleDateString('fr-FR');
-//   });
-// };
-const generateDates = (count: number) => {
-  const today = new Date();
-  return Array.from({ length: count }, (_, i) => {
-    const date = new Date(today);
-    date.setDate(date.getDate() - (count - i - 1));
-    return new Intl.DateTimeFormat('fr-FR', {
-      day: '2-digit',
-      month: '2-digit',
-    }).format(date); // Résultat : 20/07
-  });
-};
-
-const fakeData: Record<Period, WeightEntry[]> = {
-  Days: generateDates(8).map((date, i) => ({ date, weight: [60, 70, 65, 80, 75, 90, 100, 116][i] })),
-  Weeks: generateDates(7).map((date, i) => ({ date, weight: [70, 75, 80, 85, 95, 100, 110][i] })),
-  Months: generateDates(6).map((date, i) => ({ date, weight: [65, 72, 78, 85, 93, 105][i] })),
-  Years: generateDates(4).map((date, i) => ({ date, weight: [50, 80, 100, 116][i] })),
 };
 
 const MAX_Y = 120;
 const MIN_Y = 50;
-const WeightChart = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState<Period>('Days');
-  const entries = fakeData[selectedPeriod];
-  const pointCount = entries.length;
 
-  const stepX = chartWidth / (pointCount - 1);
+const WeightChart = () => {
+  const [userData, setUserData] = useState<User[]>([]);
+  const [selectedPeriod, setSelectedPeriod] = useState<Period>('Days');
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        fetchUserDataConnected(user, setUserData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+const entries: WeightEntry[] = useMemo(() => {
+  const log = userData?.[0]?.weightLog;
+
+  if (!Array.isArray(log) || log.length === 0) return [];
+
+  const processedEntries = log
+    .map((entry: any) => {
+      if (!entry?.date || typeof entry.date !== 'string') return null;
+
+      const parts = entry.date.split('/');
+      if (parts.length !== 3) return null;
+
+      const [day, month, year] = parts;
+      const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+      const jsDate = new Date(isoDate);
+
+      if (isNaN(jsDate.getTime())) return null;
+
+      return {
+        date: isoDate,
+        label: new Intl.DateTimeFormat('fr-FR', {
+          day: '2-digit',
+          month: '2-digit',
+        }).format(jsDate),
+        weight: entry.weight,
+      };
+    })
+    .filter((entry): entry is WeightEntry => entry !== null)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  // On ne garde que les 7 derniers éléments (les plus récents)
+  return processedEntries.slice(-7);
+}, [userData]);
+
+  const pointCount = entries.length;
+  const paddingHorizontal = 20;
+  const effectiveChartWidth = chartWidth - 2 * paddingHorizontal;
+  const stepX = pointCount > 1 ? effectiveChartWidth / (pointCount - 1) : effectiveChartWidth;
+
+  const maxWeight = Math.max(...entries.map(entry => entry.weight));
+  const topYValue = Math.ceil((maxWeight + 10) / 10) * 10; // arrondi supérieur
+
+  // Génère les ticks dynamiques pour l'axe Y
+  const yTicks = [];
+  const tickStep = 10;
+  for (let y = 50; y <= topYValue; y += tickStep) {
+    yTicks.push(y);
+  }
+
   const scaleY = (value: number) => {
-    return chartHeight - ((value - MIN_Y) / (MAX_Y - MIN_Y)) * chartHeight;
+    return chartHeight - ((value - MIN_Y) / (topYValue - MIN_Y)) * chartHeight;
   };
 
   const generateSmoothPath = () => {
+    // if (entries.length === 1) {
+    //   const x = paddingHorizontal;
+    //   const y = scaleY(entries[0].weight);
+    //   return `M${x},${y}`;
+    // }
+    // if (entries.length < 2) return '';
     if (entries.length < 2) return '';
 
     let d = '';
     for (let i = 0; i < entries.length; i++) {
-      const x = i * stepX;
+      const x = paddingHorizontal + i * stepX;
       const y = scaleY(entries[i].weight);
 
       if (i === 0) {
         d += `M${x},${y}`;
       } else {
-        const prevX = (i - 1) * stepX;
+        const prevX = paddingHorizontal + (i - 1) * stepX;
         const prevY = scaleY(entries[i - 1].weight);
-
         const cx = (prevX + x) / 2;
         d += ` C${cx},${prevY} ${cx},${y} ${x},${y}`;
       }
     }
     return d;
   };
+
+  if (!entries.length || entries.length < 2) {
+    return <Text style={{ textAlign: 'center' }}>Aucune donnée disponible</Text>;
+  }
 
   return (
     <View style={styles.container}>
@@ -86,26 +133,12 @@ const WeightChart = () => {
             </LinearGradient>
           </Defs>
 
-          {/* Grid lines + Y axis labels */}
-          {[50, 100, 116].map((yVal) => {
+          {yTicks.map((yVal) => {
             const y = scaleY(yVal);
             return (
               <React.Fragment key={yVal}>
-                <Line
-                  x1="0"
-                  x2={chartWidth}
-                  y1={y}
-                  y2={y}
-                  stroke="#e5e7eb"
-                  strokeWidth="1"
-                />
-                <SvgText
-                  x={0}
-                  y={y + 4}
-                  fontSize="12"
-                  fill="#6b7280"
-                  textAnchor="start"
-                >
+                <Line x1={paddingHorizontal} x2={chartWidth - paddingHorizontal} y1={y} y2={y} stroke="#e5e7eb" strokeWidth="1" />
+                <SvgText x={0} y={y} fontSize="12" fill="#6b7280" textAnchor="start">
                   {yVal} kg
                 </SvgText>
               </React.Fragment>
@@ -114,71 +147,50 @@ const WeightChart = () => {
 
           {/* Gradient under the curve */}
           <Path
-            d={`${generateSmoothPath()} L${(pointCount - 1) * stepX},${chartHeight} L0,${chartHeight} Z`}
+            d={`${generateSmoothPath()} L${paddingHorizontal + (pointCount - 1) * stepX},${chartHeight} L${paddingHorizontal},${chartHeight} Z`}
             fill="url(#gradient)"
           />
 
           {/* Main line path */}
-          <Path
-            d={generateSmoothPath()}
-            stroke="#3b82f6"
-            strokeWidth="3"
-            fill="none"
-          />
+          <Path d={generateSmoothPath()} stroke="#3b82f6" strokeWidth="3" fill="none" />
 
           {/* Points */}
           {entries.map((entry, index) => {
-            const x = index * stepX;
+            const x = paddingHorizontal + index * stepX;
             const y = scaleY(entry.weight);
             return (
-              <Circle
-                key={index}
-                cx={x}
-                cy={y}
-                r="5"
-                fill="#fff"
-                stroke="#3b82f6"
-                strokeWidth="2"
-              />
+              <Circle key={index} cx={x} cy={y} r="3" fill="#3b82f6" stroke="#3b82f6" strokeWidth="1" />
             );
           })}
 
-          {/* Dates below each point */}
+          {/* Dates */}
           {entries.map((entry, index) => {
-            const x = index * stepX;
+            const x = paddingHorizontal + index * stepX;
             return (
               <SvgText
                 key={`label-${index}`}
                 x={x}
-                y={chartHeight + 16}
+                y={chartHeight + 23}
                 fontSize="10"
                 fill="#6b7280"
                 textAnchor="middle"
               >
-                {entry.date}
+                {entry.label}
               </SvgText>
             );
           })}
         </Svg>
       </View>
 
-      {/* Boutons période */}
+      {/* Boutons de période (optionnel pour plus tard) */}
       <View style={styles.buttonsContainer}>
-        {(['Days', 'Weeks', 'Months', 'Years'] as Period[]).map((period) => (
+        {(['Days'] as Period[]).map((period) => (
           <TouchableOpacity
             key={period}
             onPress={() => setSelectedPeriod(period)}
-            style={[
-              styles.button,
-              selectedPeriod === period && styles.selectedButton,
-            ]}
+            style={[styles.button, selectedPeriod === period && styles.selectedButton]}
           >
-            <Text
-              style={[
-                styles.buttonText,
-                selectedPeriod === period && styles.selectedButtonText,
-              ]}
-            >
+            <Text style={[styles.buttonText, selectedPeriod === period && styles.selectedButtonText]}>
               {period}
             </Text>
           </TouchableOpacity>
@@ -194,9 +206,10 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     borderRadius: 12,
-    backgroundColor: '#f9fafb',
     elevation: 2,
     margin: 20,
+    justifyContent: 'center',
+    backgroundColor: 'white'
   },
   title: {
     fontSize: 16,
