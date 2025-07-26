@@ -194,7 +194,7 @@ console.log(i18n.language)
         />
         <EditLink
           label={t('faq')}
-          iconSource={require('@/assets/images/icon/goal.png')}
+          iconSource={require('@/assets/images/icon/faq.png')}
           navigateTo="faq"
         />
         <EditLink

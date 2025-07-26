@@ -213,6 +213,7 @@ const Registration = () => {
         level: 1,
         goal: goal,
         xpLogs: {},
+        weightLog: {},
         consumeByDays: {},
         proteinsTotal: {},
         carbsTotal: {},
