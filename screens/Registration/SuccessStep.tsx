@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        marginTop: 50,
+        marginTop: 80,
         position: 'relative',
     },
     text: {

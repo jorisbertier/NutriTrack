@@ -193,11 +193,6 @@ console.log(i18n.language)
           navigateTo="Editgoal"
         />
         <EditLink
-          label={t('faq')}
-          iconSource={require('@/assets/images/icon/faq.png')}
-          navigateTo="faq"
-        />
-        <EditLink
           label={t('editWeight')}
           iconSource={require('@/assets/images/icon/weight.png')}
           navigateTo="Editweight"
@@ -236,6 +231,11 @@ console.log(i18n.language)
           label={t('privacyPolicy')}
           iconSource={require('@/assets/images/icon/privacy.png')}
           navigateTo="Policy"
+        />
+        <EditLink
+          label={t('faq')}
+          iconSource={require('@/assets/images/icon/faq.png')}
+          navigateTo="faq"
         />
         <EditLink
           label={t('contactSupport')}

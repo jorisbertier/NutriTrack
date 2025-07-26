@@ -292,6 +292,15 @@ export const deleteByCollection = async (nameCollection: string, uidUser: any, f
     await Promise.all(deletePromises);
     console.log(`All "${nameCollection}" deleted`);
 }
+
+export const getTodayDate = (): string => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); 
+    const year = today.getFullYear();
+
+    return `${day}/${month}/${year}`;
+};
 /* ANIMATION */
 
 // export const handleAnimation = (isOpenDrop: any, setIsOpenDrop: any, rotate: any) => {

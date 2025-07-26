@@ -87,7 +87,7 @@ const BodyInfoStep = ({
                 setWeight(valueInKg);
                 }}
             />
-            {weightError && <Text>{weightError}</Text>}
+            {weightError && <Text style={{color: 'red', textAlign:'center'}}>{weightError}</Text>}
             </View>
 
             {/* Height */}
@@ -104,7 +104,7 @@ const BodyInfoStep = ({
                 setHeight(cm);
                 }}
             />
-            {heightError && <Text>{heightError}</Text>}
+            {heightError && <Text style={{color: 'red', textAlign:'center'}}>{heightError}</Text>}
             </View>
         </View>
         </>

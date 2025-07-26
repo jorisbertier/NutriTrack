@@ -15,6 +15,7 @@ import AvatarStep from './Registration/AvatarStep';
 import SuccessStep from './Registration/SuccessStep';
 import GoalStep from './Registration/GoalStep';
 import { current } from '@reduxjs/toolkit';
+import { getTodayDate } from '@/functions/function';
 
 const Registration = () => {
   const { colors } = useTheme();
@@ -37,7 +38,8 @@ const Registration = () => {
   const [gender, setGender] = useState('');
   const [profileImage, setProfileImage] = useState('');
 
-  const [isDateSelected, setIsDateSelected] = useState(false); 
+  const [isDateSelected, setIsDateSelected] = useState(false);
+  const date = getTodayDate();
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -141,7 +143,7 @@ const Registration = () => {
         isValid = false;
       } else setWeightError('');
 
-      if (!h || isNaN(h) || h < 50 || h > 250) {
+      if (!h || isNaN(h) || h < 49 || h > 250) {
         setHeightError('Height must be between 50 and 250cm');
         isValid = false;
       } else setHeightError('');
@@ -213,7 +215,18 @@ const Registration = () => {
         level: 1,
         goal: goal,
         xpLogs: {},
-        weightLog: {},
+        weightLog: [
+          {
+            date: `${date}`,
+            weight: weight,
+          }
+        ],
+        goalLogs : {
+            calories: 0,
+            proteins: 0,
+            fats: 0,
+            carbs: 0
+        },
         consumeByDays: {},
         proteinsTotal: {},
         carbsTotal: {},
