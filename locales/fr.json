@@ -210,5 +210,7 @@
     "invalid": "Veuillez entrer un poids valide",
     "updated": "Poids mis à jour avec succès",
     "update_error": "Impossible de mettre à jour le poids",
-    "faq": "Questions fréquentes"
+    "faq": "Questions fréquentes",
+    "network": "Une erreur de connexion s'est produite. Veuillez vérifier votre connexion Internet et réessayer.",
+    "try": "Réessayer"
 }

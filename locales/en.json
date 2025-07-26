@@ -198,5 +198,7 @@
     "invalid": "Please enter a valid weight",
     "updated": "Weight updated successfully",
     "update_error": "Unable to update weight",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "network": "There is a connection error. Please check your internet and try again.",
+    "try": "Try again"
 }

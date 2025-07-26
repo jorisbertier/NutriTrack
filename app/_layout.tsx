@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { createNavigationContainerRef, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -17,7 +17,7 @@ import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
 import { FoodProvider } from "@/hooks/FoodContext";
 // import { StatusBar } from 'expo-status-bar';
 import * as NavigationBar from 'expo-navigation-bar';
-import { StatusBar } from 'react-native';
+import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import CreateAliment from '@/screens/CreateAliment';
 import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
 import DetailsFoodCreated from '@/screens/[id]created';
@@ -32,6 +32,8 @@ import EditWeight from '@/screens/EditWeight';
 import EditGoalScreen from '@/screens/EditGoalScreen';
 import ForgotPasswordScreen from '@/screens/ForgotPasswordScreen';
 import FaqScreen from '@/screens/FaqScreen';
+import NetInfo from '@react-native-community/netinfo';
+import LottieView from 'lottie-react-native';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -48,13 +50,61 @@ export default function RootLayout() {
   });
 
   // Empêche l'écran de démarrage de se cacher avant la fin du chargement des assets
+  const [isConnected, setIsConnected] = useState<boolean | null>(null);
+
+  
+  const checkConnection = () => {
+    NetInfo.fetch().then(state => {
+      setIsConnected(state.isConnected);
+    });
+  };
+
   useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected);
+    });
 
     if (loaded) {
       SplashScreen.hideAsync();
       NavigationBar.setBackgroundColorAsync('#111419');
     }
+
+    return () => unsubscribe();
   }, [loaded]);
+
+  if (isConnected === true) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center',gap: 20, alignItems: 'center', backgroundColor: '#D6E4FD' }}>
+        <LottieView
+            source={require('@/assets/lottie/Connection.json')}
+            loop={true}
+            style={{ width: 250, height: 250 }}
+            autoPlay={true}
+        />
+        <Text style={{ color: 'black', fontSize: 26, fontWeight: 500, textAlign: 'center' }}>Ooops ...</Text>
+        <Text style={{ color: 'black', fontSize: 18, textAlign: 'center' }}>{t('network')}</Text>
+        <TouchableOpacity
+          onPress={checkConnection}
+          style={{
+            backgroundColor: '#000',
+            paddingVertical: 14,
+            paddingHorizontal: 26,
+            borderRadius: 12,
+            marginTop: 20,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.3,
+            shadowRadius: 4,
+            elevation: 5,
+          }}
+        >
+          <Text style={{ color: 'white', fontSize: 16, fontWeight: '600', letterSpacing: 0.5 }}>
+            {t('try')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   if (!loaded) {
     return null;
