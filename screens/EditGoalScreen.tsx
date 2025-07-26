@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, TouchableWithoutFeedback, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Alert, TextInput } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { useTheme } from '@/hooks/ThemeProvider';
@@ -47,7 +47,6 @@ const handleEditGoal = async () => {
       Alert.alert("Succès", "Objectif mis à jour !");
     } catch (error) {
       console.error("Erreur lors de la mise à jour :", error);
-      Alert.alert("Erreur", "Impossible de mettre à jour l'objectif.");
     }
     return;
   }
@@ -87,7 +86,6 @@ const handleEditGoal = async () => {
     Alert.alert("Succès", "Objectif mis à jour !");
   } catch (error) {
     console.error("Erreur lors de la mise à jour :", error);
-    Alert.alert("Erreur", "Impossible de mettre à jour l'objectif.");
   }
 };
 

@@ -206,5 +206,8 @@
     "reset": "Réinitialiser votre mot de passe",
     "sent": "Envoyer le lien",
     "added": "Aliment ajouté",
-    "matchFood": "Aucun aliment ne correspond à la recherche"
+    "matchFood": "Aucun aliment ne correspond à la recherche",
+    "invalid": "Veuillez entrer un poids valide",
+    "updated": "Poids mis à jour avec succès",
+    "update_error": "Impossible de mettre à jour le poids"
 }

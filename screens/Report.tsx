@@ -24,8 +24,6 @@ const ReportIssue = () => {
     const [contentMessageError, setContentMessageError] = useState('')
     const [ isFocused , setIsFocused] = useState(false);
 
-
-
     const { user } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
 
@@ -74,7 +72,6 @@ const ReportIssue = () => {
             resetForm()
         } catch (error) {
             console.error('Error saving report: ', error);
-            Alert.alert('Error saving report');
         }
     };
 

@@ -65,14 +65,6 @@ const AuthScreen = () => {
     }
   };
 
-  // const signUp = async () => {
-  //   try {
-  //     await createUserWithEmailAndPassword(Auth, email, password);
-  //     Alert.alert('Inscription réussie!');
-  //   } catch (error: any) {
-  //     Alert.alert('Erreur d\'inscription', error.message);
-  //   }
-  // };
 
   const sentences = [
     t('sentence1'),

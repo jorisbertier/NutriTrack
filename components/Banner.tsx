@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View, Modal, Alert, Pressable, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { Image, StyleSheet, Text, View, Modal, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { capitalizeFirstLetter, fetchUserDataConnected, getIdAvatarProfile } from "@/functions/function";
 import Row from "./Row";

@@ -194,5 +194,8 @@
     "reset": "Reset password",
     "sent": "Send reset link",
     "added": "Added food",
-    "matchFood": "No food matches with the search"
+    "matchFood": "No food matches with the search",
+    "invalid": "Please enter a valid weight",
+    "updated": "Weight updated successfully",
+    "update_error": "Unable to update weight"
 }

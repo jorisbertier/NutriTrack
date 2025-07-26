@@ -355,9 +355,9 @@ function Create() {
                 ...dataToSave
             });
             Alert.alert('Aliment created')
-            resetForm()
+            resetForm();
         } catch(error: any) {
-            Alert.alert('Create an aliment error', error.message)
+            console.log('Create an aliment error', error.message)
         }
     }
 

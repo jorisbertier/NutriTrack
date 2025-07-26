@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { firestore } from '../firebaseConfig';
@@ -218,10 +218,9 @@ const Registration = () => {
         carbsTotal: {},
         fatsTotal: {},
       });
-      // Alert.alert('Success', 'Account created successfully!');
       // setCurrentStep(5);
     } catch (err) {
-      Alert.alert('Error', err.message);
+      console.log('Error', err.message);
     }
   };
 

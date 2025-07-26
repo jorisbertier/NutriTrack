@@ -173,7 +173,6 @@ const filteredRepertoryFood = repertoryFood.filter((food: any) => {
                 ...dataToSave
             });
             Alert.alert('Aliment created')
-    //         resetForm()
         } catch(error: any) {
             Alert.alert('Create an aliment error', error.message)
         }
