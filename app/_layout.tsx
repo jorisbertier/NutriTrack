@@ -72,7 +72,7 @@ export default function RootLayout() {
     return () => unsubscribe();
   }, [loaded]);
 
-  if (isConnected === true) {
+  if (isConnected === false) {
     return (
       <View style={{ flex: 1, justifyContent: 'center',gap: 20, alignItems: 'center', backgroundColor: '#D6E4FD' }}>
         <LottieView
