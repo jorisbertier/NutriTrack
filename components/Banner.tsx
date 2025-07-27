@@ -11,6 +11,7 @@ import { getAuth } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/userSlice";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     name: string;
@@ -45,6 +46,7 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
     const {colors, toggleTheme, theme} = useTheme();
     const colorMode: 'light' | 'dark' = 'light';
     const greetings = ['Hi','こんにちは','Hola', 'Bonjour' ];
+    const { t } = useTranslation(); 
 
     const [currentGreeting, setCurrentGreeting] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
@@ -97,9 +99,13 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                         <Skeleton colorMode={colorMode} width={200} height={30} />
                         }
                         {isLoading ?
-                            <View style={{flexDirection: 'row'}}>
-                                <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
-                                <ThemedText color={colors.gray}> Premium account</ThemedText>
+                            // <View style={{flexDirection: 'row'}}>
+                            //     <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
+                            //     <ThemedText color={colors.gray}>{t('freeAccount')}</ThemedText>
+                            // </View>
+                            <View style={{flexDirection: 'row', gap: 5, alignItems: 'flex-start'}}>
+                                <Image source={require('@/assets/images/icon/crown.png')} style={[styles.imageMini, { tintColor: "#FFD700"}]} />
+                                <ThemedText color={colors.gray}>{t('premiumAccount')}</ThemedText>
                             </View>
                         :
                             <View style={{ marginTop: 10 }}>

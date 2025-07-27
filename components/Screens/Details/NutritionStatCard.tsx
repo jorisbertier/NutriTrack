@@ -1,79 +1,79 @@
-import { ImageSourcePropType, StyleSheet } from "react-native";
-import { View, Image } from "react-native";
+import { ImageSourcePropType, StyleSheet, View, Image } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { Dimensions } from "react-native";
 import { capitalizeFirstLetter } from "@/functions/function";
-import useThemeColors from "@/hooks/useThemeColor";
 import { useTheme } from "@/hooks/ThemeProvider";
 
 type Props = {
     nutri: string;
-    quantity: number | undefined;
+    quantity?: number;
     unit: string;
-    height: number,
-    source: ImageSourcePropType
-}
+    height: number;
+    source: ImageSourcePropType;
+};
 
-const { height } = Dimensions.get('window');
-
-export default function NutritionStatCard({nutri, height, quantity, unit, source}: Props) {
+export default function NutritionStatCard({
+    nutri,
+    quantity,
+    unit,
+    height,
+    source,
+}: Props) {
     const { colors } = useTheme();
 
     return (
-        <View>
-            <View style={[styles.statFirst, {backgroundColor: colors.gray}]}>
-                <Image source={source} style={styles.iconNutri} />
-            <View style={[styles.statContainer, { backgroundColor: colors.blueLight, height: height}]}>
-                <ThemedText variant="title2" color={colors.black} style={styles.statTitle}>{capitalizeFirstLetter(nutri)}</ThemedText>
-                <ThemedText variant="title1" color={colors.black} style={styles.statValue}>{quantity} {unit}</ThemedText>
-            </View>
-            </View>
+        <View style={[styles.cardContainer, { backgroundColor: colors.white }]}>
+        <Image source={source} style={styles.icon} resizeMode="contain" />
+
+        <View style={[styles.innerBox, { height, backgroundColor: colors.blueLight }]}>
+            <ThemedText variant="title3" style={[styles.label, { color: colors.black }]}>
+            {capitalizeFirstLetter(nutri)}
+            </ThemedText>
+            <ThemedText variant="title2" style={[styles.value, { color: colors.black }]}>
+            {quantity} {unit}
+            </ThemedText>
         </View>
-    )
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-    statFirst :{
-        padding: 20,
-        position: 'relative',
-        alignItems: 'center',
-        width: height * 0.13,
-        height: 140,
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
-        borderBottomRightRadius: 15,
-        borderBottomLeftRadius: 15,
-        marginBottom: 20,
+    cardContainer: {
+        width: 110,
+        borderRadius: 20,
+        padding: 15,
+        alignItems: "center",
+        justifyContent: "flex-start",
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 10,
         elevation: 5,
+        backgroundColor: "rgba(255,255,255,0.2)",
+        marginBottom: 20,
     },
-    iconNutri: {
-        width: 25,
-        height:25,
-        position:'absolute',
-        top: 10
-    },
-    statContainer: {
-        position: 'absolute',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 30,
-        width: height * 0.13,
-        bottom: -25,
-    },
-    statTitle: {
-        marginBottom: 5,
-    },
-    statValue: {
+    icon: {
+        width: 23,
+        height: 23,
         marginBottom: 10,
+        tintColor: 'black',
+        opacity: 0.8
     },
-})
+    innerBox: {
+        borderRadius: 15,
+        width: "100%",
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    label: {
+        fontWeight: "600",
+        marginBottom: 5,
+        textAlign: "center",
+        fontSize: 12
+    },
+    value: {
+        fontWeight: "bold",
+        textAlign: "center",
+    },
+});

@@ -1,20 +1,14 @@
 import * as React from 'react';
-import { ThemedText } from '@/components/ThemedText';
 import { fetchUserDataConnected } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider'
 import { getAuth } from 'firebase/auth';
-import { useEffect, useRef, useState } from 'react';
-import { Alert, Button, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { collection, doc, getDocs, setDoc } from "firebase/firestore"; 
-import { firestore } from '@/firebaseConfig';
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { User } from '@/interface/User';
 import Generate from '@/components/CreateAliment/Generate';
 import { Switch } from 'react-native-paper';
 import Create from '@/components/CreateAliment/Create'
 import { useTranslation } from 'react-i18next';
-
-
 
 function CreateAliment() {
 

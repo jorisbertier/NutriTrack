@@ -65,6 +65,7 @@
     "passwordError2": "Le mot de passe doit contenir au moins 6 caractères.",
     "passwordError3": "Le mot de passe doit inclure au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.",
     "premiumAccount": "Compte premium",
+    "freeAccount": "Compte gratuit",
     "dashboard": "Tableau de bord",
     "work": "Objectif en cours de progression",
     "left": "restant pour atteindre votre objectif",
@@ -212,5 +213,6 @@
     "update_error": "Impossible de mettre à jour le poids",
     "faq": "Questions fréquentes",
     "network": "Une erreur de connexion s'est produite. Veuillez vérifier votre connexion Internet et réessayer.",
-    "try": "Réessayer"
+    "try": "Réessayer",
+    "searchCreated": "Rechercher un aliment créé"
 }

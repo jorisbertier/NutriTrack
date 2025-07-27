@@ -66,20 +66,24 @@ export default function DetailsFood() {
             </Pressable>
         </View>
         <View style={[styles.header, {backgroundColor: colors.white}]}>
-            <Row>
-                <View style={styles.wrapperBlock}>
-                    <View style={[styles.block, {borderColor: colors.black}]}>
-                        <ThemedText color={colors.black} style={[{fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.category}</ThemedText>
-                    </View>
-                    <View style={[styles.block, {borderColor: colors.black}]}>
-                        <ThemedText color={colors.black} style={[{fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
-                    </View>
-                </View>
-            </Row>
             <Row style={styles.wrapperTitle}>
                 <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.name}</ThemedText>
                 <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
-                <ThemedText color={colors.black} variant="title1" style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
+                <ThemedText color={colors.black} variant="title1" style={styles.title}>{filterUniqueFood?.calories} kcal</ThemedText>
+            </Row>
+            <Row>
+                <View style={styles.wrapperBlock}>
+                    <View style={[styles.modernBlock, { backgroundColor: colors.white, borderColor: colors.black + '20' }]}>
+                        <ThemedText color={colors.black} style={styles.textStyle}>
+                            {filterUniqueFood?.category}
+                        </ThemedText>
+                    </View>
+                    <View style={[styles.modernBlock, { backgroundColor: colors.white, borderColor: colors.black + '20' }]}>
+                        <ThemedText color={colors.black} style={styles.textStyle}>
+                            {filterUniqueFood?.calories} kcal
+                        </ThemedText>
+                    </View>
+                </View>
             </Row>
             <View style={[styles.container]}>
                 <Row gap={10}>
@@ -106,7 +110,7 @@ export default function DetailsFood() {
                     />
                 </Row>
             </View> 
-            <View>
+            <View style={{flexDirection: 'column'}}>
                 {filterUniqueFood?.proteins ? <NutritionItem name={t('proteins')} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
                 {filterUniqueFood?.carbohydrates ? <NutritionItem name={t('carbs')} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
                 {filterUniqueFood?.fats ? <NutritionItem name={t('fats')} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
@@ -144,7 +148,6 @@ const styles = StyleSheet.create({
     header: {
         paddingHorizontal: 12,
         paddingBottom: 8,
-        height: '100%',
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
         top: -35,
@@ -169,12 +172,32 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25
     },
-    wrapperBlock: {
+   wrapperBlock: {
         flexDirection: 'row',
+        gap: 5,
+        marginTop: 5,
+        marginBottom: 15,
         justifyContent: 'center',
-        gap: 10,
-        width: '100%',
-        marginTop: 40,
+        width: '50%',
+        margin: "auto"
+    },
+    modernBlock: {
+        borderWidth: 1,
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 14,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 6,
+        elevation: 3, // for Android
+        backgroundColor: '#fff',
+        margin: 'auto'
+    },
+    textStyle: {
+        fontSize: 13,
+        fontWeight: '600',
+        letterSpacing: 0.4,
     },
     block: {
         borderWidth: 1,
@@ -188,9 +211,9 @@ const styles = StyleSheet.create({
     wrapperTitle: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 30,
         flexDirection: 'column',
-        overflow: "visible"
+        overflow: "visible",
     },
     title: {
         height: 50,
@@ -201,8 +224,9 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'space-around',
+        width: "100%",
         padding: 20,
-        marginTop: -20,
-        paddingBottom: 40
+        paddingBottom: 40,
+        margin: 'auto'
     },
 })

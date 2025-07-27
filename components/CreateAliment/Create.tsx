@@ -747,7 +747,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 30,
         marginTop: 20,
-        marginBottom: 70
+        marginBottom: 70,
+        margin: 'auto'
     },
 });
 export default Create;

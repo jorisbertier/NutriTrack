@@ -65,6 +65,7 @@
     "passwordError2": "Password must be at least 6 characters long.",
     "passwordError3": "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
     "premiumAccount": "Premium account",
+    "freeAccount": "Free account",
     "dashboard": "Dashboard",
     "work": "Work in progress",
     "left": "left for your goal",
@@ -200,5 +201,6 @@
     "update_error": "Unable to update weight",
     "faq": "FAQ",
     "network": "There is a connection error. Please check your internet and try again.",
-    "try": "Try again"
+    "try": "Try again",
+    "searchCreated": "Search a food created",
 }

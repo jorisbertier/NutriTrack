@@ -15,6 +15,7 @@ import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { Skeleton } from "moti/skeleton";
 import { User } from "@/interface/User";
+import { useTranslation } from "react-i18next";
 
 export default function DetailsFoodCreated() {
 
@@ -33,6 +34,7 @@ export default function DetailsFoodCreated() {
     const navigation = useNavigation();
     const route = useRoute<any>();
     const { id } = route.params; 
+    const { t } = useTranslation();
 
     useEffect(() => {
         try {
@@ -107,7 +109,7 @@ export default function DetailsFoodCreated() {
             </Pressable>
         </View>
         <View style={[styles.header, {backgroundColor: colors.white}]}>
-            <Row>
+            {/* <Row>
                 <View style={styles.wrapperBlock}>
                     {isLoading ?
                     <View style={[styles.block, {borderColor: colors.black}]}>
@@ -119,7 +121,7 @@ export default function DetailsFoodCreated() {
                     </View>
                     }
                 </View>
-            </Row>
+            </Row> */}
             <Row style={styles.wrapperTitle}>
             
                 {isLoading ?
@@ -128,14 +130,14 @@ export default function DetailsFoodCreated() {
                     <Skeleton colorMode={colorMode} width={250} height={30} ></Skeleton>
                 }
                 {isLoading ?
-                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
+                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{t('quantity')} : {filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
                 :
                 <View style={{ marginTop: 10 }}> 
                     <Skeleton colorMode={colorMode} width={250} height={30} />
                 </View>
                 }
                 {isLoading ?
-                <ThemedText color={colors.black} variant="title1" style={styles.title}>Good for diet - {filterUniqueFood?.calories} kcal</ThemedText>
+                <ThemedText color={colors.black} variant="title1" style={styles.title}>{t('calories')} : {filterUniqueFood?.calories} kcal</ThemedText>
                 :
                 <View style={{ marginTop: 10, marginBottom: 10 }}> 
                     <Skeleton colorMode={colorMode} width={250} height={30} />

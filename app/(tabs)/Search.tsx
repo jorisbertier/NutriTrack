@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 5
     },
     input: {
         width: "90%",
@@ -240,7 +240,6 @@ const styles = StyleSheet.create({
         transform: [{ translateY: -19 }], 
         width: 20,
         height: 20,
-        
     },
     wrapperDelete : {
         position: 'absolute',

@@ -14,6 +14,8 @@ import CardFoodCreated from "@/components/SearchCreated/CardFoodCreated";
 import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { User } from "@/interface/User";
+import LottieView from "lottie-react-native";
+import { useTranslation } from "react-i18next";
 
 function SearchAlimentCreated() {
 
@@ -25,12 +27,15 @@ function SearchAlimentCreated() {
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
 
     const {theme, colors} = useTheme();
+    const { t } = useTranslation();
 
     const [text, onChangeText] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date());
     const [notificationVisible, setNotificationVisible] = useState(false); 
     const [isLoading, setIsLoading] = useState(false);
+    const [ isFocused, setIsFocused] = useState(false);
+
     const colorMode: 'light' | 'dark' = 'light';
 
     useEffect(() => {
@@ -120,7 +125,7 @@ function SearchAlimentCreated() {
             <TouchableOpacity onPress={handleOpenCalendar}>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
                     <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                        'Today':
+                        t('today'):
                         `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                     </ThemedText>
                     {theme === "light" ?
@@ -143,11 +148,13 @@ function SearchAlimentCreated() {
             
             <View style={styles.wrapperInput}>
                 <TextInput
-                    style={[styles.input, {backgroundColor: colors.grayMode, color: colors.black}]}
+                    style={[styles.input, {backgroundColor: colors.white, color: colors.black, borderColor: isFocused ? colors.back : colors.grayDarkFix}]}
                     onChangeText={onChangeText}
                     value={text}
-                    placeholder="Search a food created"
+                    placeholder={t('searchCreated')}
                     placeholderTextColor={'grey'}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                 >
                 </TextInput>
                     {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
@@ -196,12 +203,17 @@ function SearchAlimentCreated() {
                     )}
             </Row>
             {notificationVisible &&
-                <View style={styles.notification}>
-                    <View style={[styles.wrapperNotification, {backgroundColor: "#8592F2"}]}>
-                        <Text style={styles.notificationText}>Added Food</Text>
-                        <Image style={styles.verify} source={require('@/assets/images/verify2.png')} />
-                    </View>
+            <View style={styles.notification}>
+                <View style={styles.wrapperNotification}>
+                <Text style={styles.notificationText}>✓ {t('added')}</Text>
+                    <LottieView
+                        source={require('@/assets/lottie/check-popup.json')}
+                        loop={false}
+                        style={{ width: 30, height: 30 }}
+                        autoPlay={true}
+                    />
                 </View>
+            </View>
             }
         </SafeAreaView>
     </>
@@ -219,40 +231,33 @@ const styles = StyleSheet.create({
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 5
     },
     input: {
-        height: 50,
-        margin: 12,
-        borderRadius: 15,
+        width: "90%",
+        borderWidth: 1,
         padding: 10,
-        paddingLeft: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingStart: 40,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
-        elevation: 3,
-        borderBlockColor: 'transparent',
-        width: '100%'
+        borderRadius: 15,
+        height: 50,
+        marginBottom: 20,
+        fontSize: 15,
+        fontWeight: 500,
+        paddingLeft: 40
     },
     iconSearch : {
         position: 'absolute',
-        left: 12,
+        left: 30,
         top: '50%',
-        transform: [{ translateY: -9.5 }], 
+        transform: [{ translateY: -19 }], 
         width: 20,
         height: 20,
-        tintColor: '#8a8a8a',
         
     },
     wrapperDelete : {
         position: 'absolute',
-        right: 30,
+        right: 40,
         top: '50%',
-        transform: [{ translateY: -13 }],
+        transform: [{ translateY: -23 }],
         padding: 7,
         borderRadius: 8
     },
@@ -297,31 +302,34 @@ const styles = StyleSheet.create({
         height: 35,
         width: 35
     },
-    notification: {
+  notification: {
         position: "absolute",
-        bottom: 20,
-        width: '100%',
-        alignSelf: 'center'
+        bottom: 30,
+        width: "100%",
+        alignItems: "center",
+        zIndex: 999
     },
-    wrapperNotification : {
-        flexDirection: 'row',
-        justifyContent:'center',
-        gap: 20,
-        padding: 10,
-        borderRadius: 5,
+    wrapperNotification: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "white",
+        borderRadius: 20,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2, 
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.5,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
         elevation: 5,
+        borderWidth: 1,
+        borderColor: "#e0e0e0",
     },
     notificationText: {
-        color: "white",
-        fontWeight: "bold",
+        color: "#333",
+        fontWeight: "600",
+        fontSize: 16,
         textAlign: "center",
+        marginRight: 10
     },
     verify : {
         width: 20,
