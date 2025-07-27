@@ -77,7 +77,7 @@ export default function DetailsFoodCreated() {
     
 
     const handleGoBack = () => {
-            navigation.goBack();
+        navigation.goBack();
     };
 
     const filterUniqueFood = allDataFoodCreated.find((element) => element.id === id)

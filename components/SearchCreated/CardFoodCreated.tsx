@@ -27,7 +27,7 @@ type Props = {
 const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
     const {colors} = useTheme();
-    const { navigation } = useNavigation();
+    const navigation = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
     
@@ -53,8 +53,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     }, [user]);
     
     const navigateToDetails = () => {
-            navigation.navigate("FoodDetailsCreated", { id });
-
+        navigation.navigate("FoodDetailsCreated", { id });
     };
 
     const handlePress = (event: any) => {
