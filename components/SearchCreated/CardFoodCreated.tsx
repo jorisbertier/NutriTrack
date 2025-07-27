@@ -7,10 +7,10 @@ import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { navigationRef } from "@/app/_layout";
 import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { User } from "@/interface/User";
+import { useNavigation } from "expo-router";
 
 type Props = {
     id: number;
@@ -27,6 +27,7 @@ type Props = {
 const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
     const {colors} = useTheme();
+    const { navigation } = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
     
@@ -52,12 +53,8 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     }, [user]);
     
     const navigateToDetails = () => {
-        // Vérifier si le navigationRef est prêt avant de naviguer
-        if (navigationRef.isReady()) {
-            navigationRef.navigate("FoodDetailsCreated", { id });
-        } else {
-            console.log("Navigation n'est pas prête");
-        }
+            navigation.navigate("FoodDetailsCreated", { id });
+
     };
 
     const handlePress = (event: any) => {

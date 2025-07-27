@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { navigationRef } from "@/app/_layout";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 

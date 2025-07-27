@@ -7,7 +7,6 @@ import NutritionItem from "@/components/Screens/Details/NutritionItem";
 import { useRoute } from "@react-navigation/native";
 import { useState, useEffect, useContext } from "react";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { navigationRef } from "@/app/_layout";
 import { getAuth } from "firebase/auth";
 import { fetchUserDataConnected } from "@/functions/function";
 import { collection, getDocs } from "firebase/firestore";
@@ -78,11 +77,7 @@ export default function DetailsFoodCreated() {
     
 
     const handleGoBack = () => {
-        if (navigationRef.current?.isReady()) {
-            navigationRef.current.goBack();
-        } else {
-            console.log("Navigation is not ready yet");
-        }
+            navigation.goBack();
     };
 
     const filterUniqueFood = allDataFoodCreated.find((element) => element.id === id)
