@@ -9,6 +9,7 @@ import WeightPicker from '@/components/WeightPicker';
 import { fetchUserDataConnected } from '@/functions/function';
 import { User } from '@/interface/User';
 import { Animated } from 'react-native';
+import AnimatedToast from '@/components/AnimatedToastProps';
 
 const EditProfileScreen = () => {
     const { colors } = useTheme();
@@ -22,12 +23,10 @@ const EditProfileScreen = () => {
     const [userData, setUserData] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [feedbackMessage, setFeedbackMessage] = useState<{
-        type: 'success' | 'error';
-        message: string;
-    } | null>(null);
 
-    const feedbackAnim = useRef(new Animated.Value(0)).current;
+
+    const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+    // const feedbackAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,21 +43,7 @@ const EditProfileScreen = () => {
     }, []);
 
     const showFeedback = (type: 'success' | 'error', message: string) => {
-        setFeedbackMessage({ type, message });
-
-        Animated.timing(feedbackAnim, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-        }).start(() => {
-            setTimeout(() => {
-            Animated.timing(feedbackAnim, {
-                toValue: 0,
-                duration: 300,
-                useNativeDriver: true,
-            }).start(() => setFeedbackMessage(null));
-            }, 2500);
-        });
+        setFeedback({ type, message });
     };
 
     const handleSave = async () => {
@@ -140,26 +125,12 @@ const EditProfileScreen = () => {
             </TouchableOpacity>
         </View>
 
-        {feedbackMessage && (
-            <Animated.View
-            style={[
-                styles.feedback,
-                {
-                opacity: feedbackAnim,
-                transform: [
-                    {
-                    translateY: feedbackAnim.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [30, 0],
-                    }),
-                    },
-                ],
-                backgroundColor:  feedbackMessage.type === 'error' ? '#FF6B6B' : colors.blueLight,
-                },
-            ]}
-            >
-            <Text style={[styles.feedbackText, { color: colors.balck}]}>{feedbackMessage.message}</Text>
-            </Animated.View>
+        {feedback && (
+            <AnimatedToast
+                message={feedback.message}
+                type={feedback.type}
+                onHide={() => setFeedback(null)}
+            />
         )}
         </View>
     );

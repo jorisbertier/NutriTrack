@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         width: 2,
         backgroundColor: 'black',
         height: 40,
-        left: width / 2 - 20,
+        left: width / 2 - 21,
         zIndex: 10,
     },
 });

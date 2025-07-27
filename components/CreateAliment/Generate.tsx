@@ -9,6 +9,8 @@ import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { firestore, getAuth } from '@/firebaseConfig';
 import { User } from "@/interface/User";
 import { fetchUserDataConnected } from "@/functions/function";
+import AnimatedToast from "../AnimatedToastProps";
+import LottieView from "lottie-react-native";
 
 function Generate() {
 
@@ -33,6 +35,7 @@ function Generate() {
     const [isQuantityFocused, setIsQuantityFocused] = useState(false);
 
     const [ errorMessageTitle, setErrorMessageTitle] = useState('');
+    const [showModal, setShowModal] = useState(false)
 
     const inputInModalRef = useRef(null);
 
@@ -115,9 +118,7 @@ const filteredRepertoryFood = repertoryFood.filter((food: any) => {
                 return Number(value) !== 0;
             })
         );
-        console.log('sort', filteredNutritionValues)
-        console.log('title', title)
-        console.log('inputValueGram', inputValueGram)
+
         try {
             const collectionRef = collection(firestore, "UserCreatedFoods");
 
@@ -172,9 +173,10 @@ const filteredRepertoryFood = repertoryFood.filter((food: any) => {
                 idUser: userData[0]?.id,
                 ...dataToSave
             });
-            Alert.alert('Aliment created')
+            setShowModal(true);
+            setTimeout(() => setShowModal(false), 2500);
         } catch(error: any) {
-            Alert.alert('Create an aliment error', error.message)
+            console.log('Create an aliment error', error.message)
         }
 
             //before build
@@ -476,7 +478,7 @@ const filteredRepertoryFood = repertoryFood.filter((food: any) => {
                     />
                 )}
                 {generateFood?.calories !== undefined && (
-                    <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
+                    <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20, marginBottom: 20}}>
                         <TouchableOpacity
                             onPress={handleCreateAliment} 
                             style={[styles.button , { backgroundColor: colors.black}]}
@@ -486,6 +488,14 @@ const filteredRepertoryFood = repertoryFood.filter((food: any) => {
                     </View>
                 )}
             </View>
+            {showModal && (
+                <LottieView
+                    source={require('@/assets/lottie/check-popup.json')}
+                    loop={false}
+                    autoPlay={true}
+                    style={modal.popup}
+                />
+            )}
         </View>
     )
 }
@@ -579,6 +589,13 @@ const modal = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 20,
     },
+    popup : {
+        width: 100,
+        height: 100,
+        position: 'absolute',
+        bottom: 150, 
+        alignSelf: 'center', 
+    }
 });
 
 export default Generate;

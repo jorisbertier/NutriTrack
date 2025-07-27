@@ -23,7 +23,6 @@ import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch } from 'react-redux';
 import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
 import { useTranslation } from "react-i18next";
-import LottieView from "lottie-react-native";
 
 
 export default function Dashboard() {
@@ -63,15 +62,14 @@ export default function Dashboard() {
     const [notificationVisible, setNotificationVisible] = useState(false);
 
     const showIcon = (userData[0]?.goalLogs?.calories ?? 0) > 0;
-    // console.log('icicicic', userData[0]?.goalLogs['calories'])
-
     let date = new Date();
+
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     
     useEffect(()=> {
 
     }, [sortByBreakfast])
-    console.log("goal user", userData[0])
+
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         setIsOpen(false)
         if(date) {
@@ -400,20 +398,16 @@ export default function Dashboard() {
     if (goal < 0) {
         goal = 0
     }
-    console.log('totalCaloriegoal', totalCaloriesGoal)
-    console.log('basal metalobic rate', basalMetabolicRate)
-    console.log('goal = bsr - totalkcalcosnuemtoday ', goal)
-    console.log('total k consume today ', totalKcalConsumeToday)
-    // console.log('userData[0] calories', userData[0]?.goalLogs["calories"])
+
     let logCalories = userData[0]?.goalLogs["calories"] ?? 0;
     if (userData[0]?.goal === 'lose') {
         basalMetabolicRate -= logCalories; // on retire
         goal -= logCalories; // on retire
-        } else if (userData[0]?.goal === 'gain') {
+    } else if (userData[0]?.goal === 'gain') {
         basalMetabolicRate += logCalories; // on ajoute
         goal += logCalories; // on ajoute
-        }
-     console.log('basal metalobic rate', basalMetabolicRate)
+    }
+
     const dispatch = useDispatch()
     const handleXPUpdate = async () => {
 
@@ -567,40 +561,54 @@ export default function Dashboard() {
             }
             </View>
             <ScrollView style={[styles.header, {paddingTop: 20, backgroundColor: colors.whiteMode}]}>
-                <View style={{flexDirection: 'column',height: 'auto', alignItems:'center', width: '100%', marginBottom: 20}}>
-                    {isOpen && (<RNDateTimePicker
-                                onChange={setDate}
-                                value={selectedDate}
-                                timeZoneName={timeZone}
-                    />)}
-                    {!isLoading ?
-                        <>
-                        {/* <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{showIcon && '🎯'}  {totalCaloriesGoal}cal</Text> */}
-                        <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{showIcon &&                             <LottieView
-                                                        source={require('@/assets/lottie/target.json')}
-                                                        loop={true}
-                                                        style={{ width: 100, height: 100 }}
-                                                        autoPlay={true}
-                                                    />}  {basalMetabolicRate}cal</Text>
-                        
-                        </>
-                    :
-                        <View style={{ marginTop: 10 }}><Skeleton width={300} height={40} colorMode={colorMode} /></View>
-                    }
-                    {!isLoading ?
-                        <ThemedText variant='title2' color={colors.grayDark}>{Math.round(goal)} {t('left')}</ThemedText>
-                    :
-                        <View style={{ marginTop: 5 }}><Skeleton width={260} height={30} colorMode={colorMode} /></View>
-                    }
-                    {!isLoading ?
+            <View style={[styles.card, { backgroundColor: colors.white, shadowColor: colors.shadow }]}>
+                {isOpen && (
+                    <RNDateTimePicker
+                    onChange={setDate}
+                    value={selectedDate}
+                    timeZoneOffsetInMinutes={0}
+                    mode="date"
+                    display="default"
+                    style={{ width: '100%' }}
+                    />
+                )}
+
+                {!isLoading ? (
                     <>
-                    {/* <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {totalCaloriesGoal} cal</ThemedText> */}
-                    <ThemedText variant='title2' style={{marginTop: 5}} color={colors.grayDark}>{Math.round(totalKcalConsumeToday)} / {basalMetabolicRate}</ThemedText>
-                    
+                    <View style={styles.headerRow}>
+                        <Text style={[styles.caloriesText, { color: colors.blackFix }]}>
+                        {showIcon && '🎯'} {Math.round(basalMetabolicRate)} <Text style={styles.unit}>cal</Text>
+                        </Text>
+                        <View style={[styles.badge, { backgroundColor: colors.primaryLight }]}>
+                        <Text style={[styles.badgeText, { color: colors.primaryDark }]}>
+                            {Math.round(goal)} {t('left')}
+                        </Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.progressBarBackground}>
+                        <View
+                        style={[
+                            styles.progressBarFill,
+                            { 
+                            backgroundColor: colors.primary,
+                            width: `${Math.min((totalKcalConsumeToday / basalMetabolicRate) * 100, 100)}%`
+                            },
+                        ]}
+                        />
+                    </View>
+
+                    <Text style={[styles.progressText, { color: colors.textSecondary }]}>
+                        {Math.round(totalKcalConsumeToday)} / {Math.round(basalMetabolicRate)} 
+                    </Text>
                     </>
-                    :
-                        <View style={{ marginTop: 5 }}><Skeleton width={230} height={30} colorMode={colorMode} /></View>
-                    }
+                ) : (
+                    <>
+                    <Skeleton width={280} height={40} colorMode={colorMode} />
+                    <Skeleton width={100} height={24} colorMode={colorMode} />
+                    <Skeleton width={280} height={20} colorMode={colorMode} />
+                    </>
+                )}
                 </View>
                 <View style={{marginBottom: 20}}>
                     <ProgressBarKcal isLoading={!isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
@@ -686,5 +694,63 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 14,
         lineHeight: 24
+    },
+    card: {
+        borderRadius: 20,
+        padding: 20,
+        marginVertical: 25,
+        shadowOpacity: 0.12,
+        shadowRadius: 15,
+        shadowOffset: { width: 0, height: 8 },
+        elevation: 12,
+        width: '100%',
+        maxWidth: 380,
+        alignSelf: 'center',
+    },
+    headerRow: {
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 15,
+    },
+    caloriesText: {
+        fontSize: 40,
+        fontWeight: '900',
+        fontFamily: 'Oswald',
+    },
+    unit: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: '#666',
+    },
+    badge: {
+        paddingVertical: 6,
+        paddingHorizontal: 14,
+        borderRadius: 30,
+        alignSelf: 'flex-start',
+    },
+    badgeText: {
+        fontWeight: '700',
+        fontSize: 16,
+        width: '100%',
+        textAlign: 'center',
+        flexShrink: 1, 
+        maxWidth: "100%",  
+    },
+    progressBarBackground: {
+        height: 12,
+        borderRadius: 20,
+        backgroundColor: '#E6E6E6',
+        overflow: 'hidden',
+        marginBottom: 10,
+    },
+    progressBarFill: {
+        height: '100%',
+        borderRadius: 20,
+    },
+    progressText: {
+        fontSize: 18,
+        fontWeight: '600',
+        textAlign: 'center',
     },
 })

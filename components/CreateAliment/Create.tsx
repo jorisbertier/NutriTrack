@@ -7,6 +7,7 @@ import { firestore, getAuth } from '@/firebaseConfig';
 import { User } from "@/interface/User";
 import { fetchUserDataConnected } from "@/functions/function";
 import { ThemedText } from "../ThemedText";
+import LottieView from "lottie-react-native";
 
 function Create() {
     const {colors} = useTheme();
@@ -41,6 +42,7 @@ function Create() {
     const vitaminERef = useRef(null);
     const vitaminKRef = useRef(null);
 
+    const [ showModal, setShowModal] = useState(false);
 
     const [formValues, setFormValues] = useState({
         title: '',
@@ -354,7 +356,8 @@ function Create() {
                 idUser: userData[0]?.id,
                 ...dataToSave
             });
-            Alert.alert('Aliment created')
+            setShowModal(true);
+            setTimeout(() => setShowModal(false), 2500);
             resetForm();
         } catch(error: any) {
             console.log('Create an aliment error', error.message)
@@ -707,6 +710,14 @@ function Create() {
                 >
                     <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('buttonCreate')}</Text>
                 </TouchableOpacity>
+                {showModal && (
+                    <LottieView
+                        source={require('@/assets/lottie/check-popup.json')}
+                        loop={false}
+                        autoPlay={true}
+                        style={styles.popup}
+                    />
+                )}
             </>
     )
 }
@@ -750,5 +761,12 @@ const styles = StyleSheet.create({
         marginBottom: 70,
         margin: 'auto'
     },
+    popup : {
+        width: 100,
+        height: 100,
+        position: 'absolute',
+        bottom: 150, 
+        alignSelf: 'center', 
+    }
 });
 export default Create;
