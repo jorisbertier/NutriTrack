@@ -8,6 +8,7 @@ import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from '../interface/FoodItemCreated';
 import CardFoodResumeCreated from "./Screens/Dashboard/CardFoodResumeCreated";
 import { Skeleton } from "moti/skeleton";
+import UUID from 'react-native-uuid';
 
 export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreated: FoodItemCreated[], meal: string,handleDeleteFood: (userMealId: string) => void, handleDeleteFoodCreated: (userMealId: string) => void, isLoading: boolean = false) {
 
@@ -23,6 +24,16 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
         return accumulator + (item.calories || 0);
     }, 0);
 
+
+const resultMealWithUuid = resultMeal.map(item => ({
+  ...item,
+  uuid: UUID.v4() as string,
+}));
+
+const resultMealCreatedWithUuid = resultMealCreated.map(item => ({
+  ...item,
+  uuid: UUID.v4() as string,
+}));
     return (
         <View style={styles.wrapper}>
             <Row style={styles.row}>
@@ -34,7 +45,7 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
             <Row>
             { resultMeal.length !== 0 && (
                 <FlatList<FoodItem>
-                    data={resultMeal}
+                    data={resultMealWithUuid}
                     renderItem={({ item }) => (
                         <CardFoodResume
                         name={item.name}
@@ -49,7 +60,7 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
                     )}
                     showsVerticalScrollIndicator={false}
                     scrollEnabled={false}
-                    keyExtractor={(item) => item.userMealId ? item.userMealId : item.id.toString()}
+                    keyExtractor={(item) => item.uuid}
                 />
                 )
                 }
@@ -58,7 +69,7 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
                 <Row>
                     { resultMealCreated.length !== 0 && (
                         <FlatList<FoodItemCreated>
-                            data={resultMealCreated}
+                            data={resultMealCreatedWithUuid}
                             renderItem={({ item }) => (
                                 // <ThemedText>{item.name}</ThemedText>
                                 <CardFoodResumeCreated
@@ -73,7 +84,7 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
                             )}
                             showsVerticalScrollIndicator={false}
                             scrollEnabled={false}
-                            // keyExtractor={(item) => item.userMealId ? item.userMealId : item.id.toString()}
+                            keyExtractor={(item) => item.uuid}
                         />
                         )
                     }

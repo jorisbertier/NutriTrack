@@ -28,4 +28,5 @@ export interface FoodItemCreated {
     sodium?: number;
     iron?: number;
     cholesterol?: number;
+    uuid?: string;
 }

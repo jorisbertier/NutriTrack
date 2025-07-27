@@ -25,7 +25,7 @@ const AvatarStep = ({
         <Text style={[styles.label, { color: colors.blackFix }]}>Select an avatar</Text>
         <FlatList
         data={avatars}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => `${item.id}-${item.name}-${index}`}
         horizontal
         contentContainerStyle={styles.avatarList}
         renderItem={({ item }) => (

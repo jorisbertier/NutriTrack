@@ -30,4 +30,5 @@ export interface FoodItem {
     sodium?: number;
     iron?: number;
     cholesterol?: number;
+    uuid?: string;
 }

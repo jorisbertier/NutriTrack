@@ -23,6 +23,7 @@ import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch } from 'react-redux';
 import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
 import { useTranslation } from "react-i18next";
+import LottieView from "lottie-react-native";
 
 
 export default function Dashboard() {
@@ -575,7 +576,12 @@ export default function Dashboard() {
                     {!isLoading ?
                         <>
                         {/* <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{showIcon && '🎯'}  {totalCaloriesGoal}cal</Text> */}
-                        <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{showIcon && '🎯'}  {basalMetabolicRate}cal</Text>
+                        <Text style={[{fontSize: 50, fontWeight: '800', marginTop: 15, fontFamily: 'Oswald', color: colors.black}]}>{showIcon &&                             <LottieView
+                                                        source={require('@/assets/lottie/target.json')}
+                                                        loop={true}
+                                                        style={{ width: 100, height: 100 }}
+                                                        autoPlay={true}
+                                                    />}  {basalMetabolicRate}cal</Text>
                         
                         </>
                     :

@@ -90,7 +90,7 @@ const WeightPicker = ({ selectedWeight, onChange, weight, isLoading }) => {
             <Animated.FlatList
                 ref={flatListRef}
                 data={weights}
-                keyExtractor={(item) => item.toString()}
+                keyExtractor={(item, index) => `${item}-${index}`}
                 horizontal
                 bounces={false}
                 showsHorizontalScrollIndicator={false}

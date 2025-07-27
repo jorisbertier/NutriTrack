@@ -188,7 +188,7 @@ function SearchAlimentCreated() {
                             />
                         )}
                         showsVerticalScrollIndicator={false}
-                        keyExtractor={(item, index) => `${item.id}-${index}`}
+                        keyExtractor={(item, index) => `${item}-${index}`}
                         contentContainerStyle={styles.wrapperFood}
                     />
                     : <>
@@ -302,9 +302,9 @@ const styles = StyleSheet.create({
         height: 35,
         width: 35
     },
-  notification: {
+    notification: {
         position: "absolute",
-        bottom: 30,
+        bottom: 60,
         width: "100%",
         alignItems: "center",
         zIndex: 999
