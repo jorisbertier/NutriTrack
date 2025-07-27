@@ -47,16 +47,16 @@ function Stats() {
         
         return <View style={{width: '90%', alignSelf: 'center', marginTop: 20}}>
                 <View style={{marginBottom: 20}}>
-                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
                 </View>
                 <View style={{marginBottom: 20}}>
-                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
                 </View>
                 <View style={{marginBottom: 20}}>
-                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
                 </View>
                 <View style={{marginBottom: 20}}>
-                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>;
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
                 </View>
                 </View>
     }
@@ -139,7 +139,7 @@ function Stats() {
                 activeWeekIndex={activeWeekIndex}
                 onWeekChange={setActiveWeekIndex}
             />
-                        <Row style={{marginBottom: 30, marginTop: 20, marginLeft: 10}}>
+            <Row style={{marginBottom: 30, marginTop: 20, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutriweek weight</ThemedText>
             </Row>
                 <WeightChart/>

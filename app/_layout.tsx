@@ -117,7 +117,7 @@ export default function RootLayout() {
       <FoodProvider>
         <StatusBar backgroundColor="#000" barStyle="light-content"/>
         {/* <StatusBar style="auto" /> */}
-        <NavigationContainer independent={true} ref={navigationRef}>
+        {/* <NavigationContainer independent={true} ref={navigationRef}> */}
           <Stack.Navigator
             screenOptions={{ headerShown: false, headerTitleAlign: 'center'}}
           >
@@ -336,7 +336,7 @@ export default function RootLayout() {
                   }}
                 />
           </Stack.Navigator>
-        </NavigationContainer>
+        {/* </NavigationContainer> */}
               </FoodProvider>
       </UserProvider>
       </Provider>

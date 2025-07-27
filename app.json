@@ -7,12 +7,6 @@
     "icon": "./assets/images/realmApp.png",
     "platforms": ["ios", "android"],
     "scheme": "myapp",
-    "permissions": [
-      "camera",
-      "mediaLibrary",
-      "android.permission.READ_EXTERNAL_STORAGE",
-      "android.permission.WRITE_EXTERNAL_STORAGE"
-    ],
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splashRealm.png",

@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 
-const EditProfileScreen = ({ updateUserInfo }) => {
+const EditProfileScreen = () => {
 
   const {colors} = useTheme();
   const navigation = useNavigation();
@@ -100,7 +100,8 @@ const EditProfileScreen = ({ updateUserInfo }) => {
         weight: Number(formData.weight),
         activityLevel: formData.activityLevel,
       });
-      updateUserInfo && updateUserInfo(formData);
+      // updateUserInfo && updateUserInfo(formData);
+      // updateUserInfo(formData);
        navigation.replace('home');
     } catch (error) {
       console.error('Error updating user info:', error);
