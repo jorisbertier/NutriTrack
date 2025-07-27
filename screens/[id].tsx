@@ -37,11 +37,7 @@ export default function DetailsFood() {
     }, []);
 
     const handleGoBack = () => {
-        if (navigationRef.current?.isReady()) {
-          navigationRef.current.goBack();
-        } else {
-          console.log("Navigation is not ready yet");
-        }
+          navigation.goBack();
       };
 
     const filterUniqueFood = data.find((element) => element.id === id)
