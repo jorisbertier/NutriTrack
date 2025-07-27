@@ -1,4 +1,4 @@
-import { Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import NutritionBox from "../NutritionBox";
 import { repertoryFood } from '@/data/createAliment/repertoryFood';
 import { useEffect, useRef, useState } from "react";

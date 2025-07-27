@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, TextInput, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { auth } from '../firebaseConfig';
-import { browserLocalPersistence, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import Row from '@/components/Row';
-import { Path, Svg } from 'react-native-svg';
 import { ThemedText } from '@/components/ThemedText';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { StatusBar } from 'expo-status-bar'; 

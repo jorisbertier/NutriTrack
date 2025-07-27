@@ -4,6 +4,7 @@ import { useUser } from '@/components/context/UserContext';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { useTranslation } from 'react-i18next';
+import LottieView from 'lottie-react-native';
 
 const ChangePasswordScreen = ({ navigation }: any) => {
 
@@ -14,6 +15,7 @@ const ChangePasswordScreen = ({ navigation }: any) => {
     const {colors} = useTheme();
     const [passwordError, setPasswordError] = useState('');
     const [focusedFields, setFocusedFields] = useState<{ [key: string]: boolean }>({});
+    const [ showModal, setShowModal] = useState(false);
 
     const handleFocus = (field: string) => {
         setFocusedFields(prev => ({ ...prev, [field]: true }));
@@ -47,14 +49,16 @@ const ChangePasswordScreen = ({ navigation }: any) => {
 
             if (currentUser) {
                 await updatePassword(currentUser, newPassword);
-                Alert.alert("Success", "Your password has been updated.")
-                navigation.goBack();
+                setShowModal(true);        
+                setTimeout(() => setShowModal(false), 2000);
+                setTimeout(() => navigation.goBack(), 2200);
             } else {
-                Alert.alert("Erreur", "User not authenticated.");
+                console.log("Erreur", "User not authenticated.");
+                setPasswordError("Utilisateur non authentifié. Veuillez vous reconnecter.");
             }
         } catch (error) {
-            console.error("Error", "User not authenticated. :", error);
-            Alert.alert("Error", "Unable to update password. Try again");
+            console.error("Error", "Unable to update password :", error);
+            setPasswordError("Unable to update password. Try again");
         }
     };
 
@@ -85,7 +89,14 @@ const ChangePasswordScreen = ({ navigation }: any) => {
                     <Text style={[styles.buttonText, { color : colors.white}]}>{t('save')}</Text>
                 </TouchableOpacity>
                 </View>
-            
+                {showModal && (
+                    <LottieView
+                        source={require('@/assets/lottie/check-popup.json')}
+                        loop={false}
+                        autoPlay={true}
+                        style={styles.popup}
+                    />
+                )}
         </View>
     );
 };
@@ -126,6 +137,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         height: 20,
     },
+    popup : {
+        width: 100,
+        height: 100,
+        position: 'absolute',
+        bottom: 150, 
+        alignSelf: 'center', 
+    }
 });
 
 export default ChangePasswordScreen;
