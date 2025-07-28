@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, View, Image, TouchableOpacity, Animated, ScrollView, Text, Dimensions, FlatList, Alert } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, ScrollView, Text } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import React, { useState, useEffect } from "react";
 import { foodData } from "@/data/food";

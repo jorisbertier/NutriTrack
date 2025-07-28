@@ -21,6 +21,7 @@
     "logout": "Logout",
     "quantity": "Quantity",
     "deleteAccount": "Delete account",
+    "delete": "Delete",
     "gender_male": "male",
     "gender_female": "female",
     "gender_other": "other",
@@ -200,6 +201,7 @@
     "updated": "Weight updated successfully",
     "update_error": "Unable to update weight",
     "unauthenticated_or_not_defined": "User or goal not defined.",
+    "unauthenticated": "User unauthenticated",
     "faq": "FAQ",
     "network": "There is a connection error. Please check your internet and try again.",
     "try": "Try again",
@@ -210,6 +212,16 @@
     "textEditMaintain": "Reset your nutrition data to the recommended default values.",
     "textEditgoal": "To maintain your health, a moderate difference between 300 and 500 kcal is generally recommended.",
     "yes": "yes",
+    "foodDeleted": "Food deleted",
+    "error_food_deleted": "Error during deletion of document. Try again",
+    "error_food_created": "Error during creation of document. Try again",
+    "error_meal": "Meal user ID is undefined",
     "exitApp": "Exit the application!",
-    "exitAppText": "Are you sure you want to exit the application?"
+    "exitAppText": "Are you sure you want to exit the application?",
+    "confirmation": "Confirmation",
+    "deleteFoodWarning": "This action is irreversible and may affect the data in your dashboard if this food item is present !\n\nAre you sure you want to eliminate this food? ",
+    "emailEmpty": "Please enter your email address.",
+    "emailError": "There was an error while sending the link. try again",
+    "emailSuccess": "Reset link sent to your email"
+
 }

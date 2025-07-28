@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useTranslation } from "react-i18next";
+import AnimatedToast from "@/components/AnimatedToastProps";
 
 export default function ForgotPasswordScreen() {
 
@@ -11,19 +12,26 @@ export default function ForgotPasswordScreen() {
   const { t } = useTranslation();
 
   const [isFocused, setIsFocused] = useState(false);
+  const [ errorMessage, setErrorMessage] = useState('');
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const showFeedback = (type: 'success' | 'error', message: string) => {
+    setFeedback({ type, message });
+  };
 
   const handlePasswordReset = async () => {
     const auth = getAuth();
     if (!email) {
-      Alert.alert("Erreur", "Veuillez entrer votre adresse email.");
+      setErrorMessage(t('emailEmpty'));
       return;
     }
-
+    setErrorMessage('');
     try {
       await sendPasswordResetEmail(auth, email);
-      Alert.alert("Succès", "Un lien de réinitialisation a été envoyé à votre email.");
+      setTimeout(() => showFeedback('success', t('emailSuccess')), 2000);
+      setEmail('');
     } catch (error) {
-      Alert.alert("Erreur", error.message);
+      setErrorMessage(t('emailError'));
     }
   };
 
@@ -40,16 +48,24 @@ export default function ForgotPasswordScreen() {
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
+      {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       <TouchableOpacity style={[styles.button, { backgroundColor: colors.black}]} onPress={handlePasswordReset}>
         <Text style={styles.buttonText}>{t('sent')}</Text>
       </TouchableOpacity>
-      
+      {feedback && (
+          <AnimatedToast
+              message={feedback.message}
+              type={feedback.type}
+              onHide={() => setFeedback(null)}
+              height={100}
+          />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, marginTop: 20 },
+  container: { padding: 20, marginTop: 20, flex: 1 },
   label: { fontSize: 20, marginBottom: 10 },
   input: {
     borderWidth: 1,
@@ -71,5 +87,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  error : {
+    color: 'red',
+    width: "90%",
+    marginTop: -10,
+    fontSize: 15
   }
 });

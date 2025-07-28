@@ -11,6 +11,8 @@ import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { User } from "@/interface/User";
 import { useNavigation } from "expo-router";
+import { useTranslation } from "react-i18next";
+import AnimatedToast from "../AnimatedToastProps";
 
 type Props = {
     id: number;
@@ -27,6 +29,7 @@ type Props = {
 const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
     const {colors} = useTheme();
+    const { t } = useTranslation();
     const navigation = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -40,6 +43,10 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     const addImageRef = useRef(null);
     const auth = getAuth();
     const user = auth.currentUser;
+    const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+    const showFeedback = (type: 'success' | 'error', message: string) => {
+        setFeedback({ type, message });
+    };
 
     useEffect(() => {
         try {
@@ -93,32 +100,33 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
 
             setTimeout(() => {
                 setNotification(false)
-            }, 1500);
+            }, 2000);
 
-            console.log("Document successfully written with ID: ", newId)
+            // console.log("Document successfully written with ID: ", newId)
         } catch(e) {
-            console.log('Error add aliment to database UserMeals', e)
+            // console.log('Error add aliment to database UserMeals', e)
+            setTimeout(() => showFeedback('error', t('error_food_created')), 2000);
         }
     }
 
     const handleDelete = (id: any) => {
         if (!id) {
-            console.error("Meal user ID is undefined.");
+            setTimeout(() => showFeedback('error', t('error_meal')), 2000);
             return;
         }
 
         Alert.alert(
-            "Confirmation",
-            "This action is irreversible and may affect the data in your dashboard if this food item is present !\n\n\Are you sure you want to eliminate this food? ",
+            t('confirmation'),
+            t('deleteFoodWarning'),
 
             [
                 {
-                    text: "Cancel",
+                    text: t('cancel'),
                     onPress: () => console.log("Deletion canceled"),
                     style: "cancel",
                 },
                 {
-                    text: "Delete",
+                    text: t('delete'),
                     onPress: async () => {
                         try {
                             const mealDocRef = doc(firestore, "UserCreatedFoods", idDoc);
@@ -136,10 +144,9 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                             setAllDataFoodCreated((prevData: FoodItemCreated[]) =>
                                 prevData.filter(food => food.idDoc !== idDoc)
                             );
-    
-                            console.log("Document deleted with success");
+                            setTimeout(() => showFeedback('success', t('foodDeleted')), 1000);
                         } catch (error) {
-                            console.error("Error during deletion of document: ", error);
+                            setTimeout(() => showFeedback('error', t('error_food_deleted')), 2000);
                         }
                     },
                     style: "destructive",
@@ -151,6 +158,14 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
 
     return (
         <TouchableOpacity onPress={navigateToDetails}>
+                        {feedback && (
+                <AnimatedToast
+                    message={feedback.message}
+                    type={feedback.type}
+                    onHide={() => setFeedback(null)}
+                    height={0}
+                />
+            )}
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
                 <View style={styles.text}>
                     <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(name)}</ThemedText>

@@ -20,6 +20,7 @@
     "contactSupport": "Contacter le support",
     "logout": "Déconnexion",
     "deleteAccount": "Supprimer le compte",
+    "delete": "Supprimer",
     "quantity": "Quantité",
     "gender_male": "homme",
     "gender_female": "femme",
@@ -212,6 +213,7 @@
     "updated": "Poids mis à jour avec succès",
     "update_error": "Impossible de mettre à jour le poids",
     "unauthenticated_or_not_defined": "Utilisateur ou objectif non défini.",
+    "unauthenticated": "Utilisateur non authentifié",
     "faq": "Questions fréquentes",
     "network": "Une erreur de connexion s'est produite. Veuillez vérifier votre connexion Internet et réessayer.",
     "try": "Réessayer",
@@ -222,6 +224,15 @@
     "textEditMaintain": "Réinitialisez vos données nutritionnelles aux valeurs par défaut recommandées.",
     "textEditgoal": "Pour préserver votre santé, un écart modéré entre 300 et 500 kcal est généralement recommandé",
     "yes": "Oui",
+    "foodDeleted": "Aliment supprimé",
+    "error_food_deleted": "Erreur lors de la suppression de l'aliment. Veuillez réessayer",
+    "error_food_created": "Erreur lors de la création de l'aliment. Veuillez réessayer",
+    "error_meal": "ID repas de l'utilisateur est indéfinie",
     "exitApp": "Quitter l'application !",
-    "exitAppText": "Êtes-vous sûr de vouloir quitter l'application ?"
+    "exitAppText": "Êtes-vous sûr de vouloir quitter l'application ?",
+    "confirmation": "Confirmation",
+    "deleteFoodWarning": "Cette action est irréversible et peut affecter les données de votre tableau de bord si cet aliment est présent !\n\nÊtes-vous sûr de vouloir supprimer cet aliment ?",
+    "emailEmpty": "Veuillez entrer votre adresse email.",
+    "emailError": "Il y a eu une erreur lors de l'envoi du lien. Veuillez réessayer",
+    "emailSuccess": "Lien de réinitialisation envoyé par email"
 }

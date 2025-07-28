@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useUser } from '@/components/context/UserContext';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { useTheme } from '@/hooks/ThemeProvider';
@@ -8,7 +8,6 @@ import LottieView from 'lottie-react-native';
 
 const ChangePasswordScreen = ({ navigation }: any) => {
 
-    const { user } = useUser();
     const { t } = useTranslation();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');

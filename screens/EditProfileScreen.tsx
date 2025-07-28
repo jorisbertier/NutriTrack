@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity, Alert } from 'react-native';
-// import { Picker } from '@react-native-picker/picker';
-import { getAuth, signOut } from 'firebase/auth';
+import { View, Text, TextInput, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { getAuth } from 'firebase/auth';
 import { fetchUserDataConnected } from '@/functions/function';
 import { User } from '@/interface/User';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
-// import { Auth } from '@/firebaseConfig';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { Picker } from '@react-native-picker/picker';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 
