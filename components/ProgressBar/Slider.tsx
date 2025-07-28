@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     alignItems: 'center',
-    marginTop: 30
+    marginTop: 10
   },
   slider: {
     width: SLIDER_WIDTH,

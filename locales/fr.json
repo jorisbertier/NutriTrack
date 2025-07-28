@@ -214,5 +214,9 @@
     "faq": "Questions fréquentes",
     "network": "Une erreur de connexion s'est produite. Veuillez vérifier votre connexion Internet et réessayer.",
     "try": "Réessayer",
-    "searchCreated": "Rechercher un aliment créé"
+    "searchCreated": "Rechercher un aliment créé",
+    "lose": "Perdre",
+    "gain": "Gagner",
+    "maintain": "Maintenir",
+    "textEditMaintain": "Réinitialisez vos données nutritionnelles aux valeurs par défaut recommandées."
 }

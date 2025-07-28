@@ -16,9 +16,9 @@ const GoalToggle: React.FC<GoalToggleProps> = ({ selectedGoal, onSelect }) => {
     const { t } = useTranslation();
 
     const goals: { label: string; value: Goal }[] = [
-        { label: 'Lose', value: 'lose' },
-        { label: 'Maintain', value: 'maintain' },
-        { label: 'Gain', value: 'gain' },
+        { label: t('lose'), value: 'lose' },
+        { label: t('maintain'), value: 'maintain' },
+        { label: t('gain'), value: 'gain' },
     ];
 
     return (

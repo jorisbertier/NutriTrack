@@ -46,7 +46,7 @@ export default function AnimatedToast({
     }, [anim, duration, onHide]);
 
     const backgroundColor =
-        type === 'error' ? '#FF6B6B' : colors.blueLight; // rouge ou bleu (à adapter)
+        type === 'error' ? '#FF6B6B' : colors.blueLight; 
 
     return (
         <Animated.View
@@ -67,7 +67,7 @@ export default function AnimatedToast({
             },
         ]}
         >
-        <Text style={styles.text}>{message}</Text>
+        <Text style={[styles.text, { color: colors.blackFix}]}>{message}</Text>
         </Animated.View>
     );
 }
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
         zIndex: 20
     },
     text: {
-        color: '#fff',
         fontWeight: '500',
         textAlign: 'center',
     },

@@ -3,7 +3,7 @@
     "change_language": "Change language",
     "personal_information": "Personal informations",
     "firstName": "First name",
-    "lastName": "Lastname",
+    "lastName": "Last name",
     "name": "Last name",
     "gender": "Gender",
     "dateOfBirth" : "Date of birth",
@@ -203,4 +203,8 @@
     "network": "There is a connection error. Please check your internet and try again.",
     "try": "Try again",
     "searchCreated": "Search a food created",
+    "lose": "Lose",
+    "gain": "Gain",
+    "maintain": "Maintain",
+    "textEditMaintain": "Reset your nutrition data to the recommended default values."
 }
