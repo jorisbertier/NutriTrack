@@ -211,6 +211,7 @@
     "invalid": "Veuillez entrer un poids valide",
     "updated": "Poids mis à jour avec succès",
     "update_error": "Impossible de mettre à jour le poids",
+    "unauthenticated_or_not_defined": "Utilisateur ou objectif non défini.",
     "faq": "Questions fréquentes",
     "network": "Une erreur de connexion s'est produite. Veuillez vérifier votre connexion Internet et réessayer.",
     "try": "Réessayer",
@@ -218,5 +219,9 @@
     "lose": "Perdre",
     "gain": "Gagner",
     "maintain": "Maintenir",
-    "textEditMaintain": "Réinitialisez vos données nutritionnelles aux valeurs par défaut recommandées."
+    "textEditMaintain": "Réinitialisez vos données nutritionnelles aux valeurs par défaut recommandées.",
+    "textEditgoal": "Pour préserver votre santé, un écart modéré entre 300 et 500 kcal est généralement recommandé",
+    "yes": "Oui",
+    "exitApp": "Quitter l'application !",
+    "exitAppText": "Êtes-vous sûr de vouloir quitter l'application ?"
 }

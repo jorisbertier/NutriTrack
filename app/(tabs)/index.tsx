@@ -35,7 +35,6 @@ export default function HomeScreen() {
   useEffect(() => {
     const fetchUserData = async () => {
       if (user !== null) {
-        // The user object has basic properties su
         const email = user.email;
 
         const userCollection = collection(firestore, 'User');
@@ -55,8 +54,8 @@ export default function HomeScreen() {
         }));
 
         const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
-        setUserData(sortByUniqueUserConnected)
-        setIsLoading(true)
+        setUserData(sortByUniqueUserConnected);
+        setIsLoading(true);
       }
     }
     fetchUserData()
@@ -70,66 +69,28 @@ export default function HomeScreen() {
     userData[0]?.activityLevel
   ) : null;
 
-  // const [formattedCalories, setFormattedCalories] = useState('')
-  // useEffect(() => {
-  //   if (typeof basalMetabolicRate === 'number' && !isNaN(basalMetabolicRate)) {
-  //     setFormattedCalories(basalMetabolicRate.toLocaleString('en-US'));
-  //   } else {
-  //     console.error('basalMetabolicRate is not a valid number');
-  //   }
-  // }, [basalMetabolicRate]); 
-// EAS.json pour builder sur la app
-// {
-//   "cli": {
-//     "version": ">= 13.1.1",
-//     "appVersionSource": "remote"
-//   },
-//   "build": {
-//     "preview": {
-//       "android": {
-//         "buildType": "apk"
-//       }
-//     },
-//     "preview2": {
-//       "android": {
-//         "gradleCommand": ":app:assembleRelease"
-//       }
-//     },
-//     "preview3": {
-//       "developmentClient": true
-//     },
-//     "preview4": {
-//       "distribution": "internal"
-//     },
-//     "production": {
-//       "android": {
-//         "buildType": "apk"
-//       }
-//     }
-//   }
-// }
-useEffect(() => {
-  const backAction = () => {
-    if (user && route.name === 'Home') {
-      Alert.alert('Exit the application!', 'Are you sure you want to exit the application?', [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        {
-          text: 'YES',
-          onPress: () => BackHandler.exitApp(),
-        },
-      ]);
+  useEffect(() => {
+    const backAction = () => {
+      if (user && route.name === 'Home') {
+        Alert.alert(t('exitApp'), t('exitAppText'), [
+          {
+            text: t('cancel'),
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {
+            text: t('yes').toUpperCase(),
+            onPress: () => BackHandler.exitApp(),
+          },
+        ]);
+        return true;
+      }
+      navigation.goBack();
       return true;
-    }
-    navigation.goBack();
-    return true;
-  };
+    };
 
-  const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-  // Nettoyage de l'écouteur à la fermeture du composant
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    // Nettoyage de l'écouteur à la fermeture du composant
     return () => backHandler.remove();
   }, [route, user]);
 

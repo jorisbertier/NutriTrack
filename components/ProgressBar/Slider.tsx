@@ -9,7 +9,6 @@ import Animated, {
   useAnimatedGestureHandler,
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   useAnimatedReaction,
   runOnJS,
 } from 'react-native-reanimated';
@@ -18,6 +17,7 @@ import {
 } from 'react-native-gesture-handler';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window');
 const SLIDER_WIDTH = width - 100;
@@ -31,6 +31,7 @@ type SliderProps = {
 const Slider = ({ onValueChange}: SliderProps) => {
 
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   const translateX = useSharedValue(0);
   const [value, setValue] = useState(0);
@@ -81,9 +82,9 @@ const Slider = ({ onValueChange}: SliderProps) => {
         </PanGestureHandler>
       </View>
       <Text style={styles.valueText}>
-        {value * 5} calories
+        {value * 5} {t('calories').toLowerCase()}
       </Text>
-      <Text style={{textAlign: 'center'}}>* Pour préserver votre santé, un écart modéré entre 300 et 500 kcal est généralement recommandé.</Text>
+      <Text style={{textAlign: 'center'}}>* {t('textEditgoal')}</Text>
     </View>
   );
 };
@@ -120,8 +121,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   filledTrack: {
-  position: 'absolute',
-  height: 40,
-  borderRadius: 10,
+    position: 'absolute',
+    height: 40,
+    borderRadius: 10,
 },
 });

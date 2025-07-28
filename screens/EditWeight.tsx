@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { useTheme } from '@/hooks/ThemeProvider';
@@ -8,7 +8,6 @@ import { useNavigation } from '@react-navigation/native';
 import WeightPicker from '@/components/WeightPicker';
 import { fetchUserDataConnected } from '@/functions/function';
 import { User } from '@/interface/User';
-import { Animated } from 'react-native';
 import AnimatedToast from '@/components/AnimatedToastProps';
 
 const EditProfileScreen = () => {
@@ -35,6 +34,7 @@ const EditProfileScreen = () => {
             await fetchUserDataConnected(user, setUserData);
         } catch (error) {
             console.error('Error fetching user data:', error);
+            showFeedback('error', t('unauthenticated_or_not_defined'))
         } finally {
             setIsLoading(false);
         }
@@ -54,6 +54,7 @@ const EditProfileScreen = () => {
 
         if (!user) {
             console.error('User not authenticated');
+            showFeedback('error', t('unauthenticated_or_not_defined'))
             return;
         }
 
@@ -130,6 +131,7 @@ const EditProfileScreen = () => {
                 message={feedback.message}
                 type={feedback.type}
                 onHide={() => setFeedback(null)}
+                height={150}
             />
         )}
         </View>

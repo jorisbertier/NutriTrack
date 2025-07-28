@@ -9,7 +9,6 @@ import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { firestore, getAuth } from '@/firebaseConfig';
 import { User } from "@/interface/User";
 import { fetchUserDataConnected } from "@/functions/function";
-import AnimatedToast from "../AnimatedToastProps";
 import LottieView from "lottie-react-native";
 
 function Generate() {

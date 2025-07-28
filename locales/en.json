@@ -199,6 +199,7 @@
     "invalid": "Please enter a valid weight",
     "updated": "Weight updated successfully",
     "update_error": "Unable to update weight",
+    "unauthenticated_or_not_defined": "User or goal not defined.",
     "faq": "FAQ",
     "network": "There is a connection error. Please check your internet and try again.",
     "try": "Try again",
@@ -206,5 +207,9 @@
     "lose": "Lose",
     "gain": "Gain",
     "maintain": "Maintain",
-    "textEditMaintain": "Reset your nutrition data to the recommended default values."
+    "textEditMaintain": "Reset your nutrition data to the recommended default values.",
+    "textEditgoal": "To maintain your health, a moderate difference between 300 and 500 kcal is generally recommended.",
+    "yes": "yes",
+    "exitApp": "Exit the application!",
+    "exitAppText": "Are you sure you want to exit the application?"
 }

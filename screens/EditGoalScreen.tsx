@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { getAuth } from 'firebase/auth';
-import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
+import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import Slider from '@/components/ProgressBar/Slider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomButton from '@/components/button/CustomButton';
 import GoalToggle from '@/components/GoalToggle';
+import AnimatedToast from '@/components/AnimatedToastProps';
+import { useNavigation } from '@react-navigation/native';
 
 type Goal = 'lose' | 'maintain' | 'gain';
 
@@ -21,73 +23,82 @@ const EditGoalScreen = () => {
 
 
   const [ calories, setCalories] = useState<number>(0);
-const [proteins, setProteins] = useState<string>('');
-const [carbs, setCarbs] = useState<string>('');
-const [fats, setFats] = useState<string>('');
+  const [proteins, setProteins] = useState<string>('');
+  const [carbs, setCarbs] = useState<string>('');
+  const [fats, setFats] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const navigation = useNavigation();
 
   const { t} = useTranslation();
 
-const handleEditGoal = async () => {
-  if (!uid || !selectedGoal) {
-    Alert.alert("Erreur", "Utilisateur ou objectif non défini.");
-    return;
-  }
+  const showFeedback = (type: 'success' | 'error', message: string) => {
+    setFeedback({ type, message });
+  };
 
-  const userRef = doc(db, 'User', uid);
+  const handleEditGoal = async () => {
+    if (!uid || !selectedGoal) {
+      showFeedback('error', t('unauthenticated_or_not_defined'));
+      return;
+    }
 
-  // Cas objectif = maintenir → tout à 0
-  if (selectedGoal === "maintain") {
+    const userRef = doc(db, 'User', uid);
+
+    // Cas objectif = maintenir → tout à 0
+    if (selectedGoal === "maintain") {
+      try {
+        await updateDoc(userRef, {
+          goal: selectedGoal,
+          goalLogs: { calories: 0, proteins: 0, carbs: 0, fats: 0 }
+        });
+          showFeedback('success', t('updated'));
+          setTimeout(() => navigation.goBack(), 1000);
+      } catch (error) {
+        console.error("Error durantly update edit goal :", error);
+        showFeedback('error', t('update_error'));
+      }
+      return;
+    }
+
+    // Sinon, valider macros :
+    const proteinVal = Number(proteins);
+    const carbVal = Number(carbs);
+    const fatVal = Number(fats);
+
+    const isValidNumber = (val: number) => !isNaN(val) && val >= 0 && val <= 100;
+
+    if (
+      proteins.trim() === '' ||
+      carbs.trim() === '' ||
+      fats.trim() === '' ||
+      !isValidNumber(proteinVal) ||
+      !isValidNumber(carbVal) ||
+      !isValidNumber(fatVal)
+    ) {
+      setErrorMessage(t('errorEditGoal'));
+      return;
+    }
+
+    setErrorMessage('');
+
     try {
       await updateDoc(userRef, {
         goal: selectedGoal,
-        goalLogs: { calories: 0, proteins: 0, carbs: 0, fats: 0 }
+        goalLogs: {
+          calories,
+          proteins: proteinVal,
+          carbs: carbVal,
+          fats: fatVal
+        }
       });
-      Alert.alert("Succès", "Objectif mis à jour !");
+      showFeedback('success', t('updated'));
+      setTimeout(() => navigation.goBack(), 1000);
     } catch (error) {
-      console.error("Erreur lors de la mise à jour :", error);
+      console.error("Error durantly update edit goal :", error);
+      showFeedback('error', t('update_error'));
     }
-    return;
-  }
-
-  // Sinon, valider macros :
-  const proteinVal = Number(proteins);
-  const carbVal = Number(carbs);
-  const fatVal = Number(fats);
-
-  const isValidNumber = (val: number) => !isNaN(val) && val >= 0 && val <= 100;
-
-  if (
-    proteins.trim() === '' ||
-    carbs.trim() === '' ||
-    fats.trim() === '' ||
-    !isValidNumber(proteinVal) ||
-    !isValidNumber(carbVal) ||
-    !isValidNumber(fatVal)
-  ) {
-    setErrorMessage(t('errorEditGoal'));
-    return;
-  }
-
-  setErrorMessage('');
-
-  try {
-    await updateDoc(userRef, {
-      goal: selectedGoal,
-      goalLogs: {
-        calories,
-        proteins: proteinVal,
-        carbs: carbVal,
-        fats: fatVal
-      }
-    });
-
-    Alert.alert("Succès", "Objectif mis à jour !");
-  } catch (error) {
-    console.error("Erreur lors de la mise à jour :", error);
-  }
-};
+  };
 
   return (
         <GestureHandlerRootView>
@@ -125,11 +136,11 @@ const handleEditGoal = async () => {
                 <View style={{width: '30%', height: 80, backgroundColor: colors.gray, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column"}}>
                   <View>
                     <TextInput style={{fontWeight: 600, fontSize:18, color: colors.black}}
-                  value={fats}
-                  onChangeText={setFats}
-                  placeholder="0"
-                  placeholderTextColor={colors.black}
-                  keyboardType='numeric'
+                      value={fats}
+                      onChangeText={setFats}
+                      placeholder="0"
+                      placeholderTextColor={colors.black}
+                      keyboardType='numeric'
                     />
                   </View>
                   <View><Text style={{fontSize: 14, color: colors.grayDark, fontWeight: 500}}>{t('fats')}</Text></View>
@@ -146,6 +157,14 @@ const handleEditGoal = async () => {
             <CustomButton titleButton={t('editGoal')} handlePersistData={handleEditGoal}/>
           )}
         </View>
+            {feedback && (
+                <AnimatedToast
+                    message={feedback.message}
+                    type={feedback.type}
+                    onHide={() => setFeedback(null)}
+                    height={100}
+                />
+            )}
       </GestureHandlerRootView>
   );
 };

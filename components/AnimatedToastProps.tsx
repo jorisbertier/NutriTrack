@@ -10,6 +10,7 @@ type ToastType = 'success' | 'error';
     duration?: number;
     onHide?: () => void;
     containerStyle?: ViewStyle;
+    height: number;
 }
 
 export default function AnimatedToast({
@@ -18,6 +19,7 @@ export default function AnimatedToast({
     duration = 2500,
     onHide,
     containerStyle,
+    height
 }: AnimatedToastProps) {
 
     const anim = useRef(new Animated.Value(0)).current;
@@ -54,6 +56,7 @@ export default function AnimatedToast({
             styles.toast,
             containerStyle,
             {
+            bottom: height,
             opacity: anim,
             transform: [
                 {
@@ -75,7 +78,6 @@ export default function AnimatedToast({
 const styles = StyleSheet.create({
     toast: {
         position: 'absolute',
-        bottom: 200,
         left: 20,
         right: 20,
         padding: 14,
