@@ -1,8 +1,8 @@
 import { User } from '@/interface/User';
-import { deleteUser, EmailAuthProvider, getAuth, reauthenticateWithPopup, signOut } from 'firebase/auth';
-import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { deleteUser, getAuth, signOut } from 'firebase/auth';
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
@@ -28,7 +28,8 @@ const ProfileScreen = () => {
   const [userData, setUserData] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const dispatch = useDispatch();
-  const [ modalVisible, setModalVisible] = useState(false)
+  const [ modalVisible, setModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   
   const navigation = useNavigation()
   const genderKey = userData[0]?.gender;
@@ -66,6 +67,7 @@ const ProfileScreen = () => {
   const avatar = getIdAvatarProfile(Number(userData[0]?.profilPicture))
 
   const handleSignOut = async () => {
+    setErrorMessage('')
     try {
       // await setPersistence(auth, browserSessionPersistence);
       await signOut(auth); // Déconnexion de l'utilisateur
@@ -75,7 +77,7 @@ const ProfileScreen = () => {
         routes: [{ name: 'auth' }],
       });
     } catch (error: unknown) {
-      Alert.alert('Erreur de déconnexion', error.message);
+      setErrorMessage(t('logoutError'))
     }
   };
   /** DELETE ACCOUNT */
@@ -248,6 +250,7 @@ console.log(i18n.language)
           onPress={handleSignOut}
           isLast 
         />
+        {errorMessage && <Text style={{color: 'red', textAlign: 'center', marginTop: 10}}>{errorMessage}</Text>}
         {/* <TouchableOpacity style={styles.optionButton}>
           <Text style={[styles.optionText, {color : colors.primary}]}>Premium Subscription</Text>
           </TouchableOpacity> */}

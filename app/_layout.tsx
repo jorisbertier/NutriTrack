@@ -203,7 +203,7 @@ export default function RootLayout() {
               <Stack.Screen name="faq" component={FaqScreen}
                 options={{
                   headerShown: true,
-                  headerTitle: t('FAq'),
+                  headerTitle: t('faq'),
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
@@ -276,7 +276,7 @@ export default function RootLayout() {
                 <Stack.Screen name="SearchAlimentCreated" component={SearchAlimentCreated} 
                   options={{
                     headerShown: true,
-                    headerTitle: 'Your aliments',
+                    headerTitle: t('yourAliments'),
                     headerTitleAlign: 'center',
                     headerStyle: {
                       backgroundColor: '#000',

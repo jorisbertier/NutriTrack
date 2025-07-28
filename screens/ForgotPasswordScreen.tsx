@@ -28,7 +28,7 @@ export default function ForgotPasswordScreen() {
     setErrorMessage('');
     try {
       await sendPasswordResetEmail(auth, email);
-      setTimeout(() => showFeedback('success', t('emailSuccess')), 2000);
+      showFeedback('success', t('emailSuccess'));
       setEmail('');
     } catch (error) {
       setErrorMessage(t('emailError'));

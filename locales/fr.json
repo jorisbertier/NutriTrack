@@ -234,5 +234,9 @@
     "deleteFoodWarning": "Cette action est irréversible et peut affecter les données de votre tableau de bord si cet aliment est présent !\n\nÊtes-vous sûr de vouloir supprimer cet aliment ?",
     "emailEmpty": "Veuillez entrer votre adresse email.",
     "emailError": "Il y a eu une erreur lors de l'envoi du lien. Veuillez réessayer",
-    "emailSuccess": "Lien de réinitialisation envoyé par email"
+    "emailSuccess": "Lien de réinitialisation envoyé par email",
+    "logoutError": "Erreur lors de la déconnexion. Veuillez réessayer",
+    "supportError": "Erreur lors du contact avec le support. Veuillez réessayer",
+    "supportSuccess": "Assistance contactée",
+    "yourAliments": "Vos aliments"
 }

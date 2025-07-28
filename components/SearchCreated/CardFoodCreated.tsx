@@ -105,13 +105,13 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
             // console.log("Document successfully written with ID: ", newId)
         } catch(e) {
             // console.log('Error add aliment to database UserMeals', e)
-            setTimeout(() => showFeedback('error', t('error_food_created')), 2000);
+            showFeedback('error', t('error_food_created'));
         }
     }
 
     const handleDelete = (id: any) => {
         if (!id) {
-            setTimeout(() => showFeedback('error', t('error_meal')), 2000);
+            showFeedback('error', t('error_meal'));
             return;
         }
 
@@ -144,9 +144,9 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                             setAllDataFoodCreated((prevData: FoodItemCreated[]) =>
                                 prevData.filter(food => food.idDoc !== idDoc)
                             );
-                            setTimeout(() => showFeedback('success', t('foodDeleted')), 1000);
+                            showFeedback('success', t('foodDeleted'));
                         } catch (error) {
-                            setTimeout(() => showFeedback('error', t('error_food_deleted')), 2000);
+                            showFeedback('error', t('error_food_deleted'));
                         }
                     },
                     style: "destructive",
@@ -158,14 +158,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
 
     return (
         <TouchableOpacity onPress={navigateToDetails}>
-                        {feedback && (
-                <AnimatedToast
-                    message={feedback.message}
-                    type={feedback.type}
-                    onHide={() => setFeedback(null)}
-                    height={0}
-                />
-            )}
+
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
                 <View style={styles.text}>
                     <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(name)}</ThemedText>
@@ -211,6 +204,14 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                     </View>
                 </Modal>
             </View>
+                        {feedback && (
+                <AnimatedToast
+                    message={feedback.message}
+                    type={feedback.type}
+                    onHide={() => setFeedback(null)}
+                    height={0}
+                />
+            )}
         </TouchableOpacity>
     );
 };

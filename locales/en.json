@@ -202,7 +202,7 @@
     "update_error": "Unable to update weight",
     "unauthenticated_or_not_defined": "User or goal not defined.",
     "unauthenticated": "User unauthenticated",
-    "faq": "FAQ",
+    "faq": "Faq",
     "network": "There is a connection error. Please check your internet and try again.",
     "try": "Try again",
     "searchCreated": "Search a food created",
@@ -222,6 +222,10 @@
     "deleteFoodWarning": "This action is irreversible and may affect the data in your dashboard if this food item is present !\n\nAre you sure you want to eliminate this food? ",
     "emailEmpty": "Please enter your email address.",
     "emailError": "There was an error while sending the link. try again",
-    "emailSuccess": "Reset link sent to your email"
+    "emailSuccess": "Reset link sent to your email",
+    "logoutError": "Log out error. Try again",
+    "supportError": "Error durantly contact support. Try again",
+    "supportSuccess": "Support contacted",
+    "yourAliments": "Your aliments"
 
 }

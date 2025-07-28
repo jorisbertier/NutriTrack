@@ -6,11 +6,12 @@ import { fetchUserData } from "@/redux/userSlice";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 import { Picker } from "@react-native-picker/picker";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
+import AnimatedToast from "@/components/AnimatedToastProps";
 
 const ReportIssue = () => {
 
@@ -26,6 +27,11 @@ const ReportIssue = () => {
 
     const { user } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
+    const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+    const showFeedback = (type: 'success' | 'error', message: string) => {
+        setFeedback({ type, message });
+    };
 
 
     useEffect(() => {
@@ -51,8 +57,8 @@ const ReportIssue = () => {
         }
         setCategoryMessageError('')
 
-        if(message.length > 5) {
-            setContentMessageError('*Max 2300 caracters')
+        if(message.length > 2300 || message.length < 10) {
+            setContentMessageError('* min 10 caracters & max 2300 caracters')
             return
         }
         setContentMessageError('')
@@ -68,10 +74,12 @@ const ReportIssue = () => {
                 category: category ? category : 'General Feedback',
             });
     
-            Alert.alert('Report successfully saved');
-            resetForm()
+            // Alert.alert('Report successfully saved');
+            showFeedback('success', t('supportSuccess'));
+            resetForm();
         } catch (error) {
-            console.error('Error saving report: ', error);
+            // console.error('Error saving report: ', error);
+            showFeedback('success', t('supportError'));
         }
     };
 
@@ -81,45 +89,53 @@ const ReportIssue = () => {
 
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>{t('report')}</Text>
+            <Text style={styles.title}>{t('report')}</Text>
 
-        <Text style={styles.label}>{t('subject')}</Text>
-            <View style={[styles.pickerContainer, {borderColor: colors.grayDarkFix, backgroundColor: colors.white}]}>
-                <Picker
-                    selectedValue={category}
-                    onValueChange={(itemValue) => setCategory(itemValue)}
-                    style={styles.picker}
-                >
-                    <Picker.Item label={t('selectCategory')} value="" />
-                    {categories.map((cat) => (
-                        <Picker.Item key={cat.value} label={cat.label} value={cat.value} />
-                    ))}
-                </Picker>
+            <Text style={styles.label}>{t('subject')}</Text>
+                <View style={[styles.pickerContainer, {borderColor: colors.grayDarkFix, backgroundColor: colors.white}]}>
+                    <Picker
+                        selectedValue={category}
+                        onValueChange={(itemValue) => setCategory(itemValue)}
+                        style={styles.picker}
+                    >
+                        <Picker.Item label={t('selectCategory')} value="" />
+                        {categories.map((cat) => (
+                            <Picker.Item key={cat.value} label={cat.label} value={cat.value} />
+                        ))}
+                    </Picker>
+                </View>
+            {categoryMessageError && <Text style={styles.errorMessage}>{categoryMessageError}</Text>}
+
+            <Text style={styles.label}>{t('yourMessage')}</Text>
+            <TextInput
+                style={[styles.textInput, {borderColor: isFocused ? colors.black : colors.grayDarkFix, backgroundColor: colors.white}]}
+                placeholder={t('placeholderMessage')}
+                value={message}
+                onChangeText={setMessage}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                multiline
+            />
+            {contentMessageError && <Text style={styles.errorMessage}>{contentMessageError}</Text>}
+
+            <Text style={[styles.label]}>{t('date')}: {date}</Text>
+
+            <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
+                <TouchableOpacity
+                    onPress={sendReport} 
+                    style={[styles.button , { backgroundColor: colors.black}]}
+                    >
+                    <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('sendReport')}</Text>
+                </TouchableOpacity>
             </View>
-        {categoryMessageError && <Text style={styles.errorMessage}>{categoryMessageError}</Text>}
-
-        <Text style={styles.label}>{t('yourMessage')}</Text>
-        <TextInput
-            style={[styles.textInput, {borderColor: isFocused ? colors.black : colors.grayDarkFix, backgroundColor: colors.white}]}
-            placeholder={t('placeholderMessage')}
-            value={message}
-            onChangeText={setMessage}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            multiline
-        />
-        {contentMessageError && <Text style={styles.errorMessage}>{contentMessageError}</Text>}
-
-        <Text style={[styles.label]}>{t('date')}: {date}</Text>
-
-        <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
-            <TouchableOpacity
-                onPress={sendReport} 
-                style={[styles.button , { backgroundColor: colors.black}]}
-                >
-                <Text style={{color: colors.white, fontSize: 16, fontWeight: 500}}>{t('sendReport')}</Text>
-            </TouchableOpacity>
-        </View>
+                {feedback && (
+                    <AnimatedToast
+                        message={feedback.message}
+                        type={feedback.type}
+                        onHide={() => setFeedback(null)}
+                        height={150}
+                    />
+                )}
         </View>
     );
 };
