@@ -238,5 +238,8 @@
     "logoutError": "Erreur lors de la déconnexion. Veuillez réessayer",
     "supportError": "Erreur lors du contact avec le support. Veuillez réessayer",
     "supportSuccess": "Assistance contactée",
-    "yourAliments": "Vos aliments"
+    "yourAliments": "Vos aliments",
+    "reportIssue": "Signaler un problème",
+    "improvement": "Amélioration possible",
+    "feedback": "Avis global"
 }

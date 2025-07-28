@@ -44,9 +44,9 @@ const ReportIssue = () => {
     }, [dispatch]);
     
     const categories = [
-        { label: 'Report a problem', value: 'issue' },
-        { label: 'Possible improvement', value: 'improvement' },
-        { label: 'General feedback', value: 'feedback' },
+        { label: t('reportIssue'), value: 'issue' },
+        { label: t('improvement'), value: 'improvement' },
+        { label: t('feedback'), value: 'feedback' },
     ];
 
     const sendReport = async ()  => {

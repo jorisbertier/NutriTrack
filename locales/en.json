@@ -226,6 +226,10 @@
     "logoutError": "Log out error. Try again",
     "supportError": "Error durantly contact support. Try again",
     "supportSuccess": "Support contacted",
-    "yourAliments": "Your aliments"
+    "yourAliments": "Your aliments",
+    "reportIssue": "Report a problem",
+    "improvement": "Possible improvement",
+    "feedback": "General feedback"
+
 
 }
