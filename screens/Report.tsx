@@ -6,7 +6,7 @@ import { fetchUserData } from "@/redux/userSlice";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 import { Picker } from "@react-native-picker/picker";
 import { t } from "i18next";
@@ -74,11 +74,9 @@ const ReportIssue = () => {
                 category: category ? category : 'General Feedback',
             });
     
-            // Alert.alert('Report successfully saved');
             showFeedback('success', t('supportSuccess'));
             resetForm();
         } catch (error) {
-            // console.error('Error saving report: ', error);
             showFeedback('success', t('supportError'));
         }
     };

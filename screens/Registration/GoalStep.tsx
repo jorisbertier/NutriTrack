@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, View, Image } from 'react-native';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { t } from 'i18next';
 
 type Goal = {
     goal: string;
@@ -19,14 +20,14 @@ const GoalStep = ({
 
     return (
     <>
-    <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>What is your goal?</Text>
+    <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>{t('goalTitle')}</Text>
     <TouchableOpacity
         style={[styles.goal, { backgroundColor: goal === "loss" ? colors.blueLight : colors.whiteFix, borderColor: goal === "loss" ? colors.blackFix : colors.grayDarkFix}]}
         onPress={() => setGoal('loss')} 
     >
         <View style={styles.text}>
         <Text>➖</Text>
-        <Text>Lose weight</Text>
+        <Text>{t('loseRegistration')}</Text>
 
         </View>
         <View style={[styles.circle, { backgroundColor: goal === "loss" ? colors.blackFix : colors.whiteFix}]}>
@@ -39,7 +40,7 @@ const GoalStep = ({
     >   
         <View style={styles.text}>
             <Text>⚖️</Text>
-            <Text>Maintain your weight</Text>
+            <Text>{t('maintainRegistration')}</Text>
         </View>
         <View style={[styles.circle, { backgroundColor: goal === "maintain" ? colors.blackFix : colors.whiteFix}]}>
             {goal === "maintain" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
@@ -51,7 +52,7 @@ const GoalStep = ({
     >
         <View style={styles.text}>
             <Text>➕</Text>
-            <Text>Gain weight</Text>
+            <Text>{t('gainRegistration')}</Text>
         </View>
         <View style={[styles.circle, { backgroundColor: goal === "gain" ? colors.blackFix : colors.whiteFix}]}>
             {goal === "gain" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}

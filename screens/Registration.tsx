@@ -3,7 +3,7 @@ import { View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-nati
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { firestore } from '../firebaseConfig';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail, getAuth } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import CredentialsStep from './Registration/CredentialsStep';
 import PersonalInfoStep from './Registration/PersonalInfoStep';
@@ -16,9 +16,12 @@ import SuccessStep from './Registration/SuccessStep';
 import GoalStep from './Registration/GoalStep';
 import { current } from '@reduxjs/toolkit';
 import { getTodayDate } from '@/functions/function';
+import { useTranslation } from 'react-i18next';
 
 const Registration = () => {
+
   const { colors } = useTheme();
+  const  { t } = useTranslation();
   const Auth = getAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -76,21 +79,34 @@ const Registration = () => {
     setDateOfBirthFormatted(`${day}/${month}/${year}`);
   };
 
-  const validateStep = () => {
+  const validateStep = async () => {
     let isValid = true;
     if (currentStep === 0) {
-        if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            setEmailError('Please enter a valid email.');
+      if (!email || !/\S+@\S+\.\S+/.test(email)) {
+        setEmailError(t('error_email'));
+        isValid = false;
+      } else {
+        try {
+          const methods = await fetchSignInMethodsForEmail(Auth, email);
+          if (methods.length > 0) {
+            setEmailError(t('error_email2'));
             isValid = false;
-        } else setEmailError('');
+          } else {
+            setEmailError('');
+          }
+        } catch (error) {
+          setEmailError(t('error_email3'));
+          isValid = false;
+        }
+      }
 
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
         if (!password || password.length < 6) {
-            setPasswordError("Password must be at least 6 characters long.");
+            setPasswordError(t('passwordError2'));
             isValid = false;
         }
         else if(!passwordRegex.test(password)) {
-            setPasswordError("Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            setPasswordError(t("passwordError3"));
             isValid = false;
         }
         else {
@@ -101,13 +117,13 @@ const Registration = () => {
 
     if (currentStep === 1) {
         if (!name.trim()) {
-            setNameError('Name is required.');
+            setNameError(t('error_name_required'));
             isValid = false;
         } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-            setNameError('Name must contain only letters.');
+            setNameError(t('error_name_invalid'));
             isValid = false;
         } else if(name.length > 15) {
-            setNameError('Name must contain 15 caracters maximum.');
+            setNameError(t('error_name_length'));
             isValid = false;
         }
         else {
@@ -115,20 +131,20 @@ const Registration = () => {
         }
         
         if (!firstname.trim()) {
-            setFirstnameError('First name is required.');
+            setFirstnameError(t('error_firstname_required'));
             isValid = false;
         } else if (!/^[a-zA-Z\s]+$/.test(firstname)) {
-            setFirstnameError('First name must contain only letters.');
+            setFirstnameError(t('error_firstname_invalid'));
             isValid = false;
         }else if(firstname.length > 15) {
-            setNameError('First name must contain 15 caracters maximum.');
+            setNameError(t('error_firstname_length'));
             isValid = false;
         }
         else {
             setFirstnameError('');
         }
         if(!isDateSelected) {
-            setDateOfBirthError(`Please select a date of birth`);
+            setDateOfBirthError(t('error_date_required'));
             isValid = false;
         }else {
             setDateOfBirthError('')
@@ -139,38 +155,38 @@ const Registration = () => {
       const w = parseFloat(weight);
       const h = parseFloat(height);
       if (!w || isNaN(w) || w < 15 || w > 250) {
-        setWeightError('Weight must be between 15 and 250kg');
+        setWeightError(t('error_weight_invalid'));
         isValid = false;
       } else setWeightError('');
 
       if (!h || isNaN(h) || h < 49 || h > 250) {
-        setHeightError('Height must be between 50 and 250cm');
+        setHeightError(t('error_height_invalid'));
         isValid = false;
       } else setHeightError('');
     }
 
     if (currentStep === 3) {
       if (!activityLevel) {
-        setActivityError('Please select an activity level.');
+        setActivityError(t('error_activity_required'));
         isValid = false;
       } else setActivityError('');
 
       if (!gender) {
-        setGenderError('Please select a gender.');
+        setGenderError(t('error_gender_required'));
         isValid = false;
       } else setGenderError('');
     }
 
     if(currentStep === 4) {
       if (!profileImage) {
-        setProfileImageError('Please select an avatar.');
+        setProfileImageError(t('error_avatar_required'));
         isValid = false;
       } else setProfileImageError('');
     }
 
     if (currentStep === 5) {
       if (!goal) {
-        setGoalError('Please select a goal.');
+        setGoalError(t('error_goal_required'));
         isValid = false;
       } else setGoalError('');
     }
@@ -187,14 +203,11 @@ const Registration = () => {
   //     }
   //   }
   // };
-  const handleNext = () => {
-  if (validateStep()) {
-    // if (currentStep === 6) {
-    //   handleSubmit(); // On crée le compte ici
-    // } else {
+  const handleNext = async () => {
+    const isValid = await validateStep();
+    if (isValid) {
       setCurrentStep(currentStep + 1);
-    // }
-  }
+    }
 };
 
   const handleSubmit = async () => {

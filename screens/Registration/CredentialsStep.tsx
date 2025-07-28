@@ -1,5 +1,6 @@
 import { useTheme } from '@/hooks/ThemeProvider';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TextInput } from 'react-native';
 
 type Props = {
@@ -15,16 +16,17 @@ type Props = {
 const CredentialsStep = ({ email, setEmail, password, setPassword, emailError, passwordError }: Props) => {
     
     const {colors} = useTheme();
+    const { t } = useTranslation();
     const [isEmailFocused, setEmailFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
     
     
     return (
         <>
-            <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>Email</Text>
+            <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>{t('email')}</Text>
             <TextInput
                 style={[styles.input,{ borderColor: isEmailFocused ? colors.blackFix : colors.grayDarkFix,  borderWidth: isEmailFocused ? 2 : 1 } ]}
-                placeholder="Email"
+                placeholder={t('email')}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -33,10 +35,10 @@ const CredentialsStep = ({ email, setEmail, password, setPassword, emailError, p
             />
             {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
-            <Text style={[styles.label, { color: colors.black }]}>Password</Text>
+            <Text style={[styles.label, { color: colors.black }]}>{t('password')}</Text>
             <TextInput
                 style={[styles.input, { borderColor: isPasswordFocused ? colors.blackFix : colors.grayDarkFix,  borderWidth: isPasswordFocused ? 2 : 1 }]}
-                placeholder="Password"
+                placeholder={t('password')}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry

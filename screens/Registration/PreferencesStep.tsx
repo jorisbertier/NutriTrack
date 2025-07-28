@@ -3,6 +3,8 @@ import { Text, View, FlatList, TouchableOpacity, Image, StyleSheet } from 'react
 import { Picker } from '@react-native-picker/picker';
 import { useTheme } from '@/hooks/ThemeProvider';
 import LottieView from 'lottie-react-native';
+import { useTranslation } from 'react-i18next';
+import { capitalizeFirstLetter } from '../../functions/function';
 
 
 
@@ -27,30 +29,32 @@ const PreferencesStep = ({
     console.log(gender)
 
     const {colors} = useTheme();
+    const { t } = useTranslation();
+
     return (
     <>
-        <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>Activity level</Text>
+        <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>{t('activityLevel')}</Text>
         <View style={styles.picker}>
             <Picker
                 selectedValue={activityLevel}
                 style={[{ backgroundColor: colors.whiteFix }]}
                 onValueChange={(itemValue) => setActivityLevel(itemValue)}
             >
-            <Picker.Item label="Sedentary" value="sedentary" />
-            <Picker.Item label="Low Active" value="lowactive" />
-            <Picker.Item label="Moderate" value="moderate" />
-            <Picker.Item label="Active" value="active" />
-            <Picker.Item label="Super Active" value="superactive" />
+            <Picker.Item label={t('sedentary')} value="sedentary" />
+            <Picker.Item label={t('lowactive')} value="lowactive" />
+            <Picker.Item label={t('moderate')} value="moderate" />
+            <Picker.Item label={t('active')} value="active" />
+            <Picker.Item label={t('superactive')} value="superactive" />
             </Picker>
         </View>
         {activityError ? <Text style={styles.errorText}>{activityError}</Text> : null}
 
-        <Text style={[styles.label, { color: colors.black }]}>Select your gender</Text>
+        <Text style={[styles.label, { color: colors.black }]}>{t('select_gender')}</Text>
         <TouchableOpacity
             style={[styles.genderContainer, { backgroundColor: gender === "male" ? colors.blueLight : colors.whiteFix, borderColor: gender === "male" ? colors.blackFix : colors.grayDarkFix }]}
             onPress={() => setGender('male')}
         >
-            <Text>Male</Text>
+            <Text style={{textTransform: 'capitalize'}}>{t('gender_male')}</Text>
             <View style={[styles.circle, { backgroundColor : gender === "male" ? colors.blackFix : colors.whiteFix}]}>
                 {gender === "male" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
             </View>
@@ -59,7 +63,7 @@ const PreferencesStep = ({
             style={[styles.genderContainer, { backgroundColor: gender === "female" ? colors.blueLight : colors.whiteFix, borderColor: gender === "female" ? colors.blackFix : colors.grayDarkFix}]}
             onPress={() => setGender('female')} 
         >
-            <Text>Female</Text>
+            <Text style={{textTransform: 'capitalize'}}>{t('gender_female')}</Text>
             <View style={[styles.circle, { backgroundColor: gender === "female" ? colors.blackFix : colors.whiteFix}]}>
                 {gender === "female" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
             </View>

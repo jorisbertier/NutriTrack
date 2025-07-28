@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { useTranslation } from 'react-i18next';
 
 type Avatar = {
     profileImage: string;
@@ -17,31 +18,31 @@ const AvatarStep = ({
 }: Avatar) => {
 
     const {colors} = useTheme();
-    console.log(profileImage)
+    console.log(profileImage);
+    const { t } = useTranslation();
 
     return (
-    <>
-
-        <Text style={[styles.label, { color: colors.blackFix }]}>Select an avatar</Text>
-        <FlatList
-        data={avatars}
-        keyExtractor={(item, index) => `${item.id}-${item.name}-${index}`}
-        horizontal
-        contentContainerStyle={styles.avatarList}
-        renderItem={({ item }) => (
-            <TouchableOpacity
-                style={[
-                    // styles.avatarContainer,
-                    profileImage === item.id && { borderColor: colors.black },
-                ]}
-                onPress={() => setProfileImage(item.id)}
-            >
-            <Image source={item.uri} style={styles.image} />
-            </TouchableOpacity>
-        )}
-        />
-        {profileImageError ? <Text style={styles.errorText}>{profileImageError}</Text> : null}
-    </>
+        <>
+            <Text style={[styles.label, { color: colors.blackFix }]}>{t('select_avatar')}</Text>
+            <FlatList
+            data={avatars}
+            keyExtractor={(item, index) => `${item.id}-${item.name}-${index}`}
+            horizontal
+            contentContainerStyle={styles.avatarList}
+            renderItem={({ item }) => (
+                <TouchableOpacity
+                    style={[
+                        // styles.avatarContainer,
+                        profileImage === item.id && { borderColor: colors.black },
+                    ]}
+                    onPress={() => setProfileImage(item.id)}
+                >
+                <Image source={item.uri} style={styles.image} />
+                </TouchableOpacity>
+            )}
+            />
+            {profileImageError ? <Text style={styles.errorText}>{profileImageError}</Text> : null}
+        </>
     )
 }
 
@@ -64,4 +65,5 @@ const styles = StyleSheet.create({
         width: 80
     }
 })
+
 export default AvatarStep;

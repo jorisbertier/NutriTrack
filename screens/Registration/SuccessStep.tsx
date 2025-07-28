@@ -1,11 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { useTranslation } from 'react-i18next';
 
 const SuccessStep = () => {
 
     const confettiRef = useRef<LottieView>(null);
     const successRef = useRef<LottieView>(null);
+
+    const { t } = useTranslation();
     
     useEffect(() => {
         successRef.current?.play();
@@ -31,9 +34,9 @@ const SuccessStep = () => {
                 loop={false}
                 style={{ width: 200, height: 200 }}
             />
-            <Text style={styles.text}>Bienvenue parmi nous !</Text>
+            <Text style={styles.text}>{t('welcome_registration')}</Text>
             <Text style={styles.subtext}>
-                Ton aventure nutrition commence à partir d'aujourd'hui.{"\n"}{"\n"}Nous t'accompagnerons à réaliser tes objectifs quotidiennement !
+                {t('welcome_text')}
             </Text>
             <View style={styles.confetti}>
                 <LottieView
