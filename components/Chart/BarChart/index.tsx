@@ -1,8 +1,9 @@
-import { addDays, format, parseISO, startOfWeek } from 'date-fns';
-import { Pressable, ScrollView,StyleSheet,Text,useWindowDimensions,View } from 'react-native';
+import { addDays, format, startOfWeek } from 'date-fns';
+import { ScrollView,StyleSheet,Text,useWindowDimensions,View } from 'react-native';
 
 import { SingleBarChart, type Day } from './SingleBarCharts';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { Image } from 'react-native';
 
 type Week = Day[];
 
@@ -23,6 +24,7 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     const BarWidth = (BarChartWidth - BarChartGap * (activeWeek.length - 1)) / activeWeek.length;
     const MaxBarHeight = 150;
     const ScrollViewHeight = 60;
+    console.log(activeWeekIndex)
 
     const getDaynumber = (date: string) => {
         // Vérifier si la date est déjà un objet Date, sinon la convertir
@@ -90,10 +92,18 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
                         justifyContent: 'center',
                         alignItems: 'center',
                 }}>
-                <Text style={[styles.label, {color: colors.black}]}>
-                    
-                    Week of {getDaynumber(String(week[0]?.day) ?? '')}
-                </Text>
+                    <View style={{flexDirection: "row", position: 'relative',alignItems: 'center'}}>
+                        {activeWeekIndex !== 0 && (
+                            <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: 'black',transform: [{ scaleX: -1 }], position: 'absolute', width: 15, height: 15, left: -50}} />
+                        )}
+                        <Text style={[styles.label, {color: colors.black}]}>
+                            
+                            Week of {getDaynumber(String(week[0]?.day) ?? '')}
+                        </Text>
+                        {activeWeekIndex !== 2 && (
+                            <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: 'black', position: 'absolute', width: 15, height: 15, right: -50}} />
+                        )}
+                    </View>
                 </View>
             );
             })}
