@@ -229,7 +229,9 @@
     "yourAliments": "Your aliments",
     "reportIssue": "Report a problem",
     "improvement": "Possible improvement",
-    "feedback": "General feedback"
-
+    "feedback": "General feedback",
+    "no_weight_data": "No data recorded",
+    "history_weight": "History weight",
+    "error_data_user": "Error fetching user data. Try again"
 
 }

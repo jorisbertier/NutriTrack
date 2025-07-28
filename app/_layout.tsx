@@ -34,6 +34,7 @@ import ForgotPasswordScreen from '@/screens/ForgotPasswordScreen';
 import FaqScreen from '@/screens/FaqScreen';
 import NetInfo from '@react-native-community/netinfo';
 import LottieView from 'lottie-react-native';
+import HistoryWeight from '@/screens/HistoryWeight';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -277,6 +278,20 @@ export default function RootLayout() {
                   options={{
                     headerShown: true,
                     headerTitle: t('yourAliments'),
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                      backgroundColor: '#000',
+                    },
+                    headerTitleStyle: {
+                      color: 'white',
+                    },
+                    headerTintColor: '#ffffff'
+                  }}
+                />
+                <Stack.Screen name="historyweight" component={HistoryWeight} 
+                  options={{
+                    headerShown: true,
+                    headerTitle: t('history_weight'),
                     headerTitleAlign: 'center',
                     headerStyle: {
                       backgroundColor: '#000',

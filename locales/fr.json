@@ -241,5 +241,8 @@
     "yourAliments": "Vos aliments",
     "reportIssue": "Signaler un problème",
     "improvement": "Amélioration possible",
-    "feedback": "Avis global"
+    "feedback": "Avis global",
+    "no_weight_data": "Aucune donnée enregistrée",
+    "history_weight": "Historique de poids",
+    "error_data_user": "Erreur durant la récuprération de donnée. Veuillez réessayer"
 }
