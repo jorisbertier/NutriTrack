@@ -182,8 +182,8 @@ export default function Search() {
                                 />
                             )}
                             showsVerticalScrollIndicator={false}
-                                                keyExtractor={(item, index) =>
-                        item.userMealId ? `meal-${item.userMealId}` : `id-${item.id}-${index}`
+                            keyExtractor={(item, index) =>
+                                item.userMealId ? `meal-${item.userMealId}` : `id-${item.id}-${index}`
                         }
                             contentContainerStyle={styles.wrapperFood}
                         />

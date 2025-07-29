@@ -8,17 +8,18 @@ import { ThemedText } from "@/components/ThemedText";
 import { fetchUserDataConnected } from "@/functions/function";
 import { User } from "@/interface/User";
 import { getAuth } from "firebase/auth";
-import { parseISO, startOfWeek } from "date-fns";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import CustomPie from "@/components/Chart/Pie/CustomPie";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from '@/constants/Colors';
 import WeightChart from "@/components/Chart/WeightChart";
+import { useTranslation } from "react-i18next";
 
 
 function Stats() {
-    const { colors } = useTheme()
+    const { colors } = useTheme();
+    const { t } = useTranslation();
 
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
@@ -105,10 +106,10 @@ function Stats() {
         return (
             <View style={stylesNoData.container}>
                 <Text style={stylesNoData.message}>
-                    📊 Not enough data to display the statistics.
+                    📊 {t('not_enought_data_statictis')}
                 </Text>
                 <Text style={stylesNoData.subMessage}>
-                    Please ensure you've provided sufficient activity or nutrition data for accurate insights.
+                    {t('text_enought')}
                 </Text>
             </View>
         );
@@ -144,12 +145,12 @@ function Stats() {
             </Row>
                 <WeightChart/>
             <Row style={{marginBottom: 0, marginTop: 20, marginLeft: 10}}>
-                <ThemedText variant='title' color={colors.black}>Nutri ration</ThemedText>
+                <ThemedText variant='title' color={colors.black}>Nutri ratio</ThemedText>
             </Row>
             {totalMacronutrients == 0 ?
             <Row style={{paddingTop: 70 , alignSelf: 'center'}}>
                 <Text style={[stylesNoData.message, {marginTop: 0}]}>
-                    📊 Not enough data to display the chart.
+                    📊 {t('not_enought_data')}
                 </Text>
             </Row>
             :

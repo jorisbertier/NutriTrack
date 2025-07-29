@@ -23,6 +23,7 @@ import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch } from 'react-redux';
 import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
 import { useTranslation } from "react-i18next";
+import LottieView from "lottie-react-native";
 
 
 export default function Dashboard() {
@@ -446,7 +447,7 @@ export default function Dashboard() {
 
                         setTimeout(() => {
                             setNotificationVisible(false)
-                        }, 2200);
+                        }, 3200);
                     } else {
                         console.log("The maximum XP of 20 is already reached today");
                     }
@@ -554,9 +555,21 @@ export default function Dashboard() {
                 </TouchableOpacity>
             {notificationVisible &&
                 <View style={styles.notification}>
-                    <View style={[styles.wrapperNotification, {backgroundColor: "#8592F2"}]}>
+                    <View style={[styles.wrapperNotification]}>
                         <Text style={styles.notificationText}>{t('msg_exp')}</Text>
+                        <LottieView
+                            source={require('@/assets/lottie/check-popup.json')}
+                            loop={false}
+                            style={{ width: 30, height: 30 }}
+                            autoPlay={true}
+                        />
                     </View>
+                    <LottieView
+                        source={require('@/assets/lottie/Confetti.json')}
+                        loop={true}
+                        style={{ width: 400, height: 400, position: 'absolute' }}
+                        autoPlay={true}
+                    />
                 </View>
             }
             </View>
@@ -662,36 +675,40 @@ const styles = StyleSheet.create({
     },
     notification: {
         position: "absolute",
-        bottom: 20,
-        width: '41%',
-        alignSelf: 'center',
+        bottom: 30,
+        width: "100%",
+        alignItems: "center",
+        zIndex: 999,
+        backgroundColor: 'red'
     },
     wrapperNotification : {
         position: 'absolute',
         zIndex: 3,
-        right: 0,
-        top: 600,
-        left: 0,
+        top: 650,
+        left: '5%',
+        right: '5%',
         flexDirection: 'row',
         justifyContent:'center',
-        gap: 20,
-        padding: 10,
-        borderRadius: 5,
+        alignItems: "center",
+        backgroundColor: "white",
+        width: "90%",
+        borderRadius: 20,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2, 
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.5,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
         elevation: 5,
+        borderWidth: 1,
+        borderColor: "#e0e0e0",
     },
     notificationText: {
-        color: "white",
-        fontWeight: "bold",
+        color: "#333",
+        fontWeight: "600",
+        fontSize: 16,
         textAlign: "center",
-        fontSize: 14,
-        lineHeight: 24
+        marginRight: 10
     },
     card: {
         borderRadius: 20,
