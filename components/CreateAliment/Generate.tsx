@@ -49,10 +49,13 @@ function Generate() {
         }
     }, [user]);
 
-const filteredRepertoryFood = repertoryFood.filter((food: any) => {
-    const localizedName = food[`name_${i18n.language}`]?.toLowerCase();
-    return localizedName?.includes(inputValue.toLowerCase());
-});
+    const normalize = (str: string) => str.toLowerCase().replace(/\s+/g, ' ').trim();
+
+    const filteredRepertoryFood = repertoryFood.filter((food: any) => {
+        const localizedName = normalize(food[`name_${i18n.language}`] || '');
+        const input = normalize(inputValue);
+        return localizedName.includes(input);
+    });
 
     const [nutritionValues, setNutritionValues] = useState({
         calories: 0,proteins: 0,carbohydrates: 0,fats: 0,magnesium: 0,potassium: 0,calcium: 0,sodium: 0,iron: 0,folate: 0,vitaminA: 0,vitaminB1: 0,vitaminB6: 0,vitaminB12: 0,vitaminC: 0,vitaminD: 0,vitaminE: 0,vitaminK: 0,cholesterol: 0,sugar: 0
@@ -199,18 +202,14 @@ const filteredRepertoryFood = repertoryFood.filter((food: any) => {
                             setRepertoryOpened(text.length > 0);
                             setModalVisible(true);
                         }}
-                onFocus={() => setIsNameFocused(true)}
-                onBlur={() => setIsNameFocused(false)}
+                    onFocus={() => setIsNameFocused(true)}
+                    onBlur={() => setIsNameFocused(false)}
                     style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayPress }]}
                 />
                 {filteredRepertoryFood.length === 0 && (<Text style={styles.errorMessage}>{t('errorMatching')} {inputValue}.</Text>)}
 
                 {repertoryOpened && filteredRepertoryFood.length > 0 && (
-                    <Modal transparent={true} visible={modalVisible} animationType="slide" onShow={() => {
-                        if (inputInModalRef.current) {
-                        inputInModalRef.current.focus();
-                        }
-                    }}>
+                    <View>
                         <TouchableWithoutFeedback onPress={handleClose}>
                             <View style={modal.modalContainer}>
                                 <View style={[styles.searchBox, {backgroundColor: colors.white}]}>
@@ -259,7 +258,7 @@ const filteredRepertoryFood = repertoryFood.filter((food: any) => {
                             </ScrollView>
                         </View>
                     </TouchableWithoutFeedback>
-                    </Modal>
+                    </View>
                 )}
             </View>
             {foodRepertorySelected && (<View style={{marginTop: 10,backgroundColor: colors.white, width: "30%", justifyContent: 'center', paddingLeft: 5, borderColor: colors.black, borderWidth: 1, padding: 2, height: 30, borderRadius: 10}}><Text style={[{fontWeight: 500, color: "black" }]}>{displayFoodTranslate}</Text></View>)}

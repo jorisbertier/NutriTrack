@@ -36,7 +36,7 @@ const AuthScreen = () => {
         setTimeout(() => {
 
           isLoading(false);
-        }, 1700)
+        }, 1400)
       }
     });
     return unsubscribe;
@@ -86,7 +86,7 @@ const AuthScreen = () => {
           {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" /> }
           <Image source={require('@/assets/images/logo/logo2.png')} style={styles.logo}/>
           <ActivityIndicator size="large" color={colors.black} />
-          <ThemedText style={{width: '90%', flexWrap: 'wrap', flexShrink: 1, textAlign: 'center'}} variant={"title1"} color={colors.black}>{sentences[randomSentenceIndex]}</ThemedText>
+          <Text style={{width: '90%',fontSize: 17, fontWeight: "bold", flexWrap: 'wrap', flexShrink: 1,height: 50, textAlign: 'center'}} variant={"title1"} color={colors.black}>{sentences[randomSentenceIndex]}</Text>
         </View>
       );
     }

@@ -19,6 +19,11 @@ import { BackHandler } from 'react-native';
 import { Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
+// import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+    // "googleMobileAds": {
+    //   "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+    //   "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+    // },
 
 export default function HomeScreen() {
 
@@ -156,6 +161,13 @@ export default function HomeScreen() {
       <StatusBar barStyle="light-content" />
       <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)}/>
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
+            {/* <BannerAd
+      unitId={TestIds.BANNER} // remplace par ton vrai adUnitID plus tard
+      size={BannerAdSize.FULL_BANNER}
+      requestOptions={{
+        requestNonPersonalizedAdsOnly: true,
+      }}
+    /> */}
         <ScrollView showsVerticalScrollIndicator={false}>
           <Row style={{marginTop: 40}}>
             <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
