@@ -9,7 +9,7 @@ import Registration from '@/screens/Registration';
 import Search from './(tabs)/Search';
 import DetailsFood from '@/screens/[id]';
 import Dashboard from '@/screens/dashboard';
-import TabLayout from './(tabs)/_layout'; // Charge le layout des onglets
+import TabLayout from './(tabs)/_layout'; 
 import EditProfileScreen from '@/screens/EditProfileScreen';
 import { UserProvider } from '@/components/context/UserContext';
 import ChangePasswordScreen from '@/screens/ChangePasswordScreen';
@@ -17,7 +17,7 @@ import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
 import { FoodProvider } from "@/hooks/FoodContext";
 // import { StatusBar } from 'expo-status-bar';
 import * as NavigationBar from 'expo-navigation-bar';
-import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import CreateAliment from '@/screens/CreateAliment';
 import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
 import DetailsFoodCreated from '@/screens/[id]created';
@@ -65,9 +65,14 @@ export default function RootLayout() {
       setIsConnected(state.isConnected);
     });
 
+    if (Platform.OS === 'android') {
+      NavigationBar.setVisibilityAsync('hidden').then(() => {
+        NavigationBar.setBehaviorAsync('immersiveSticky');
+      });
+    }
+
     if (loaded) {
       SplashScreen.hideAsync();
-      NavigationBar.setBackgroundColorAsync('#111419');
     }
 
     return () => unsubscribe();
@@ -76,6 +81,7 @@ export default function RootLayout() {
   if (isConnected === false) {
     return (
       <View style={{ flex: 1, justifyContent: 'center',gap: 20, alignItems: 'center', backgroundColor: '#D6E4FD' }}>
+        <StatusBar hidden={true} />
         <LottieView
             source={require('@/assets/lottie/Connection.json')}
             loop={true}
@@ -116,7 +122,7 @@ export default function RootLayout() {
       <Provider store={store}>
       <UserProvider>
       <FoodProvider>
-        <StatusBar backgroundColor="#000" barStyle="light-content"/>
+        <StatusBar backgroundColor="#000" barStyle="light-content" hidden={true}/>
         {/* <StatusBar style="auto" /> */}
         {/* <NavigationContainer independent={true} ref={navigationRef}> */}
           <Stack.Navigator
