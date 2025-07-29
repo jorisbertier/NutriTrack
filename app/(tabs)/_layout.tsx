@@ -11,6 +11,7 @@ import Subscription from '@/screens/Subscription/Subscription';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Stats from '@/screens/Stats';
 import { useTranslation } from 'react-i18next';
+import { TouchableWithoutFeedback, View } from 'react-native';
 
 export default function TabLayout() {
   
@@ -20,8 +21,18 @@ export default function TabLayout() {
 
   return (
     // <Tab.Navigator tabBar={(props) => <TabBar {...props} />} screenOptions={{ headerShown: false }}>
-    <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle : { backgroundColor: colors.white} }}>
+    <Tab.Navigator screenOptions={{
+        headerShown: false,
+        tabBarStyle : { backgroundColor: colors.white},
+        tabBarButton: (props) => (
+          <TouchableWithoutFeedback onPress={props.onPress}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>{props.children}</View>
+          </TouchableWithoutFeedback>
+        ),
+      }}
+      >
     {/* Onglet 1 : Home */}
+    
     <Tab.Screen 
       name="Home" 
       component={HomeScreen} 
