@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 7,
         overflow: 'visible',
-        height: 15
+        height: 12
     },
     progressBar2: {
-        height: 15,
-        borderRadius: 5,
+        height: 12,
+        borderRadius: 7,
     },
     text : {
         textAlign: 'center',
@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         top: 12,
-        left: 20
+        left: 20,
+        height: 20
     },
     linearGradient: {
         flex: 1,

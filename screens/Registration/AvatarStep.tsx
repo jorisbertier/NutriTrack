@@ -1,14 +1,15 @@
 import React from 'react';
-import { Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { Text, FlatList, TouchableOpacity, Image, StyleSheet, View } from 'react-native';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { useTranslation } from 'react-i18next';
+import { Ionicons } from '@expo/vector-icons';
 
 type Avatar = {
     profileImage: string;
     setProfileImage: (value: string) => void;
     profileImageError: string;
     avatars: any;
-}
+};
 
 const AvatarStep = ({
     profileImage,
@@ -16,54 +17,80 @@ const AvatarStep = ({
     profileImageError,
     avatars,
 }: Avatar) => {
-
-    const {colors} = useTheme();
-    console.log(profileImage);
+    const { colors } = useTheme();
     const { t } = useTranslation();
 
     return (
         <>
-            <Text style={[styles.label, { color: colors.blackFix }]}>{t('select_avatar')}</Text>
-            <FlatList
+        <Text style={[styles.label, { color: colors.blackFix }]}>{t('select_avatar')}</Text>
+        <FlatList
             data={avatars}
             keyExtractor={(item, index) => `${item.id}-${item.name}-${index}`}
             horizontal
             contentContainerStyle={styles.avatarList}
-            renderItem={({ item }) => (
-                <TouchableOpacity
+            renderItem={({ item }) => {
+            const isSelected = profileImage === item.id;
+            return (
+                <TouchableOpacity onPress={() => setProfileImage(item.id)} activeOpacity={0.8}>
+                <View
                     style={[
-                        // styles.avatarContainer,
-                        profileImage === item.id && { borderColor: colors.black },
+                    styles.avatarContainer,
+                    {
+                        borderColor: isSelected ? colors.primary : '#ccc',
+                        borderWidth: isSelected ? 3 : 0,
+                    },
                     ]}
-                    onPress={() => setProfileImage(item.id)}
                 >
-                <Image source={item.uri} style={styles.image} />
+                    <Image source={item.uri} style={styles.image} />
+                    {isSelected && (
+                    <View style={styles.checkIcon}>
+                        <Ionicons name="checkmark-circle" size={24} color={colors.primary} />
+                    </View>
+                    )}
+                </View>
                 </TouchableOpacity>
-            )}
-            />
-            {profileImageError ? <Text style={styles.errorText}>{profileImageError}</Text> : null}
+            );
+            }}
+        />
+        {profileImageError ? <Text style={styles.errorText}>{profileImageError}</Text> : null}
         </>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    label : {
-        fontWeight: 500,
+    label: {
+        fontWeight: '500',
         fontSize: 15,
-        marginBottom: 5
+        marginBottom: 5,
     },
-    avatarList : {
-        gap: 20
+    avatarList: {
+        gap: 20,
+        paddingVertical: 10,
+    },
+    avatarContainer: {
+        borderRadius: 50,
+        padding: 3,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+    },
+    image: {
+        height: 80,
+        width: 80,
+        borderRadius: 40,
+    },
+    checkIcon: {
+        position: 'absolute',
+        bottom: -5,
+        right: -5,
+        backgroundColor: '#fff',
+        borderRadius: 20,
     },
     errorText: {
         color: 'red',
         marginTop: -10,
-        marginBottom: 10
+        marginBottom: 10,
     },
-    image: {
-        height: 80,
-        width: 80
-    }
-})
+});
 
 export default AvatarStep;

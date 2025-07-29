@@ -110,7 +110,7 @@ export default function HomeScreen() {
     }
   }, [selectedChallenge]);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
   
   useEffect(() => {
     const checkWelcomeMessage = async () => {
@@ -232,19 +232,21 @@ export default function HomeScreen() {
                 /> */}
             </ScrollView>
             <View>
-              <Modal transparent={true} visible={modalVisible} animationType="slide">
-                <View style={modal.modalContainer}>
-                  <View style={modal.modalContent}>
-                    <Text style={modal.modalText}>
-                      {t('modalTitle')} 🎉{'\n'}{'\n'}
-                      {t('modalText')} 🥗{'\n'}{'\n'}
-                      {t('modalText2')}🚀{'\n'}{'\n'}
-                      {t('modalText3')}⚡!
-                    </Text>
-                    <Button title={t('modalButton')} color={colors.primary} onPress={handleClose} accessibilityLabel="Close the presentation modal"/>
-                  </View>
+            <Modal transparent={true} visible={modalVisible} animationType="fade">
+              <View style={modal.backdrop}>
+                <View style={[modal.modalContainer, { backgroundColor: colors.gray}]}>
+                  <Image source={require('@/assets/images/logo/logo2.png')} style={[modal.image]} />
+                  <Text style={modal.title}>{t('modalTitle')} 🎉</Text>
+                  <Text style={modal.text}>{t('modalText')} 🥗</Text>
+                  <Text style={modal.text}>{t('modalText2')} 🚀</Text>
+                  <Text style={modal.text}>{t('modalText3')} ⚡</Text>
+
+                  <TouchableOpacity style={[modal.button, { backgroundColor: colors.blueLight}]} onPress={handleClose} accessibilityLabel="Close the presentation modal">
+                    <Text style={[modal.buttonText, { color: colors.black}]}>{t('modalButton')}</Text>
+                  </TouchableOpacity>
                 </View>
-              </Modal>
+              </View>
+            </Modal>
             </View>
             <StopWatch selectedChallenge ={selectedChallenge} email={userData[0]?.email}/>
           </ScrollView>
@@ -279,22 +281,54 @@ const styles = StyleSheet.create({
 })
 
 const modal = StyleSheet.create({
-  modalContainer: {
+
+  backdrop: {
     flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  modalContent: {
-    width: 300,
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 30,
+  modalContainer: {
+    width: '85%',
+    borderRadius: 20,
+    paddingVertical: 30,
+    paddingHorizontal: 20,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 5,
   },
-  modalText: {
-    fontSize: 18,
-    textAlign: 'center',
+  image: {
+    width: 120,
+    height: 120,
     marginBottom: 20,
+    resizeMode: 'contain',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+    color: '#333',
+    width: '100%'
+  },
+  text: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 10,
+    color: '#555',
+  },
+  button: {
+    marginTop: 25,
+    backgroundColor: "blue",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    elevation : 2
+  },
+  buttonText: {
+    fontWeight: '600',
+    fontSize: 16,
   },
 });

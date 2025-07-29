@@ -84,7 +84,7 @@ const AuthScreen = () => {
       return (
         <View style={[styles.loadingContainer, { backgroundColor: colors.blueLight, gap: 40}]}>
           {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" /> }
-          <Image source={require('@/assets/images/logo/nutritrackLogoWhitoutBg.png')} style={styles.logo}/>
+          <Image source={require('@/assets/images/logo/logo2.png')} style={styles.logo}/>
           <ActivityIndicator size="large" color={colors.black} />
           <ThemedText style={{width: '90%', flexWrap: 'wrap', flexShrink: 1, textAlign: 'center'}} variant={"title1"} color={colors.black}>{sentences[randomSentenceIndex]}</ThemedText>
         </View>
@@ -96,7 +96,7 @@ const AuthScreen = () => {
       {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" />}
 
       <View style={styles.header}>
-        <Image source={require('@/assets/images/logo/nutritrackLogoWhitoutBg.png')} style={styles.logo} />
+        <Image source={require('@/assets/images/logo/logo2.png')} style={styles.logo} />
         <ThemedText variant="title" color={colors.black}>Nutri Track</ThemedText>
         <ThemedText variant="subtitle" color={colors.grayDark}>{t('textInformAuthscreen')}</ThemedText>
       </View>

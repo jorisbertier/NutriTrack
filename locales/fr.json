@@ -268,6 +268,11 @@
     "goalTitle": "Quel est votre objectif?",
     "welcome_registration": "Bienvenue parmi nous !",
     "welcome_text": "Ton aventure nutrition commence à partir d'aujourd'hui.\n\nNous t'accompagnerons à réaliser tes objectifs quotidiennement !",
-    "select_avatar": "Sélectionner un avatar"
+    "select_avatar": "Sélectionner un avatar",
+    "dont_have": "Vous n'avez rien prévu pour",
+    "breakfast": "Petit-déjeuner",
+    "lunch": "Déjeuner",
+    "dinner": "Dîner",
+    "snack": "Collation"
 
 }

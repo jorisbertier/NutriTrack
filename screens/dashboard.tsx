@@ -560,7 +560,7 @@ export default function Dashboard() {
                 </View>
             }
             </View>
-            <ScrollView style={[styles.header, {paddingTop: 20, backgroundColor: colors.whiteMode}]}>
+            <ScrollView style={[styles.header, {paddingTop: 10, backgroundColor: colors.whiteMode}]}>
             <View style={[styles.card, { backgroundColor: colors.white, shadowColor: colors.shadow }]}>
                 {isOpen && (
                     <RNDateTimePicker
@@ -586,7 +586,7 @@ export default function Dashboard() {
                         </View>
                     </View>
 
-                    <View style={styles.progressBarBackground}>
+                    {/* <View style={styles.progressBarBackground}>
                         <View
                         style={[
                             styles.progressBarFill,
@@ -596,30 +596,27 @@ export default function Dashboard() {
                             },
                         ]}
                         />
-                    </View>
-
+                    </View> */}
                     <Text style={[styles.progressText, { color: colors.textSecondary }]}>
                         {Math.round(totalKcalConsumeToday)} / {Math.round(basalMetabolicRate)} 
                     </Text>
+                        <ProgressBarKcal isLoading={!isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
                     </>
                 ) : (
                     <>
-                    <Skeleton width={280} height={40} colorMode={colorMode} />
-                    <Skeleton width={100} height={24} colorMode={colorMode} />
-                    <Skeleton width={280} height={20} colorMode={colorMode} />
+                    <View style={{marginBottom: 5}}><Skeleton width={280} height={40} colorMode={colorMode} /></View>
+                    <View style={{marginBottom: 5}}><Skeleton width={100} height={24} colorMode={colorMode} /></View>
+                    <View><Skeleton width={280} height={20} colorMode={colorMode} /></View>
                     </>
                 )}
-                </View>
-                <View style={{marginBottom: 20}}>
-                    <ProgressBarKcal isLoading={!isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
                 </View>
                 <ProgressRing isLoading={!isLoading} progressProteins={Number(proteins.toFixed(2))} proteinsGoal={proteinsGoal} progressCarbs={Number(carbs.toFixed(0))} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={Number(fats.toFixed(0))} fatsGoal={calculFats(basalMetabolicRate)} goal={userData[0]?.goal} goalProteins={userData[0]?.goalLogs['proteins']} goalCarbs={userData[0]?.goalLogs['carbs']} goalFats={userData[0]?.goalLogs['fats']}/>
                 
                 <View style={styles.wrapperMeals}>
-                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, 'Breakfast', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false )}
-                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, 'Lunch', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
-                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, 'Dinner', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
-                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, 'Snack', handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, t('breakfast'), handleDeleteFood, handleDeleteFoodCreated, !isLoading || false )}
+                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, t('lunch'), handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, t('dinner'), handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, t('snack'), handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
                 </View>
                 
                 <View style={{marginBottom: 60}}>
@@ -652,6 +649,7 @@ const styles = StyleSheet.create({
         gap: 16,
         flexDirection: 'column',
         width: '100%',
+        marginBottom: 30
     },
     wrapperFood : {
         marginBottom: 16,

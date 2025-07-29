@@ -256,6 +256,11 @@
     "goalTitle": "What is your goal?",
     "welcome_registration": "Welcome aboard!",
     "welcome_text": "Your nutrition journey starts today.\n\nWe’ll support you daily in achieving your goals!",
-    "select_avatar": "Select an avatar"
+    "select_avatar": "Select an avatar",
+    "dont_have": "Don't have any food for",
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "snack"
 
 }

@@ -159,7 +159,7 @@ const Registration = () => {
         isValid = false;
       } else setWeightError('');
 
-      if (!h || isNaN(h) || h < 49 || h > 250) {
+      if (!h || isNaN(h) || h < 50 || h > 250) {
         setHeightError(t('error_height_invalid'));
         isValid = false;
       } else setHeightError('');

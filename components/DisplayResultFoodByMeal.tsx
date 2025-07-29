@@ -9,10 +9,12 @@ import { FoodItemCreated } from '../interface/FoodItemCreated';
 import CardFoodResumeCreated from "./Screens/Dashboard/CardFoodResumeCreated";
 import { Skeleton } from "moti/skeleton";
 import UUID from 'react-native-uuid';
+import { useTranslation } from "react-i18next";
 
 export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreated: FoodItemCreated[], meal: string,handleDeleteFood: (userMealId: string) => void, handleDeleteFoodCreated: (userMealId: string) => void, isLoading: boolean = false) {
 
     const {colors} = useTheme();
+    const { t } = useTranslation();
 
     const colorMode: 'light' | 'dark' = 'light';
     
@@ -91,7 +93,7 @@ const resultMealCreatedWithUuid = resultMealCreated.map(item => ({
                 </Row>
                 {resultMeal.length === 0 && resultMealCreated.length === 0 && (
                     <Row>
-                        <ThemedText color={colors.black}>Don't have any food for {meal}</ThemedText>
+                        <ThemedText color={colors.black}>{t('dont_have')} {meal}</ThemedText>
                     </Row>
                 )}
                 </>
