@@ -396,10 +396,10 @@ function Create() {
     return (
         <>
             <Text style={styles.title}>{t('textCreate')}</Text>
-            <Text style={[styles.label, {color : colors.black}]}>{t('name')}</Text>
+            <Text style={[styles.label, {color : colors.black}]}>{t('food')}</Text>
                 <TextInput
                     style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['title'] ? colors.black : colors.grayDarkFix}]}
-                    placeholder={`${t('name')} (${t('required')})`}
+                    placeholder={`${t('food')} (${t('required')})`}
                     value={formValues.title}
                     onChangeText={value => handleChange('title', value)}
                     autoCapitalize='words'

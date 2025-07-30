@@ -5,6 +5,7 @@
     "firstName": "Prénom",
     "lastName": "Nom",
     "name": "Nom",
+    "food": "Nom de l'aliment",
     "gender": "Sexe",
     "select_gender": "Sélectionner le sexe",
     "dateOfBirth": "Date de naissance",

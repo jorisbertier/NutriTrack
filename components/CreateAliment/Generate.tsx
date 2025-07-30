@@ -195,7 +195,7 @@ function Generate() {
     return (
         <View style={{marginBottom: 80}}>
             <Text style={styles.title}>{t('textGenerate')}</Text>
-            <Text style={[styles.label, { color: colors.black }]}>{t('name')}</Text>
+            <Text style={[styles.label, { color: colors.black }]}>{t('food')}</Text>
             <View style={{position: 'relative'}}>
                 <TextInput
                     value={inputValue}
