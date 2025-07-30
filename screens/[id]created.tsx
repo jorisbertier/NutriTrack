@@ -130,7 +130,8 @@ export default function DetailsFoodCreated() {
                     <Skeleton colorMode={colorMode} width={250} height={30} ></Skeleton>
                 }
                 {isLoading ?
-                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{t('quantity')} : {filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
+                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{t('quantity')}</ThemedText>
+                    // <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{t('quantity')} : {filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
                 :
                 <View style={{ marginTop: 10 }}> 
                     <Skeleton colorMode={colorMode} width={250} height={30} />
@@ -148,21 +149,21 @@ export default function DetailsFoodCreated() {
             <View style={[styles.container]}>
                 <Row gap={10}>
                     <NutritionStatCard
-                        nutri={`proteins`}
+                        nutri={t('proteins')}
                         quantity={filterUniqueFood?.proteins}
                         unit={'g'}
                         height={associatedValues["proteins"]}
                         source={require('@/assets/images/nutritional/meat.png')}
                     />
                     <NutritionStatCard
-                        nutri={'carbs'}
+                        nutri={t('carbs')}
                         quantity={filterUniqueFood?.carbohydrates}
                         unit={'g'}
                         height={associatedValues["carbohydrates"]}
                         source={require('@/assets/images/nutritional/cutlery.png')}
                     />
                     <NutritionStatCard
-                        nutri={'fats'}
+                        nutri={t('fats')}
                         quantity={filterUniqueFood?.fats}
                         unit={'g'}
                         height={associatedValues["fats"]}
@@ -177,26 +178,26 @@ export default function DetailsFoodCreated() {
             }
             {isLoading ? 
             <View>
-                {filterUniqueFood?.proteins ? <NutritionItem name={'Proteins'} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
-                {filterUniqueFood?.carbohydrates ? <NutritionItem name={'Carbs'} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
-                {filterUniqueFood?.fats ? <NutritionItem name={'Fats'} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
+                {filterUniqueFood?.proteins ? <NutritionItem name={t('proteins')} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
+                {filterUniqueFood?.carbohydrates ? <NutritionItem name={t('carbs')} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
+                {filterUniqueFood?.fats ? <NutritionItem name={t('carbs')} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
 
-                {filterUniqueFood?.potassium ? <NutritionItem name={'Potassium'} quantity={filterUniqueFood?.potassium} unit={'g'}/> : null}
-                {filterUniqueFood?.magnesium ? <NutritionItem name={'Magnesium'} quantity={filterUniqueFood?.magnesium} unit={'g'}/> : null}
-                {filterUniqueFood?.calcium ? <NutritionItem name={'Calcium'} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
-                {filterUniqueFood?.sodium ? <NutritionItem name={'Sodium'} quantity={filterUniqueFood?.sodium} unit={'g'}/> : null}
-                {filterUniqueFood?.iron ? <NutritionItem name={'Iron'} quantity={filterUniqueFood?.iron} unit={'g'}/> : null}
-                {filterUniqueFood?.folate ? <NutritionItem name={'Folate'} quantity={filterUniqueFood?.folate} unit={'g'}/> : null}
+                {filterUniqueFood?.potassium ? <NutritionItem name={t('potassium')} quantity={filterUniqueFood?.potassium} unit={'g'}/> : null}
+                {filterUniqueFood?.magnesium ? <NutritionItem name={t('magnesium')} quantity={filterUniqueFood?.magnesium} unit={'g'}/> : null}
+                {filterUniqueFood?.calcium ? <NutritionItem name={t('magnesium')} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
+                {filterUniqueFood?.sodium ? <NutritionItem name={t('sodium')} quantity={filterUniqueFood?.sodium} unit={'g'}/> : null}
+                {filterUniqueFood?.iron ? <NutritionItem name={t('iron')} quantity={filterUniqueFood?.iron} unit={'g'}/> : null}
+                {filterUniqueFood?.folate ? <NutritionItem name={t("folate")} quantity={filterUniqueFood?.folate} unit={'g'}/> : null}
 
-                {filterUniqueFood?.vitaminA ? <NutritionItem name={'Vitamins A'} quantity={filterUniqueFood?.vitaminA} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB1 ? <NutritionItem name={'Vitamins B1'} quantity={filterUniqueFood?.vitaminB1} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB5 ? <NutritionItem name={'Vitamins B5'} quantity={filterUniqueFood?.vitaminB5} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB6 ? <NutritionItem name={'Vitamins B6'} quantity={filterUniqueFood?.vitaminB6} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminB12 ? <NutritionItem name={'Vitamins B12'} quantity={filterUniqueFood?.vitaminB12} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminC ? <NutritionItem name={'Vitamins C'} quantity={filterUniqueFood?.vitaminC} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminD ? <NutritionItem name={'Vitamins D'} quantity={filterUniqueFood?.vitaminD} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminE ? <NutritionItem name={'Vitamins E'} quantity={filterUniqueFood?.vitaminE} unit={'%'}/> : null}
-                {filterUniqueFood?.vitaminK ? <NutritionItem name={'Vitamins K'} quantity={filterUniqueFood?.vitaminK} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminA ? <NutritionItem name={t('vitaminA')} quantity={filterUniqueFood?.vitaminA} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB1 ? <NutritionItem name={t('vitaminB1')} quantity={filterUniqueFood?.vitaminB1} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB5 ? <NutritionItem name={t('vitaminB5')} quantity={filterUniqueFood?.vitaminB5} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB6 ? <NutritionItem name={t('vitaminB6')} quantity={filterUniqueFood?.vitaminB6} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminB12 ? <NutritionItem name={t('vitaminB12')} quantity={filterUniqueFood?.vitaminB12} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminC ? <NutritionItem name={t('vitaminC')} quantity={filterUniqueFood?.vitaminC} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminD ? <NutritionItem name={t('vitaminD')} quantity={filterUniqueFood?.vitaminD} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminE ? <NutritionItem name={t('vitaminE')} quantity={filterUniqueFood?.vitaminE} unit={'%'}/> : null}
+                {filterUniqueFood?.vitaminK ? <NutritionItem name={t('vitaminK')} quantity={filterUniqueFood?.vitaminK} unit={'%'}/> : null}
                 
             
             </View>
