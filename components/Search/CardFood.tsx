@@ -9,6 +9,7 @@ import { firestore } from "@/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { User } from "@/interface/User";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     id: number;
@@ -23,6 +24,7 @@ type Props = {
 const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
 
     const {colors} = useTheme();
+    const { t } = useTranslation();
 
     const [modalVisible, setModalVisible] = useState(false);
     
@@ -101,7 +103,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                 <View style={styles.text}>
                     <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(name)}</ThemedText>
                     <ThemedText variant="title2" color="grayDark">
-                        {calories} kcal, {name} {quantity} {unit}
+                        {calories} kcal, {quantity} {t(`units.${unit}`)}
                     </ThemedText>
                 </View>
                 <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>

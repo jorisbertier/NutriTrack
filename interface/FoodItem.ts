@@ -1,7 +1,9 @@
 // a supprimer fait office de mock deurant la phase dev, la structure a changer en plus simple
 export interface FoodItem {
     id: number;
-    name: string;
+    name_en?: string;
+    name_fr: string;
+    name_es: string;
     image: string;
     description: string;
     category: string;

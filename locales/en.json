@@ -48,6 +48,16 @@
     "vitaminE": "Vitamin E",
     "vitaminK": "Vitamin K",
     "folate": "Folate",
+    "units": {
+        "piece": "piece",
+        "g": "g",
+        "ml": "ml",
+        "cup": "cup",
+        "slice": "slice",
+        "medium": "medium",
+        "serving": "serving",
+        "handful": "handful"
+    },
     "otherMacro": "Others macronutrients (optional)",
     "textDelete": "Your account is about to be deleted. You will lose all data related to it!\n This requires a logout!\n To confirm, please corfim with **DELETE** below:",
     "cancel": "Cancel",

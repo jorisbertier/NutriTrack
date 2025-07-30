@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText"
-import { Image, Pressable, StyleSheet, View, ScrollView } from "react-native";
+import { Image, Pressable, StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import { useNavigation } from "expo-router";
 import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
@@ -20,7 +20,7 @@ export default function DetailsFood() {
     const {theme, colors} = useTheme();
 
     const navigation = useNavigation();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const route = useRoute<any>();
     const { id } = route.params; 
 
@@ -47,16 +47,29 @@ export default function DetailsFood() {
     const associations = { [values[0]]: 65, [values[1]]: 90, [values[2]]: 120 };
 
     const associatedValues = {
-    proteins: associations[filterUniqueFood?.proteins],
-    carbohydrates: associations[filterUniqueFood?.carbohydrates],
-    fats: associations[filterUniqueFood?.fats],
+        proteins: associations[filterUniqueFood?.proteins],
+        carbohydrates: associations[filterUniqueFood?.carbohydrates],
+        fats: associations[filterUniqueFood?.fats],
     };
 
-    
+    const [loading, setLoading] = useState(true);
+
     return (
     <ScrollView persistentScrollbar={true}>
         <View style={styles.banner}>
-            <Image source={{uri: `${filterUniqueFood?.image}`}} style={styles.image} />
+            {loading && (
+                <ActivityIndicator
+                size="large"
+                color="#999"
+                style={{height: '100%'}}
+                />
+            )}
+            <Image
+                source={{ uri: filterUniqueFood?.image }}
+                style={styles.image}
+                onLoadStart={() => setLoading(true)}
+                onLoadEnd={() => setLoading(false)}
+            />
             <Pressable onPress={handleGoBack} style={[styles.back, {backgroundColor: colors.white}]}>
                 {theme === 'light' ?
                     <Image source={require('@/assets/images/back.png')} style={styles.icon} />
@@ -67,7 +80,7 @@ export default function DetailsFood() {
         </View>
         <View style={[styles.header, {backgroundColor: colors.white}]}>
             <Row style={styles.wrapperTitle}>
-                <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.name}</ThemedText>
+                <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.[`name_${i18n.language}`]}</ThemedText>
                 <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
                 <ThemedText color={colors.black} variant="title1" style={styles.title}>{filterUniqueFood?.calories} kcal</ThemedText>
             </Row>

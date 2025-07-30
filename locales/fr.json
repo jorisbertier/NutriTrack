@@ -48,6 +48,16 @@
     "vitaminE": "Vitamine E",
     "vitaminK": "Vitamine K",
     "folate": "Folate",
+    "units": {
+        "piece": "pièce",
+        "g": "g",
+        "ml": "ml",
+        "cup": "tasse",
+        "slice": "tranche",
+        "medium" : "moyenne",
+        "serving": "portion",
+        "handful": "poignée"
+    },
     "otherMacro": "Autres macronutriments (optionnel)",
     "textDelete": "Votre compte est sur le point d'être supprimé. Vous perdrez toutes les données qui y sont associées!\n Une déconnexion est nécessaire!\n Pour confirmer, veuillez saisir **DELETE** ci-dessous :",
     "confirm": "Confirmer",

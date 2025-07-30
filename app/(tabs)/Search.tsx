@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 export default function Search() {
 
     const {theme, colors} = useTheme();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigation = useNavigation();
 
     const [data, setData] = useState<FoodItem[]>([]);
@@ -56,9 +56,16 @@ export default function Search() {
             setIsLoading(true);
         }
     }, []);
-    
 
-    const filteredFood = data.filter(food => food.name.toLowerCase().includes(text.toLowerCase().trim()));
+    const filteredFood = data.filter(food => {
+    const nameByLang = {
+        fr: food.name_fr,
+        es: food.name_es,
+        en: food.name_en
+    };
+    const foodName = nameByLang[i18n.language] || food.name_en;
+        return foodName.toLowerCase().includes(text.toLowerCase().trim());
+    });
 
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
@@ -67,7 +74,6 @@ export default function Search() {
     const handleDeleteValue = () => {
         onChangeText('')
     }
-
 
     return (
         <>
@@ -172,7 +178,7 @@ export default function Search() {
                             data={filteredFood}
                             renderItem={({ item }) => (
                                 <CardFood
-                                    name={item.name}
+                                    name={`${item[`name_${i18n.language}`] || item.name_en}`}
                                     id={item.id}
                                     calories={item.calories}
                                     unit={item.unit}

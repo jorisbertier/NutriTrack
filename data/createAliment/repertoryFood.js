@@ -522,7 +522,6 @@ export const repertoryFood = [
     },
 
     {
-        name: "Jackfruit",
         name_en: "Jackfruit",
         name_fr: "Jacquier",
         name_es: "Yaca",
@@ -542,8 +541,7 @@ export const repertoryFood = [
     },
 
     {
-        name: "Starfruit",
-        name_en: "Jackfruit",
+        name_en: "Starfruit",
         name_fr: "Carambole",
         name_es: "Carambola",
         category: "Fruit",
@@ -1163,8 +1161,8 @@ export const repertoryFood = [
     },
     {
         name: "Sweet Corn",
-        name_en: "Maïs doux",
-        name_fr: "Ail",
+        name_en: "Sweet Corn",
+        name_fr: "Maïs doux",
         name_es: "Maíz dulce",
         category: "Vegetable",
         unit: 1,
@@ -3209,7 +3207,7 @@ export const repertoryFood = [
         name: "Cod",
         name_en: "Cod",
         name_fr: "Cabillaud",
-        name_es: "Bacalao",
+        name_es: "Cod",
         category: "Seafood",
         unit: 1,
         calories: 0.82,
