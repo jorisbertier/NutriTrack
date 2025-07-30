@@ -58,7 +58,7 @@ function Generate() {
     });
 
     const [nutritionValues, setNutritionValues] = useState({
-        calories: 0,proteins: 0,carbohydrates: 0,fats: 0,magnesium: 0,potassium: 0,calcium: 0,sodium: 0,iron: 0,folate: 0,vitaminA: 0,vitaminB1: 0,vitaminB6: 0,vitaminB12: 0,vitaminC: 0,vitaminD: 0,vitaminE: 0,vitaminK: 0,cholesterol: 0,sugar: 0
+        calories: 0,proteins: 0,carbohydrates: 0,fats: 0,magnesium: 0,potassium: 0,calcium: 0,sodium: 0,iron: 0,folate: 0,vitaminA: 0,vitaminB1: 0,vitaminB3: 0,vitaminB6: 0,vitaminB12: 0,vitaminC: 0,vitaminD: 0,vitaminE: 0,vitaminK: 0,cholesterol: 0,sugar: 0
     });
     
     const handleGenerateAliment = () => {
@@ -78,6 +78,7 @@ function Generate() {
                 folate: Number(((food.folate ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
                 vitaminA: Number(((food?.vitaminA ?? 0) * Number(inputValueGram || 0)).toFixed(2)),
                 vitaminB1: Number(((food.vitaminB1 ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
+                vitaminB3: Number(((food.vitaminB3 ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
                 vitaminB6: Number(((food.vitaminB6 ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
                 vitaminB12: Number(((food.vitaminB12 ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
                 vitaminC: Number(((food.vitaminC ?? 0 ) * Number(inputValueGram || 0)).toFixed(2)),
@@ -146,6 +147,7 @@ function Generate() {
                 iron: Number(filteredNutritionValues.iron) || null,
                 vitaminA: Number(filteredNutritionValues.vitaminA) || null,
                 vitaminB1: Number(filteredNutritionValues.vitaminB1) || null,
+                vitaminB3: Number(filteredNutritionValues.vitaminB3) || null,
                 vitaminB5: Number(filteredNutritionValues.vitaminB5) || null,
                 vitaminB6: Number(filteredNutritionValues.vitaminB6) || null,
                 vitaminB12: Number(filteredNutritionValues.vitaminB12) || null,
@@ -400,6 +402,15 @@ function Generate() {
                     label={t('vitaminB1') + " %"}
                     value={generateFood.vitaminB1}
                     onChangeValue={(val) => handleValueChange('vitaminB1', val)}
+                    inputValueGram={inputValueGram}
+                    />
+                )}
+                {generateFood?.vitaminB3 !== undefined && (
+                    <NutritionBox
+                    icon={require('@/assets/images/nutritional/vitamin.png')}
+                    label={t('vitaminB3') + " %"}
+                    value={generateFood.vitaminB3}
+                    onChangeValue={(val) => handleValueChange('vitaminB3', val)}
                     inputValueGram={inputValueGram}
                     />
                 )}

@@ -7,6 +7,7 @@ export interface FoodItemGenerate {
     sugar?: number;
     vitaminA?: number;
     vitaminB1?: number;
+    vitaminB3?: number;
     vitaminB5?: number;
     vitaminB6?: number;
     vitaminB12?: number;
