@@ -19,6 +19,7 @@ import { BackHandler } from 'react-native';
 import { Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
+import PremiumOverlayWrapper from '@/components/Premium';
 // import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
     // "googleMobileAds": {
     //   "androidAppId": "ca-app-pub-3940256099942544~3347511713",
@@ -34,6 +35,7 @@ export default function HomeScreen() {
   const auth = getAuth();
   const user = auth.currentUser;
   const [isLoading, setIsLoading] = useState(false);
+  const [isPremium, setIspremium] = useState(false)
 
   const { t } = useTranslation();
 
@@ -260,7 +262,13 @@ export default function HomeScreen() {
               </View>
             </Modal>
             </View>
-            <StopWatch selectedChallenge ={selectedChallenge} email={userData[0]?.email}/>
+            <PremiumOverlayWrapper showOverlay={!isPremium}>
+  <StopWatch
+    selectedChallenge={selectedChallenge}
+    email={userData[0]?.email}
+  />
+</PremiumOverlayWrapper>
+
           </ScrollView>
       </SafeAreaView>
     </>

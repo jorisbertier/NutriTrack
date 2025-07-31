@@ -743,6 +743,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 14,
         borderRadius: 30,
         alignSelf: 'flex-start',
+        width: '100%'
     },
     badgeText: {
         fontWeight: '700',

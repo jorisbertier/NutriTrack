@@ -36,7 +36,7 @@ export const foodData = [
         "id": 2,
         "name_en": "Apple medium",
         "name_fr": "Pomme",
-        "name-es": "Manzana",
+        "name_es": "Manzana",
         "image": "https://images.pexels.com/photos/347926/pexels-photo-347926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         "description": "Apples are crunchy, sweet fruits rich in dietary fiber and antioxidants.",
         "category": "Fruit",
