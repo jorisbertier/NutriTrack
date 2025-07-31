@@ -175,7 +175,7 @@ export default function Search() {
                 )}
 
                         <FlatList<FoodItem>
-                            data={filteredFood}
+                            data={filteredFood.slice(0, 40)}
                             renderItem={({ item }) => (
                                 <CardFood
                                     name={`${item[`name_${i18n.language}`] || item.name_en}`}
