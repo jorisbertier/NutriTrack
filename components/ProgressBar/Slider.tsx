@@ -73,18 +73,18 @@ const Slider = ({ onValueChange}: SliderProps) => {
         />
         <PanGestureHandler onGestureEvent={gestureHandler}>
           <Animated.View style={[styles.thumb, thumbStyle, { backgroundColor: colors.blueLight}]}>
-            <View style={{zIndex: 100, borderColor: colors.white, borderRadius: 10, borderWidth: 2, justifyContent: 'center',alignItems: 'center', width: 40, height: 40}}>
+            <View style={{zIndex: 100, borderColor: colors.whiteFix, borderRadius: 10, borderWidth: 2, justifyContent: 'center',alignItems: 'center', width: 40, height: 40}}>
               <View style={{width: 10, height: 10, backgroundColor: colors.primary, borderRadius: 2, justifyContent: 'center', alignItems: 'center'}}>
-                <View style={{backgroundColor: colors.white, height: 3, width: 3}}></View>
+                <View style={{backgroundColor: colors.whiteFix, height: 3, width: 3}}></View>
               </View>
             </View>
           </Animated.View>
         </PanGestureHandler>
       </View>
-      <Text style={styles.valueText}>
+      <Text style={[styles.valueText, { color: colors.black}]}>
         {value * 5} {t('calories').toLowerCase()}
       </Text>
-      <Text style={{textAlign: 'center'}}>* {t('textEditgoal')}</Text>
+      <Text style={{textAlign: 'center', color: colors.black}}>* {t('textEditgoal')}</Text>
     </View>
   );
 };

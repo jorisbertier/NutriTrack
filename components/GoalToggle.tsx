@@ -23,7 +23,7 @@ const GoalToggle: React.FC<GoalToggleProps> = ({ selectedGoal, onSelect }) => {
 
     return (
         <>
-            <Text style={{width: '90%', textAlign: 'center', fontSize: 16, fontWeight: 500, marginTop: 20}}>{t('titleEdit')}</Text>
+        <Text style={{color: colors.black, width: '90%', textAlign: 'center', fontSize: 16, fontWeight: 500, marginTop: 20}}>{t('titleEdit')}</Text>
         <View style={[styles.container]}>
         {goals.map(({ label, value }) => {
             const isSelected = selectedGoal === value;
@@ -36,6 +36,7 @@ const GoalToggle: React.FC<GoalToggleProps> = ({ selectedGoal, onSelect }) => {
                 {
                     backgroundColor: isSelected ? colors.blueLight : colors.gray,
                     borderColor: isSelected ? colors.blueLight : colors.gray,
+                    color: colors.blackFix
                 },
                 ]}
                 activeOpacity={0.8}
@@ -43,7 +44,7 @@ const GoalToggle: React.FC<GoalToggleProps> = ({ selectedGoal, onSelect }) => {
                 <Text
                 style={[
                     styles.text,
-                    { color: isSelected ? colors.black : colors.grayDark },
+                    { color: isSelected ? colors.blackFix : colors.grayDarkFix },
                 ]}
                 >
                 {label}

@@ -56,7 +56,7 @@ const PersonalInfoStep = ({ name, setName, firstname, setFirstname, dateOfBirthF
             {firstnameError ? <Text style={styles.errorText}>{firstnameError}</Text> : null}
 
             <Text style={[styles.label, { color: colors.black }]}>{t('dateOfBirth')}</Text>
-            <View style={[styles.dateInput, { borderColor: colors.grayDarkFix}]}>
+            <View style={[styles.dateInput, { borderColor: colors.grayDarkFix, backgroundColor: colors.whiteFix}]}>
                 <TouchableOpacity onPress={() => setShowDatePicker(true)}  >
                     <Image source={require('@/assets/images/calendarBirth.png')} style={{ height: 25, width: 25}} />
                 </TouchableOpacity >

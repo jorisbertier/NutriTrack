@@ -148,9 +148,10 @@ const EditProfileScreen = () => {
         <View key={key} style={styles.inputContainer}>
           <Text style={[styles.label, {color : colors.black}]}>{t(key)}</Text>
           <TextInput
-            style={[styles.input, {backgroundColor: colors.white, borderColor: focusedFields[key] ? colors.black : colors.grayDarkFix}]}
+            style={[styles.input, {color: colors.black, backgroundColor: colors.white, borderColor: focusedFields[key] ? colors.blackBorder : colors.grayDarkBorder}]}
             placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
             value={formData[key]}
+            placeholderTextColor={colors.black}
             onChangeText={(text) => validateInput(key, text)}
             onFocus={() => handleFocus(key)}
             onBlur={() => setFocusedFields((prev) => ({ ...prev, [key]: false }))}

@@ -31,7 +31,7 @@ const EditGoalScreen = () => {
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const navigation = useNavigation();
 
-  const { t} = useTranslation();
+  const { t } = useTranslation();
 
   const showFeedback = (type: 'success' | 'error', message: string) => {
     setFeedback({ type, message });
@@ -76,7 +76,7 @@ const EditGoalScreen = () => {
       !isValidNumber(carbVal) ||
       !isValidNumber(fatVal)
     ) {
-      setErrorMessage(t('errorEditGoal'));
+      setErrorMessage(t('errorEditgoal'));
       return;
     }
 
@@ -95,7 +95,6 @@ const EditGoalScreen = () => {
       showFeedback('success', t('updated'));
       setTimeout(() => navigation.goBack(), 1000);
     } catch (error) {
-      console.error("Error durantly update edit goal :", error);
       showFeedback('error', t('update_error'));
     }
   };
@@ -109,49 +108,49 @@ const EditGoalScreen = () => {
               <Slider onValueChange={(val) => setCalories(val * 5)}/>
 
               <View style={{height: 120,elevation: 1, justifyContent: 'center', flexDirection: 'row',alignItems: 'center', width: '90%', backgroundColor: colors.gray, borderRadius: 30, marginTop: 20}}>
-                <View style={{borderRightColor: colors.grayDark,borderRightWidth: 1,width: '30%', height: 80, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column"}}>
+                <View style={{borderRightColor: colors.grayDarkFix ,borderRightWidth: 1,width: '30%', height: 80, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column"}}>
                   <View>
-                    <TextInput style={{fontWeight: 600, fontSize:18, color: colors.black}}
+                    <TextInput style={{fontWeight: 600, fontSize:18, color: colors.blackFix}}
                       value={proteins} 
                       onChangeText={setProteins}
                       placeholder="0"
-                      placeholderTextColor={colors.black}
+                      placeholderTextColor={colors.blackFix}
                       keyboardType='numeric'
                     />
                   </View>
-                  <View><Text style={{fontSize: 14, color: colors.grayDark, fontWeight: 500}}>{t('proteins')}</Text></View>
+                  <View><Text style={{fontSize: 14, color: colors.grayDarkFix, fontWeight: 500}}>{t('proteins')}</Text></View>
                 </View>
-                <View style={{borderRightColor: colors.grayDark,borderRightWidth: 1,width: '30%', height: 80, backgroundColor: colors.gray, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column"}}>
+                <View style={{borderRightColor: colors.grayDarkFix ,borderRightWidth: 1,width: '30%', height: 80, backgroundColor: colors.gray, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column"}}>
                   <View>
-                    <TextInput style={{fontWeight: 600, fontSize:18, color: colors.black}}
+                    <TextInput style={{fontWeight: 600, fontSize:18, color: colors.blackFix}}
                       value={carbs}
                       onChangeText={setCarbs}
                       placeholder="0"
-                      placeholderTextColor={colors.black}
+                      placeholderTextColor={colors.blackFix}
                       keyboardType='numeric'
                     />
                   </View>
-                  <View><Text style={{fontSize: 14, color: colors.grayDark, fontWeight: 500}}>{t('carbs')}</Text></View>
+                  <View><Text style={{fontSize: 14, color: colors.grayDarkFix, fontWeight: 500}}>{t('carbs')}</Text></View>
                 </View>
                 <View style={{width: '30%', height: 80, backgroundColor: colors.gray, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column"}}>
                   <View>
-                    <TextInput style={{fontWeight: 600, fontSize:18, color: colors.black}}
+                    <TextInput style={{fontWeight: 600, fontSize:18, color: colors.blackFix}}
                       value={fats}
                       onChangeText={setFats}
                       placeholder="0"
-                      placeholderTextColor={colors.black}
+                      placeholderTextColor={colors.blackFix}
                       keyboardType='numeric'
                     />
                   </View>
-                  <View><Text style={{fontSize: 14, color: colors.grayDark, fontWeight: 500}}>{t('fats')}</Text></View>
+                  <View><Text style={{fontSize: 14, color: colors.grayDarkFix, fontWeight: 500}}>{t('fats')}</Text></View>
                 </View>
               </View>
-              <Text style={{textAlign: 'center', width: '90%', marginVertical: 10}}>* {t('informEdit')}</Text>
+              <Text style={{textAlign: 'center', width: '90%', marginVertical: 10, color: colors.black}}>* {t('informEdit')}</Text>
               {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
             </>
           )}
           {selectedGoal === "maintain" &&
-            <Text style={{textAlign: 'center', width: '90%'}}>* {t('textEditMaintain')}</Text>
+            <Text style={{textAlign: 'center', width: '90%', color: colors.black}}>* {t('textEditMaintain')}</Text>
           }
           {selectedGoal && (
             <CustomButton titleButton={t('editGoal')} handlePersistData={handleEditGoal}/>

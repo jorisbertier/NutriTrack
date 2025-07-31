@@ -20,7 +20,7 @@ const GoalStep = ({
 
     return (
     <>
-    <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>{t('goalTitle')}</Text>
+    <Text style={[styles.label, { color: colors.black, marginTop: 20, marginBottom: 10 }]}>{t('goalTitle')}</Text>
     <TouchableOpacity
         style={[styles.goal, { backgroundColor: goal === "loss" ? colors.blueLight : colors.whiteFix, borderColor: goal === "loss" ? colors.blackFix : colors.grayDarkFix}]}
         onPress={() => setGoal('loss')} 

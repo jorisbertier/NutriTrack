@@ -194,7 +194,7 @@ function Generate() {
 
     return (
         <View style={{marginBottom: 80}}>
-            <Text style={styles.title}>{t('textGenerate')}</Text>
+            <Text style={[styles.title, { color: colors.black}]}>{t('textGenerate')}</Text>
             <Text style={[styles.label, { color: colors.black }]}>{t('food')}</Text>
             <View style={{position: 'relative'}}>
                 <TextInput
@@ -206,9 +206,10 @@ function Generate() {
                         }}
                     onFocus={() => setIsNameFocused(true)}
                     onBlur={() => setIsNameFocused(false)}
-                    style={[styles.input, { borderColor: isNameFocused ? colors.blackFix : colors.grayPress }]}
+                    placeholderTextColor={'grey'}
+                    style={[styles.input, {color: colors.black, backgroundColor: colors.white, borderColor: isNameFocused ? colors.blackBorder : colors.grayPressBorder }]}
                 />
-                {filteredRepertoryFood.length === 0 && (<Text style={styles.errorMessage}>{t('errorMatching')} {inputValue}.</Text>)}
+                {filteredRepertoryFood.length === 0 && (<Text style={[styles.errorMessage, { color: "red"}]}>{t('errorMatching')} {inputValue}.</Text>)}
 
                 {repertoryOpened && filteredRepertoryFood.length > 0 && (
                     <View>
@@ -225,7 +226,7 @@ function Generate() {
                                             }}
                                     onFocus={() => setIsNameFocused(true)}
                                     onBlur={() => setIsNameFocused(false)}
-                                    style={[styles.input2, {backgroundColor: 'white', borderColor: isNameFocused ? colors.blackFix : colors.grayPress }]}
+                                    style={[styles.input2, {backgroundColor: colors.white, borderColor: isNameFocused ? colors.blackBorder : colors.grayPressBorder }]}
                                     />
                                 </View>
                             <ScrollView style={styles.containerSearch} persistentScrollbar={true}>
@@ -263,7 +264,7 @@ function Generate() {
                     </View>
                 )}
             </View>
-            {foodRepertorySelected && (<View style={{marginTop: 10,backgroundColor: colors.white, width: "30%", justifyContent: 'center', paddingLeft: 5, borderColor: colors.black, borderWidth: 1, padding: 2, height: 30, borderRadius: 10}}><Text style={[{fontWeight: 500, color: "black" }]}>{displayFoodTranslate}</Text></View>)}
+            {foodRepertorySelected && (<View style={{marginTop: 10,backgroundColor: colors.white, width: "30%", justifyContent: 'center', paddingLeft: 5, borderColor: colors.black, borderWidth: 1, padding: 2, height: 30, borderRadius: 10}}><Text style={[{fontWeight: 500, color: colors.black }]}>{displayFoodTranslate}</Text></View>)}
             <Text style={[styles.label, { color: colors.black }]}>{t('quantityGenerate')}</Text>
             <TextInput
                 value={inputValueGram}
@@ -271,7 +272,7 @@ function Generate() {
                 keyboardType="numeric"
                 onFocus={() => setIsQuantityFocused(true)}
                 onBlur={() => setIsQuantityFocused(false)}
-                style={[styles.input, { borderColor: isQuantityFocused ? colors.blackFix : colors.grayPress}]}
+                style={[styles.input, {color: colors.black, backgroundColor: colors.white, borderColor: isQuantityFocused ? colors.blackBorder : colors.grayPressBorder}]}
             ></TextInput>
             <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
                 <TouchableOpacity
@@ -287,11 +288,11 @@ function Generate() {
             </View>
                 {generateFood?.calories !== undefined && (
                 <View style={{marginTop: 10, width: '100%', alignSelf: 'center'}}>
-                    <Text style={[styles.label, { color: colors.blackFix }]}>{t('title')}</Text>
+                    <Text style={[styles.label, { color: colors.black }]}>{t('title')}</Text>
                     <TextInput
                         onFocus={() => setIsTitleFocused(true)}
                         onBlur={() => setIsTitleFocused(false)}
-                        style={[styles.input, { borderColor: isTitleFocused ? colors.blackFix : colors.grayPress}]}
+                        style={[styles.input, {color: colors.black, borderColor: isTitleFocused ? colors.blackBorder : colors.grayPressBorder}]}
                         value={title}
                         onChangeText={setTitle}
                         autoCapitalize='words'
@@ -299,7 +300,7 @@ function Generate() {
                 </View>
                 )}
                 {errorMessageTitle && (
-                    <Text style={styles.errorMessage}>{errorMessageTitle}</Text>
+                    <Text style={[styles.errorMessage, { color: "red"}]}>{errorMessageTitle}</Text>
                 )}
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20}}>
                 {generateFood?.calories !== undefined && (

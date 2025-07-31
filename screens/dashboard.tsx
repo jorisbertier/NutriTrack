@@ -553,25 +553,25 @@ export default function Dashboard() {
                             }
                     </View>
                 </TouchableOpacity>
-            {notificationVisible &&
+            {notificationVisible && (
                 <View style={styles.notification}>
-                    <View style={[styles.wrapperNotification]}>
-                        <Text style={styles.notificationText}>{t('msg_exp')}</Text>
-                        <LottieView
-                            source={require('@/assets/lottie/check-popup.json')}
-                            loop={false}
-                            style={{ width: 30, height: 30 }}
-                            autoPlay={true}
-                        />
-                    </View>
+                    <View style={styles.wrapperNotification}>
+                    <Text style={styles.notificationText}>{t('msg_exp')}</Text>
                     <LottieView
-                        source={require('@/assets/lottie/Confetti.json')}
-                        loop={true}
-                        style={{ width: 400, height: 400, position: 'absolute' }}
+                        source={require('@/assets/lottie/check-popup.json')}
+                        loop={false}
+                        style={{ width: 30, height: 30 }}
                         autoPlay={true}
                     />
+                    </View>
+                    <LottieView
+                    source={require('@/assets/lottie/Confetti.json')}
+                    loop={true}
+                    style={{ width: 400, height: 400, position: 'absolute' }}
+                    autoPlay={true}
+                    />
                 </View>
-            }
+            )}
             </View>
             <ScrollView style={[styles.header, {paddingTop: 10, backgroundColor: colors.whiteMode}]}>
             <View style={[styles.card, { backgroundColor: colors.white, shadowColor: colors.shadow }]}>
@@ -589,28 +589,16 @@ export default function Dashboard() {
                 {!isLoading ? (
                     <>
                     <View style={styles.headerRow}>
-                        <Text style={[styles.caloriesText, { color: colors.blackFix }]}>
-                        {showIcon && '🎯'} {Math.round(basalMetabolicRate)} <Text style={styles.unit}>cal</Text>
+                        <Text style={[styles.caloriesText, { color: colors.black }]}>
+                        {showIcon && '🎯'} {Math.round(basalMetabolicRate)} <Text style={styles.unit}>kcal</Text>
                         </Text>
                         <View style={[styles.badge, { backgroundColor: colors.primaryLight }]}>
-                        <Text style={[styles.badgeText, { color: colors.primaryDark }]}>
+                        <Text style={[styles.badgeText, { color: colors.black }]}>
                             {Math.round(goal)} {t('left')}
                         </Text>
                         </View>
                     </View>
-
-                    {/* <View style={styles.progressBarBackground}>
-                        <View
-                        style={[
-                            styles.progressBarFill,
-                            { 
-                            backgroundColor: colors.primary,
-                            width: `${Math.min((totalKcalConsumeToday / basalMetabolicRate) * 100, 100)}%`
-                            },
-                        ]}
-                        />
-                    </View> */}
-                    <Text style={[styles.progressText, { color: colors.textSecondary }]}>
+                    <Text style={[styles.progressText, { color: colors.black }]}>
                         {Math.round(totalKcalConsumeToday)} / {Math.round(basalMetabolicRate)} 
                     </Text>
                         <ProgressBarKcal isLoading={!isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
@@ -682,33 +670,37 @@ const styles = StyleSheet.create({
         backgroundColor: 'red'
     },
     wrapperNotification : {
-        position: 'absolute',
+  position: 'absolute',
         zIndex: 3,
         top: 650,
         left: '5%',
         right: '5%',
         flexDirection: 'row',
-        justifyContent:'center',
-        alignItems: "center",
-        backgroundColor: "white",
-        width: "90%",
+        justifyContent: 'center',
+        alignItems: 'center', 
+        backgroundColor: 'white',
+        width: '90%',
+        height: 70,
         borderRadius: 20,
         paddingVertical: 12,
         paddingHorizontal: 20,
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
         shadowRadius: 8,
         elevation: 5,
         borderWidth: 1,
-        borderColor: "#e0e0e0",
+        borderColor: '#e0e0e0',
     },
     notificationText: {
         color: "#333",
         fontWeight: "600",
+        justifyContent: 'center',
+        alignItems: 'center',
         fontSize: 16,
         textAlign: "center",
-        marginRight: 10
+        marginRight: 10,
+        top: -9
     },
     card: {
         borderRadius: 20,

@@ -395,26 +395,28 @@ function Create() {
         
     return (
         <>
-            <Text style={styles.title}>{t('textCreate')}</Text>
+            <Text style={[styles.title, { color: colors.black}]}>{t('textCreate')}</Text>
             <Text style={[styles.label, {color : colors.black}]}>{t('food')}</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['title'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['title'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('food')} (${t('required')})`}
                     value={formValues.title}
                     onChangeText={value => handleChange('title', value)}
+                    placeholderTextColor={colors.black}
                     autoCapitalize='words'
                     returnKeyType='next'
                     onSubmitEditing={() => quantityRef.current?.focus()}
                     onFocus={() => handleFocus('title')}
                     onBlur={() => handleBlur('title')}
                 />
-                {errors.title && <Text style={styles.errorText}>{errors.title}</Text>}
+                {errors.title && <Text style={[styles.errorText, { color: 'red'}]}>{errors.title}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>{t('quantity')}</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['quantity'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['quantity'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('quantity')} (${t('required')})`}
                     value={formValues.quantity}
                     onChangeText={value => handleChange('quantity', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={quantityRef}
@@ -422,13 +424,14 @@ function Create() {
                     onFocus={() => handleFocus('quantity')}
                     onBlur={() => handleBlur('quantity')}
                 />
-                {errors.quantity && <Text style={styles.errorText}>{errors.quantity}</Text>}
+                {errors.quantity && <Text style={[styles.errorText, { color: 'red'}]}>{errors.quantity}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>{t('unit')} {t('informUnit')}</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['unit'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['unit'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('unit')} (${t('required')})`}
                     value={formValues.unit}
                     onChangeText={value => handleChange('unit', value)}
+                    placeholderTextColor={colors.black}
                     autoCapitalize='words'
                     returnKeyType="next"
                     ref={unitRef} // Lier la référence
@@ -437,13 +440,14 @@ function Create() {
                     onBlur={() => handleBlur('unit')}
                 />
                 <ThemedText style={[{color : colors.black, marginBottom: 10}]}>* {t('inform')}</ThemedText>
-                {errors.unit && <Text style={styles.errorText}>{errors.unit}</Text>}
+                {errors.unit && <Text style={[styles.errorText, { color: 'red'}]}>{errors.unit}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>{t('calories')}</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['calories'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['calories'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('calories')} (${t('required')})`}
                     value={formValues.calories}
                     onChangeText={value => handleChange('calories', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={caloriesRef} // Lier la référence
@@ -451,13 +455,14 @@ function Create() {
                     onFocus={() => handleFocus('calories')}
                     onBlur={() => handleBlur('calories')}
                 />
-                {errors.calories && <Text style={styles.errorText}>{errors.calories}</Text>}
+                {errors.calories && <Text style={[styles.errorText, { color: 'red'}]}>{errors.calories}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>{t('proteins')}</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['proteins'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['proteins'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('proteins')} (${t('required')})`}
                     value={formValues.proteins}
                     onChangeText={value => handleChange('proteins', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={proteinsRef} // Lier la référence
@@ -465,13 +470,14 @@ function Create() {
                     onFocus={() => handleFocus('proteins')}
                     onBlur={() => handleBlur('proteins')}
                 />
-                {errors.proteins && <Text style={styles.errorText}>{errors.proteins}</Text>}
+                {errors.proteins && <Text style={[styles.errorText, { color: 'red'}]}>{errors.proteins}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>{t('carbs')}</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['carbs'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['carbs'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('carbs')} (${t('required')})`}
                     value={formValues.carbs}
                     onChangeText={value => handleChange('carbs', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={carbsRef} // Lier la référence
@@ -479,13 +485,14 @@ function Create() {
                     onFocus={() => handleFocus('carbs')}
                     onBlur={() => handleBlur('carbs')}
                 />
-                {errors.carbs && <Text style={styles.errorText}>{errors.carbs}</Text>}
+                {errors.carbs && <Text style={[styles.errorText, { color: 'red'}]}>{errors.carbs}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>{t('fats')}</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['fats'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['fats'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('fats')} (${t('required')})`}
                     value={formValues.fats}
                     onChangeText={value => handleChange('fats', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={fatsRef}
@@ -494,13 +501,14 @@ function Create() {
                     onBlur={() => handleBlur('fats')}
 
                 />
-                {errors.fats && <Text style={styles.errorText}>{errors.fats}</Text>}
+                {errors.fats && <Text style={[styles.errorText, { color: 'red'}]}>{errors.fats}</Text>}
                 <Text style={[styles.label, {color : colors.black}]}>{t('otherMacro')}</Text>
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['magnesium'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['magnesium'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('magnesium')} (${t('optional')}) max 300`}
                     value={formValues.magnesium}
                     onChangeText={value => handleChange('magnesium', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={magnesiumRef}
@@ -508,12 +516,13 @@ function Create() {
                     onFocus={() => handleFocus('magnesium')}
                     onBlur={() => handleBlur('magnesium')}
                 />
-                {errors.magnesium && <Text style={styles.errorText}>{errors.magnesium}</Text>}
+                {errors.magnesium && <Text style={[styles.errorText, { color: 'red'}]}>{errors.magnesium}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['potassium'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['potassium'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('potassium')} (${t('optional')}) max 4700`}
                     value={formValues.potassium}
                     onChangeText={value => handleChange('potassium', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={potassiumRef}
@@ -521,12 +530,13 @@ function Create() {
                     onFocus={() => handleFocus('potassium')}
                     onBlur={() => handleBlur('potassium')}
                 />
-                {errors.potassium && <Text style={styles.errorText}>{errors.potassium}</Text>}
+                {errors.potassium && <Text style={[styles.errorText, { color: 'red'}]}>{errors.potassium}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['calcium'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['calcium'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('calcium')} (${t('optional')}) max 1300`}
                     value={formValues.calcium}
                     onChangeText={value => handleChange('calcium', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={calciumRef}
@@ -534,12 +544,13 @@ function Create() {
                     onFocus={() => handleFocus('calcium')}
                     onBlur={() => handleBlur('calcium')}
                 />
-                {errors.calcium && <Text style={styles.errorText}>{errors.calcium}</Text>}
+                {errors.calcium && <Text style={[styles.errorText, { color: 'red'}]}>{errors.calcium}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['sodium'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['sodium'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('sodium')} (${t('optional')}) max 1300`}
                     value={formValues.sodium}
                     onChangeText={value => handleChange('sodium', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={sodiumRef}
@@ -547,11 +558,12 @@ function Create() {
                     onFocus={() => handleFocus('sodium')}
                     onBlur={() => handleBlur('sodium')}
                 />
-                {errors.sodium && <Text style={styles.errorText}>{errors.sodium}</Text>}
+                {errors.sodium && <Text style={[styles.errorText, { color: 'red'}]}>{errors.sodium}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['iron'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['iron'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('iron')} (${t('optional')}) max 45`}
                     value={formValues.iron}
+                    placeholderTextColor={colors.black}
                     onChangeText={value => handleChange('iron', value)}
                     keyboardType="numeric"
                     returnKeyType="next"
@@ -560,12 +572,13 @@ function Create() {
                     onFocus={() => handleFocus('iron')}
                     onBlur={() => handleBlur('iron')}
                 />
-                {errors.iron && <Text style={styles.errorText}>{errors.iron}</Text>}
+                {errors.iron && <Text style={[styles.errorText, { color: 'red'}]}>{errors.iron}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['sugar'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['sugar'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('sugar')} (${t('optional')}) max 1300`}
                     value={formValues.sugar}
                     onChangeText={value => handleChange('sugar', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={sugarRef}
@@ -573,12 +586,13 @@ function Create() {
                     onFocus={() => handleFocus('sugar')}
                     onBlur={() => handleBlur('sugar')}
                 />
-                {errors.sugar && <Text style={styles.errorText}>{errors.sugar}</Text>}
+                {errors.sugar && <Text style={[styles.errorText, { color: 'red'}]}>{errors.sugar}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['folate'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['folate'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('folate')} (${t('optional')}) max 400`}
                     value={formValues.folate}
                     onChangeText={value => handleChange('folate', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={folateRef}
@@ -586,12 +600,13 @@ function Create() {
                     onFocus={() => handleFocus('folate')}
                     onBlur={() => handleBlur('folate')}
                 />
-                {errors.folate && <Text style={styles.errorText}>{errors.folate}</Text>}
+                {errors.folate && <Text style={[styles.errorText, { color: 'red'}]}>{errors.folate}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminA'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminA'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminA')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminA}
                     onChangeText={value => handleChange('vitaminA', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminARef}
@@ -599,12 +614,13 @@ function Create() {
                     onFocus={() => handleFocus('vitaminA')}
                     onBlur={() => handleBlur('vitaminA')}
                 />
-                {errors.vitamina && <Text style={styles.errorText}>{errors.vitamina}</Text>}
+                {errors.vitamina && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitamina}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB1'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminB1'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminB1')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminB1}
                     onChangeText={value => handleChange('vitaminB1', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminB1Ref}
@@ -612,12 +628,13 @@ function Create() {
                     onFocus={() => handleFocus('vitaminB1')}
                     onBlur={() => handleBlur('vitaminB1')}
                 />
-                {errors.vitaminb1 && <Text style={styles.errorText}>{errors.vitaminb1}</Text>}
+                {errors.vitaminb1 && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitaminb1}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB5'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminB5'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminB5')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminB5}
                     onChangeText={value => handleChange('vitaminB5', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminB5Ref}
@@ -625,12 +642,13 @@ function Create() {
                     onFocus={() => handleFocus('vitaminB5')}
                     onBlur={() => handleBlur('vitaminB5')}
                 />
-                {errors.vitaminb5 && <Text style={styles.errorText}>{errors.vitaminb5}</Text>}
+                {errors.vitaminb5 && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitaminb5}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB6'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminB6'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminB6')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminB6}
                     onChangeText={value => handleChange('vitaminB6', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminB6Ref}
@@ -638,12 +656,13 @@ function Create() {
                     onFocus={() => handleFocus('vitaminB6')}
                     onBlur={() => handleBlur('vitaminB6')}
                 />
-                {errors.vitaminb6 && <Text style={styles.errorText}>{errors.vitaminb6}</Text>}
+                {errors.vitaminb6 && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitaminb6}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminB12'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminB12'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminB12')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminB12}
                     onChangeText={value => handleChange('vitaminB12', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminB12Ref}
@@ -651,12 +670,13 @@ function Create() {
                     onFocus={() => handleFocus('vitaminB12')}
                     onBlur={() => handleBlur('vitaminB12')}
                 />
-                {errors.vitaminb12 && <Text style={styles.errorText}>{errors.vitaminb12}</Text>}
+                {errors.vitaminb12 && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitaminb12}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminC'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminC'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminC')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminC}
                     onChangeText={value => handleChange('vitaminC', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminCRef}
@@ -664,12 +684,13 @@ function Create() {
                     onFocus={() => handleFocus('vitaminC')}
                     onBlur={() => handleBlur('vitaminC')}
                 />
-                {errors.vitaminc && <Text style={styles.errorText}>{errors.vitaminc}</Text>}
+                {errors.vitaminc && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitaminc}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminD'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminD'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminD')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminD}
                     onChangeText={value => handleChange('vitaminD', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminDRef}
@@ -677,12 +698,13 @@ function Create() {
                     onFocus={() => handleFocus('vitaminD')}
                     onBlur={() => handleBlur('vitaminD')}
                 />
-                {errors.vitamind && <Text style={styles.errorText}>{errors.vitamind}</Text>}
+                {errors.vitamind && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitamind}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminE'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminE'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminE')} % (${t('optional')}) max 300`}
                     value={formValues.vitaminE}
                     onChangeText={value => handleChange('vitaminE', value)}
+                    placeholderTextColor={colors.black}
                     keyboardType="numeric"
                     returnKeyType="next"
                     ref={vitaminERef}
@@ -690,10 +712,11 @@ function Create() {
                     onFocus={() => handleFocus('vitaminE')}
                     onBlur={() => handleBlur('vitaminE')}
                 />
-                {errors.vitamine && <Text style={styles.errorText}>{errors.vitamine}</Text>}
+                {errors.vitamine && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitamine}</Text>}
                 <TextInput
-                    style={[styles.input, { backgroundColor : colors.white, borderColor: focusedFields['vitaminK'] ? colors.black : colors.grayDarkFix}]}
+                    style={[styles.input, {color: colors.black, backgroundColor : colors.white, borderColor: focusedFields['vitaminK'] ? colors.blackBorder : colors.grayPressBorder}]}
                     placeholder={`${t('vitaminK')} % (${t('optional')}) max 300`}
+                    placeholderTextColor={colors.black}
                     value={formValues.vitaminK}
                     onChangeText={value => handleChange('vitaminK', value)}
                     keyboardType="numeric"
@@ -702,7 +725,7 @@ function Create() {
                     onFocus={() => handleFocus('vitaminK')}
                     onBlur={() => handleBlur('vitaminK')}
                 />
-                {errors.vitamink && <Text style={styles.errorText}>{errors.vitamink}</Text>}
+                {errors.vitamink && <Text style={[styles.errorText, { color: 'red'}]}>{errors.vitamink}</Text>}
                 
                 <TouchableOpacity
                     onPress={createAliment}

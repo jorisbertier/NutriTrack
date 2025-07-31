@@ -139,16 +139,11 @@ const ProfileScreen = () => {
 console.log(i18n.language)
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.whiteMode}]} persistentScrollbar={true}>
-      
-{/*       
-      <Button title="FR" onPress={() => changeLanguage('fr')} />
-      <Button title="EN" onPress={() => changeLanguage('en')} />
-      <Button title="ES" onPress={() => changeLanguage('es')} /> */}
-        <View style={styles.containerTranslate}>
+        <View style={[styles.containerTranslate, { backgroundColor: colors.white}]}>
           <View style={{width: '30%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <View></View>
           </View>
-          <View style={{marginLeft: 10, backgroundColor: '#F6F6F6', gap: 3, display: 'flex', alignItems: 'center', padding: 4, borderRadius: 5, justifyContent: "space-between", flexDirection: 'row', width: '40%'}}>
+          <View style={{marginLeft: 10, backgroundColor: colors.gray, gap: 3, display: 'flex', alignItems: 'center', padding: 4, borderRadius: 5, justifyContent: "space-between", flexDirection: 'row', width: '40%'}}>
             <Image source={require('@/assets/images/traduction.png')} style={{width: 30, height: 30}}/>
             <TouchableOpacity  onPress={() => changeLanguage('en')} style={[styles.langButton, i18n.language === "en" && styles.isActive ]}>
               <Text >EN</Text>

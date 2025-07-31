@@ -149,11 +149,11 @@ export default function Search() {
                     >
                     <Image
                         source={require('@/assets/images/add.png')}
-                        style={{ width: 22, height: 22, tintColor: colors.black }} // Soft blue
+                        style={{ width: 22, height: 22, tintColor: colors.blackFix }} // Soft blue
                     />
                     <ThemedText
                         variant='title3'
-                        style={{ marginLeft: 8, color: colors.black, fontSize: 13, fontWeight: '600' }}
+                        style={{ marginLeft: 8, color: colors.blackFix, fontSize: 13, fontWeight: '600' }}
                     >
                         {t('create')}
                     </ThemedText>
@@ -166,7 +166,7 @@ export default function Search() {
                     >
                     <ThemedText
                         variant='title3'
-                        style={{ color: colors.black,fontSize: 13, fontWeight: '600' }}
+                        style={{ color: colors.blackFix,fontSize: 13, fontWeight: '600' }}
                     >
                         {t('list')}
                     </ThemedText>

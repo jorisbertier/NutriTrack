@@ -168,10 +168,10 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 10}}>
                     <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
-                        <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.blackFix}]} />
+                        <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black}]} />
                     </Pressable>
                     <Pressable style={[styles.wrapperAdd, {width: 50}]} onPress={() => handleDelete(id)}>
-                        <Image source={require("@/assets/images/delete.png")} style={[styles.delete, {tintColor: colors.blackFix}]}/>
+                        <Image source={require("@/assets/images/delete.png")} style={[styles.delete, {tintColor: colors.black}]}/>
                     </Pressable>
                 </View>
                 <Modal

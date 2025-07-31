@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreated: FoodItemCreated[], meal: string,handleDeleteFood: (userMealId: string) => void, handleDeleteFoodCreated: (userMealId: string) => void, isLoading: boolean = false) {
 
     const {colors} = useTheme();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const colorMode: 'light' | 'dark' = 'light';
     
@@ -27,15 +27,15 @@ export function DisplayResultFoodByMeal(resultMeal: FoodItem[], resultMealCreate
     }, 0);
 
 
-const resultMealWithUuid = resultMeal.map(item => ({
-  ...item,
-  uuid: UUID.v4() as string,
-}));
+    const resultMealWithUuid = resultMeal.map(item => ({
+        ...item,
+        uuid: UUID.v4() as string,
+    }));
 
-const resultMealCreatedWithUuid = resultMealCreated.map(item => ({
-  ...item,
-  uuid: UUID.v4() as string,
-}));
+    const resultMealCreatedWithUuid = resultMealCreated.map(item => ({
+        ...item,
+        uuid: UUID.v4() as string,
+    }));
     return (
         <View style={styles.wrapper}>
             <Row style={styles.row}>
@@ -50,7 +50,7 @@ const resultMealCreatedWithUuid = resultMealCreated.map(item => ({
                     data={resultMealWithUuid}
                     renderItem={({ item }) => (
                         <CardFoodResume
-                        name={item.name}
+                        name={`${item[`name_${i18n.language}`] || item.name_en}`}
                         quantity={item.quantity}
                         unit={item.unit}
                         image={item.image}

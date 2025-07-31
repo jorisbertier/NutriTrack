@@ -166,7 +166,7 @@ function SearchAlimentCreated() {
                         null
                     )}
                     
-                    <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/>
+                    <Image source={require('@/assets/images/search.png')} style={[styles.iconSearch, {tintColor: colors.black}]}/>
 
             </View>
             <Row style={[styles.wrapperFood]}>

@@ -29,7 +29,7 @@
     "gender_other": "otro",
     "proteins": "Proteínas",
     "calories": "Calorías",
-    "carbs": "Carbohidratos",
+    "carbs": "Carbs",
     "fats": "Grasas",
     "sugar": "Azúcar",
     "potassium": "Potasio",
@@ -69,7 +69,8 @@
     "active": "activo",
     "superactive": "muy activo",
     "newPassord": "Nueva contraseña",
-    "confirmNewPassord": "Confirmar nueva contraseña",
+    "confirmNewPassword": "Confirma la nueva contraseña",
+
     "updatePassword": "ACTUALIZAR CONTRASEÑA",
     "profile": "Perfil",
     "search": "Buscar",
@@ -94,7 +95,7 @@
     "modalText3": "Empieza a seguir ahora para mejorar tu nutrición y ganar niveles emocionantes",
     "modalButton": "Entendido",
     "termsTitle": "Términos de servicio para la aplicación Nutrition Track",
-    "dateterms": "Última actualización: 17 de julio de 2025",
+    "dateTerms": "Última actualización: 17 de julio de 2025",
     "termsTitle1": "Introducción",
     "termsContent": "¡Bienvenido a Nutrition Track! Al utilizar nuestra aplicación, aceptas estos Términos de servicio. Si no estás de acuerdo con estos términos, por favor no uses la aplicación. Nos reservamos el derecho de modificar o actualizar estos términos en cualquier momento. Es tu responsabilidad revisar esta página regularmente para ver si hay cambios. Tu uso continuado de la aplicación después de cualquier cambio constituirá tu aceptación de los nuevos términos.",
     "termsTitle2": "Descripción de la aplicación",
@@ -211,6 +212,7 @@
     "invalid": "Por favor, introduce un peso válido",
     "updated": "Peso actualizado con éxito",
     "update_error": "No se pudo actualizar el peso",
+    "update_error_password": "No se pudo actualizar la contraseña",
     "unauthenticated_or_not_defined": "Usuario u objetivo no definido.",
     "unauthenticated": "Usuario no autenticado",
     "faq": "Preguntas frecuentes",
@@ -274,7 +276,8 @@
     "snack": "Merienda",
     "not_enought_data": "No hay suficientes datos para mostrar el gráfico.",
     "not_enought_data_statictis": "No hay suficientes datos para mostrar las estadísticas.",
-    "text_enought": "Por favor, asegúrate de haber proporcionado suficientes datos de actividad o nutrición para obtener información precisa."
+    "text_enought": "Por favor, asegúrate de haber proporcionado suficientes datos de actividad o nutrición para obtener información precisa.",
+    "access": "Accede a tu panel de control"
 
 
 

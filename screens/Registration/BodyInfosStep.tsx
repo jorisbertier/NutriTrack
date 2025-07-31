@@ -59,7 +59,7 @@ const BodyInfoStep = ({
             alignItems: 'center',
             }}
         >
-            <Switch color="black" value={isSwitchOn} onValueChange={onToggleSwitch} />
+            <Switch color={colors.blueLight} value={isSwitchOn} onValueChange={onToggleSwitch} />
             <Text style={{color: colors.black, fontWeight: "500", fontSize: 20}}>{!isSwitchOn ? t('metric') : t('imperial')}</Text>
         </View>
 
@@ -74,11 +74,12 @@ const BodyInfoStep = ({
         >
             {/* Weight */}
             <View style={{ width: '50%', display: 'flex', alignItems: 'center' }}>
-            <Text style={{ marginTop: 20, fontSize: 20 }}>{t('weight')}</Text>
+            <Text style={{ marginTop: 20, fontSize: 20, color: colors.black }}>{t('weight')}</Text>
             <WheelPickerExpo
                 key={isSwitchOn ? 'lbs' : 'kg'}
                 height={250}
                 width={150}
+                backgroundColor={colors.whiteMode}
                 initialSelectedIndex={selectedWeightIndex >= 0 ? selectedWeightIndex : 0}
                 items={weightItems}
                 onChange={({ item }) => {
@@ -92,9 +93,10 @@ const BodyInfoStep = ({
 
             {/* Height */}
             <View style={{ width: '50%', display: 'flex', alignItems: 'center' }}>
-            <Text style={{ marginTop: 20, fontSize: 20 }}>{t('height')}</Text>
+            <Text style={{ marginTop: 20, fontSize: 20, color: colors.black }}>{t('height')}</Text>
             <WheelPickerExpo
                 key="cm"
+                backgroundColor={colors.whiteMode}
                 height={250}
                 width={150}
                 initialSelectedIndex={selectedHeightIndex >= 0 ? selectedHeightIndex : 0}

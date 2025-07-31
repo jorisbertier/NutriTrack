@@ -40,11 +40,11 @@ function CreateAliment() {
             <Text style={[styles.title, { color: colors.black}]}>{t('switch')}</Text>
             <View style={styles.containerSwitch}>
                 <View style={[styles.wrapper, { backgroundColor: isSwitchOn ? colors.gray : colors.blueLight}]}>
-                    <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.grayDarkFix : colors.black}]}>{t('generate')}</Text>
+                    <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.grayDarkFix : colors.blackFix}]}>{t('generate')}</Text>
                 </View>
-                <Switch color='black' value={isSwitchOn} onValueChange={onToggleSwitch} />
+                <Switch color={colors.blueLight} value={isSwitchOn} onValueChange={onToggleSwitch} />
                 <View style={[styles.wrapper, { backgroundColor: isSwitchOn ? colors.blueLight : colors.gray}]}>
-                    <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.black : colors.grayDarkFix}]}>{t('create')}</Text>
+                    <Text style={[styles.textSwitch, { color: isSwitchOn ? colors.blackFix : colors.grayDarkFix}]}>{t('create')}</Text>
 
                 </View>
             </View>

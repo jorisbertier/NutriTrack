@@ -179,16 +179,16 @@ export default function HomeScreen() {
             alignItems: 'center',
             justifyContent: 'center',
             paddingVertical: 12,
-            borderRadius: 4,
+            borderRadius: 20,
             elevation: 3,
-            backgroundColor: colors.blackFix,
+            backgroundColor: colors.black,
             width: '100%'
           }}>
             <Text style={{fontSize: 16,
             lineHeight: 21,
             fontWeight: 'bold',
             letterSpacing: 0.25,
-            color: colors.whiteFix,}}>{t('dashboard')}</Text>
+            color: colors.white,}}>{t('dashboard')}</Text>
           </Pressable>
           </Row>
           <Row style={{marginTop: 20, marginBottom: -15}}>

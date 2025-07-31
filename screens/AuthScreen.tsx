@@ -85,7 +85,7 @@ const AuthScreen = () => {
         <View style={[styles.loadingContainer, { backgroundColor: colors.blueLight, gap: 40}]}>
           {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" /> }
           <Image source={require('@/assets/images/logo/logo2.png')} style={styles.logo}/>
-          <ActivityIndicator size="large" color={colors.black} />
+          <ActivityIndicator size="large" color={colors.blackFix} />
           <Text style={{width: '90%',fontSize: 17, fontWeight: "bold", flexWrap: 'wrap', flexShrink: 1,height: 50, textAlign: 'center'}} variant={"title1"} color={colors.black}>{sentences[randomSentenceIndex]}</Text>
         </View>
       );
@@ -104,9 +104,9 @@ const AuthScreen = () => {
       <View style={styles.form}>
         <View style={styles.wrapper}>
           <TextInput
-            style={[styles.inputField, { color: colors.black, borderColor: isEmailFocused ? colors.black : colors.grayDark }]}
+            style={[styles.inputField, { color: colors.blackFix, borderColor: isEmailFocused ? colors.blackBorder : colors.grayDarkBorder }]}
             placeholder={t('email')}
-            placeholderTextColor={colors.grayDark}
+            placeholderTextColor={colors.grayDarkFix}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -114,23 +114,23 @@ const AuthScreen = () => {
             onFocus={() => setIsEmailFocused(true)}
             onBlur={() => setIsEmailFocused(false)}
           />
-          <Image source={require('@/assets/images/profil/user.png')} style={[styles.logoForm, { tintColor: isEmailFocused ? colors.black : colors.grayDark}]} />
+          <Image source={require('@/assets/images/profil/user.png')} style={[styles.logoForm, { tintColor: isEmailFocused ? colors.blackFix : colors.grayDarkFix}]} />
         </View>
         <View style={styles.wrapper}>
           <TextInput
-            style={[styles.inputField, { flex: 1, color: colors.black, borderColor: isPasswordFocused ? colors.black : colors.grayDark }]}
+            style={[styles.inputField, { flex: 1, color: colors.blackFix, borderColor: isPasswordFocused ? colors.black : colors.grayDark }]}
             placeholder={t('password')}
-            placeholderTextColor={colors.grayDark}
+            placeholderTextColor={colors.grayDarkFix}
             secureTextEntry={showPassword}
             value={password}
             onChangeText={setPassword}
             onFocus={() => setIsPasswordFocused(true)}
             onBlur={() => setIsPasswordFocused(false)}
           />
-            <Image source={require('@/assets/images/profil/key.png')} style={[styles.logoForm, { tintColor: isPasswordFocused ? colors.black : colors.grayDark}]} />
+            <Image source={require('@/assets/images/profil/key.png')} style={[styles.logoForm, { tintColor: isPasswordFocused ? colors.blackFix : colors.grayDarkFix}]} />
           {showPassword ? (
             <TouchableOpacity style={styles.wrapperLogo} onPress={() => setShowPassword(false)}>
-              <Image source={require('@/assets/images/eye-show.png')} style={[styles.logoPassword, { tintColor: isPasswordFocused ? colors.black : colors.grayDark}]} />
+              <Image source={require('@/assets/images/eye-show.png')} style={[styles.logoPassword, { tintColor: isPasswordFocused ? colors.blackFix : colors.grayDarkFix}]} />
 
             </TouchableOpacity>
           ):  (
@@ -147,10 +147,10 @@ const AuthScreen = () => {
           onPress={signIn}
           style={[styles.signInButton, { backgroundColor: colors.black }]}
         >
-          <Text style={styles.signInText}>{t('login')}</Text>
+          <Text style={[styles.signInText, { color: colors.white}]}>{t('login')}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.footerText}>
+        <Text style={[styles.footerText, { color: colors.black}]}>
           {t('textAuthscreen')}{' '}
           <Text
             style={[styles.link, { color: colors.primary }]}

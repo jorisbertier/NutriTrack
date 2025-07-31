@@ -36,11 +36,12 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.whiteMode}]}>
       <Text style={styles.label}>{t('reset')}</Text>
       <TextInput
-        style={[styles.input, { backgroundColor: colors.white, borderColor: isFocused ? colors.blackFix : colors.grayDarkFix}]}
+        style={[styles.input, { backgroundColor: colors.whiteFix, borderColor: isFocused ? colors.blackBorder : colors.grayDarkBorder}]}
         placeholder={t('email')}
+        placeholderTextColor={'grey'}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -50,7 +51,7 @@ export default function ForgotPasswordScreen() {
       />
       {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       <TouchableOpacity style={[styles.button, { backgroundColor: colors.black}]} onPress={handlePasswordReset}>
-        <Text style={styles.buttonText}>{t('sent')}</Text>
+        <Text style={[styles.buttonText, { color: colors.white}]}>{t('sent')}</Text>
       </TouchableOpacity>
       {feedback && (
           <AnimatedToast
@@ -65,7 +66,7 @@ export default function ForgotPasswordScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, marginTop: 20, flex: 1 },
+  container: { padding: 20, flex: 1 },
   label: { fontSize: 20, marginBottom: 10 },
   input: {
     borderWidth: 1,
@@ -84,7 +85,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonText: { 
-    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },

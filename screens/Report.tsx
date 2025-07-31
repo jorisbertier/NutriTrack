@@ -86,15 +86,15 @@ const ReportIssue = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{t('report')}</Text>
+        <View style={[styles.container, { backgroundColor: colors.whiteMode}]}>
+            <Text style={[styles.title, { color: colors.black}]}>{t('report')}</Text>
 
-            <Text style={styles.label}>{t('subject')}</Text>
-                <View style={[styles.pickerContainer, {borderColor: colors.grayDarkFix, backgroundColor: colors.white}]}>
+            <Text style={[styles.label, { color: colors.black }]}>{t('subject')}</Text>
+                <View style={[styles.pickerContainer, {borderColor: colors.grayDarkBorder, backgroundColor: colors.white}]}>
                     <Picker
                         selectedValue={category}
                         onValueChange={(itemValue) => setCategory(itemValue)}
-                        style={styles.picker}
+                        style={[styles.picker, { color: colors.black}]}
                     >
                         <Picker.Item label={t('selectCategory')} value="" />
                         {categories.map((cat) => (
@@ -104,10 +104,11 @@ const ReportIssue = () => {
                 </View>
             {categoryMessageError && <Text style={styles.errorMessage}>{categoryMessageError}</Text>}
 
-            <Text style={styles.label}>{t('yourMessage')}</Text>
+            <Text style={[styles.label, { color: colors.black }]}>{t('yourMessage')}</Text>
             <TextInput
-                style={[styles.textInput, {borderColor: isFocused ? colors.black : colors.grayDarkFix, backgroundColor: colors.white}]}
+                style={[styles.textInput, {borderColor: isFocused ? colors.blackBorder : colors.grayDarkBorder, backgroundColor: colors.white}]}
                 placeholder={t('placeholderMessage')}
+                placeholderTextColor={colors.black}
                 value={message}
                 onChangeText={setMessage}
                 onFocus={() => setIsFocused(true)}
@@ -116,7 +117,7 @@ const ReportIssue = () => {
             />
             {contentMessageError && <Text style={styles.errorMessage}>{contentMessageError}</Text>}
 
-            <Text style={[styles.label]}>{t('date')}: {date}</Text>
+            <Text style={[[styles.label, { color: colors.black }]]}>{t('date')}: {date}</Text>
 
             <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
                 <TouchableOpacity

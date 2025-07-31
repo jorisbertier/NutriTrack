@@ -94,14 +94,14 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
                 }}>
                     <View style={{flexDirection: "row", position: 'relative',alignItems: 'center'}}>
                         {activeWeekIndex !== 0 && (
-                            <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: 'black',transform: [{ scaleX: -1 }], position: 'absolute', width: 15, height: 15, left: -50}} />
+                            <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black,transform: [{ scaleX: -1 }], position: 'absolute', width: 15, height: 15, left: -50}} />
                         )}
                         <Text style={[styles.label, {color: colors.black}]}>
                             
                             Week of {getDaynumber(String(week[0]?.day) ?? '')}
                         </Text>
                         {activeWeekIndex !== 2 && (
-                            <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: 'black', position: 'absolute', width: 15, height: 15, right: -50}} />
+                            <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, position: 'absolute', width: 15, height: 15, right: -50}} />
                         )}
                     </View>
                 </View>

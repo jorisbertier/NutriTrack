@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@/hooks/ThemeProvider';
 
 const SuccessStep = () => {
 
@@ -9,6 +10,7 @@ const SuccessStep = () => {
     const successRef = useRef<LottieView>(null);
 
     const { t } = useTranslation();
+    const { colors } = useTheme();
     
     useEffect(() => {
         successRef.current?.play();
@@ -35,7 +37,7 @@ const SuccessStep = () => {
                 style={{ width: 200, height: 200 }}
             />
             <Text style={styles.text}>{t('welcome_registration')}</Text>
-            <Text style={styles.subtext}>
+            <Text style={[styles.subtext, { color : colors.black}]}>
                 {t('welcome_text')}
             </Text>
             <View style={styles.confetti}>

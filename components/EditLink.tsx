@@ -26,7 +26,7 @@ const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPr
 
     return (
         <TouchableOpacity
-            style={[styles.optionButton, { backgroundColor: colors.whiteMode, borderBottomWidth: isLast ? 0 : 1, borderBottomColor: isLast ? 'none' : '#ddd' }]}
+            style={[styles.optionButton, { backgroundColor: colors.white, borderBottomWidth: isLast ? 0 : 1, borderBottomColor: isLast ? 'none' : '#ddd' }]}
             onPress={handlePress}
             >
             <View style={styles.leftSection}>

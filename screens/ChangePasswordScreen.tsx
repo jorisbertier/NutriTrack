@@ -52,32 +52,33 @@ const ChangePasswordScreen = ({ navigation }: any) => {
                 setTimeout(() => setShowModal(false), 2000);
                 setTimeout(() => navigation.goBack(), 2200);
             } else {
-                console.log("Erreur", "User not authenticated.");
-                setPasswordError("Utilisateur non authentifié. Veuillez vous reconnecter.");
+                setPasswordError(t('unauthenticated'));
             }
         } catch (error) {
             console.error("Error", "Unable to update password :", error);
-            setPasswordError("Unable to update password. Try again");
+            setPasswordError(t('update_error_password'));
         }
     };
 
     return (
-        <View style={[styles.container]}>
+        <View style={[styles.container, { backgroundColor: colors.whiteMode}]}>
             <TextInput
-                style={[styles.input, {backgroundColor: colors.white, borderColor: focusedFields['newPassword'] ? colors.black : colors.grayDarkFix}]}
+                style={[styles.input, {color: colors.black, backgroundColor: colors.white, borderColor: focusedFields['newPassword'] ? colors.blackBorder : colors.grayDarkBorder}]}
                 placeholder={t('newPassord')}
                 secureTextEntry
                 value={newPassword}
+                placeholderTextColor={colors.black}
                 onChangeText={setNewPassword}
                 onFocus={() => handleFocus('newPassword')}
                 onBlur={() => handleBlur('newPassword')}
             />
             <TextInput
-                style={[styles.input, { backgroundColor: colors.white, borderColor: focusedFields['confirmPassword'] ? colors.black : colors.grayDarkFix}]}
+                style={[styles.input, {color: colors.black, backgroundColor: colors.white, borderColor: focusedFields['confirmPassword'] ? colors.blackBorder : colors.grayDarkBorder}]}
                 placeholder={t('confirmNewPassword')}
                 secureTextEntry
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
+                placeholderTextColor={colors.black}
                 onFocus={() => handleFocus('confirmPassword')}
                 onBlur={() => handleBlur('confirmPassword')}
             />

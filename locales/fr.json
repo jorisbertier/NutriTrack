@@ -274,6 +274,7 @@
     "error_gender_required": "Veuillez sélectionner un genre.",
     "error_avatar_required": "Veuillez sélectionner un avatar.",
     "error_goal_required": "Veuillez sélectionner un objectif.",
+    "update_error_password": "Impossible d'actualiser le mot passe",
     "loseRegistration": "Perdre du poids",
     "gainRegistration": "Gagner du poids",
     "maintainRegistration": "Maintenir votre poids",
@@ -288,6 +289,7 @@
     "snack": "Collation",
     "not_enought_data": "Pas assez de données pour afficher le graphique.",
     "not_enought_data_statictis": "Pas assez de données pour afficher les statistiques.",
-    "text_enought": "Veuillez vous assurer d’avoir fourni suffisamment de données d’activité ou de nutrition pour obtenir des résultats précis."
+    "text_enought": "Veuillez vous assurer d’avoir fourni suffisamment de données d’activité ou de nutrition pour obtenir des résultats précis.",
+    "access": "Accéder à votre tableau de bord"
 
 }

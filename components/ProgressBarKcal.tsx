@@ -25,7 +25,7 @@ export const ProgressBarKcal: React.FC<ProgressBarProps> = ({isLoading, progress
     return (
         <View style={styles.container}>
             {isLoading ?
-                <View style={[styles.progressBar1, {backgroundColor: colors.grayMode}]}>
+                <View style={[styles.progressBar1, {backgroundColor: colors.gray}]}>
                 <LinearGradient
                         start={{x: 0, y: 0}} end={{x: 1, y: 0}}
                         colors={['#A9B8E3', '#8592F2', '#5B6FD2']}

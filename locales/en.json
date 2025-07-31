@@ -69,7 +69,7 @@
     "active": "active",
     "superactive": "superactive",
     "newPassord": "New password",
-    "confirmNewPassord": "Confirm new password",
+    "confirmNewPassword": "Confirm new password",
     "updatePassword": "UPDATE PASSWORD",
     "profile": "Profile",
     "search": "Search",
@@ -96,7 +96,7 @@
     "modalButton": "Got it",
 
     "termsTitle": "Terms of Service for Nutrition Track Application",
-    "dateterms": "Last updated: July 17, 2025",
+    "dateTerms": "Last updated: July 17, 2025",
     "termsTitle1": "Introduction",
     "termsContent": "Welcome to Nutrition Track! By using our application, you agree to these Terms of Service. If you do not agree with these terms, please do not use the application. We reserve the right to modify or update these terms at any time. It is your responsibility to review this page regularly for any changes. Your continued use of the application after any changes will constitute your acceptance of the new terms",
     "termsTitle2": "Application description",
@@ -213,6 +213,7 @@
     "invalid": "Please enter a valid weight",
     "updated": "Weight updated successfully",
     "update_error": "Unable to update weight",
+    "update_error_password": "Unable to update password",
     "unauthenticated_or_not_defined": "User or goal not defined.",
     "unauthenticated": "User unauthenticated",
     "faq": "Faq",
@@ -276,6 +277,7 @@
     "snack": "snack",
     "not_enought_data": "Not enough data to display the chart.",
     "not_enought_data_statictis": "Not enough data to display the statistics.",
-    "text_enought": "Please ensure you've provided sufficient activity or nutrition data for accurate insights."
+    "text_enought": "Please ensure you've provided sufficient activity or nutrition data for accurate insights.",
+    "access": "Access your dashboard"
 
 }

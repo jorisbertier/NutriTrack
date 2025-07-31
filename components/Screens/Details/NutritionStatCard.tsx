@@ -21,14 +21,14 @@ export default function NutritionStatCard({
     const { colors } = useTheme();
 
     return (
-        <View style={[styles.cardContainer, { backgroundColor: colors.white }]}>
-        <Image source={source} style={styles.icon} resizeMode="contain" />
+        <View style={[styles.cardContainer, { backgroundColor: colors.whiteFix }]}>
+        <Image source={source} style={[styles.icon, { tintColor: colors.blackFix}]} resizeMode="contain" />
 
         <View style={[styles.innerBox, { height, backgroundColor: colors.blueLight }]}>
-            <ThemedText variant="title3" style={[styles.label, { color: colors.black }]}>
+            <ThemedText variant="title3" style={[styles.label, { color: colors.blackFix }]}>
             {capitalizeFirstLetter(nutri)}
             </ThemedText>
-            <ThemedText variant="title2" style={[styles.value, { color: colors.black }]}>
+            <ThemedText variant="title2" style={[styles.value, { color: colors.blackFix }]}>
             {quantity} {unit}
             </ThemedText>
         </View>
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
         width: 23,
         height: 23,
         marginBottom: 10,
-        tintColor: 'black',
         opacity: 0.8
     },
     innerBox: {

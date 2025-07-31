@@ -301,16 +301,17 @@ const Registration = () => {
         )}
       </View>
       {currentStep !== 6 ? (
-      <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+      <TouchableOpacity style={[styles.nextButton, {backgroundColor: colors.black}]} onPress={handleNext}>
         <Text style={{ color: 'white', fontSize: 18 }}>
-          <Image source={require('@/assets/images/arrow-right.png')} style={{ alignSelf: 'center', height: 18, width: 18 }} />
+          <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.white, alignSelf: 'center', height: 18, width: 18 }} />
         </Text>
       </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={handleSubmit}>
-            <Text style={styles.button}>Accéder à votre tableau de bord</Text>
+          <Text style={[styles.button, { color: colors.white, backgroundColor: colors.black}]}>{t('access')}</Text>
         </TouchableOpacity>
       )}
+
     </View>
   );
 };
@@ -332,8 +333,6 @@ const styles = StyleSheet.create({
     },
     button: {
       marginTop: 30,
-      backgroundColor: 'black',
-      color: 'white',
       paddingVertical: 12,
       paddingHorizontal: 20,
       borderRadius: 10,

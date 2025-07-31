@@ -22,7 +22,7 @@ const AvatarStep = ({
 
     return (
         <>
-        <Text style={[styles.label, { color: colors.blackFix }]}>{t('select_avatar')}</Text>
+        <Text style={[styles.label, { color: colors.black }]}>{t('select_avatar')}</Text>
         <FlatList
             data={avatars}
             keyExtractor={(item, index) => `${item.id}-${item.name}-${index}`}

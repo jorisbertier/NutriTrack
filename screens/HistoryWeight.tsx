@@ -66,7 +66,7 @@ const HistoryWeight = () => {
                 <Text style={[styles.cardText, { color: colors.text }]}>
                     {log.date}
                 </Text>
-                <Text style={[styles.weightText, { color: colors.black }]}>
+                <Text style={[styles.weightText, { color: colors.blackFix }]}>
                     {log.weight} kg
                 </Text>
                 </View>

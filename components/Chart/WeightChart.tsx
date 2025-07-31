@@ -1,7 +1,9 @@
 import { fetchUserDataConnected } from '@/functions/function';
+import { useTheme } from '@/hooks/ThemeProvider';
 import { User } from '@/interface/User';
 import { getAuth } from 'firebase/auth';
 import React, { useEffect, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Svg, { Path, Line, Circle, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 
@@ -25,6 +27,8 @@ const WeightChart = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<Period>('Weeks');
   const auth = getAuth();
   const user = auth.currentUser;
+  const { t } = useTranslation();
+  const { colors } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,14 +130,14 @@ const entries: WeightEntry[] = useMemo(() => {
   };
 
   if (!entries.length || entries.length < 2) {
-    return <Text style={{ textAlign: 'center' }}>Aucune donnée disponible</Text>;
+    return <Text style={{ textAlign: 'center' }}>{t('no_weight_dat')}</Text>;
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Weight Chart</Text>
+    <View style={[styles.container, { backgroundColor: colors.whiteMode}]}>
+      <Text style={[styles.title, { color: colors.black}]}>Weight Chart</Text>
 
-      <View style={styles.svgWrapper}>
+      <View style={[styles.svgWrapper]}>
         <Svg height={chartHeight + 40} width={chartWidth}>
           <Defs>
             <LinearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
@@ -147,7 +151,7 @@ const entries: WeightEntry[] = useMemo(() => {
             return (
               <React.Fragment key={yVal}>
                 <Line x1={paddingHorizontal} x2={chartWidth - paddingHorizontal} y1={y} y2={y} stroke="#e5e7eb" strokeWidth="1" />
-                <SvgText x={0} y={y - 3} fontSize="12" fill="#6b7280" textAnchor="start">
+                <SvgText x={0} y={y - 3} fontSize="12" fill={colors.black} textAnchor="start">
                   {yVal} kg
                 </SvgText>
               </React.Fragment>
@@ -192,7 +196,7 @@ const entries: WeightEntry[] = useMemo(() => {
       </View>
 
       {/* Boutons de période (optionnel pour plus tard) */}
-      <View style={styles.buttonsContainer}>
+      <View style={[styles.buttonsContainer, { backgroundColor: colors.white}]}>
         {(['Weeks'] as Period[]).map((period) => (
           <TouchableOpacity
             key={period}
