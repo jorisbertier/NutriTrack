@@ -21,8 +21,8 @@ export default function NutritionItem({name, quantity, unit}: Props) {
         return (
         <View style={styles.nutri}>
             <ThemedText color={colors.black} variant="title1">{name}</ThemedText>
-            {/* <Text style={{height: 20, color: colors.black, fontSize: 15}} >{formattedQuantity} {unit}</Text> */}
-            <Image source={require('@/assets/images/icon/crown.png')} style={{width: 20, height: 20, tintColor: "#FFD700"}} />
+            <Text style={{height: 20, color: colors.black, fontSize: 15}} >{formattedQuantity} {unit}</Text>
+            {/* <Image source={require('@/assets/images/icon/crown.png')} style={{width: 20, height: 20, tintColor: "#FFD700"}} /> */}
         </View>
     )
 }

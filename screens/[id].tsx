@@ -12,6 +12,7 @@ import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
+import { Text } from "react-native";
 
 const { height } = Dimensions.get('window');
 
@@ -91,13 +92,14 @@ export default function DetailsFood() {
                             {filterUniqueFood?.category}
                         </ThemedText>
                     </View>
-                    <View style={[styles.modernBlock, { backgroundColor: colors.white, borderColor: colors.black + '20' }]}>
+                    {/* <View style={[styles.modernBlock, { backgroundColor: colors.white, borderColor: colors.black + '20' }]}>
                         <ThemedText color={colors.black} style={styles.textStyle}>
                             {filterUniqueFood?.calories} kcal
                         </ThemedText>
-                    </View>
+                    </View> */}
                 </View>
             </Row>
+            <Text style={{fontSize: 16, margin: 'auto', fontWeight: 500, textAlign: 'center', width: '90%'}}>{filterUniqueFood?.description}</Text>
             <View style={[styles.container]}>
                 <Row gap={10}>
                     <NutritionStatCard
@@ -185,10 +187,10 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25
     },
-   wrapperBlock: {
+    wrapperBlock: {
         flexDirection: 'row',
         gap: 5,
-        marginTop: 5,
+        marginTop: 0,
         marginBottom: 15,
         justifyContent: 'center',
         width: '50%',
