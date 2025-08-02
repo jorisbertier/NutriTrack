@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText"
-import { Image, Pressable, StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
+import { Image, Pressable, StyleSheet, View, ScrollView, ActivityIndicator, Button } from "react-native";
 import { useNavigation } from "expo-router";
 import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
@@ -13,6 +13,12 @@ import { useTheme } from "@/hooks/ThemeProvider";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Text } from "react-native";
+import { TextInput } from "react-native";
+import { fetchUserDataConnected, getTodayDate } from "@/functions/function";
+import { User } from "@/interface/User";
+import { getAuth } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { firestore } from "@/firebaseConfig";
 
 const { height } = Dimensions.get('window');
 
@@ -20,13 +26,30 @@ export default function DetailsFood() {
 
     const {theme, colors} = useTheme();
 
+    const [userData, setUserData] = useState<User[]>([])
+    const auth = getAuth();
+    const user = auth.currentUser;
+
     const navigation = useNavigation();
     const { t, i18n } = useTranslation();
     const route = useRoute<any>();
-    const { id } = route.params; 
+    const { id } = route.params;
 
+
+    const [quantityGrams, setQuantityGrams] = useState('100');
+    const [loading, setLoading] = useState(true);
     const [data, setData] = useState<FoodItem[]>([]);
-    // const [text, onChangeText] = useState('');
+
+    useEffect(() => {
+        try {
+            const fetch = async () => {
+                fetchUserDataConnected(user, setUserData)
+            }
+            fetch()
+        } catch (e) {
+            console.log('Error processing data', e);
+        }
+    }, [user]);
 
     useEffect(() => {
         try {
@@ -37,8 +60,8 @@ export default function DetailsFood() {
     }, []);
 
     const handleGoBack = () => {
-          navigation.goBack();
-      };
+        navigation.goBack();
+    };
 
     const filterUniqueFood = data.find((element) => element.id === id)
 
@@ -53,7 +76,41 @@ export default function DetailsFood() {
         fats: associations[filterUniqueFood?.fats],
     };
 
-    const [loading, setLoading] = useState(true);
+    const today = getTodayDate();
+    
+    const handleCreateAliment = async () => {
+        const userId = userData[0]?.id;
+        const foodId = filterUniqueFood?.id;
+        const test = {
+            userId: userId,
+            quantity: quantityGrams,
+            foodId: foodId,
+            date: today
+
+        }
+        console.log(test)
+        //   try {
+        //     // // Si customQuantity est donné, on l'utilise, sinon 100g
+        //     // const quantity = customQuantity ?? 100;
+        //     await addDoc(collection(firestore, "userMeals"), {
+        //     userId,
+        //     foodId,
+        //     quantityGrams,
+        //     date: today,
+        //     mealType: "Lunch"
+        //     });
+
+        //     console.log("Aliment ajouté avec succès");
+        //     navigation.goBack();
+        // } catch (error) {
+        //     console.error("Erreur lors de l’ajout :", error);
+        // }
+        }
+        const calculateValue = (baseValue: number | undefined, quantity: string) => {
+            if (!baseValue || isNaN(Number(quantity))) return 0;
+            const qty = parseFloat(quantity);
+            return Math.round((baseValue * qty) / 100 * 10) / 10;
+        };
 
     return (
     <ScrollView persistentScrollbar={true}>
@@ -83,7 +140,12 @@ export default function DetailsFood() {
             <Row style={styles.wrapperTitle}>
                 <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.[`name_${i18n.language}`]}</ThemedText>
                 <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
-                <ThemedText color={colors.black} variant="title1" style={styles.title}>{filterUniqueFood?.calories} kcal</ThemedText>
+                <ThemedText color={colors.black} variant="title1" style={styles.title}>
+                {filterUniqueFood?.unit === "g"
+                    ? `${calculateValue(filterUniqueFood?.calories, quantityGrams || "0")} kcal`
+                    : `${filterUniqueFood?.calories} kcal`}
+
+                </ThemedText>
             </Row>
             <Row>
                 <View style={styles.wrapperBlock}>
@@ -92,11 +154,6 @@ export default function DetailsFood() {
                             {filterUniqueFood?.category}
                         </ThemedText>
                     </View>
-                    {/* <View style={[styles.modernBlock, { backgroundColor: colors.white, borderColor: colors.black + '20' }]}>
-                        <ThemedText color={colors.black} style={styles.textStyle}>
-                            {filterUniqueFood?.calories} kcal
-                        </ThemedText>
-                    </View> */}
                 </View>
             </Row>
             <Text style={{fontSize: 16, margin: 'auto', fontWeight: 500, textAlign: 'center', width: '90%'}}>{filterUniqueFood?.description}</Text>
@@ -104,27 +161,65 @@ export default function DetailsFood() {
                 <Row gap={10}>
                     <NutritionStatCard
                         nutri={t('proteins')}
-                        quantity={filterUniqueFood?.proteins}
+                        quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValue(filterUniqueFood?.proteins || 0, quantityGrams || "0")
+                                : filterUniqueFood?.proteins || 0
+                        }
                         unit={'g'}
                         height={associatedValues["proteins"]}
                         source={require('@/assets/images/nutritional/meat.png')}
                     />
                     <NutritionStatCard
                         nutri={t('carbs')}
-                        quantity={filterUniqueFood?.carbohydrates}
+                        quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValue(filterUniqueFood?.carbohydrates || 0, quantityGrams || "0")
+                                : filterUniqueFood?.carbohydrates || 0
+                        }
                         unit={'g'}
                         height={associatedValues["carbohydrates"]}
                         source={require('@/assets/images/nutritional/cutlery.png')}
                     />
                     <NutritionStatCard
                         nutri={t('fats')}
-                        quantity={filterUniqueFood?.fats}
+                        quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValue(filterUniqueFood?.fats || 0, quantityGrams || "0")
+                                : filterUniqueFood?.fats || 0
+                        }
                         unit={'g'}
                         height={associatedValues["fats"]}
                         source={require('@/assets/images/nutritional/water.png')}
                     />
                 </Row>
-            </View> 
+            </View>
+            {filterUniqueFood?.unit === "g" && (
+                <View style={[styles.quantityBlock, { borderColor: colors.grayDark, backgroundColor: colors.white }]}>
+                    <Text style={[styles.quantityLabel, { color: colors.black}]}>
+                        Portion en grammes
+                        {/* {t('quantity_in_grams') || "Quantity (g)"} */}
+                    </Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10}}>
+                    <TextInput
+                        keyboardType="numeric"
+                        value={quantityGrams}
+                        onChangeText={text => {
+                        if (/^\d*$/.test(text)) {
+                            setQuantityGrams(text);
+                        }
+                        }}
+                        style={[styles.quantityInput, { borderColor: colors.black + '30', color: colors.black }]}
+                        placeholder="100"
+                        maxLength={3}
+                    />
+                    <Text style={[styles.quantityLabel, { color: colors.black}]}>
+                        g
+                    </Text>
+                    </View>
+                    <Button title="add" onPress={handleCreateAliment}/>
+                </View>
+            )}
             <View style={{flexDirection: 'column'}}>
                 {filterUniqueFood?.proteins ? <NutritionItem name={t('proteins')} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
                 {filterUniqueFood?.carbohydrates ? <NutritionItem name={t('carbs')} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
@@ -205,7 +300,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 6,
-        elevation: 3, // for Android
+        elevation: 3,
         backgroundColor: '#fff',
         margin: 'auto'
     },
@@ -244,4 +339,33 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
         margin: 'auto'
     },
+    
+  quantityBlock: {
+    marginBottom: 30,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    borderRadius: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  quantityLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  quantityInput: {
+    width: 70,
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    fontSize: 16,
+    textAlign: 'center',
+  },
 })

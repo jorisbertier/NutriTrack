@@ -397,8 +397,8 @@ export const foodData = [
     {
         "id": 13,
         "name_en": "Spinach",
-        "name_en": "Épinard",
-        "name_en": "Espinaca",
+        "name_fr": "Épinard",
+        "name_es": "Espinaca",
         "image": "https://images.pexels.com/photos/2325843/pexels-photo-2325843.jpeg?auto=compress&cs=tinysrgb&w=600",
         "description": "Spinach is a leafy green vegetable rich in iron, vitamins, and antioxidants.",
         "category": "Vegetable",
@@ -430,8 +430,8 @@ export const foodData = [
     {
         "id": 14,
         "name_en": "Tomato",
-        "name_en": "Tomate",
-        "name_en": "Tomato",
+        "name_fr": "Tomate",
+        "name_es": "Tomato",
         "image": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=600",
         "description": "Tomatoes are a popular fruit rich in lycopene, an antioxidant, and various vitamins.",
         "category": "Vegetable",

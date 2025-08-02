@@ -211,59 +211,58 @@ function Generate() {
                     />
                     {filteredRepertoryFood.length === 0 && (<Text style={[styles.errorMessage, { color: "red"}]}>{t('errorMatching')} {inputValue}.</Text>)}
 
-                 {repertoryOpened && filteredRepertoryFood.length > 0 && (
-  <TouchableWithoutFeedback onPress={handleClose}>
-    <ScrollView
-      style={styles.containerSearch}
-      persistentScrollbar={true}
-      keyboardShouldPersistTaps="handled"
-    >
-      {filteredRepertoryFood.map((food: any, index: number) => {
-        const isLast = index === filteredRepertoryFood.length - 1;
-        return (
-          <TouchableOpacity
-            key={`${food.name}-${index}`}
-            activeOpacity={0.7}
-            style={[
-              styles.boxSearch,
-              isLast && {
-                borderBottomLeftRadius: 12,
-                borderBottomRightRadius: 12,
-              },
-            ]}
-            onPress={() => {
-              setFoodRepertorySelected(food.name);
-              setDisplayFoodTranslate(food[`name_${i18n.language}`]);
-              setInputValue(food[`name_${i18n.language}`]);
-              setRepertoryOpened(false);
-              setModalVisible(false);
-            }}
-          >
-            <Text style={styles.itemText}>{food[`name_${i18n.language}`]}</Text>
-          </TouchableOpacity>
-        );
-      })}
-    </ScrollView>
-  </TouchableWithoutFeedback>
-)}
-
+                    {repertoryOpened && filteredRepertoryFood.length > 0 && (
+                    <TouchableWithoutFeedback onPress={handleClose}>
+                        <ScrollView
+                        style={styles.containerSearch}
+                        persistentScrollbar={true}
+                        keyboardShouldPersistTaps="handled"
+                        >
+                        {filteredRepertoryFood.map((food: any, index: number) => {
+                            const isLast = index === filteredRepertoryFood.length - 1;
+                            return (
+                            <TouchableOpacity
+                                key={`${food.name}-${index}`}
+                                activeOpacity={0.7}
+                                style={[
+                                styles.boxSearch,
+                                isLast && {
+                                    borderBottomLeftRadius: 12,
+                                    borderBottomRightRadius: 12,
+                                },
+                                ]}
+                                onPress={() => {
+                                setFoodRepertorySelected(food.name);
+                                setDisplayFoodTranslate(food[`name_${i18n.language}`]);
+                                setInputValue(food[`name_${i18n.language}`]);
+                                setRepertoryOpened(false);
+                                setModalVisible(false);
+                                }}
+                            >
+                                <Text style={styles.itemText}>{food[`name_${i18n.language}`]}</Text>
+                            </TouchableOpacity>
+                            );
+                        })}
+                        </ScrollView>
+                    </TouchableWithoutFeedback>
+                    )}
                 </View>
-            {foodRepertorySelected && (
-                <View style={{marginTop: 10,backgroundColor: colors.white,justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start', paddingHorizontal: 20,borderColor: colors.black, borderWidth: 1, padding: 2, height: 30, borderRadius: 10}}>
-                    <Text style={[{fontWeight: 500, color: colors.black }]}>
-                        {displayFoodTranslate}
-                    </Text>
-                </View>
-            )}
-            <Text style={[styles.label, { color: colors.black }]}>{t('quantityGenerate')}</Text>
-            <TextInput
-                value={inputValueGram}
-                onChangeText={(text) => setInputValueGram(text)}
-                keyboardType="numeric"
-                onFocus={() => setIsQuantityFocused(true)}
-                onBlur={() => setIsQuantityFocused(false)}
-                style={[styles.input, {color: colors.black, backgroundColor: colors.white, borderColor: isQuantityFocused ? colors.blackBorder : colors.grayPressBorder}]}
-            ></TextInput>
+                {foodRepertorySelected && (
+                    <View style={{marginTop: 10,backgroundColor: colors.white,justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start', paddingHorizontal: 20,borderColor: colors.black, borderWidth: 1, padding: 2, height: 30, borderRadius: 10}}>
+                        <Text style={[{fontWeight: 500, color: colors.black }]}>
+                            {displayFoodTranslate}
+                        </Text>
+                    </View>
+                )}
+                <Text style={[styles.label, { color: colors.black }]}>{t('quantityGenerate')}</Text>
+                <TextInput
+                    value={inputValueGram}
+                    onChangeText={(text) => setInputValueGram(text)}
+                    keyboardType="numeric"
+                    onFocus={() => setIsQuantityFocused(true)}
+                    onBlur={() => setIsQuantityFocused(false)}
+                    style={[styles.input, {color: colors.black, backgroundColor: colors.white, borderColor: isQuantityFocused ? colors.blackBorder : colors.grayPressBorder}]}
+                ></TextInput>
             <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
                 <TouchableOpacity
                     onPress={isDisabled ? null : handleGenerateAliment} 

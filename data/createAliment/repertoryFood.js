@@ -830,7 +830,7 @@ export const repertoryFood = [
         name: "Tomato",
         name_en: "Tomato",
         name_fr: "Tomate",
-        name_es: "Tomate",
+        name_es: "Tomato",
         category: "Vegetable",
         unit: 1,
         calories: 0.18,
