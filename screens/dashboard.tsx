@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 import LottieView from "lottie-react-native";
 
 
+
 export default function Dashboard() {
     
     const {theme, colors} = useTheme();

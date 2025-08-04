@@ -77,34 +77,34 @@ export default function DetailsFood() {
     };
 
     const today = getTodayDate();
-    
+
     const handleCreateAliment = async () => {
         const userId = userData[0]?.id;
         const foodId = filterUniqueFood?.id;
-        const test = {
-            userId: userId,
-            quantity: quantityGrams,
-            foodId: foodId,
-            date: today
+        try {
+            const test = {
+                userId: userId,
+                quantityCustom: quantityGrams,
+                foodId: foodId,
+                date: today,
+                mealType: "Breakfast"
+    
+            }
+            console.log(test)
 
+            await addDoc(collection(firestore, "UserMealsCustom"), {
+                userId,
+                foodId,
+                quantityCustom: quantityGrams,
+                date: today,
+                mealType: "Breakfast"
+            });
+
+            console.log("Aliment ajouté avec succès");
+            // navigation.goBack();
+        } catch (error) {
+            console.error("Erreur lors de l’ajout :", error);
         }
-        console.log(test)
-        //   try {
-        //     // // Si customQuantity est donné, on l'utilise, sinon 100g
-        //     // const quantity = customQuantity ?? 100;
-        //     await addDoc(collection(firestore, "userMeals"), {
-        //     userId,
-        //     foodId,
-        //     quantityGrams,
-        //     date: today,
-        //     mealType: "Lunch"
-        //     });
-
-        //     console.log("Aliment ajouté avec succès");
-        //     navigation.goBack();
-        // } catch (error) {
-        //     console.error("Erreur lors de l’ajout :", error);
-        // }
         }
         const calculateValue = (baseValue: number | undefined, quantity: string) => {
             if (!baseValue || isNaN(Number(quantity))) return 0;

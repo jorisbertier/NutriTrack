@@ -73,7 +73,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
 
     const handleValue = (valueMeal: string, idFood: number) =>{
         try {
-            const newId = generateUniqueId()
+            const newId = generateUniqueId();
             
             const addAliment = async() => {
                 await setDoc(doc(firestore, "UserMeals", newId), {
