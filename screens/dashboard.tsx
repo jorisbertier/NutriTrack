@@ -4,7 +4,7 @@ import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/da
 import React, { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from '@/interface/FoodItem';
-import { UserMeals, UserMealsCreated } from "@/interface/UserMeals";
+import { UserMeals, UserMealsCreated, UserMealsCustom } from "@/interface/UserMeals";
 import { Users } from "@/data/users";
 import { getAuth } from "firebase/auth";
 import { fetchUserDataConnected, BasalMetabolicRate, calculAge, getTotalNutrient, calculProteins, calculCarbohydrates, calculFats, addExperience } from "@/functions/function";
@@ -38,23 +38,34 @@ export default function Dashboard() {
     const user = auth.currentUser;
 
     const [allFoodDataCreated, setAllFoodDataCreated] = useState<UserMealsCreated[]>([])
+    const [allFoodDataCustomFoods, setAllFoodDataCustomFoods] = useState<FoodItemCreated[]>([]) //new to ingretate
     const [allUserCreatedFoods, setAllUserCreatedFoods] = useState<FoodItemCreated[]>([])
 
     const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
+
     const [allUsersFoodData, setAllUsersFoodData] = useState<UserMeals[]>([]);  // all UsersFoodData
+    const [allUsersFoodDataCustom, setAllUsersFoodDataCustom] = useState<UserMealsCustom[]>([]);  // all UsersFoodData    NEW TO INTRAGETE
     const [resultAllDataFood, setResultAllDataFood] = useState<FoodItem[]>([]); //State for stock search filtered
     const [foodsForSelectedDate, setFoodsForSelectedDate]= useState<FoodItemCreated[]>([])
 
+    /**MEALS  */
     const [sortByBreakfast, setSortByBreakfast] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortByLunch, setSortByLunch] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortByDinner, setSortByDinner] = useState<FoodItem[]>([]); //State for stock search filtered
     const [sortBySnack, setSortBySnack] = useState<FoodItem[]>([]); //State for stock search filtered
 
-    const [resultBreakfastCreated, setResultBreakfastCreated] = useState<FoodItemCreated[]>([])
-    const [resultLunchCreated, setResultLunchCreated] = useState<FoodItemCreated[]>([])
-    const [resultDinnerCreated, setResultDinnerCreated] = useState<FoodItemCreated[]>([])
-    const [resultSnackCreated, setResultSnackCreated] = useState<FoodItemCreated[]>([])
+    /** MEALS CUSTOM */
+    const [sortByBreakfastCustom, setSortByBreakfastCustom] = useState<FoodItemCreated[]>([]); //State for stock search filtered
+    const [sortByLunchCustom, setSortByLunchCustom] = useState<FoodItemCreated[]>([]); //State for stock search filtered
+    const [sortByDinnerCustom, setSortByDinnerCustom] = useState<FoodItemCreated[]>([]); //State for stock search filtered
+    const [sortBySnackCustom, setSortBySnackCustom] = useState<FoodItemCreated[]>([]); //State for stock search filtered
+
+    /**MEALS CREATED */
+    const [resultBreakfastCreated, setResultBreakfastCreated] = useState<FoodItem[]>([])
+    const [resultLunchCreated, setResultLunchCreated] = useState<FoodItem[]>([])
+    const [resultDinnerCreated, setResultDinnerCreated] = useState<FoodItem[]>([])
+    const [resultSnackCreated, setResultSnackCreated] = useState<FoodItem[]>([])
 
     const [totalKcalConsumeToday, setTotalKcalConsumeToday] = useState<number>(0)
 
@@ -62,6 +73,7 @@ export default function Dashboard() {
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
     const [notificationVisible, setNotificationVisible] = useState(false);
+    const [updateCounter, setUpdateCounter] = useState(0);
 
     const showIcon = (userData[0]?.goalLogs?.calories ?? 0) > 0;
     let date = new Date();
@@ -97,6 +109,18 @@ export default function Dashboard() {
                     date: doc.data().date as string,
                 }));
                 setAllUsersFoodData(userMealsList)
+
+                const userMealsCustomCollection = collection(firestore, 'UserMealsCustom');
+                const userMealsCustomSnapshot = await getDocs(userMealsCustomCollection);
+                const userMealsCustomList = userMealsCustomSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    foodId: doc.data().foodId as number,
+                    userId: doc.data().userId as number,
+                    mealType: doc.data().mealType as string,
+                    date: doc.data().date as string,
+                    quantityCustom: doc.data().quantityCustom as number
+                }));
+                setAllUsersFoodDataCustom(userMealsCustomList)
 
                 const userMealsCreatedCollection = collection(firestore, 'UserMealsCreated');
                 const userMealsCreatedSnapshot = await getDocs(userMealsCreatedCollection);
@@ -153,19 +177,17 @@ export default function Dashboard() {
             console.log('Error processing data', e);
             setIsLoading(false);
         }
-        // finally {
-        //     setTimeout(() => {
-                
-        //     }, 1500)
-        // }
     }, []);
+    
+
     if (!allFoodDataCreated) {
         return (
-          <View>
+        <View>
             <Text>No user data available</Text>
-          </View>
+        </View>
         );
-      }
+    }
+    // console.log(allUsersFoodDataCustom)
 
     useEffect(() => {
         // const fetchData = async () => {
@@ -214,7 +236,6 @@ export default function Dashboard() {
         // fetchData()
     }, [allFoodDataCreated, allUserCreatedFoods, selectedDate, userData])
 
-    
     useEffect(() => {
         // function qui permet de filter les données recus et de recuperer les details
         const filterAndSetFoodData = (filteredData: UserMeals[], setData: React.Dispatch<React.SetStateAction<FoodItem[]>>) => {
@@ -251,7 +272,43 @@ export default function Dashboard() {
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
     }, [selectedDate, allUsersFoodData, userData, allFoodData]);
-    // }, [allUsersFoodData, allFoodData, selectedDate, userIdConnected]);
+    
+    useEffect(() => {
+
+        const filterAndSetFoodDataCustom = (
+            filteredData: UserMealsCustom[],
+            setData: React.Dispatch<React.SetStateAction<FoodItem[]>>
+        ) => {
+            if (filteredData.length > 0) {
+                const filteredFoodData = filteredData.flatMap(item => {
+                    const foodDetails = allFoodData.filter(food => String(food.id) === String(item.foodId));
+                    return foodDetails.map(food => ({
+                        ...food,
+                        userMealId: item.id,
+                        quantityCustom: item.quantityCustom
+                    }));
+                });
+                setData(filteredFoodData);
+            } else {
+                setData([]);
+            }
+        };
+
+        const resultCustom = allUsersFoodDataCustom.filter(
+            (entry) =>
+                entry.userId === userData[0]?.id &&
+                entry.date === selectedDate.toLocaleDateString()
+        );
+
+        filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Breakfast'), setSortByBreakfastCustom);
+        filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Lunch'), setSortByLunchCustom);
+        filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Dinner'), setSortByDinnerCustom);
+        filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Snack'), setSortBySnackCustom);
+
+    }, [updateCounter, selectedDate, userData, allFoodDataCreated]);
+
+//  console.log('breaffast2', sortByBreakfastCustom)
+
 
     const handleOpenCalendar = () => {
         if (!isOpen) {
@@ -297,11 +354,42 @@ export default function Dashboard() {
                     console.error("Error when deleting the documentt : ", error);
                 }
             } else {
-                console.error("Id user maeal is undefined");
+                console.error("Id user meal is undefined");
             }
         };
         deleteFromMeals()
     }
+
+    const handleDeleteFoodCustom = (userMealId: any) => {
+        console.log(`Deleting food with ID: ${userMealId}`);
+        const deleteFromMeals = async () => {
+            if (userMealId) {
+                try {
+                    const mealDocRef = doc(firestore, "UserMealsCustom", userMealId);
+                    await deleteDoc(mealDocRef);
+                    setAllUsersFoodDataCustom(prevData => {
+    console.log("ID to delete :", userMealId);
+    console.log("Type of ID to delete :", typeof userMealId);
+    console.log('Lenght', allUsersFoodDataCustom.length)
+    return prevData.filter(item => {
+        console.log("Current item ID:", item.id);
+        console.log("Type of current item ID:", typeof item.id);
+        return item.id !== userMealId;
+    });
+});
+setUpdateCounter(prev => prev + 1); 
+                                            
+                    console.log('Document deleted Succefuly');
+                } catch (error) {
+                    console.error("Error when deleting the document : ", error);
+                }
+            } else {
+                console.error("Id user of mead is undefined");
+            }
+        };
+        deleteFromMeals()
+    }
+
 
     let basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
         Number(userData[0]?.weight),
@@ -476,15 +564,15 @@ export default function Dashboard() {
                 [`consumeByDays.${today}`]: totalKcalConsumeToday,
             });
 
-            console.log("Dispatching update with data:", today, totalKcalConsumeToday);
+            // console.log("Dispatching update with data:", today, totalKcalConsumeToday);
             dispatch(updateUserCaloriesByDay({
                 consumeByDays: {
                     [today]: totalKcalConsumeToday, // Ajout des nouvelles données pour aujourd'hui
                 }
             }))
-            console.log("Data successfully sent to Firestore");
-            console.log("Dispatch finished for today:", today, totalKcalConsumeToday);
-            console.log("Data successfully sent to Firestore");
+            // console.log("Data successfully sent to Firestore");
+            // console.log("Dispatch finished for today:", today, totalKcalConsumeToday);
+            // console.log("Data successfully sent to Firestore");
         } catch (err) {
             console.error("Error posting totalKcalConsumeToday:", err);
         }
@@ -510,10 +598,7 @@ export default function Dashboard() {
             console.error("User ID is undefined");
             return;
         }
-        // console.log(today)
-        // console.log('proteins', proteins)
-        // console.log('carbs', carbs)
-        // console.log('fats', fats)
+
         try {
             const userDocRef = doc(firestore, "User", userId);
             
@@ -522,8 +607,6 @@ export default function Dashboard() {
                 [`carbsTotal.${today}`]: carbs,
                 [`fatsTotal.${today}`]: fats,
             });
-            console.log("Data proteins/carbs/fats successfully sent to Firestore");
-
             dispatch(updateMacronutrients({proteinsTotal: {[today]: proteins}, carbsTotal: {[today]: carbs}, fatsTotal: {[today] : fats}}))
         } catch (err) {
             console.error("Error posting total proteins carbs fatd:", err);
@@ -615,10 +698,10 @@ export default function Dashboard() {
                 <ProgressRing isLoading={!isLoading} progressProteins={Number(proteins.toFixed(2))} proteinsGoal={proteinsGoal} progressCarbs={Number(carbs.toFixed(0))} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={Number(fats.toFixed(0))} fatsGoal={calculFats(basalMetabolicRate)} goal={userData[0]?.goal} goalProteins={userData[0]?.goalLogs['proteins']} goalCarbs={userData[0]?.goalLogs['carbs']} goalFats={userData[0]?.goalLogs['fats']}/>
                 
                 <View style={styles.wrapperMeals}>
-                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, t('breakfast'), handleDeleteFood, handleDeleteFoodCreated, !isLoading || false )}
-                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, t('lunch'), handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
-                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, t('dinner'), handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
-                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, t('snack'), handleDeleteFood, handleDeleteFoodCreated, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, sortByBreakfastCustom, t('breakfast'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false )}
+                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, sortByLunchCustom, t('lunch'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, sortByDinnerCustom, t('dinner'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, sortBySnackCustom, t('snack'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
                 </View>
                 
                 <View style={{marginBottom: 60}}>

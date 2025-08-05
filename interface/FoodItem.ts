@@ -12,6 +12,7 @@ export interface FoodItem {
     calories: number;
     unit: string;
     quantity: number;
+    quantityCustom?: number;
     carbohydrates:number;
     proteins:number;
     fats: number;
