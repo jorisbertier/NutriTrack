@@ -290,6 +290,7 @@
     "not_enought_data": "Pas assez de données pour afficher le graphique.",
     "not_enought_data_statictis": "Pas assez de données pour afficher les statistiques.",
     "text_enought": "Veuillez vous assurer d’avoir fourni suffisamment de données d’activité ou de nutrition pour obtenir des résultats précis.",
-    "access": "Accéder à votre tableau de bord"
+    "access": "Accéder à votre tableau de bord",
+    "choose": "Choisir"
 
 }

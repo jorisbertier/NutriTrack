@@ -49,7 +49,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     }, [user]);
     
     const navigateToDetails = () => {
-    navigation.navigate("FoodDetails", { id });
+    navigation.navigate("FoodDetails", { id, date: selectedDate });
 };
 
     const handlePress = (event: any) => {

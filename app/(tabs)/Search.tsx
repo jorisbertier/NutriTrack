@@ -39,6 +39,7 @@ export default function Search() {
             setSelectedDate(date);
         }
     };
+    console.log(selectedDate)
     
     useEffect(() => {
 
