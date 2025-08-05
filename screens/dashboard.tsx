@@ -407,8 +407,8 @@ export default function Dashboard() {
     const [proteins, setProteins] = useState(0);
     const [carbs, setCarbs] = useState(0);
     const [fats, setFats] = useState(0);
-console.log('length', resultCaloriesCustom?.length)
-console.log('value: ', resultCaloriesCustom)
+// console.log('length', resultCaloriesCustom?.length)
+// console.log('value: ', resultCaloriesCustom)
 
     useEffect(() => {
 
@@ -441,26 +441,26 @@ console.log('value: ', resultCaloriesCustom)
     }, [allFoodDataCreated, resultAllDataFood, selectedDate, foodsForSelectedDate, userData, resultCaloriesCustom]);
 
     useEffect(() => {
-        getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'potassium', setPotassium, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'calcium', setCalcium, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'sodium', setSodium, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'iron', setIron, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminA', setVitaminA, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminB1', setVitaminB1, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminB5', setVitaminB5, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminB6', setVitaminB6, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminB12', setVitaminB12, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminC', setVitaminC, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminD', setVitaminD, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminE', setVitaminE, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'vitaminK', setVitaminK, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'folate', setFolate, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'sugar', setSugar, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'proteins', setProteins, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs, foodsForSelectedDate)
-        getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate)
-    }, [resultAllDataFood, foodsForSelectedDate]);
+        getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'potassium', setPotassium, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'calcium', setCalcium, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'sodium', setSodium, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'iron', setIron, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminA', setVitaminA, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminB1', setVitaminB1, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminB5', setVitaminB5, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminB6', setVitaminB6, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminB12', setVitaminB12, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminC', setVitaminC, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminD', setVitaminD, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminE', setVitaminE, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'vitaminK', setVitaminK, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'folate', setFolate, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'sugar', setSugar, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'proteins', setProteins, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate, resultCaloriesCustom)
+    }, [resultAllDataFood, foodsForSelectedDate, resultCaloriesCustom]);
 
     const nutritionData = [
         { name: t('potassium'), quantity: potassium, unit: 'g' },

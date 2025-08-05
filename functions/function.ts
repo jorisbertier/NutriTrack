@@ -116,7 +116,7 @@ export function calculCarbohydrates(calories: number) {
     return parseFloat(carbs.toFixed(1))
 }
 
-export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof FoodItem, setNutrient: any, resultAllDataFoodCreated?: any) => {
+export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof FoodItem, setNutrient: any, resultAllDataFoodCreated?: any, resultFoodCustom?: any) => {
     const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
         return acc + nutrientValue;
@@ -127,68 +127,75 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
         return acc + nutrientValue;
     }, 0) || 0;
 
+    const resultCustom = resultFoodCustom?.reduce((acc:number,  item: FoodItem) => {
+        const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
+        return acc + nutrientValue;
+    }, 0) || 0;
+    console.log('custom', resultCustom)
 
     const formattedResult = parseFloat(result.toFixed(2));
 
-        const formattedResultCreated = parseFloat(resultCreated?.toFixed(2));
+    const formattedResultCreated = parseFloat(resultCreated?.toFixed(2));
+    
+    const formattedResultCustom = parseFloat(resultCustom?.toFixed(2));
 
     switch (nutrientKey) {
         case 'magnesium':
-            setNutrient(result + formattedResultCreated);
+            setNutrient(result + formattedResultCreated + formattedResultCustom);
             break;
         case 'potassium':
-            setNutrient(result + formattedResultCreated);
+            setNutrient(result + formattedResultCreated + formattedResultCustom);
             break;
         case 'calcium':
-            setNutrient(result + formattedResultCreated);
+            setNutrient(result + formattedResultCreated + formattedResultCustom);
             break;
         case 'sodium':
-            setNutrient(result + formattedResultCreated);
+            setNutrient(result + formattedResultCreated + formattedResultCustom);
             break;
         case 'iron':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminA':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminB1':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminB5':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminB6':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminB12':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminC':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminD':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminE':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'vitaminK':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'folate':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'sugar':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'carbohydrates':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'proteins':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'fats':
-            setNutrient(formattedResult + formattedResultCreated);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         default:
             break;
