@@ -181,7 +181,7 @@ export default function DetailsFood() {
                         </View>
                     </View>
                 </Row>
-                <Text style={{fontSize: 16, margin: 'auto', fontWeight: 500, textAlign: 'center', width: '90%'}}>{filterUniqueFood?.description}</Text>
+                <Text style={{fontSize: 16, margin: 'auto', fontWeight: 500, textAlign: 'center', width: '90%', color: colors.black}}>{filterUniqueFood?.[`description_${i18n.language}`]}</Text>
                 <View style={[styles.container]}>
                     <Row gap={10}>
                         <NutritionStatCard
