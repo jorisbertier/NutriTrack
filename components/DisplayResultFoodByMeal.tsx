@@ -65,7 +65,7 @@ export function DisplayResultFoodByMeal(
         <View style={styles.wrapper}>
             <Row style={styles.row}>
                 <ThemedText variant="title" color={colors.black}>{meal}</ThemedText>
-                    <ThemedText color={colors.black}>{totalCaloriesByMeal + totalCaloriesByMealCreated + totalCaloriesByMealCustom} Kcal</ThemedText>
+                    <ThemedText color={colors.black}>{Math.round(totalCaloriesByMeal + totalCaloriesByMealCreated + totalCaloriesByMealCustom)} Kcal</ThemedText>
             </Row>
             {isLoading ?
             <>
