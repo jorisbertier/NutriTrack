@@ -142,7 +142,7 @@ export const foodData = [
         "notes": "Often used in tropical dishes, smoothies, or consumed fresh.",
         "calories": 82,
         "unit": "g",
-        "quantity": 165,
+        "quantity": 100,
         "carbohydrates": 21.6,
         "proteins": 0.9,
         "fats": 0.2,

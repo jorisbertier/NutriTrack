@@ -272,7 +272,7 @@ export default function Dashboard() {
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
     }, [selectedDate, allUsersFoodData, userData, allFoodData]);
-    
+    const [ resultCaloriesCustom, setResultCaloriesCustom] = useState<UserMealsCustom[]>([])
     useEffect(() => {
 
         const filterAndSetFoodDataCustom = (
@@ -300,15 +300,13 @@ export default function Dashboard() {
                 entry.date === selectedDate.toLocaleDateString()
         );
 
+        filterAndSetFoodDataCustom(resultCustom,  setResultCaloriesCustom);
         filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Breakfast'), setSortByBreakfastCustom);
         filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Lunch'), setSortByLunchCustom);
         filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Dinner'), setSortByDinnerCustom);
         filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Snack'), setSortBySnackCustom);
 
     }, [updateCounter, selectedDate, userData, allFoodDataCreated]);
-
-//  console.log('breaffast2', sortByBreakfastCustom)
-
 
     const handleOpenCalendar = () => {
         if (!isOpen) {
@@ -317,14 +315,14 @@ export default function Dashboard() {
     }
 
     const handleDeleteFood = (userMealId: any) => {
+
         console.log(`Deleting food with ID: ${userMealId}`);
         const deleteFromMeals = async () => {
-            if (userMealId) { // Verify is userMealId is defined
+            if (userMealId) {
                 try {
                     const mealDocRef = doc(firestore, "UserMeals", userMealId);
                     await deleteDoc(mealDocRef);
                     setAllUsersFoodData(prevData => prevData.filter(item => item.id !== userMealId));
-                    // setUpdate(update + 1)
                     
                     console.log('Document deleted Succefuly');
                 } catch (error) {
@@ -340,16 +338,13 @@ export default function Dashboard() {
     const handleDeleteFoodCreated = (userMealId: any) => {
         console.log(`Deleting food with ID: ${userMealId}`);
         const deleteFromMeals = async () => {
-            if (userMealId) { // Verify is userMealId is defined
+            if (userMealId) {
                 try {
                     const mealDocRef = doc(firestore, "UserMealsCreated", userMealId);
                     await deleteDoc(mealDocRef);
 
                     setAllFoodDataCreated(prevData => prevData.filter(item => item.id !== userMealId));
                     console.log('Document deleting Succesfuly');
-
-                    // await handleTotalKcalConsumeToday()
-                    // console.log('Calories updated successfully after deletion')
                 } catch (error) {
                     console.error("Error when deleting the documentt : ", error);
                 }
@@ -368,17 +363,11 @@ export default function Dashboard() {
                     const mealDocRef = doc(firestore, "UserMealsCustom", userMealId);
                     await deleteDoc(mealDocRef);
                     setAllUsersFoodDataCustom(prevData => {
-    console.log("ID to delete :", userMealId);
-    console.log("Type of ID to delete :", typeof userMealId);
-    console.log('Lenght', allUsersFoodDataCustom.length)
-    return prevData.filter(item => {
-        console.log("Current item ID:", item.id);
-        console.log("Type of current item ID:", typeof item.id);
-        return item.id !== userMealId;
-    });
-});
-setUpdateCounter(prev => prev + 1); 
-                                            
+                    return prevData.filter(item => {
+                        return item.id !== userMealId;
+                    });
+                });
+                setUpdateCounter(prev => prev + 1); 
                     console.log('Document deleted Succefuly');
                 } catch (error) {
                     console.error("Error when deleting the document : ", error);
@@ -418,7 +407,8 @@ setUpdateCounter(prev => prev + 1);
     const [proteins, setProteins] = useState(0);
     const [carbs, setCarbs] = useState(0);
     const [fats, setFats] = useState(0);
-
+console.log('length', resultCaloriesCustom?.length)
+console.log('value: ', resultCaloriesCustom)
 
     useEffect(() => {
 
@@ -436,8 +426,19 @@ setUpdateCounter(prev => prev + 1);
                 }, 0)
                 totalKcal += Number(totalKcalCreated);
             }
+            if (resultCaloriesCustom.length > 0 && userData[0]?.id && selectedDate) {
+                const totalKcalCustom = resultCaloriesCustom.reduce((acc: number, item: FoodItem) => {
+                    const baseCalories = item.calories || 0;
+                    const quantity = parseFloat(item.quantityCustom);
+                    
+                    return Math.round(acc + (baseCalories * quantity / 100));
+                }, 0);
+                totalKcal += totalKcalCustom;
+            }
+
+
         setTotalKcalConsumeToday(totalKcal);
-    }, [allFoodDataCreated, resultAllDataFood, selectedDate, foodsForSelectedDate, userData]);
+    }, [allFoodDataCreated, resultAllDataFood, selectedDate, foodsForSelectedDate, userData, resultCaloriesCustom]);
 
     useEffect(() => {
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate)
@@ -678,7 +679,7 @@ setUpdateCounter(prev => prev + 1);
                         </Text>
                         <View style={[styles.badge, { backgroundColor: colors.primaryLight }]}>
                         <Text style={[styles.badgeText, { color: colors.black }]}>
-                            {Math.round(goal)} {t('left')}
+                            {goal.toFixed(0)} {t('left')}
                         </Text>
                         </View>
                     </View>
