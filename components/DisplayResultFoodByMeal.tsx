@@ -37,6 +37,14 @@ export function DisplayResultFoodByMeal(
         return accumulator + (item.calories || 0);
     }, 0);
 
+    const totalCaloriesByMealCustom = resultMealCustom.reduce((accumulator, item) => {
+        const baseCalories = item.calories || 0;
+        const quantity = parseFloat(item.quantityCustom || "0");
+        const quantityRef = item.quantity || 100;
+        const ratio = quantity / quantityRef;
+        return accumulator + (baseCalories * ratio);
+    }, 0);
+
 
     const resultMealWithUuid = resultMeal.map(item => ({
         ...item,
@@ -57,7 +65,7 @@ export function DisplayResultFoodByMeal(
         <View style={styles.wrapper}>
             <Row style={styles.row}>
                 <ThemedText variant="title" color={colors.black}>{meal}</ThemedText>
-                    <ThemedText color={colors.black}>{totalCaloriesByMeal + totalCaloriesByMealCreated} Kcal</ThemedText>
+                    <ThemedText color={colors.black}>{totalCaloriesByMeal + totalCaloriesByMealCreated + totalCaloriesByMealCustom} Kcal</ThemedText>
             </Row>
             {isLoading ?
             <>

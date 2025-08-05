@@ -568,7 +568,7 @@ export default function Dashboard() {
             // console.log("Dispatching update with data:", today, totalKcalConsumeToday);
             dispatch(updateUserCaloriesByDay({
                 consumeByDays: {
-                    [today]: totalKcalConsumeToday, // Ajout des nouvelles données pour aujourd'hui
+                    [today]: totalKcalConsumeToday, // Add new data for today
                 }
             }))
             // console.log("Data successfully sent to Firestore");
@@ -755,7 +755,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'red'
     },
     wrapperNotification : {
-  position: 'absolute',
+        position: 'absolute',
         zIndex: 3,
         top: 650,
         left: '5%',
