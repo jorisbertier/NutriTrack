@@ -33,16 +33,16 @@ export default function BottomInputBar({
     return (
         <>
         {filterUniqueFood?.unit === 'g' && (
-            <View style={[styles.wrapper, { backgroundColor: colors.grayMode, borderTopColor: colors.grayDark }]}>
+            <View style={[styles.wrapper, { backgroundColor: colors.gray, borderTopColor: colors.grayDark }]}>
             {/* Single compact row */}
             <View style={styles.row}>
                 {/* Picker */}
-                <View style={[[styles.pickerWrapper, { backgroundColor: colors.white}]]}>
+                <View style={[[styles.pickerWrapper, { backgroundColor: colors.whiteFix}]]}>
                 <Picker
                     selectedValue={selectedMealType}
                     onValueChange={(itemValue) => setSelectedMealType(itemValue)}
-                    style={[styles.picker, { color: colors.black }]}
-                    dropdownIconColor={colors.black}
+                    style={[styles.picker, { color: colors.blackFix }]}
+                    dropdownIconColor={colors.blackFix}
                     numberOfLines={3}
                 >
                     <Picker.Item label={t('choose')} value="" enabled={false} />
@@ -54,7 +54,7 @@ export default function BottomInputBar({
                 </View>
 
                 {/* Quantity Input */}
-                <View style={[styles.inputWrapper, { backgroundColor: colors.white}]}>
+                <View style={[styles.inputWrapper, { backgroundColor: colors.whiteFix}]}>
                 <TextInput
                     keyboardType="numeric"
                     value={quantityGrams}
@@ -63,24 +63,24 @@ export default function BottomInputBar({
                         setQuantityGrams(text);
                     }
                     }}
-                    style={[styles.input, { color: colors.black, borderColor: colors.grayDark }]}
+                    style={[styles.input, { color: colors.blackFix, borderColor: colors.grayDark }]}
                     placeholder="100"
                     placeholderTextColor={colors.grayDark}
                     maxLength={3}
                 />
-                <Text style={[styles.unit, { color: colors.black }]}>g</Text>
+                <Text style={[styles.unit, { color: colors.blackFix }]}>g</Text>
                 </View>
 
                 {/* Add Button */}
                 <TouchableOpacity
                     style={[
                         styles.button,
-                        { backgroundColor: isDisabled ? colors.grayDark : colors.black }
+                        { backgroundColor: isDisabled ? colors.grayDarkFix : colors.blackFix }
                     ]}
                     onPress={handleCreateAliment}
                     disabled={isDisabled}
                     >
-                    <Text style={[styles.buttonText, { color: colors.white }]}>Ajouter</Text>
+                    <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('add')}</Text>
                 </TouchableOpacity>
             </View>
             </View>

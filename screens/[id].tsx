@@ -77,7 +77,7 @@ export default function DetailsFood() {
         carbohydrates: associations[filterUniqueFood?.carbohydrates],
         fats: associations[filterUniqueFood?.fats],
     };
-    
+
     const handleCreateAliment = async () => {
         const userId = userData[0]?.id;
         const foodId = filterUniqueFood?.id;
@@ -90,7 +90,6 @@ export default function DetailsFood() {
                 mealType: selectedMealType
     
             }
-            console.log(test)
 
             await addDoc(collection(firestore, "UserMealsCustom"), {
                 userId,
@@ -106,11 +105,18 @@ export default function DetailsFood() {
             console.error("Erreur lors de l’ajout :", error);
         }
         }
-        const calculateValue = (baseValue: number | undefined, quantity: string) => {
+        const calculateValueWithOneDecimal = (baseValue: number | undefined, quantity: string) => {
+            if (!baseValue || isNaN(Number(quantity))) return 0;
+            const qty = parseFloat(quantity);
+            return Math.round((baseValue * qty) / 100 * 10) / 10;
+        };
+
+        const calculateValueRoundingUp = (baseValue: number | undefined, quantity: string) => {
             if (!baseValue || isNaN(Number(quantity))) return 0;
             const qty = parseFloat(quantity);
             return Math.round((baseValue * qty) / 100 * 10 / 10);
         };
+
 
     return (
     <>
@@ -143,7 +149,7 @@ export default function DetailsFood() {
                     <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
                     <ThemedText color={colors.black} variant="title1" style={styles.title}>
                     {filterUniqueFood?.unit === "g"
-                        ? `${calculateValue(filterUniqueFood?.calories, quantityGrams || "0")} kcal`
+                        ? `${calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || "0")} kcal`
                         : `${filterUniqueFood?.calories} kcal`}
 
                     </ThemedText>
@@ -164,7 +170,7 @@ export default function DetailsFood() {
                             nutri={t('proteins')}
                             quantity={
                                 filterUniqueFood?.unit === "g"
-                                    ? calculateValue(filterUniqueFood?.proteins || 0, quantityGrams || "0")
+                                    ? calculateValueWithOneDecimal(filterUniqueFood?.proteins || 0, quantityGrams || "0")
                                     : filterUniqueFood?.proteins || 0
                             }
                             unit={'g'}
@@ -175,7 +181,7 @@ export default function DetailsFood() {
                             nutri={t('carbs')}
                             quantity={
                                 filterUniqueFood?.unit === "g"
-                                    ? calculateValue(filterUniqueFood?.carbohydrates || 0, quantityGrams || "0")
+                                    ? calculateValueWithOneDecimal(filterUniqueFood?.carbohydrates || 0, quantityGrams || "0")
                                     : filterUniqueFood?.carbohydrates || 0
                             }
                             unit={'g'}
@@ -186,7 +192,7 @@ export default function DetailsFood() {
                             nutri={t('fats')}
                             quantity={
                                 filterUniqueFood?.unit === "g"
-                                    ? calculateValue(filterUniqueFood?.fats || 0, quantityGrams || "0")
+                                    ? calculateValueWithOneDecimal(filterUniqueFood?.fats || 0, quantityGrams || "0")
                                     : filterUniqueFood?.fats || 0
                             }
                             unit={'g'}
@@ -196,27 +202,216 @@ export default function DetailsFood() {
                     </Row>
                 </View>
                 <View style={{flexDirection: 'column', paddingBottom: filterUniqueFood?.unit === 'g' ? 90 : 10}}>
-                    {filterUniqueFood?.proteins ? <NutritionItem name={t('proteins')} quantity={filterUniqueFood?.proteins } unit={'g'}/> : null}
-                    {filterUniqueFood?.carbohydrates ? <NutritionItem name={t('carbs')} quantity={filterUniqueFood?.carbohydrates} unit={'g'}/> : null}
-                    {filterUniqueFood?.fats ? <NutritionItem name={t('fats')} quantity={filterUniqueFood?.fats}  unit={'g'}/> : null}
+                    {filterUniqueFood?.proteins ? (
+                        <NutritionItem
+                            name={t('proteins')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.proteins, quantityGrams || "0")
+                                : filterUniqueFood?.proteins
+                            }
+                            unit={'g'}
+                        />
+                    ) : null}
+                    {filterUniqueFood?.carbohydrates ? (
+                        <NutritionItem
+                            name={t('carbs')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.carbohydrates, quantityGrams || "0")
+                                : filterUniqueFood?.carbohydrates
+                            }
+                            unit={'g'}
+                        />
+                    ) : null}
+                    {filterUniqueFood?.fats ? (
+                        <NutritionItem
+                            name={t('fats')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.fats, quantityGrams || "0")
+                                : filterUniqueFood?.fats
+                            }
+                            unit={'g'}
+                        />
+                    ) : null}
+                    {filterUniqueFood?.potassium ? (
+                        <NutritionItem
+                            name={t('potassium')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.potassium, quantityGrams || "0")
+                                : filterUniqueFood?.potassium
+                            }
+                            unit={'g'}
+                        />
+                    ) : null}
 
-                    {filterUniqueFood?.potassium ? <NutritionItem name={t('potassium')} quantity={filterUniqueFood?.potassium} unit={'g'}/> : null}
-                    {filterUniqueFood?.magnesium ? <NutritionItem name={t('magnesium')} quantity={filterUniqueFood?.magnesium} unit={'g'}/> : null}
-                    {filterUniqueFood?.calcium ? <NutritionItem name={t('calcium')} quantity={filterUniqueFood?.calcium} unit={'g'}/> : null}
-                    {filterUniqueFood?.sodium ? <NutritionItem name={t('sodium')} quantity={filterUniqueFood?.sodium} unit={'g'}/> : null}
-                    {filterUniqueFood?.iron ? <NutritionItem name={t('iron')} quantity={filterUniqueFood?.iron} unit={'g'}/> : null}
-                    {filterUniqueFood?.folate ? <NutritionItem name={t('folate')} quantity={filterUniqueFood?.folate} unit={'%'}/> : null}
-                    
-                    {filterUniqueFood?.vitaminA ? <NutritionItem name={t('vitaminA')} quantity={filterUniqueFood?.vitaminA} unit={'%'}/> : null}
-                    {filterUniqueFood?.vitaminB1 ? <NutritionItem name={t('itaminB1')} quantity={filterUniqueFood?.vitaminB1} unit={'%'}/> : null}
-                    {filterUniqueFood?.vitaminB5 ? <NutritionItem name={t('vitaminB5')} quantity={filterUniqueFood?.vitaminB5} unit={'%'}/> : null}
-                    {filterUniqueFood?.vitaminB6 ? <NutritionItem name={t('vitaminB6')} quantity={filterUniqueFood?.vitaminB6} unit={'%'}/> : null}
-                    {filterUniqueFood?.vitaminB12 ? <NutritionItem name={t('vitaminB12')} quantity={filterUniqueFood?.vitaminB12} unit={'%'}/> : null}
-                    {filterUniqueFood?.vitaminC ? <NutritionItem name={t('vitaminC')} quantity={filterUniqueFood?.vitaminC} unit={'%'}/> : null}
-                    {filterUniqueFood?.vitaminD ? <NutritionItem name={t('vitaminD')} quantity={filterUniqueFood?.vitaminD} unit={'%'}/> : null}
-                    {filterUniqueFood?.vitaminE ? <NutritionItem name={t('vitaminE')} quantity={filterUniqueFood?.vitaminE} unit={'%'}/> : null}
-                    {filterUniqueFood?.vitaminK ? <NutritionItem name={t('vitaminK')} quantity={filterUniqueFood?.vitaminK} unit={'%'}/> : null}
+                    {filterUniqueFood?.magnesium ? (
+                        <NutritionItem
+                            name={t('magnesium')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.magnesium, quantityGrams || "0")
+                                : filterUniqueFood?.magnesium
+                            }
+                            unit={'g'}
+                        />
+                    ) : null}
 
+                    {filterUniqueFood?.calcium ? (
+                        <NutritionItem
+                            name={t('calcium')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.calcium, quantityGrams || "0")
+                                : filterUniqueFood?.calcium
+                            }
+                            unit={'g'}
+                        />
+                    ) : null}
+
+                    {filterUniqueFood?.sodium ? (
+                        <NutritionItem
+                            name={t('sodium')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.sodium, quantityGrams || "0")
+                                : filterUniqueFood?.sodium
+                            }
+                            unit={'g'}
+                        />
+                    ) : null}
+
+                    {filterUniqueFood?.iron ? (
+                        <NutritionItem
+                            name={t('iron')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.iron, quantityGrams || "0")
+                                : filterUniqueFood?.iron
+                            }
+                            unit={'g'}
+                        />
+                    ) : null}
+                    {filterUniqueFood?.folate ? (
+                        <NutritionItem
+                            name={t('folate')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.folate, quantityGrams || "0")
+                                : filterUniqueFood?.folate
+                            }
+                            unit={'%'}
+                        />
+                    ) : null}
+
+                    {filterUniqueFood?.vitaminA ? (
+                        <NutritionItem
+                            name={t('vitaminA')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminA, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminA
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
+
+                        {filterUniqueFood?.vitaminB1 ? (
+                        <NutritionItem
+                            name={t('vitaminB1')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminB1, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminB1
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
+
+                        {filterUniqueFood?.vitaminB5 ? (
+                        <NutritionItem
+                            name={t('vitaminB5')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminB5, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminB5
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
+
+                        {filterUniqueFood?.vitaminB6 ? (
+                        <NutritionItem
+                            name={t('vitaminB6')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminB6, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminB6
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
+                                        {filterUniqueFood?.vitaminB12 ? (
+                        <NutritionItem
+                            name={t('vitaminB12')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminB12, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminB12
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
+
+                        {filterUniqueFood?.vitaminC ? (
+                        <NutritionItem
+                            name={t('vitaminC')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminC, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminC
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
+
+                        {filterUniqueFood?.vitaminD ? (
+                        <NutritionItem
+                            name={t('vitaminD')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminD, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminD
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
+
+                        {filterUniqueFood?.vitaminE ? (
+                        <NutritionItem
+                            name={t('vitaminE')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminE, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminE
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
+
+                        {filterUniqueFood?.vitaminK ? (
+                        <NutritionItem
+                            name={t('vitaminK')}
+                            quantity={
+                            filterUniqueFood?.unit === "g"
+                                ? calculateValueWithOneDecimal(filterUniqueFood?.vitaminK, quantityGrams || "0")
+                                : filterUniqueFood?.vitaminK
+                            }
+                            unit={'%'}
+                        />
+                        ) : null}
                     
                 </View>
             </View>

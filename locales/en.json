@@ -279,6 +279,7 @@
     "not_enought_data_statictis": "Not enough data to display the statistics.",
     "text_enought": "Please ensure you've provided sufficient activity or nutrition data for accurate insights.",
     "access": "Access your dashboard",
-    "choose": "Choose"
+    "choose": "Choose",
+    "add": "Add"
 
 }
