@@ -127,12 +127,16 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
         return acc + nutrientValue;
     }, 0) || 0;
 
-    const resultCustom = resultFoodCustom?.reduce((acc:number,  item: FoodItem) => {
-        const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
-        return acc + nutrientValue;
-    }, 0) || 0;
-    console.log('custom', resultCustom)
+const resultCustom = resultFoodCustom?.reduce((acc: number, item: FoodItem) => {
+    const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
 
+    const quantity = parseFloat(item.quantityCustom || "0");
+    const baseQuantity = item.quantity || 100; // généralement 100g
+
+    const ratio = quantity / baseQuantity;
+
+    return acc + (nutrientValue * ratio);
+}, 0) || 0;
     const formattedResult = parseFloat(result.toFixed(2));
 
     const formattedResultCreated = parseFloat(resultCreated?.toFixed(2));
