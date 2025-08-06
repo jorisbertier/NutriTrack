@@ -164,7 +164,7 @@ export default function DetailsFood() {
                     <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.[`name_${i18n.language}`]}</ThemedText>
                     <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
                     <ThemedText color={colors.black} variant="title1" style={styles.title}>
-                    {filterUniqueFood?.unit === "g"
+                    {(filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml") 
                         ? `${calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || "0")} kcal`
                         : `${filterUniqueFood?.calories} kcal`}
 
@@ -185,7 +185,7 @@ export default function DetailsFood() {
                         <NutritionStatCard
                             nutri={t('proteins')}
                             quantity={
-                                filterUniqueFood?.unit === "g"
+                                (filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml") 
                                     ? calculateValueWithOneDecimal(filterUniqueFood?.proteins || 0, quantityGrams || "0")
                                     : filterUniqueFood?.proteins || 0
                             }
@@ -196,7 +196,7 @@ export default function DetailsFood() {
                         <NutritionStatCard
                             nutri={t('carbs')}
                             quantity={
-                                filterUniqueFood?.unit === "g"
+                                (filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml") 
                                     ? calculateValueWithOneDecimal(filterUniqueFood?.carbohydrates || 0, quantityGrams || "0")
                                     : filterUniqueFood?.carbohydrates || 0
                             }
@@ -207,7 +207,7 @@ export default function DetailsFood() {
                         <NutritionStatCard
                             nutri={t('fats')}
                             quantity={
-                                filterUniqueFood?.unit === "g"
+                                (filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml") 
                                     ? calculateValueWithOneDecimal(filterUniqueFood?.fats || 0, quantityGrams || "0")
                                     : filterUniqueFood?.fats || 0
                             }
@@ -217,13 +217,13 @@ export default function DetailsFood() {
                         />
                     </Row>
                 </View>
-                <View style={{flexDirection: 'column', paddingBottom: filterUniqueFood?.unit === 'g' ? 90 : 10}}>
+                <View style={{flexDirection: 'column', paddingBottom: (filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml")  ? 90 : 10}}>
                 {nutrients.map(({ key, label, unit }) => {
                     const value = filterUniqueFood?.[key];
                     if (!value) return null;
 
                     const quantity =
-                        filterUniqueFood?.unit === 'g'
+                        (filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml") 
                         ? calculateValueWithOneDecimal(value, quantityGrams || '0')
                         : value;
 

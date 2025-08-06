@@ -32,7 +32,7 @@ export default function BottomInputBar({
         Number(quantityGrams) > 999;
     return (
         <>
-        {filterUniqueFood?.unit === 'g' && (
+        {(filterUniqueFood?.unit === 'g' || filterUniqueFood?.unit === "ml") && (
             <View style={[styles.wrapper, { backgroundColor: colors.gray, borderTopColor: colors.grayDark }]}>
             {/* Single compact row */}
             <View style={styles.row}>
@@ -68,7 +68,7 @@ export default function BottomInputBar({
                     placeholderTextColor={colors.grayDark}
                     maxLength={3}
                 />
-                <Text style={[styles.unit, { color: colors.blackFix }]}>g</Text>
+                <Text style={[styles.unit, { color: colors.blackFix }]}>{filterUniqueFood?.unit === "g" ? "g" : filterUniqueFood?.unit === "ml" ? "ml" : ""} </Text>
                 </View>
 
                 {/* Add Button */}
