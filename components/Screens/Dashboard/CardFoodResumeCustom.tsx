@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { capitalizeFirstLetter } from "@/functions/function";
 import { useTheme } from "@/hooks/ThemeProvider";
@@ -8,6 +8,9 @@ type Props = {
     name: string,
     calories: number,
     unit: string,
+    proteins: number,
+    carbs: number,
+    fats: number,
     quantity: number,
     quantityCustom: number,
     image: string,
@@ -15,10 +18,13 @@ type Props = {
     handleDelete: any
 }
 
-export default function CardFoodResumeCustom({name, calories, unit, quantityCustom, image, handleDelete}: Props) {
+export default function CardFoodResumeCustom({name, calories, unit, proteins,carbs, fats, quantityCustom, image, handleDelete}: Props) {
 
     const { theme, colors } = useTheme();
     const adjustedCalories = Math.round((calories * quantityCustom) / 100);
+    const adjustedProteins = ((proteins * quantityCustom) / 100).toFixed(1);
+    const adjustedCarbs = ((carbs * quantityCustom) / 100).toFixed(1);
+    const adjustedFats = ((fats * quantityCustom) / 100).toFixed(1);
 
 
     return (
@@ -28,6 +34,20 @@ export default function CardFoodResumeCustom({name, calories, unit, quantityCust
                     <View style={styles.text}>
                         <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(`${name}`)}</ThemedText>
                         <ThemedText variant="title2" color={colors.grayDark}>{adjustedCalories} Kcal, {quantityCustom} {unit}</ThemedText>
+                    </View>
+                </View>
+                <View style={{flexDirection: 'row', gap: 2}}>
+                    <View style={{width: 40}}>
+                        <Text style={{fontWeight: 600, textAlign: 'center'}}>P</Text>
+                        <Text style={{ color: colors.grayDark, fontWeight: 600, textAlign: 'center'}}>{adjustedProteins}</Text>
+                    </View>
+                    <View style={{width: 40, justifyContent: 'center'}}>
+                        <Text style={{fontWeight: 600, textAlign: 'center'}}>C</Text>
+                        <Text style={{ color: colors.grayDark, fontWeight: 600, textAlign: 'center'}}>{adjustedCarbs}</Text>
+                    </View>
+                    <View style={{width: 40}}>
+                        <Text style={{fontWeight: 600, textAlign: 'center'}}>F</Text>
+                        <Text style={{ color: colors.grayDark, fontWeight: 600, textAlign: 'center'}}>{adjustedFats}</Text>
                     </View>
                 </View>
                 <TouchableOpacity  style={styles.test} onPress={handleDelete}>

@@ -115,6 +115,8 @@ export function DisplayResultFoodByMeal(
                         />
                         )
                     }
+                    </Row>
+                    <Row>
                     { resultMealCustom.length !== 0 && (
                         <FlatList<FoodItem>
                             data={resultMealCustomWithUuid}
@@ -123,6 +125,9 @@ export function DisplayResultFoodByMeal(
                                 <CardFoodResumeCustom
                                     name={`${item[`name_${i18n.language}`] || item.name_en}`}
                                     quantityCustom={item?.quantityCustom}
+                                    proteins={item.proteins}
+                                    carbs={item.carbohydrates}
+                                    fats={item.fats}
                                     unit={item.unit}
                                     image={item.image}
                                     userMealId={item.userMealId}

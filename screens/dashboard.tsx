@@ -72,7 +72,7 @@ export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
-    const [notificationVisible, setNotificationVisible] = useState(false);
+    const [notificationVisible, setNotificationVisible] = useState(true);
     const [updateCounter, setUpdateCounter] = useState(0);
 
     const showIcon = (userData[0]?.goalLogs?.calories ?? 0) > 0;
@@ -642,12 +642,13 @@ export default function Dashboard() {
                 <View style={styles.notification}>
                     <View style={styles.wrapperNotification}>
                     <Text style={styles.notificationText}>{t('msg_exp')}</Text>
-                    <LottieView
+                    {/* <LottieView
                         source={require('@/assets/lottie/check-popup.json')}
                         loop={false}
                         style={{ width: 30, height: 30 }}
                         autoPlay={true}
-                    />
+                    /> */}
+                            
                     </View>
                     <LottieView
                     source={require('@/assets/lottie/Confetti.json')}
@@ -696,7 +697,7 @@ export default function Dashboard() {
                     </>
                 )}
                 </View>
-                <ProgressRing isLoading={!isLoading} progressProteins={Number(proteins.toFixed(2))} proteinsGoal={proteinsGoal} progressCarbs={Number(carbs.toFixed(0))} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={Number(fats.toFixed(0))} fatsGoal={calculFats(basalMetabolicRate)} goal={userData[0]?.goal} goalProteins={userData[0]?.goalLogs['proteins']} goalCarbs={userData[0]?.goalLogs['carbs']} goalFats={userData[0]?.goalLogs['fats']}/>
+                <ProgressRing isLoading={!isLoading} progressProteins={Number(proteins.toFixed(1))} proteinsGoal={proteinsGoal} progressCarbs={Number(carbs.toFixed(1))} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={Number(fats.toFixed(1))} fatsGoal={calculFats(basalMetabolicRate)} goal={userData[0]?.goal} goalProteins={userData[0]?.goalLogs['proteins']} goalCarbs={userData[0]?.goalLogs['carbs']} goalFats={userData[0]?.goalLogs['fats']}/>
                 
                 <View style={styles.wrapperMeals}>
                     {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, sortByBreakfastCustom, t('breakfast'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false )}
@@ -758,13 +759,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 3,
         top: 650,
-        left: '5%',
-        right: '5%',
+        left: '20%',
+        right: '20%',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center', 
         backgroundColor: 'white',
-        width: '90%',
+        width: '60%',
         height: 70,
         borderRadius: 20,
         paddingVertical: 12,
@@ -780,12 +781,12 @@ const styles = StyleSheet.create({
     notificationText: {
         color: "#333",
         fontWeight: "600",
+        width: '100%',
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 16,
         textAlign: "center",
-        marginRight: 10,
-        top: -9
     },
     card: {
         borderRadius: 20,
