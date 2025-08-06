@@ -19,6 +19,7 @@ import { getAuth } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import BottomInputBar from "@/components/BottomBar";
+import LottieView from "lottie-react-native";
 
 export default function DetailsFood() {
 
@@ -38,6 +39,7 @@ export default function DetailsFood() {
     const [selectedMealType, setSelectedMealType] = useState('');
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<FoodItem[]>([]);
+    const [notificationVisible, setNotificationVisible] = useState(false)
 
     useEffect(() => {
         try {
@@ -99,15 +101,8 @@ export default function DetailsFood() {
     const handleCreateAliment = async () => {
         const userId = userData[0]?.id;
         const foodId = filterUniqueFood?.id;
+
         try {
-            const test = {
-                userId: userId,
-                quantityCustom: quantityGrams,
-                foodId: foodId,
-                date: date,
-                mealType: selectedMealType
-    
-            }
 
             await addDoc(collection(firestore, "UserMealsCustom"), {
                 userId,
@@ -116,9 +111,12 @@ export default function DetailsFood() {
                 date: date,
                 mealType: selectedMealType
             });
+            setNotificationVisible(true)
 
-            console.log("Aliment ajouté avec succès");
-            // navigation.goBack();
+            setTimeout(() => {
+                setNotificationVisible(false)
+            }, 2100);
+            // console.log("Aliment ajouté avec succès");
         } catch (error) {
             console.error("Erreur lors de l’ajout :", error);
         }
@@ -249,6 +247,19 @@ export default function DetailsFood() {
             selectedMealType={selectedMealType}
             setSelectedMealType={setSelectedMealType}
         />
+        {notificationVisible && (
+                        <View style={styles.notification}>
+                            <View style={styles.wrapperNotification}>
+                            <Text style={styles.notificationText}>✓ {t('added')}</Text>
+                                <LottieView
+                                    source={require('@/assets/lottie/check-popup.json')}
+                                    loop={false}
+                                    style={{ width: 30, height: 30 }}
+                                    autoPlay={true}
+                                />
+                            </View>
+                        </View>
+                    )}
     </>
     )
 }
@@ -343,36 +354,64 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
         margin: 'auto'
     },
-    
-  quantityBlock: {
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
-    marginBottom: 30,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    borderRadius: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 6,
-    elevation: 3,
-  },
-  quantityLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  quantityInput: {
-    width: 70,
-    height: 40,
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    fontSize: 16,
-    textAlign: 'center',
-  },
+    quantityBlock: {
+        position: 'absolute',
+        width: '100%',
+        bottom: 0,
+        marginBottom: 30,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderWidth: 1,
+        borderRadius: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 3 },
+        shadowRadius: 6,
+        elevation: 3,
+    },
+    quantityLabel: {
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    quantityInput: {
+        width: 70,
+        height: 40,
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        fontSize: 16,
+        textAlign: 'center',
+    },
+    notification: {
+        position: "absolute",
+        bottom: 150,
+        width: "100%",
+        alignItems: "center",
+        zIndex: 999
+    },
+    wrapperNotification: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "white",
+        borderRadius: 20,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 5,
+        borderWidth: 1,
+        borderColor: "#e0e0e0",
+    },
+    notificationText: {
+        color: "#333",
+        fontWeight: "600",
+        fontSize: 16,
+        textAlign: "center",
+        marginRight: 10
+    },
 })
