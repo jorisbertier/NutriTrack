@@ -6,18 +6,21 @@
   "build": {
     "preview": {
       "android": {
-        "buildType": "apk"
+        "buildType": "app-bundle"
       }
     },
     "preview3": {
       "developmentClient": true
     },
     "preview4": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "app-bundle"
+      }
     },
     "production": {
       "android": {
-        "buildType": "apk"
+        "buildType": "app-bundle"
       }
     }
   }

@@ -203,7 +203,7 @@
     "email": "Email",
     "password": "Password",
     "registerHere": "Register here",
-    "errorAuthScreen": "Incorrect email or password. Please try again.",
+    "errorAuthscreen": "Incorrect email or password. Please try again.",
     "forgot": "Forgot password?",
     "forgotPassword": "Forgot password",
     "reset": "Reset password",

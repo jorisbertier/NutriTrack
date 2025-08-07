@@ -72,7 +72,7 @@ export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate]= useState<Date>(new Date())
     const [isLoading, setIsLoading] = useState(true);
-    const [notificationVisible, setNotificationVisible] = useState(true);
+    const [notificationVisible, setNotificationVisible] = useState(false);
     const [updateCounter, setUpdateCounter] = useState(0);
 
     const showIcon = (userData[0]?.goalLogs?.calories ?? 0) > 0;

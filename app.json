@@ -2,7 +2,7 @@
   "expo": {
     "name": "Nutri Track",
     "slug": "NutriTrack",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/logo1024px.png",
     "platforms": [
@@ -27,12 +27,13 @@
     "android": {
       "newArchEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/realmApp.png"
+        "foregroundImage": "./assets/images/logo1024px.png"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.kulte.NutriTrack"
+      "package": "com.kulte.NutriTrack",
+      "versionCode": 17
     },
     "web": {
       "bundler": "metro",
