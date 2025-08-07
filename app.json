@@ -4,7 +4,7 @@
     "slug": "NutriTrack",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/realmApp.png",
+    "icon": "./assets/images/logo1024px.png",
     "platforms": [
       "ios",
       "android"
@@ -12,7 +12,7 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splashRealm.png",
+      "image": "./assets/images/splashNutritrack.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

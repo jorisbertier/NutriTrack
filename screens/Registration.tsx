@@ -58,10 +58,10 @@ const Registration = () => {
 
   const avatars = [
     { id: 1, uri: require('@/assets/images/avatar/pinguin.png') },
-    { id: 2, uri: require('@/assets/images/avatar/bubble.png') },
-    { id: 3, uri: require('@/assets/images/avatar/watermelon.png') },
-    { id: 4, uri: require('@/assets/images/avatar/avatar.png') },
-    { id: 5, uri: require('@/assets/images/avatar/banana.webp') },
+    // { id: 2, uri: require('@/assets/images/avatar/bubble.png') },
+    { id: 2, uri: require('@/assets/images/avatar/watermelon.png') },
+    // { id: 4, uri: require('@/assets/images/avatar/avatar.png') },
+    // { id: 5, uri: require('@/assets/images/avatar/banana.webp') },
   ];
 
   const fiveYearsAgo = new Date();

@@ -214,10 +214,10 @@ export const calculatePercentage = (progress: number, goal: number) => {
 export function getIdAvatarProfile(number: number) {
     const avatars: { [key: number]: any } = {
         1: require('@/assets/images/avatar/pinguin.png'),
-        2: require('@/assets/images/avatar/bubble.png'),
-        3: require('@/assets/images/avatar/watermelon.png'),
-        4: require('@/assets/images/avatar/avatar.png'),
-        5: require('@/assets/images/avatar/banana.webp'),
+        // 2: require('@/assets/images/avatar/bubble.png'),
+        2: require('@/assets/images/avatar/watermelon.png'),
+        // 4: require('@/assets/images/avatar/avatar.png'),
+        // 5: require('@/assets/images/avatar/banana.webp'),
     };
 
     // return avatars[number] || require('@/assets/images/avatar/avatar.png');
