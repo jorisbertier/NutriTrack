@@ -27,22 +27,12 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     console.log(activeWeekIndex)
 
     const getDaynumber = (date: string) => {
-        // Vérifier si la date est déjà un objet Date, sinon la convertir
-        const parsedDate = new Date(date);  // Si la date est déjà une chaîne ISO, elle sera automatiquement convertie
-        // console.log('Parsed Date:', parsedDate);
-    
-        // Utiliser startOfWeek pour obtenir le premier jour de la semaine
-        const weekStart = startOfWeek(parsedDate, { weekStartsOn: 1 }); // 1 pour lundi comme premier jour de la semaine
-        // console.log('Week Start:', weekStart);
-    
-        // Ajouter 7 jours pour corriger visuellement le décalage d'une semaine
-        const adjustedWeekStart = addDays(weekStart, 7);
-        // console.log('Adjusted Week Start:', adjustedWeekStart);
-    
-        // Formater la date du premier jour de la semaine ajustée
-        const formattedDate = format(adjustedWeekStart, 'd MMMM yyyy'); // Exemple : 13 janvier 2025
-        
-        return formattedDate;
+    const parsedDate = new Date(date); 
+    const weekStart = startOfWeek(parsedDate, { weekStartsOn: 1 }); 
+
+    const formattedDate = format(weekStart, 'd MMMM yyyy'); 
+
+    return formattedDate;
     };
 
     return (

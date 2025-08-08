@@ -128,7 +128,7 @@ function Stats() {
         // { value: 25, color: "#95D3BE" },
     ];
 
-    console.log('proteins',typeof totalMacronutrients)
+    console.log(data2)
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.white}]}>
