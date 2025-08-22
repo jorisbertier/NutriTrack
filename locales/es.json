@@ -166,7 +166,7 @@
     "required": "requerido",
     "titleOther": "Otros macronutrientes",
     "errorMatching": "No hay alimentos que coincidan con",
-    "errorTicle": "El título debe contener solo letras y al menos 3 caracteres.",
+    "errorTitle": "El título debe contener solo letras y al menos 3 caracteres.",
     "inform": "La unidad debe contener solo g / cl / ml / l / taza",
     "unit": "Unidad",
     "informUnit": "/g, cl, ml, l, taza, rebanada",
@@ -279,7 +279,10 @@
     "text_enought": "Por favor, asegúrate de haber proporcionado suficientes datos de actividad o nutrición para obtener información precisa.",
     "access": "Accede a tu panel de control",
     "choose": "Selección",
-    "add": "Añadir"
+    "add": "Añadir",
+    "nutriCalories": "Calorías diarias registradas durante los últimos 3 fines de semana",
+    "nutriWeight": "Últimos 7 pesos registrados",
+    "nutriRatio": "Relación proteínas/carbohidratos/grasas registrada desde su registro"
 
 
 

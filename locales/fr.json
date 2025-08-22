@@ -292,6 +292,9 @@
     "text_enought": "Veuillez vous assurer d’avoir fourni suffisamment de données d’activité ou de nutrition pour obtenir des résultats précis.",
     "access": "Accéder à votre tableau de bord",
     "choose": "Choisir",
-    "add": "Ajouter"
+    "add": "Ajouter",
+    "nutriCalories": "Calories journalières enregistrées sur les 3 derniers week-ends",
+    "nutriWeight": "Les 7 derniers poids enregistrés",
+    "nutriRatio": "Ratio protéines / glucides / lipides enregistré depuis votre inscription"
 
 }

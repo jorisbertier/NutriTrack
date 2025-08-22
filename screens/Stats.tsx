@@ -132,24 +132,35 @@ function Stats() {
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.white}]}>
-            <Row style={{marginBottom: 80,marginTop: 20, marginLeft: 10}}>
+            <Row style={{marginBottom: 15,marginTop: 20, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri calories</ThemedText>
             </Row>
+            <Text style={{ marginLeft: 10, marginBottom: 70, flexWrap: "wrap", width: '90%' , color: colors.black}}>
+                {t('nutriCalories')}
+            </Text>
             <WeeklyBarChart
                 weeks={data2}
                 activeWeekIndex={activeWeekIndex}
                 onWeekChange={setActiveWeekIndex}
             />
-            <Row style={{marginBottom: 30, marginTop: 20, marginLeft: 10}}>
+            <Row style={{marginBottom: 15, marginTop: 20, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri weight</ThemedText>
             </Row>
+                <Text style={{ marginLeft: 10, color: colors.black }}>{t('nutriWeight')}</Text>
                 <WeightChart/>
             <Row style={{marginBottom: 0, marginTop: 20, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri ratio</ThemedText>
             </Row>
+            <Text
+                style={{marginLeft: 10, flexWrap: "wrap",width: '90%', marginTop: 10, color: colors.black
+                }}
+                >
+                    {t('nutriRatio')}
+                </Text>
+
             {totalMacronutrients == 0 ?
             <Row style={{paddingTop: 70 , alignSelf: 'center'}}>
-                <Text style={[stylesNoData.message, {marginTop: 0}]}>
+                <Text style={[stylesNoData.message, {marginTop: 0, color: colors.black}]}>
                     📊 {t('not_enought_data')}
                 </Text>
             </Row>

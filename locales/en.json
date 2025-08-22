@@ -167,7 +167,7 @@
     "required": "required",
     "titleOther": "Others macronutrient",
     "errorMatching": "There is no food matching with",
-    "errorTicle": "The title must contain only letters and be at least 3 characters long.",
+    "errorTitle": "The title must contain only letters and be at least 3 characters long.",
     "inform": "The unit must only contain g / cl / ml / l / cup",
     "unit": "Unit",
     "informUnit": "/g, cl, ml, l, cup, slice",
@@ -280,6 +280,9 @@
     "text_enought": "Please ensure you've provided sufficient activity or nutrition data for accurate insights.",
     "access": "Access your dashboard",
     "choose": "Choose",
-    "add": "Add"
+    "add": "Add",
+    "nutriCalories": "Daily calories recorded over the last 3 weekends",
+    "nutriWeight": "Last 7 recorded weights",
+    "nutriRatio": "Protein/carbohydrate/fat ratio recorded since your registration"
 
 }
