@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import { View, Text, ScrollView, StyleSheet, Button } from 'react-native';
 
 const PrivacyPolicy = () => {
+    //comments
     const { t } = useTranslation();
     const { colors } = useTheme();
 
