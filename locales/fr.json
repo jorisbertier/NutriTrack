@@ -295,6 +295,7 @@
     "add": "Ajouter",
     "nutriCalories": "Calories journalières enregistrées sur les 3 derniers week-ends",
     "nutriWeight": "Les 7 derniers poids enregistrés",
-    "nutriRatio": "Ratio protéines / glucides / lipides enregistré depuis votre inscription"
+    "nutriRatio": "Ratio protéines / glucides / lipides enregistré depuis votre inscription",
+    "weekOf": "Semaine du"
 
 }

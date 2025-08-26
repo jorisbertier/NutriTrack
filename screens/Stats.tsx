@@ -76,32 +76,6 @@ function Stats() {
     const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
     const data2 = getDataConsumeByDays(sortedData)
 
-    // const adjustWeeksToStartOnMonday = (weeks: any[]) => {
-    //     return weeks.map((week) => {
-    //     // On prend le premier jour de la semaine (par exemple, le 31 décembre) et on ajuste pour qu'il commence un lundi
-    //     const mondayStart = startOfWeek(parseISO(week[0].day), { weekStartsOn: 1 }); // 1 = lundi
-        
-    //     // Maintenant, on ajuste chaque jour de la semaine pour qu'il soit aligné avec le lundi
-    //     return week.map((day) => {
-    //         // On crée un nouvel objet Date en UTC, et on ajuste pour chaque jour de la semaine
-    //         const adjustedDay = new Date(Date.UTC(
-    //         mondayStart.getUTCFullYear(),
-    //         mondayStart.getUTCMonth(),
-    //         mondayStart.getUTCDate() + week.indexOf(day),
-    //         0, 0, 0, 0 // Assurer que l'heure est 00:00:00 UTC
-    //         ));
-    
-    //         return {
-    //         ...day,
-    //         day: adjustedDay.toISOString(), // Formater en ISO 8601 avec T00:00:00.000Z
-    //         };
-    //     });
-    //     });
-    // };
-    // const adjustedData2 = adjustWeeksToStartOnMonday(data2);
-    // console.log('adju', adjustedData2)
-    // console.log(userRedux)
-    // console.log('test',userRedux?.fatsTotal)
     if (!userRedux?.consumeByDays || !data2 || !userRedux?.proteinsTotal) {
         return (
             <View style={stylesNoData.container}>

@@ -4,6 +4,8 @@ import { ScrollView,StyleSheet,Text,useWindowDimensions,View } from 'react-nativ
 import { SingleBarChart, type Day } from './SingleBarCharts';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { fr, es, enUS } from 'date-fns/locale';
 
 type Week = Day[];
 
@@ -17,7 +19,17 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
 
     const { width: windowWidth } = useWindowDimensions();
     const activeWeek = weeks[activeWeekIndex];
-    const { colors } = useTheme()
+    const { colors } = useTheme();
+
+    const { t, i18n } = useTranslation();
+
+    const getLocale = () => {
+        switch (i18n.language) {
+            case 'fr': return fr;
+            case 'es': return es;
+            default: return enUS;
+        }
+    }
 
     const BarChartWidth = windowWidth * 0.8;
     const BarChartGap = 10;
@@ -27,12 +39,12 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     console.log(activeWeekIndex)
 
     const getDaynumber = (date: string) => {
-    const parsedDate = new Date(date); 
-    const weekStart = startOfWeek(parsedDate, { weekStartsOn: 1 }); 
+        const parsedDate = new Date(date); 
+        const weekStart = startOfWeek(parsedDate, { weekStartsOn: 1 }); 
 
-    const formattedDate = format(weekStart, 'd MMMM yyyy'); 
+        const formattedDate = format(weekStart, 'd MMMM yyyy', { locale: getLocale() }); 
 
-    return formattedDate;
+        return formattedDate;
     };
 
     return (
@@ -88,7 +100,7 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
                         )}
                         <Text style={[styles.label, {color: colors.black}]}>
                             
-                            Week of {getDaynumber(String(week[0]?.day) ?? '')}
+                            {t('weekOf')} {getDaynumber(String(week[0]?.day) ?? '')}
                         </Text>
                         {activeWeekIndex !== 2 && (
                             <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, position: 'absolute', width: 15, height: 15, right: -50}} />

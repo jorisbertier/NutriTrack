@@ -283,6 +283,7 @@
     "add": "Add",
     "nutriCalories": "Daily calories recorded over the last 3 weekends",
     "nutriWeight": "Last 7 recorded weights",
-    "nutriRatio": "Protein/carbohydrate/fat ratio recorded since your registration"
+    "nutriRatio": "Protein/carbohydrate/fat ratio recorded since your registration",
+    "weekOf": "Week of"
 
 }

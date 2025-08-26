@@ -282,7 +282,8 @@
     "add": "Añadir",
     "nutriCalories": "Calorías diarias registradas durante los últimos 3 fines de semana",
     "nutriWeight": "Últimos 7 pesos registrados",
-    "nutriRatio": "Relación proteínas/carbohidratos/grasas registrada desde su registro"
+    "nutriRatio": "Relación proteínas/carbohidratos/grasas registrada desde su registro",
+    "weekOf": "Semana de"
 
 
 

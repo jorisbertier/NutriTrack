@@ -1,7 +1,8 @@
 import { useTheme } from '@/hooks/ThemeProvider';
-import { format } from 'date-fns';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, {useAnimatedStyle,withTiming} from 'react-native-reanimated';
+import { fr, es, enUS } from 'date-fns/locale';
+import { useTranslation } from 'react-i18next';
 
 export type Day = {
     day: Date;
@@ -17,7 +18,9 @@ type SingleBarChartProps = {
 export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps) => {
 
     const normalizedValue = Math.min(day.value / 3000, 1);
-    const { colors } = useTheme()
+    const { colors } = useTheme();
+
+    const { i18n } = useTranslation();
 
     const rStyle = useAnimatedStyle(() => {
         return {
@@ -27,8 +30,18 @@ export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps)
     }, [normalizedValue, maxHeight]);
 
     const getDayInitial = (date: Date) => {
-        const weekdays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']; // S=Sunday, M=Monday, ...
-        const dayIndex = new Date(date).getDay(); // Get the day of the week (0-6)
+        const weekdaysFR = ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'];
+        const weekdaysES = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
+        const weekdaysEN = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+
+        let weekdays;
+        switch (i18n.language) {
+            case 'fr': weekdays = weekdaysFR; break;
+            case 'es': weekdays = weekdaysES; break;
+            default: weekdays = weekdaysEN; break;
+        }
+
+        const dayIndex = new Date(date).getDay();
         return weekdays[dayIndex];
     };
 
