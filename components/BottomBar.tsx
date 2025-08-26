@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/ThemeProvider';
@@ -12,6 +12,7 @@ type BottomInputBarProps = {
     handleCreateAliment: () => void;
     selectedMealType: string;
     setSelectedMealType: (value: string) => void;
+    isPremium: boolean;
 };
 
 export default function BottomInputBar({
@@ -21,6 +22,7 @@ export default function BottomInputBar({
     handleCreateAliment,
     selectedMealType,
     setSelectedMealType,
+    isPremium
 }: BottomInputBarProps) {
     const { t } = useTranslation();
     const { colors } = useTheme();
@@ -72,6 +74,7 @@ export default function BottomInputBar({
                 </View>
 
                 {/* Add Button */}
+                {isPremium ? (
                 <TouchableOpacity
                     style={[
                         styles.button,
@@ -82,6 +85,12 @@ export default function BottomInputBar({
                     >
                     <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('add')}</Text>
                 </TouchableOpacity>
+                ) : (
+                    <Image
+                        source={require('@/assets/images/icon/crown.png')}
+                        style={{width: 20, height: 20, tintColor: "#FFD700"}}
+                    />
+                )}
             </View>
             </View>
         )}

@@ -20,10 +20,11 @@ import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
 import { useTranslation } from "react-i18next";
 import LottieView from "lottie-react-native";
+import { RootState } from "@/redux/store";
 
 
 
@@ -32,6 +33,7 @@ export default function Dashboard() {
     const {theme, colors} = useTheme();
     
     const { t } = useTranslation();
+    const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
@@ -707,7 +709,7 @@ export default function Dashboard() {
                 </View>
                 
                 <View style={{marginBottom: 60}}>
-                    <NutritionList data={nutritionData}/>
+                    <NutritionList data={nutritionData} isPremium={isPremium}/>
                 </View>
             </ScrollView>
         </>

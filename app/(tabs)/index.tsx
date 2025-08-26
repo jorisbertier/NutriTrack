@@ -20,6 +20,9 @@ import { Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import PremiumOverlayWrapper from '@/components/Premium';
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
 // import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
     // "googleMobileAds": {
     //   "androidAppId": "ca-app-pub-3940256099942544~3347511713",
@@ -35,9 +38,9 @@ export default function HomeScreen() {
   const auth = getAuth();
   const user = auth.currentUser;
   const [isLoading, setIsLoading] = useState(false);
-  const [isPremium, setIspremium] = useState(false)
-
   const { t } = useTranslation();
+
+  const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -161,7 +164,7 @@ export default function HomeScreen() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)}/>
+      <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)} isPremium={isPremium}/>
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
             {/* <BannerAd
       unitId={TestIds.BANNER} // remplace par ton vrai adUnitID plus tard
@@ -263,11 +266,11 @@ export default function HomeScreen() {
             </Modal>
             </View>
             <PremiumOverlayWrapper showOverlay={!isPremium}>
-  <StopWatch
-    selectedChallenge={selectedChallenge}
-    email={userData[0]?.email}
-  />
-</PremiumOverlayWrapper>
+            <StopWatch
+              selectedChallenge={selectedChallenge}
+              email={userData[0]?.email}
+            />
+          </PremiumOverlayWrapper>
 
           </ScrollView>
       </SafeAreaView>

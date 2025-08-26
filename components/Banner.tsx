@@ -16,10 +16,11 @@ import { useTranslation } from "react-i18next";
 type Props = {
     name: string;
     isLoading: boolean,
-    profilePictureId: number
+    profilePictureId: number,
+    isPremium: boolean
 }
 
-export default function Banner({name, isLoading, profilePictureId}: Props) {
+export default function Banner({name, isLoading, profilePictureId, isPremium}: Props) {
 
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
@@ -104,8 +105,18 @@ export default function Banner({name, isLoading, profilePictureId}: Props) {
                             //     <ThemedText color={colors.gray}>{t('freeAccount')}</ThemedText>
                             // </View>
                             <View style={{flexDirection: 'row', gap: 5, alignItems: 'flex-start'}}>
-                                <Image source={require('@/assets/images/icon/crown.png')} style={[styles.imageMini, { tintColor: "#FFD700"}]} />
-                                <ThemedText color={colors.gray}>{t('premiumAccount')}</ThemedText>
+                                {isPremium ? (
+                                    <>
+                                        <Image source={require('@/assets/images/icon/crown.png')} style={[styles.imageMini, { tintColor: "#FFD700"}]} />
+                                        <ThemedText color={colors.gray}>{t('premiumAccount')}</ThemedText>
+                                    </>
+
+                                ): (
+                                    <>
+                                        <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
+                                        <ThemedText color={colors.gray}>{t('freeAccount')}</ThemedText>
+                                    </>
+                                )}
                             </View>
                         :
                             <View style={{ marginTop: 10 }}>

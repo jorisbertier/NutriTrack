@@ -8,14 +8,15 @@ interface NutritionData {
 }
 
 type Props = {
-    data: NutritionData[]
+    data: NutritionData[];
+    isPremium: boolean;
 }
-const NutritionList = ({ data }: Props) => {
+const NutritionList = ({ data, isPremium }: Props) => {
 
     return (
         <View>
         {data.map((item, id) => (
-            <NutritionItem key={`${id}-${item.name}-${Math.random()}`} name={item.name} quantity={item.quantity} unit={item.unit} />
+            <NutritionItem key={`${id}-${item.name}-${Math.random()}`} name={item.name} quantity={item.quantity} unit={item.unit} isPremium={isPremium} />
         ))}
         </View>
     );

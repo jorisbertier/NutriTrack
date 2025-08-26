@@ -13,6 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 import { t } from "i18next";
 import LottieView from "lottie-react-native";
 import { useTranslation } from "react-i18next";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 export default function Search() {
 
@@ -29,6 +31,8 @@ export default function Search() {
     const colorMode: 'light' | 'dark' = 'light';
     const [error, setError] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+
+    const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
     
     let date = new Date();
@@ -142,39 +146,59 @@ export default function Search() {
                     </View>
                 </Row> */}
                 <Row style={[styles.wrapperFood]}>
-                {text.length === 0 && (
-                <Row style={styles.row}>
-                    <TouchableOpacity
-                    onPress={() => navigation.navigate("CreateAliment")}
-                    style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
-                    activeOpacity={0.85}
-                    >
-                    <Image
-                        source={require('@/assets/images/add.png')}
-                        style={{ width: 22, height: 22, tintColor: colors.blackFix }} // Soft blue
-                    />
-                    <ThemedText
-                        variant='title3'
-                        style={{ marginLeft: 8, color: colors.blackFix, fontSize: 13, fontWeight: '600' }}
-                    >
-                        {t('create')}
-                    </ThemedText>
-                    </TouchableOpacity>
+          { text.length === 0 && (
+    <Row style={styles.row}>
+        {/* Bouton Créer Aliment */}
+        {isPremium ? (
+            <TouchableOpacity
+                onPress={() => navigation.navigate("CreateAliment")}
+                style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
+                activeOpacity={0.85}
+            >
+                <Image
+                    source={require('@/assets/images/add.png')}
+                    style={{ width: 22, height: 22, tintColor: colors.blackFix }}
+                />
+                <ThemedText
+                    variant='title3'
+                    style={{ marginLeft: 8, color: colors.blackFix, fontSize: 13, fontWeight: '600' }}
+                >
+                    {t('create')}
+                </ThemedText>
+            </TouchableOpacity>
+        ) : (
+            <View style={[styles.wrapper, { backgroundColor: colors.blueLight, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
+                <Image
+                    source={require('@/assets/images/icon/crown.png')}
+                    style={{ width: 20, height: 20, tintColor: "#FFD700" }}
+                />
+            </View>
+        )}
 
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("SearchAlimentCreated")}
-                        style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
-                        activeOpacity={0.85}
-                    >
-                    <ThemedText
-                        variant='title3'
-                        style={{ color: colors.blackFix,fontSize: 13, fontWeight: '600' }}
-                    >
-                        {t('list')}
-                    </ThemedText>
-                    </TouchableOpacity>
-                </Row>
-                )}
+        {/* Bouton Liste Aliment */}
+        {isPremium ? (
+            <TouchableOpacity
+                onPress={() => navigation.navigate("SearchAlimentCreated")}
+                style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
+                activeOpacity={0.85}
+            >
+                <ThemedText
+                    variant='title3'
+                    style={{ color: colors.blackFix, fontSize: 13, fontWeight: '600' }}
+                >
+                    {t('list')}
+                </ThemedText>
+            </TouchableOpacity>
+        ) : (
+            <View style={[styles.wrapper, { backgroundColor: colors.blueLight, justifyContent: 'center', alignItems: 'center' }]}>
+                <Image
+                    source={require('@/assets/images/icon/crown.png')}
+                    style={{ width: 20, height: 20, tintColor: "#FFD700" }}
+                />
+            </View>
+        )}
+    </Row>
+)}
 
                         <FlatList<FoodItem>
                             data={filteredFood.slice(0, 40)}

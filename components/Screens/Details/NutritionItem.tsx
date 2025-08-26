@@ -7,24 +7,38 @@ import { useState } from "react";
 type Props = {
     name: string,
     quantity: number,
-    unit: string
+    unit: string,
+    isPremium: boolean,
+    keyName?: string, 
 }
 
-export default function NutritionItem({name, quantity, unit}: Props) {
+
+export default function NutritionItem({keyName, name, quantity, unit, isPremium}: Props) {
 
     const {colors} = useTheme();
-    const formattedQuantity = Number.isInteger(quantity)
-    ? quantity
-    : quantity.toFixed(1);
-    const [isPremium, steIsPremium] = useState(false)
 
-        return (
+    const nonPremiumKeys = ["proteins", "carbohydrates", "fats"];
+    const showValue = !nonPremiumKeys.includes(keyName ?? "") ? isPremium : true;
+
+    const formattedQuantity = Number.isInteger(quantity)
+        ? quantity
+        : quantity.toFixed(1);
+
+    return (
         <View style={styles.nutri}>
             <ThemedText color={colors.black} variant="title1">{name}</ThemedText>
-            <Text style={{height: 20, color: colors.black, fontSize: 15}} >{formattedQuantity} {unit}</Text>
-            {/* <Image source={require('@/assets/images/icon/crown.png')} style={{width: 20, height: 20, tintColor: "#FFD700"}} /> */}
+            {showValue ? (
+                <Text style={{height: 20, color: colors.black, fontSize: 15}}>
+                    {formattedQuantity} {unit}
+                </Text>
+            ) : (
+                <Image
+                    source={require('@/assets/images/icon/crown.png')}
+                    style={{width: 20, height: 20, tintColor: "#FFD700"}}
+                />
+            )}
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

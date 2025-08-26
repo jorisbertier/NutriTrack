@@ -20,6 +20,8 @@ import { addDoc, collection } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import BottomInputBar from "@/components/BottomBar";
 import LottieView from "lottie-react-native";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 export default function DetailsFood() {
 
@@ -34,6 +36,7 @@ export default function DetailsFood() {
     const route = useRoute<any>();
     const { id, date } = route.params;
 
+    const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
     const [quantityGrams, setQuantityGrams] = useState('100');
     const [selectedMealType, setSelectedMealType] = useState('');
@@ -229,10 +232,12 @@ export default function DetailsFood() {
 
                     return (
                         <NutritionItem
-                        key={key}
-                        name={label}
-                        quantity={quantity}
-                        unit={unit}
+                            keyName={key}
+                            key={key}
+                            name={label}
+                            quantity={quantity}
+                            unit={unit}
+                            isPremium={isPremium}
                         />
                     );
                 })}
@@ -246,6 +251,7 @@ export default function DetailsFood() {
             handleCreateAliment={handleCreateAliment}
             selectedMealType={selectedMealType}
             setSelectedMealType={setSelectedMealType}
+            isPremium={isPremium}
         />
         {notificationVisible && (
                         <View style={styles.notification}>
