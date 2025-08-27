@@ -190,15 +190,16 @@ console.log(i18n.language)
           navigateTo="Editgoal"
         />
         <EditLink
-          label={t('history_weight')}
-          iconSource={require('@/assets/images/icon/history.png')}
-          navigateTo="historyweight"
-        />
-        <EditLink
           label={t('editWeight')}
           iconSource={require('@/assets/images/icon/weight.png')}
           navigateTo="Editweight"
+        />
+        <EditLink
+          label={t('history_weight')}
+          iconSource={require('@/assets/images/icon/history.png')}
+          navigateTo="historyweight"
           isLast
+          pro
         />
       </View>
 

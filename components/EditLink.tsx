@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '@/hooks/ThemeProvider';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 
 type EditLinkProps = {
@@ -10,19 +12,25 @@ type EditLinkProps = {
     navigateTo?: string;
     onPress?: () => void;
     isLast?: boolean;
+    pro?: boolean
 };
 
-const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPress, isLast }) => {
+const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPress, isLast, pro }) => {
     const navigation = useNavigation();
     const { colors } = useTheme();
+    const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
     const handlePress = () => {
-        if (onPress) {
+    if (!isPremium && pro) {
+        return;
+    }
+
+    if (onPress) {
         onPress();
-        } else if (navigateTo) {
+    } else if (navigateTo) {
         navigation.navigate(navigateTo as never);
-        }
-    };
+    }
+};
 
     return (
         <TouchableOpacity
@@ -40,10 +48,17 @@ const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPr
                 {label}
                 </Text>
             </View>
-            <Image
-                source={require('@/assets/images/arrow-right.png')}
-                style={[styles.arrowIcon, { tintColor: colors.black }]}
+            {!isPremium && pro ? (
+                <Image
+                source={require('@/assets/images/icon/crown.png')}
+                style={[styles.arrowIcon, { tintColor: "#FFD700" }]}
             />
+            ): (
+                <Image
+                    source={require('@/assets/images/arrow-right.png')}
+                    style={[styles.arrowIcon, { tintColor: colors.black }]}
+                />
+            )}
         </TouchableOpacity>
     );
 };
