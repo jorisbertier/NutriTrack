@@ -77,8 +77,7 @@ async function getCustomerInfo() {
 
     fetchCustomerInfo();
 }
-  console.log('Is Subscribed:', isSubscribed);
-  console.log('Is Premium:', isPremium);
+
 
   const fetchOfferings = async () => {
     try {
@@ -146,7 +145,7 @@ async function getCustomerInfo() {
             style={styles.image}
             resizeMode="cover"
             />
-            <Text style={styles.text}>Create & Customize Your Foods</Text>
+            <Text style={styles.text}>{t('premium1')}</Text>
         </View>
         <View style={{flexDirection: 'row', gap: 20}}>
           <Image
@@ -154,7 +153,7 @@ async function getCustomerInfo() {
             style={styles.image}
             resizeMode="cover"
             />
-            <Text style={styles.text}>Access to All Macronutrients</Text>
+            <Text style={styles.text}>{t('premium2')}</Text>
         </View>
         <View style={{flexDirection: 'row', gap: 20}}>
           <Image
@@ -162,7 +161,7 @@ async function getCustomerInfo() {
             style={styles.image}
             resizeMode="cover"
             />
-            <Text style={styles.text}>Weight Tracking</Text>
+            <Text style={styles.text}>{t('premium3')}</Text>
         </View>
         <View style={{flexDirection: 'row', gap: 20}}>
           <Image
@@ -170,7 +169,7 @@ async function getCustomerInfo() {
             style={styles.image}
             resizeMode="cover"
             />
-            <Text style={styles.text}>No ads</Text>
+            <Text style={styles.text}>{t('premium4')}</Text>
         </View>
       </View>
         {/* <View style={styles.features}>
@@ -181,7 +180,7 @@ async function getCustomerInfo() {
           <Feature emoji="🚫" title="Zéro publicité" desc="Profitez d'une expérience fluide et sans interruption." />
         </View> */}
 
-        <Text style={styles.chooseText}>Choisissez votre offre :</Text>
+        <Text style={styles.chooseText}>{t('offer')}</Text>
 
         {offerings && (
           <>
@@ -223,7 +222,7 @@ async function getCustomerInfo() {
                         style={{ width: 100, height: 100 }}
                         autoPlay={true}
                     />
-                <Text style={styles.notificationText}>Thank you for your order !</Text>
+                <Text style={styles.notificationText}>{t('premium')}</Text>
                 </View>
             </View>
           )}

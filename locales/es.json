@@ -287,9 +287,12 @@
     "subscribe": "Suscribir",
     "goPremium": "Sube a Premium y mejora tu nutrición",
     "month": "mes",
-    "soon": "Próximamente"
+    "soon": "Próximamente",
+    "premium": "Gracias por su compra",
+    "offer": "Elija su oferta :",
+    "premium1": "Crea y personaliza tus comidas",
+    "premium2": "Acceso a todos los macronutrientes",
+    "premium3": "Seguimiento de peso",
+    "premium4": "Sin publicidad"
 
-
-
-    
 }

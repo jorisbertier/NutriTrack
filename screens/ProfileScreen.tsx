@@ -138,7 +138,7 @@ const ProfileScreen = () => {
   };
 console.log(i18n.language)
   return (
-    <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.whiteMode}]} persistentScrollbar={true}>
+    <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.grayBg}]} persistentScrollbar={true}>
         <View style={[styles.containerTranslate, { backgroundColor: colors.white}]}>
           <View style={{width: '30%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <View></View>
@@ -359,11 +359,11 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 8,
     marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 8,
+    // elevation: 2,
   },
   sectionTitle: {
     fontSize: 20,

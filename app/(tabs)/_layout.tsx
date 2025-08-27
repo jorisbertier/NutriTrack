@@ -53,7 +53,7 @@ export default function TabLayout() {
       options={{ 
         tabBarLabel: ()=> null,
         tabBarIcon: ({ color, size }) => (
-        <Feather name="compass" color={color} size={28} />
+        <Feather name="compass" color={color} size={26} />
       ),
       tabBarActiveTintColor : colors.black,
       headerShown: true,
@@ -95,7 +95,7 @@ export default function TabLayout() {
       options={{
         tabBarLabel: ()=> null, 
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="stats-chart" size={26} color={color} />
+          <Ionicons name="stats-chart" size={24} color={color} />
       ),
       tabBarActiveTintColor : colors.black,
       headerShown: true,
@@ -115,7 +115,7 @@ export default function TabLayout() {
       options={{
         tabBarLabel: ()=> null, 
         tabBarIcon: ({ color, size }) => (
-          <MaterialIcons name="account-circle" size={28} color={color} />
+          <MaterialIcons name="account-circle" size={26} color={color} />
       ),
       tabBarActiveTintColor : colors.black,
       headerShown: true,
@@ -135,7 +135,7 @@ export default function TabLayout() {
       options={{
         tabBarLabel: ()=> null, 
         tabBarIcon: ({ color, size }) => (
-          <FontAwesome5 name="crown" size={22} color={color} />
+          <FontAwesome5 name="crown" size={20} color={color} />
       ),
       tabBarActiveTintColor : colors.black,
       headerShown: true,

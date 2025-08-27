@@ -288,6 +288,12 @@
     "subscribe": "Subscribe",
     "goPremium": "Upgrade to Premium and boost your nutrition",
     "month": "month",
-    "soon": "Coming soon"
+    "soon": "Coming soon",
+    "premium": "Thank you for your purchase",
+    "offer": "Choose your offer :",
+    "premium1": "Create & Customize Your Foods",
+    "premium2": "Access to All Macronutrients",
+    "premium3": "Weight Tracking",
+    "premium4": "No ads"
 
 }
