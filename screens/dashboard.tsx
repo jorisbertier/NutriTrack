@@ -796,8 +796,6 @@ const styles = StyleSheet.create({
         marginVertical: 25,
         shadowOpacity: 0.12,
         shadowRadius: 15,
-        shadowOffset: { width: 0, height: 8 },
-        elevation: 12,
         width: '100%',
         maxWidth: 380,
         alignSelf: 'center',

@@ -20,13 +20,12 @@ export const useRevenueCatSubscription = () => {
     checkCustomerInfo();
 
     // Listener pour mises à jour en live
-    const listener = Purchases.addCustomerInfoUpdateListener(
+    Purchases.addCustomerInfoUpdateListener(
       (customerInfo: CustomerInfo) => {
         const isPremium = Object.keys(customerInfo.entitlements.active).length > 0;
         dispatch(setPremium(isPremium));
       }
     );
 
-    return () => listener.remove();
   }, [dispatch]);
 };

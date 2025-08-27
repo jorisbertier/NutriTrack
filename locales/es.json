@@ -283,7 +283,11 @@
     "nutriCalories": "Calorías diarias registradas durante los últimos 3 fines de semana",
     "nutriWeight": "Últimos 7 pesos registrados",
     "nutriRatio": "Relación proteínas/carbohidratos/grasas registrada desde su registro",
-    "weekOf": "Semana de"
+    "weekOf": "Semana de",
+    "subscribe": "Suscribir",
+    "goPremium": "Sube a Premium y mejora tu nutrición",
+    "month": "mes",
+    "soon": "Próximamente"
 
 
 
