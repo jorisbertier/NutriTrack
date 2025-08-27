@@ -7,6 +7,7 @@ import { Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { fr, es, enUS } from 'date-fns/locale';
 
+
 type Week = Day[];
 
 type WeeklyBarChartProps = {
@@ -38,13 +39,17 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     const ScrollViewHeight = 60;
 
     const getDaynumber = (date: string) => {
-        const parsedDate = new Date(date); 
-        const weekStart = startOfWeek(parsedDate, { weekStartsOn: 1 }); 
+        const parsedDate = new Date(date);
 
-        const formattedDate = format(weekStart, 'd MMMM yyyy', { locale: getLocale() }); 
+        // 🔑 On force l'heure à midi UTC pour éviter les décalages fuseaux
+        parsedDate.setUTCHours(12, 0, 0, 0);
+
+        const weekStart = startOfWeek(parsedDate, { weekStartsOn: 0 });
+        const formattedDate = format(weekStart, 'd MMMM yyyy', { locale: getLocale() });
 
         return formattedDate;
     };
+
 
     return (
         <View

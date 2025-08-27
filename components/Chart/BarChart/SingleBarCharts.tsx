@@ -29,22 +29,25 @@ export const SingleBarChart = ({ maxHeight , width , day }: SingleBarChartProps)
         };
     }, [normalizedValue, maxHeight]);
 
-    const getDayInitial = (date: Date) => {
-        const weekdaysFR = ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'];
-        const weekdaysES = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
-        const weekdaysEN = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+const getDayInitial = (date: Date | string) => {
+  const weekdaysFR = ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'];
+  const weekdaysES = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
+  const weekdaysEN = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
-        let weekdays;
-        switch (i18n.language) {
-            case 'fr': weekdays = weekdaysFR; break;
-            case 'es': weekdays = weekdaysES; break;
-            default: weekdays = weekdaysEN; break;
-        }
+  let weekdays;
+  switch (i18n.language) {
+    case 'fr': weekdays = weekdaysFR; break;
+    case 'es': weekdays = weekdaysES; break;
+    default: weekdays = weekdaysEN; break;
+  }
 
-        const dayIndex = new Date(date).getDay();
-        return weekdays[dayIndex];
-    };
-
+  const d = new Date(date);
+  // utilise getUTCDay pour éviter le décalage lié au fuseau local
+  const utcDay = d.getUTCDay(); // 0 = Sun, 1 = Mon, ...
+  // on veut 0 = Monday, 1 = Tuesday, ..., 6 = Sunday
+  const mondayFirstIndex = (utcDay + 6) % 7;
+  return weekdays[mondayFirstIndex];
+};
     return (
         <View style={{ paddingTop: 20}}>
             <Text style={[styles.valueText, { color: colors.black}]}>{(day.value).toFixed(0)}</Text>
