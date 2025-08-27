@@ -103,8 +103,6 @@ function Stats() {
         // { value: 25, color: "#95D3BE" },
     ];
 
-    console.log(data2)
-
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.white}]}>
             <Row style={{marginBottom: 15,marginTop: 20, marginLeft: 10}}>

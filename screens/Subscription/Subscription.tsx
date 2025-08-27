@@ -9,6 +9,7 @@ import { useRevenueCatSubscription } from '@/redux/useRevenueCatSubscription';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useTranslation } from 'react-i18next';
+import LottieView from 'lottie-react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -20,6 +21,7 @@ const Subscription = () => {
 
   const [selectedPlan, setSelectedPlan] = useState<'Monthly' | 'Annual'>('Monthly');
   const [offerings, setOfferings] = useState<PurchasesOffering | null>(null);
+  const [notificationVisible, setNotificationVisible] = useState(false); 
 
   const [isConfigured, setIsConfigured] = useState(false);
   useRevenueCatSubscription();
@@ -101,8 +103,12 @@ async function getCustomerInfo() {
   const handlePurchase = async (pkg: PurchasesPackage) => {
     try {
       const purchase = await Purchases.purchasePackage(pkg);
-      Alert.alert("Succès", "Votre abonnement a été activé !");
       console.log("Purchase success:", purchase);
+      setNotificationVisible(true)
+
+      setTimeout(() => {
+          setNotificationVisible(false)
+      }, 2100);
     } catch (e: any) {
       if (!e.userCancelled) {
         // console.log("Erreur achat:", e);
@@ -177,28 +183,28 @@ async function getCustomerInfo() {
 
         <Text style={styles.chooseText}>Choisissez votre offre :</Text>
 
-{offerings && (
-  <>
-    {offerings.monthly && (
-      <PlanOption
-        selected={selectedPlan === 'Monthly'}
-        onPress={() => setSelectedPlan('Monthly')}
-        title={offerings.monthly.product.title.replace(' (Nutri Track)', '')}
-        price={offerings.monthly.product.priceString}
-        description={offerings.monthly.product.description}
-      />
-    )}
-    {offerings.annual && (
-      <PlanOption
-        selected={selectedPlan === 'Annual'}
-        onPress={() => setSelectedPlan('Annual')}
-        title={offerings.annual.product.title.replace(' (Nutri Track)', '')}
-        price={offerings.annual.product.priceString}
-        description={offerings.annual.product.description}
-      />
-    )}
-  </>
-)}
+        {offerings && (
+          <>
+            {offerings.monthly && (
+              <PlanOption
+                selected={selectedPlan === 'Monthly'}
+                onPress={() => setSelectedPlan('Monthly')}
+                title={offerings.monthly.product.title.replace(' (Nutri Track)', '')}
+                price={offerings.monthly.product.priceString}
+                description={offerings.monthly.product.description}
+              />
+            )}
+            {offerings.annual && (
+              <PlanOption
+                selected={selectedPlan === 'Annual'}
+                onPress={() => setSelectedPlan('Annual')}
+                title={offerings.annual.product.title.replace(' (Nutri Track)', '')}
+                price={offerings.annual.product.priceString}
+                description={offerings.annual.product.description}
+              />
+            )}
+          </>
+        )}
         <TouchableOpacity
           style={[styles.button, { backgroundColor: colors.blackFix }]}
           onPress={() => {
@@ -208,33 +214,35 @@ async function getCustomerInfo() {
         >
           <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('subscribe')}</Text>
         </TouchableOpacity>
+          {notificationVisible && (
+            <View style={styles.notification}>
+                <View style={styles.wrapperNotification}>
+                    <LottieView
+                        source={require('@/assets/lottie/check-popup.json')}
+                        loop={false}
+                        style={{ width: 100, height: 100 }}
+                        autoPlay={true}
+                    />
+                <Text style={styles.notificationText}>Thank you for your order !</Text>
+                </View>
+            </View>
+          )}
       </View>
     </ScrollView>
   );
 };
 
-// const Feature = ({ emoji, title, desc }: { emoji: string; title: string; desc: string }) => (
-//   <View style={styles.feature}>
-//     <Text style={styles.featureEmoji}>{emoji}</Text>
-//     <View style={{ flex: 1 }}>
-//       <Text style={styles.featureTitle}>{title}</Text>
-//       <Text style={styles.featureDesc}>{desc}</Text>
-//     </View>
-//   </View>
-// );
-
-
 const PlanOption = ({ selected, onPress, label, title, price, description }: any) => {
+
   const { colors } = useTheme();
   const { t } = useTranslation();
-console.log('selected', selected);
-console.log(title, label)
+
   return (
     <TouchableOpacity
       style={[
         styles.option,
         { backgroundColor: colors.whiteFix},
-          selected && {borderColor: colors.blackFix, borderWidth: 1 }
+          selected && {borderColor: colors.blackFix, borderWidth: 2 }
       ]}
       onPress={onPress}
       activeOpacity={0.8}
@@ -264,7 +272,7 @@ const styles = StyleSheet.create({
   },
   image : {height: 20,width: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, tintColor: 'black'},
   text : {fontSize: 16, fontWeight: 400},
-  crown: { width: 80, height: 80, marginBottom: 20 },
+  crown: { width: 60, height: 60, marginBottom: 20 },
   title: { fontSize: 24, fontWeight: '600', textAlign: 'center', marginVertical: 15 },
   subtitle: { fontSize: 16, color: '#555', textAlign: 'center', marginBottom: 30, paddingHorizontal: 10 },
   features: { width: '100%', marginBottom: 30 },
@@ -282,6 +290,36 @@ const styles = StyleSheet.create({
   optionDesc: { fontSize: 14, color: '#444', maxWidth: 130, textAlign: 'right' },
   button: { marginTop: 20, width: width - 50, paddingVertical: 15, borderRadius: 20, alignItems: 'center', justifyContent: 'center', elevation: 3 },
   buttonText: { fontSize: 18, fontWeight: '500' },
+  notification: {
+      position: "absolute",
+      bottom: 30,
+      width: 1000,
+      height: 300,
+      alignItems: "center",
+      zIndex: 999,
+  },
+  wrapperNotification: {
+      flexDirection: "column",
+      alignItems: "center",
+      backgroundColor: "white",
+      borderRadius: 20,
+      paddingVertical: 40,
+      paddingHorizontal: 40,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 5,
+      borderWidth: 1,
+      borderColor: "#e0e0e0",
+  },
+  notificationText: {
+      color: "#333",
+      fontWeight: "600",
+      fontSize: 20,
+      textAlign: "center",
+      marginRight: 10
+  },
 });
 
 export default Subscription;
