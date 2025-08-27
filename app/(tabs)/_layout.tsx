@@ -23,7 +23,7 @@ export default function TabLayout() {
     // <Tab.Navigator tabBar={(props) => <TabBar {...props} />} screenOptions={{ headerShown: false }}>
     <Tab.Navigator screenOptions={{
         headerShown: false,
-        tabBarStyle : { backgroundColor: colors.white},
+        tabBarStyle : { backgroundColor: colors.white, height: 70},
         tabBarButton: (props) => (
           <TouchableWithoutFeedback onPress={props.onPress}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>{props.children}</View>
@@ -39,9 +39,9 @@ export default function TabLayout() {
       options={{
         tabBarLabel: ()=> null,
         tabBarIcon: ({ color, size }) => (
-        <Feather name="home" color={color} size={size} />
+        <Feather name="home" color={color} size={28} />
       ),
-      tabBarActiveTintColor : colors.primary
+      tabBarActiveTintColor : colors.black
     }} 
     />
 
@@ -53,9 +53,9 @@ export default function TabLayout() {
       options={{ 
         tabBarLabel: ()=> null,
         tabBarIcon: ({ color, size }) => (
-        <Feather name="compass" color={color} size={size} />
+        <Feather name="compass" color={color} size={28} />
       ),
-      tabBarActiveTintColor : colors.primary,
+      tabBarActiveTintColor : colors.black,
       headerShown: true,
       headerTitle: t('search'),
       headerTitleAlign: 'center',
@@ -77,7 +77,7 @@ export default function TabLayout() {
         tabBarIcon: ({ color, size }) => (
         <Feather name="bar-chart-2" color={color} size={size} />
       ),
-      tabBarActiveTintColor : colors.primary,
+      tabBarActiveTintColor : colors.black,
       headerShown: true,
       headerTitle: 'Nutrition track',
       headerTitleAlign: 'center',
@@ -95,9 +95,9 @@ export default function TabLayout() {
       options={{
         tabBarLabel: ()=> null, 
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="stats-chart" size={24} color={color} />
+          <Ionicons name="stats-chart" size={26} color={color} />
       ),
-      tabBarActiveTintColor : colors.primary,
+      tabBarActiveTintColor : colors.black,
       headerShown: true,
       headerTitle: 'Nutri Stats',
       headerTitleAlign: 'center',
@@ -115,9 +115,9 @@ export default function TabLayout() {
       options={{
         tabBarLabel: ()=> null, 
         tabBarIcon: ({ color, size }) => (
-          <MaterialIcons name="account-circle" size={size} color={color} />
+          <MaterialIcons name="account-circle" size={28} color={color} />
       ),
-      tabBarActiveTintColor : colors.primary,
+      tabBarActiveTintColor : colors.black,
       headerShown: true,
       headerTitle: t('profile'),
       headerTitleAlign: 'center',
@@ -135,9 +135,9 @@ export default function TabLayout() {
       options={{
         tabBarLabel: ()=> null, 
         tabBarIcon: ({ color, size }) => (
-          <FontAwesome5 name="crown" size={21} color={color} />
+          <FontAwesome5 name="crown" size={22} color={color} />
       ),
-      tabBarActiveTintColor : colors.primary,
+      tabBarActiveTintColor : colors.black,
       headerShown: true,
       headerTitle: 'Premium',
       headerTitleAlign: 'center',
