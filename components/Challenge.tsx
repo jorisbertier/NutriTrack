@@ -17,7 +17,7 @@ const {colors} = useTheme();
                     <Image source={source} style={styles.firstBlock}/>
                 </View>
                 <View style={[{backgroundColor: colors.whiteFix}, styles.secondBlock]}>
-                    <Text style={[styles.text, {color: colors.blackFix}]}>No {name}</Text>
+                    <Text style={[styles.text, {color: colors.blackFix}]}>{name}</Text>
                 </View>
             </View>
         </Pressable>

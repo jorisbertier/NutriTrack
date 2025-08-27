@@ -39,6 +39,7 @@ export default function HomeScreen() {
   const user = auth.currentUser;
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
+  const [soon, setSoon]= useState(true);
 
   const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
@@ -235,7 +236,7 @@ export default function HomeScreen() {
               <ThemedText variant='title' color={colors.black}>Nutri challenge</ThemedText>
             </Row>
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-                <Challenge name={'sugar'}source={require('@/assets/images/challenge/sugar.jpg')}
+                <Challenge name={t('noSugar')} source={require('@/assets/images/challenge/sugar.jpg')}
                     onPress={() => handleStopWatch('sugar', require('@/assets/images/challenge/sugar.jpg'))} 
                 />
                 {/* <Challenge name={'cigarette'} source={require('@/assets/images/challenge/cigarette.jpg')}
@@ -265,7 +266,7 @@ export default function HomeScreen() {
               </View>
             </Modal>
             </View>
-            <PremiumOverlayWrapper showOverlay={!isPremium}>
+            <PremiumOverlayWrapper showOverlay={soon}>
             <StopWatch
               selectedChallenge={selectedChallenge}
               email={userData[0]?.email}

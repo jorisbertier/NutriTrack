@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
   },
- overlayContainer: {
+  overlayContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -54,15 +54,4 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     textAlign: 'center',
   },
-// crown: {
-//   position: 'absolute',
-//   top: '50%',
-//   left: '50%',
-//   width: 60,
-//   height: 60,
-//   marginLeft: -30,
-//   marginTop: -30, 
-//   zIndex: 10,
-//   tintColor: 'yellow'
-// },
 });

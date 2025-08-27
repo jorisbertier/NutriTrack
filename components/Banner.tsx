@@ -28,6 +28,19 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
 
     const dispatch = useDispatch()
     const userRedux = useSelector((state: RootState) => state.user.user);
+    const { i18n } = useTranslation();
+
+    const getMonthShort = (date: Date) => {
+        let locale = 'en-US';
+        if (i18n.language === 'fr') locale = 'fr-FR';
+        else if (i18n.language === 'es') locale = 'es-ES';
+
+        const month = date.toLocaleString(locale, { month: 'long' });
+        // Optionnel : capitaliser la première lettre
+        return month.charAt(0).toUpperCase() + month.slice(1);
+    };
+
+    const monthLabel = getMonthShort(new Date());
 
     useEffect(() => {
         if (userRedux) {
@@ -70,7 +83,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                 <Row style={{justifyContent: 'space-between', width: '90%'}}>
                     <View style={{flexDirection: 'row', gap: 10}}>
                         <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
-                        <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(date.toLocaleString('en-US',{ month: 'short' }))} {date.getDate()},  {date.getFullYear()}</ThemedText>
+                        <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(monthLabel)} {date.getDate()},  {date.getFullYear()}</ThemedText>
                     </View>
                     <TouchableOpacity onPress={toggleTheme}>
                         <View style={[styles.circle]} >
@@ -81,11 +94,6 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                             }
                         </View>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
-                        <View style={[styles.circle]} >
-                            <Image source={require('@/assets/images/notificationLight.png')} style={styles.imageMini} />
-                        </View>
-                    </TouchableOpacity> */}
                 </Row>
                 <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
                     <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
@@ -100,17 +108,12 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                         <Skeleton colorMode={colorMode} width={200} height={30} />
                         }
                         {isLoading ?
-                            // <View style={{flexDirection: 'row'}}>
-                            //     <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
-                            //     <ThemedText color={colors.gray}>{t('freeAccount')}</ThemedText>
-                            // </View>
                             <View style={{flexDirection: 'row', gap: 5, alignItems: 'flex-start'}}>
                                 {isPremium ? (
                                     <>
                                         <Image source={require('@/assets/images/icon/crown.png')} style={[styles.imageMini, { tintColor: "#FFD700"}]} />
                                         <ThemedText color={colors.gray}>{t('premiumAccount')}</ThemedText>
                                     </>
-
                                 ): (
                                     <>
                                         <Image source={require('@/assets/images/star.png')} style={styles.imageMini} />
@@ -140,7 +143,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
             </Row>
             </View>
             <Image source={require('@/assets/images/backgroundBlack.jpg')} style={styles.imageBackground}/>
-            <Modal
+            {/* <Modal
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -151,13 +154,13 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                         <View style={[stylesModal.modalContainer, {backgroundColor: colors.grayPress}]}>
                             <Text style={stylesModal.modalHeader}>Notifications</Text>
                             <Text style={stylesModal.modalText}>You don't have notifications at the moment.</Text>
-                            {/* <TouchableOpacity onPress={() => setModalVisible(false)}>
+                            <TouchableOpacity onPress={() => setModalVisible(false)}>
                                 <Text style={stylesModal.closeText}>Close</Text>
-                            </TouchableOpacity> */}
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-            </Modal>
+            </Modal> */}
         </View>
     )
 }
