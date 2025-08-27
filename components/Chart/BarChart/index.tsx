@@ -36,7 +36,6 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
     const BarWidth = (BarChartWidth - BarChartGap * (activeWeek.length - 1)) / activeWeek.length;
     const MaxBarHeight = 150;
     const ScrollViewHeight = 60;
-    console.log(activeWeekIndex)
 
     const getDaynumber = (date: string) => {
         const parsedDate = new Date(date); 

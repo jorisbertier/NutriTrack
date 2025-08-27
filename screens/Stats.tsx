@@ -1,7 +1,7 @@
 import { WeeklyBarChart } from "@/components/Chart/BarChart";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
@@ -26,7 +26,8 @@ function Stats() {
     const user = auth.currentUser;
     const [isLoading, setIsLoading] = useState(true);
 
-    const userRedux = useSelector((state: RootState) => state.user.user)
+    const userRedux = useSelector((state: RootState) => state.user.user);
+    const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
     const [activeWeekIndex, setActiveWeekIndex] = useState(0);
 
     useEffect(() => {
@@ -117,20 +118,15 @@ function Stats() {
                 activeWeekIndex={activeWeekIndex}
                 onWeekChange={setActiveWeekIndex}
             />
-            <Row style={{marginBottom: 15, marginTop: 20, marginLeft: 10}}>
-                <ThemedText variant='title' color={colors.black}>Nutri weight</ThemedText>
-            </Row>
-                <Text style={{ marginLeft: 10, color: colors.black }}>{t('nutriWeight')}</Text>
-                <WeightChart/>
             <Row style={{marginBottom: 0, marginTop: 20, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri ratio</ThemedText>
             </Row>
             <Text
-                style={{marginLeft: 10, flexWrap: "wrap",width: '90%', marginTop: 10, color: colors.black
-                }}
-                >
-                    {t('nutriRatio')}
-                </Text>
+            style={{marginLeft: 10, flexWrap: "wrap",width: '90%', marginTop: 10, color: colors.black
+            }}
+            >
+                {t('nutriRatio')}
+            </Text>
 
             {totalMacronutrients == 0 ?
             <Row style={{paddingTop: 70 , alignSelf: 'center'}}>
@@ -152,6 +148,19 @@ function Stats() {
                     totalMacronutrients={totalMacronutrients}
                 />
             }
+            <Row style={{marginBottom: 15, marginTop: 20, marginLeft: 10}}>
+                <ThemedText variant='title' color={colors.black}>Nutri weight</ThemedText>
+            </Row>
+                <Text style={{ marginLeft: 10, color: colors.black }}>{t('nutriWeight')}</Text>
+                {isPremium ? (
+                    <WeightChart/>
+                ): (
+                    <Image
+                        source={require('@/assets/images/icon/crown.png')}
+                        style={{ tintColor: "#FFD700", width: 20, height: 20, alignSelf: 'center', marginVertical: 40 }}
+                        resizeMode="contain"
+                    />
+                )}
         </ScrollView>
     )
 }
