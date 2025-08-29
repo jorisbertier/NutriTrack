@@ -23,6 +23,7 @@ import PremiumOverlayWrapper from '@/components/Premium';
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
+
 // import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
     // "googleMobileAds": {
     //   "androidAppId": "ca-app-pub-3940256099942544~3347511713",
@@ -147,20 +148,6 @@ export default function HomeScreen() {
     setModalVisible(false);
   };
 
-  const handlePress = async () => {
-    const url = 'https://buy.stripe.com/test_fZe5n70Ai4oZabK9AA';
-  
-    try {
-      const supported = await Linking.canOpenURL(url);
-      if (supported) {
-        await Linking.openURL(url);
-      } else {
-        console.log("Impossible d'ouvrir l'URL : ", url);
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'ouverture de l'URL :", error);
-    }
-  };
 
   return (
     <>
@@ -175,6 +162,12 @@ export default function HomeScreen() {
       }}
     /> */}
         <ScrollView showsVerticalScrollIndicator={false}>
+    <Pressable onPress={() => navigation.navigate('qrcode')}>
+      <Text>
+       Test qrcode
+
+      </Text>
+      </Pressable>
           <Row style={{marginTop: 40}}>
             <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
           </Row>
@@ -231,6 +224,19 @@ export default function HomeScreen() {
                 icon={'fat'}
                 setState={isLoading}
               />
+            </Row>
+            <Row>
+          <View>
+            <Text>Hello with AdMob!</Text>
+
+            {/* ✅ Bannière */}
+            {/* <AdMobBanner
+              bannerSize="fullBanner"
+              adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID officiel Google
+              servePersonalizedAds // true = pubs personnalisées
+              onDidFailToReceiveAdWithError={(err) => console.log(err)}
+            /> */}
+          </View>
             </Row>
             <Row style={{marginTop: 15, marginBottom: 10}}>
               <ThemedText variant='title' color={colors.black}>Nutri challenge</ThemedText>

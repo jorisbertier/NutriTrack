@@ -35,6 +35,7 @@ import FaqScreen from '@/screens/FaqScreen';
 import NetInfo from '@react-native-community/netinfo';
 import LottieView from 'lottie-react-native';
 import HistoryWeight from '@/screens/HistoryWeight';
+import BarcodeScannerScreen from '@/screens/test';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -169,6 +170,20 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerTitle: t('termsOfUse'),
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
+              <Stack.Screen name="qrcode" component={BarcodeScannerScreen}
+                options={{
+                  headerShown: true,
+                  headerTitle: "qrcode",
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',
