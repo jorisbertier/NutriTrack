@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused, useFocusEffect } from "@react-navigation/native";
 
 export default function ScannerScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+
+  // Reset scanned chaque fois que l'écran est actif
+  useFocusEffect(
+    useCallback(() => {
+      setScanned(false);
+    }, [])
+  );
 
   useEffect(() => {
     if (!permission) requestPermission();
@@ -24,26 +32,23 @@ export default function ScannerScreen() {
   }
 
   const handleBarCodeScanned = (event) => {
-    // event peut contenir { data } ou { nativeEvent: { data } } selon version
     const data = event?.data ?? event?.nativeEvent?.data;
     if (!data || scanned) return;
-    setScanned(true);
 
-    // navigue vers l'écran "qrcode" et lui passe le code-barres
+    setScanned(true);
     navigation.navigate("qrcode", { barcode: data });
   };
 
   return (
     <View style={styles.container}>
-      {/* CameraView plein écran */}
-      <CameraView
-        style={styles.camera}
-        facing="back"
-        // selon ta version, la prop peut être onBarCodeScanned / onBarcodeScanned
-        onBarcodeScanned={handleBarCodeScanned}
-      />
+      {isFocused && (
+        <CameraView
+          style={styles.camera}
+          facing="back"
+          onBarcodeScanned={handleBarCodeScanned} // ✅ Correct
+        />
+      )}
 
-      {/* bouton annuler (retour) */}
       <View style={styles.topButtons}>
         <Button title="Annuler" onPress={() => navigation.goBack()} />
       </View>
