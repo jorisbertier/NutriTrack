@@ -1,4 +1,3 @@
-// QrCodeScreen.js
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
 import ProgressBarFluid from "@/components/ProgressBarFluid";
@@ -6,12 +5,19 @@ import BottomInputBarQr from "@/components/Scan/QrBottomBar";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { Ionicons } from "@expo/vector-icons";
 import { getAuth } from "firebase/auth";
-import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculProteins, fetchUserDataConnected } from "@/functions/function";
+import {
+  BasalMetabolicRate,
+  calculAge,
+  calculCarbohydrates,
+  calculFats,
+  calculProteins,
+  fetchUserDataConnected,
+} from "@/functions/function";
 import { User } from "@/interface/User";
-import { max } from "date-fns";
 
 export default function QrCodeScreen({ route }) {
   const barcode = route?.params?.barcode;
+
   type ProductInfo = {
     product_name?: string;
     generic_name?: string;
@@ -32,42 +38,32 @@ export default function QrCodeScreen({ route }) {
   };
 
   const [productInfo, setProductInfo] = useState<ProductInfo | null>(null);
-  const [quantityGrams, setQuantityGrams] = useState("100");
+  const [quantityGrams, setQuantityGrams] = useState("100"); // valeur initiale 100g
   const { colors } = useTheme();
 
+  const [userData, setUserData] = useState<User[]>([]);
+  const auth = getAuth();
+  const user = auth.currentUser;
 
-  
+  useEffect(() => {
+    fetchUserDataConnected(user, setUserData);
+  }, []);
 
-      const [userData, setUserData] = useState<User[]>([])
-      const auth = getAuth();
-      const user = auth.currentUser;
+  const basalMetabolicRate =
+    userData.length > 0
+      ? BasalMetabolicRate(
+          Number(userData[0]?.weight),
+          Number(userData[0]?.height),
+          Number(calculAge(userData[0]?.dateOfBirth)),
+          userData[0]?.gender,
+          userData[0]?.activityLevel
+        )
+      : 0;
 
-      useEffect(() => {
-       fetchUserDataConnected(user, setUserData)
-      }, []);
+  const proteinsGoal = calculProteins(Number(userData[0]?.weight)) || 0;
+  const carbsGoal = calculCarbohydrates(basalMetabolicRate);
+  const fatsGoal = calculFats(basalMetabolicRate);
 
-      //   let basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
-      //     Number(userData[0]?.weight),
-      //     Number(userData[0]?.height),
-      //     Number(calculAge(userData[0]?.dateOfBirth)),
-      //     userData[0]?.gender,
-      //     userData[0]?.activityLevel
-      // ) : 0;
-
-          let basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
-              Number(userData[0]?.weight),
-              Number(userData[0]?.height),
-              Number(calculAge(userData[0]?.dateOfBirth)),
-              userData[0]?.gender,
-              userData[0]?.activityLevel
-          ) : 0;
-      const proteinsGoal = calculProteins(Number(userData[0]?.weight)) || 0;
-      const carbsGoal = calculCarbohydrates(basalMetabolicRate);
-      const fatsGoal = calculFats(basalMetabolicRate);
-      console.log('max vamue acrbs', carbsGoal);
-      console.log('max vamue fats', fatsGoal);
-      
-      console.log(proteinsGoal)
   useEffect(() => {
     if (!barcode) return;
     const fetchProduct = async () => {
@@ -92,6 +88,17 @@ export default function QrCodeScreen({ route }) {
     return sugar <= 5 && fat <= 10 && saturated <= 5;
   };
 
+  // Fonction pour adapter la valeur à la quantité et arrondir à 1 chiffre après la virgule
+  const formatNutrientValue = (
+    nutrientValue: number | string | undefined,
+    grams: number
+  ) => {
+    if (!nutrientValue) return 0;
+    const valueNum = Number(nutrientValue);
+    const adjusted = (valueNum * grams) / 100;
+    return Math.round(adjusted * 10) / 10;
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
@@ -102,28 +109,73 @@ export default function QrCodeScreen({ route }) {
         ) : (
           <>
             {productInfo.image_url && (
-              <View style={[styles.containerImage, { backgroundColor: colors.gray }]}>
-                <Image source={{ uri: productInfo.image_url }} style={styles.image} resizeMode="contain" />
+              <View
+                style={[styles.containerImage, { backgroundColor: colors.gray }]}
+              >
+                <Image
+                  source={{ uri: productInfo.image_url }}
+                  style={styles.image}
+                  resizeMode="contain"
+                />
                 <View style={styles.details}>
-                  <Text style={[styles.title, { color: colors.blackFix }]}>{productInfo.product_name}</Text>
+                  <Text style={[styles.title, { color: colors.blackFix }]}>
+                    {productInfo.product_name}
+                  </Text>
 
                   <View style={styles.nutrients}>
-                    <View style={[styles.nutrientItem, { backgroundColor: "rgba(0,170,255,0.1)" }]}>
+                    <View
+                      style={[
+                        styles.nutrientItem,
+                        { backgroundColor: "rgba(0,170,255,0.1)" },
+                      ]}
+                    >
                       <Ionicons name="fast-food-outline" size={16} color="#00aaff" />
-                      <Text style={styles.nutrientText}>{productInfo.nutriments?.["proteins_100g"] || 0} g</Text>
+                      <Text style={styles.nutrientText}>
+                        {formatNutrientValue(
+                          productInfo.nutriments?.["proteins_100g"],
+                          Number(quantityGrams)
+                        )}{" "}
+                        g
+                      </Text>
                     </View>
-                    <View style={[styles.nutrientItem, { backgroundColor: "rgba(244,162,97,0.1)" }]}>
+                    <View
+                      style={[
+                        styles.nutrientItem,
+                        { backgroundColor: "rgba(244,162,97,0.1)" },
+                      ]}
+                    >
                       <Ionicons name="egg-outline" size={16} color="#f4a261" />
-                      <Text style={styles.nutrientText}>{productInfo.nutriments?.["fat_100g"] || 0} g</Text>
+                      <Text style={styles.nutrientText}>
+                        {formatNutrientValue(
+                          productInfo.nutriments?.["fat_100g"],
+                          Number(quantityGrams)
+                        )}{" "}
+                        g
+                      </Text>
                     </View>
-                    <View style={[styles.nutrientItem, { backgroundColor: "rgba(46,204,113,0.1)" }]}>
+                    <View
+                      style={[
+                        styles.nutrientItem,
+                        { backgroundColor: "rgba(46,204,113,0.1)" },
+                      ]}
+                    >
                       <Ionicons name="leaf-outline" size={16} color="#2ecc71" />
-                      <Text style={styles.nutrientText}>{productInfo.nutriments?.["carbohydrates_100g"] || 0} g</Text>
+                      <Text style={styles.nutrientText}>
+                        {formatNutrientValue(
+                          productInfo.nutriments?.["carbohydrates_100g"],
+                          Number(quantityGrams)
+                        )}{" "}
+                        g
+                      </Text>
                     </View>
                   </View>
 
                   <Text style={[styles.calories, { color: colors.blackFix }]}>
-                    {productInfo.nutriments?.["energy-kcal_100g"] || 0} kcal
+                    {formatNutrientValue(
+                      productInfo.nutriments?.["energy-kcal_100g"],
+                      Number(quantityGrams)
+                    )}{" "}
+                    kcal
                   </Text>
                 </View>
               </View>
@@ -131,45 +183,86 @@ export default function QrCodeScreen({ route }) {
 
             <Text>{isHealthy() ? "Healthy ✅" : "À consommer avec modération ⚠️"}</Text>
 
-            {productInfo.generic_name && <Text style={styles.productDesc}>{productInfo.generic_name}</Text>}
+            {productInfo.generic_name && (
+              <Text style={styles.productDesc}>{productInfo.generic_name}</Text>
+            )}
 
             <View style={styles.nutritionContainer}>
-              <Text style={styles.nutritionTitle}>Valeurs nutritionnelles (pour 100g)</Text>
+              <Text style={styles.nutritionTitle}>
+                Valeurs nutritionnelles (pour {quantityGrams}g)
+              </Text>
 
               {[
-                { key: "energy-kcal_100g", label: "Calories", unit: "kcal" },
-                { key: "proteins_100g", label: "Protéines", unit: "g" , maxValue : proteinsGoal},
-                { key: "fat_100g", label: "Lipides", unit: "g", maxValue : carbsGoal },
-                { key: "carbohydrates_100g", label: "Glucides", unit: "g", maxValue : fatsGoal },
+                {
+                  key: "energy-kcal_100g",
+                  label: "Calories",
+                  unit: "kcal",
+                  maxValue: basalMetabolicRate,
+                  color: colors.gray,
+                },
+                {
+                  key: "proteins_100g",
+                  label: "Protéines",
+                  unit: "g",
+                  maxValue: proteinsGoal,
+                  color: colors.greenLight,
+                },
+                { key: "fat_100g", label: "Lipides", unit: "g", maxValue: carbsGoal, color: colors.blue },
+                {
+                  key: "carbohydrates_100g",
+                  label: "Glucides",
+                  unit: "g",
+                  maxValue: fatsGoal,
+                  color: colors.blueLight,
+                },
                 { key: "sugars_100g", label: "Sucres", unit: "g" },
                 { key: "saturated-fat_100g", label: "Graisses saturées", unit: "g" },
                 { key: "fiber_100g", label: "Fibres", unit: "g" },
                 { key: "salt_100g", label: "Sel", unit: "g" },
                 { key: "sodium_100g", label: "Sodium", unit: "mg" },
-              ].map((nutrient) =>
-                productInfo.nutriments?.[nutrient.key] ? (
-                <View style={[styles.nutritionRow, { backgroundColor: colors.gray }]} key={nutrient.key}>
-                  <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text style={[styles.nutritionLabel, { color: colors.black }]}>{nutrient.label}</Text>
-                    <Text style={styles.nutritionValue}>
-                      {productInfo.nutriments[nutrient.key]} {nutrient.unit}
-                    </Text>
-                  </View>
+              ].map(
+                (nutrient) =>
+                  productInfo.nutriments?.[nutrient.key] && (
+                    <View
+                      style={[styles.nutritionRow, { backgroundColor: colors.gray }]}
+                      key={nutrient.key}
+                    >
+                      <View
+                        style={{ flexDirection: "row", justifyContent: "space-between" }}
+                      >
+                        <Text style={[styles.nutritionLabel, { color: colors.black }]}>
+                          {nutrient.label}
+                        </Text>
+                        <Text style={styles.nutritionValue}>
+                          {nutrient.maxValue
+                            ? `${formatNutrientValue(
+                                productInfo.nutriments[nutrient.key],
+                                Number(quantityGrams)
+                              )} / ${nutrient.maxValue} ${nutrient.unit}`
+                            : `${formatNutrientValue(
+                                productInfo.nutriments[nutrient.key],
+                                Number(quantityGrams)
+                              )} ${nutrient.unit}`}
+                        </Text>
+                      </View>
 
-                  {nutrient.maxValue ? (
-                    <View style={{ marginTop: 8 }}>
-                      <ProgressBarFluid
-                        value={Number(productInfo.nutriments[nutrient.key] ?? 0)}
-                        maxValue={Number(nutrient.maxValue)}
-                        nutri={nutrient.unit}
-                        colorBarProgresse="#FF7043"
-                        backgroundBarprogress="#F2F2F2"
-                        height={18}
-                      />
+                      {nutrient.maxValue && (
+                        <View style={{ marginTop: 8 }}>
+                          <ProgressBarFluid
+                            value={formatNutrientValue(
+                              productInfo.nutriments[nutrient.key],
+                              Number(quantityGrams)
+                            )}
+                            maxValue={Number(nutrient.maxValue)}
+                            nutri={nutrient.unit}
+                            colorBarProgresse={nutrient.color || "#4CAF50"}
+                            backgroundBarprogress="rgba(220, 220, 220, 1)"
+                            height={18}
+                          />
+                        </View>
+                      )}
                     </View>
-                  ) : null}
-                </View>
-                ) : null
+                  )
               )}
             </View>
           </>
@@ -177,7 +270,11 @@ export default function QrCodeScreen({ route }) {
       </ScrollView>
 
       <View style={styles.bottomBar}>
-        <BottomInputBarQr quantityGrams={quantityGrams} setQuantityGrams={setQuantityGrams} isPremium={true} />
+        <BottomInputBarQr
+          quantityGrams={quantityGrams}
+          setQuantityGrams={setQuantityGrams}
+          isPremium={true}
+        />
       </View>
     </View>
   );

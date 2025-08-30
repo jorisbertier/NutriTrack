@@ -67,6 +67,8 @@ export default function ProgressBarFluid({
         outputRange: ['-40%', '40%'],
     });
 
+    const percentage = Math.round((safeValue / safeMax) * 100);
+
     return (
         <View style={[styles.container, style]}>
         <View
@@ -109,7 +111,7 @@ export default function ProgressBarFluid({
 
         <View style={styles.labelWrapper}>
             <Text style={styles.labelText} numberOfLines={1}>
-            {safeValue} / {safeMax} {nutri}
+                {percentage} %
             </Text>
         </View>
         </View>

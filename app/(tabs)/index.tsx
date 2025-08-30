@@ -223,7 +223,6 @@ export default function HomeScreen() {
             </Row>
             <Row>
           <View>
-            <Text>Hello with AdMob!</Text>
 
             {/* ✅ Bannière */}
             {/* <AdMobBanner
