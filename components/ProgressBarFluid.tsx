@@ -3,14 +3,13 @@ import { Animated, Easing, StyleSheet, Text, View, ViewStyle } from 'react-nativ
 
 type Props = {
   value: number; // current value
-  maxValue: number; // maximum value
+  maxValue?: number; // maximum value
   nutri?: string; // label to display (e.g. "Kcal", "Fat")
   colorBarProgresse?: string; // progress color
   backgroundBarprogress?: string; // background track color
   style?: ViewStyle; // optional wrapper style
   height?: number; // height of the bar
 };
-
 
 export default function ProgressBarFluid({
     value,
@@ -21,11 +20,19 @@ export default function ProgressBarFluid({
     style,
     height = 16,
 }: Props) {
+    // Don't render if maxValue is not defined or <= 0
+    if (!maxValue || maxValue <= 0) return null;
+
+    // Ensure integer values to avoid native precision errors
+    const safeValue = Math.round(value);
+    const safeMax = Math.round(maxValue);
+    const barHeight = Math.round(height);
+
+    // Compute ratio safely (0..1), limited to 2 decimals
+    const ratio = Math.min(1, Math.max(0, Math.round((safeValue / safeMax) * 100) / 100));
 
     const progressAnim = useRef(new Animated.Value(0)).current;
     const shimmerAnim = useRef(new Animated.Value(0)).current;
-
-    const ratio = Math.max(0, Math.min(1, maxValue === 0 ? 0 : value / maxValue));
 
     useEffect(() => {
         Animated.timing(progressAnim, {
@@ -37,7 +44,6 @@ export default function ProgressBarFluid({
     }, [ratio, progressAnim]);
 
     useEffect(() => {
-        // looping shimmer to create a fluid effect inside the filled area
         shimmerAnim.setValue(0);
         Animated.loop(
         Animated.timing(shimmerAnim, {
@@ -49,13 +55,13 @@ export default function ProgressBarFluid({
         ).start();
     }, [shimmerAnim]);
 
-    // interpolated width style (percentage)
+    // Animated width (0..100%)
     const widthInterpolated = progressAnim.interpolate({
         inputRange: [0, 1],
         outputRange: ['0%', '100%'],
     });
 
-    // shimmer translateX interpolation (moves left -> right)
+    // Shimmer translation
     const shimmerTranslate = shimmerAnim.interpolate({
         inputRange: [0, 1],
         outputRange: ['-40%', '40%'],
@@ -68,21 +74,20 @@ export default function ProgressBarFluid({
             styles.track,
             {
                 backgroundColor: backgroundBarprogress,
-                height,
-                borderRadius: height / 2,
+                height: barHeight,
+                borderRadius: Math.round(barHeight / 2),
             },
             ]}
             accessibilityRole="adjustable"
-            accessibilityValue={{ min: 0, max: maxValue, now: value }}
+            accessibilityValue={{ min: 0, max: safeMax, now: safeValue }}
         >
-            {/* Animated filled bar */}
             <Animated.View
             style={[
                 styles.fill,
                 {
                 backgroundColor: colorBarProgresse,
-                height,
-                borderRadius: height / 2,
+                height: barHeight,
+                borderRadius: Math.round(barHeight / 2),
                 width: widthInterpolated,
                 overflow: 'hidden',
                 },
@@ -93,8 +98,8 @@ export default function ProgressBarFluid({
                 styles.shimmer,
                 {
                     transform: [{ translateX: shimmerTranslate }],
-                    height: height * 1.4,
-                    top: -(height * 0.2),
+                    height: barHeight * 1.4,
+                    top: -(barHeight * 0.2),
                     opacity: 0.18,
                 },
                 ]}
@@ -102,10 +107,9 @@ export default function ProgressBarFluid({
             </Animated.View>
         </View>
 
-        {/* Label on the right: value / max + nutri */}
         <View style={styles.labelWrapper}>
             <Text style={styles.labelText} numberOfLines={1}>
-            {Math.round(value)} / {Math.round(maxValue)} {nutri}
+            {safeValue} / {safeMax} {nutri}
             </Text>
         </View>
         </View>
@@ -144,18 +148,3 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
 });
-
-/*
-Usage example (simple):
-
-<ProgressBarFluid
-  value={45}
-  maxValue={100}
-  nutri="kcal"
-  colorBarProgresse="#FF7043"
-  backgroundBarprogress="#F2F2F2"
-  height={18}
-/>
-
-Drop this file in your components folder and import it where needed.
-*/

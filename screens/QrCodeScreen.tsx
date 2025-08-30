@@ -5,6 +5,10 @@ import ProgressBarFluid from "@/components/ProgressBarFluid";
 import BottomInputBarQr from "@/components/Scan/QrBottomBar";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { Ionicons } from "@expo/vector-icons";
+import { getAuth } from "firebase/auth";
+import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculProteins, fetchUserDataConnected } from "@/functions/function";
+import { User } from "@/interface/User";
+import { max } from "date-fns";
 
 export default function QrCodeScreen({ route }) {
   const barcode = route?.params?.barcode;
@@ -31,6 +35,39 @@ export default function QrCodeScreen({ route }) {
   const [quantityGrams, setQuantityGrams] = useState("100");
   const { colors } = useTheme();
 
+
+  
+
+      const [userData, setUserData] = useState<User[]>([])
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      useEffect(() => {
+       fetchUserDataConnected(user, setUserData)
+      }, []);
+
+      //   let basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
+      //     Number(userData[0]?.weight),
+      //     Number(userData[0]?.height),
+      //     Number(calculAge(userData[0]?.dateOfBirth)),
+      //     userData[0]?.gender,
+      //     userData[0]?.activityLevel
+      // ) : 0;
+
+          let basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
+              Number(userData[0]?.weight),
+              Number(userData[0]?.height),
+              Number(calculAge(userData[0]?.dateOfBirth)),
+              userData[0]?.gender,
+              userData[0]?.activityLevel
+          ) : 0;
+      const proteinsGoal = calculProteins(Number(userData[0]?.weight)) || 0;
+      const carbsGoal = calculCarbohydrates(basalMetabolicRate);
+      const fatsGoal = calculFats(basalMetabolicRate);
+      console.log('max vamue acrbs', carbsGoal);
+      console.log('max vamue fats', fatsGoal);
+      
+      console.log(proteinsGoal)
   useEffect(() => {
     if (!barcode) return;
     const fetchProduct = async () => {
@@ -100,23 +137,38 @@ export default function QrCodeScreen({ route }) {
               <Text style={styles.nutritionTitle}>Valeurs nutritionnelles (pour 100g)</Text>
 
               {[
+                { key: "energy-kcal_100g", label: "Calories", unit: "kcal" },
+                { key: "proteins_100g", label: "Protéines", unit: "g" , maxValue : proteinsGoal},
+                { key: "fat_100g", label: "Lipides", unit: "g", maxValue : carbsGoal },
+                { key: "carbohydrates_100g", label: "Glucides", unit: "g", maxValue : fatsGoal },
                 { key: "sugars_100g", label: "Sucres", unit: "g" },
                 { key: "saturated-fat_100g", label: "Graisses saturées", unit: "g" },
                 { key: "fiber_100g", label: "Fibres", unit: "g" },
                 { key: "salt_100g", label: "Sel", unit: "g" },
                 { key: "sodium_100g", label: "Sodium", unit: "mg" },
-              ].map(({ key, label, unit }) =>
-                productInfo.nutriments?.[key] ? (
-                  <View style={[styles.nutritionRow, { backgroundColor: colors.gray }]} key={key}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                      <Text style={[styles.nutritionLabel, { color: colors.black }]}>{label}</Text>
-                      <Text style={styles.nutritionValue}>{productInfo.nutriments[key]} {unit}</Text>
-                    </View>
-
-                    <View style={{ marginTop: 8 }}>
-                      <ProgressBarFluid value={50} maxValue={100} nutri="kcal" colorBarProgresse="#FF7043" backgroundBarprogress="#F2F2F2" height={18} />
-                    </View>
+              ].map((nutrient) =>
+                productInfo.nutriments?.[nutrient.key] ? (
+                <View style={[styles.nutritionRow, { backgroundColor: colors.gray }]} key={nutrient.key}>
+                  <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={[styles.nutritionLabel, { color: colors.black }]}>{nutrient.label}</Text>
+                    <Text style={styles.nutritionValue}>
+                      {productInfo.nutriments[nutrient.key]} {nutrient.unit}
+                    </Text>
                   </View>
+
+                  {nutrient.maxValue ? (
+                    <View style={{ marginTop: 8 }}>
+                      <ProgressBarFluid
+                        value={Number(productInfo.nutriments[nutrient.key] ?? 0)}
+                        maxValue={Number(nutrient.maxValue)}
+                        nutri={nutrient.unit}
+                        colorBarProgresse="#FF7043"
+                        backgroundBarprogress="#F2F2F2"
+                        height={18}
+                      />
+                    </View>
+                  ) : null}
+                </View>
                 ) : null
               )}
             </View>
