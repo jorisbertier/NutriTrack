@@ -181,20 +181,7 @@ export default function RootLayout() {
                   headerTintColor: '#ffffff'
                 }}
               />
-              <Stack.Screen name="qrcode" component={QrCodeScreen}
-                options={{
-                  headerShown: true,
-                  headerTitle: "qrcode",
-                  headerTitleAlign: 'center',
-                  headerStyle: {
-                    backgroundColor: '#000',
-                  },
-                  headerTitleStyle: {
-                    color: 'white',
-                  },
-                  headerTintColor: '#ffffff'
-                }}
-              />
+              <Stack.Screen name="qrcode" component={QrCodeScreen} options={{ headerShown: false }} />
               <Stack.Screen name="Scanner" component={ScannerScreen} options={{ headerShown: false }} />
               <Stack.Screen name="Report" component={ReportIssue}
                 options={{

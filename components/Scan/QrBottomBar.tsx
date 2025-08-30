@@ -97,12 +97,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        paddingVertical: 10,
         paddingHorizontal: 12,
         zIndex: 999,
-        paddingBottom: 50
+        height: 110,
+        justifyContent: 'center',
+        backgroundColor: 'red'
     },
     row: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,

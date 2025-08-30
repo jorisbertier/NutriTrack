@@ -76,7 +76,7 @@ export default function ProgressBarFluid({
             styles.track,
             {
                 backgroundColor: backgroundBarprogress,
-                height: barHeight,
+                height: 12,
                 borderRadius: Math.round(barHeight / 2),
             },
             ]}
@@ -88,7 +88,7 @@ export default function ProgressBarFluid({
                 styles.fill,
                 {
                 backgroundColor: colorBarProgresse,
-                height: barHeight,
+                height: 12,
                 borderRadius: Math.round(barHeight / 2),
                 width: widthInterpolated,
                 overflow: 'hidden',
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     labelText: {
-        fontSize: 12,
-        fontWeight: '600',
+        fontSize: 16,
+        fontWeight: '400',
     },
 });

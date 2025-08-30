@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
+import { View, Text, ScrollView, Image, StyleSheet, Pressable } from "react-native";
 import ProgressBarFluid from "@/components/ProgressBarFluid";
 import BottomInputBarQr from "@/components/Scan/QrBottomBar";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { getAuth } from "firebase/auth";
 import {
   BasalMetabolicRate,
@@ -14,8 +14,12 @@ import {
   fetchUserDataConnected,
 } from "@/functions/function";
 import { User } from "@/interface/User";
+import useThemeColors from "@/hooks/useThemeColor";
+import { useTranslation } from "react-i18next";
+import { useNavigation, useRouter } from "expo-router";
 
 export default function QrCodeScreen({ route }) {
+  const router = useRouter();
   const barcode = route?.params?.barcode;
 
   type ProductInfo = {
@@ -38,8 +42,9 @@ export default function QrCodeScreen({ route }) {
   };
 
   const [productInfo, setProductInfo] = useState<ProductInfo | null>(null);
-  const [quantityGrams, setQuantityGrams] = useState("100"); // valeur initiale 100g
+  const [quantityGrams, setQuantityGrams] = useState("100");
   const { colors } = useTheme();
+  const { t, i18n } = useTranslation();
 
   const [userData, setUserData] = useState<User[]>([]);
   const auth = getAuth();
@@ -64,12 +69,13 @@ export default function QrCodeScreen({ route }) {
   const carbsGoal = calculCarbohydrates(basalMetabolicRate);
   const fatsGoal = calculFats(basalMetabolicRate);
 
+  console.log(i18n.language);
   useEffect(() => {
     if (!barcode) return;
     const fetchProduct = async () => {
       try {
         const res = await fetch(
-          `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`
+          `https://world.openfoodfacts.org/api/v2/product/${barcode}.json?lang=${i18n.language}`
         );
         const json = await res.json();
         if (json?.status === 1) setProductInfo(json.product);
@@ -88,6 +94,18 @@ export default function QrCodeScreen({ route }) {
     return sugar <= 5 && fat <= 10 && saturated <= 5;
   };
 
+const getGenericName = (product: any, lang: string) => {
+  if (!product) return '';
+
+  switch (lang) {
+    case 'en':
+      return product.generic_name_en || product.product_name_en || '';
+    case 'es':
+      return product.generic_name_es || product.product_name_es || '';
+    default:
+      return product.generic_name || product.product_name || '';
+  }
+};
   // Fonction pour adapter la valeur à la quantité et arrondir à 1 chiffre après la virgule
   const formatNutrientValue = (
     nutrientValue: number | string | undefined,
@@ -101,6 +119,9 @@ export default function QrCodeScreen({ route }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
+      <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
+        <Image source={require('@/assets/images/back.png')} style={styles.icon} />
+      </Pressable>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
         {!productInfo ? (
           <Text>Chargement…</Text>
@@ -131,11 +152,7 @@ export default function QrCodeScreen({ route }) {
                     >
                       <Ionicons name="fast-food-outline" size={16} color="#00aaff" />
                       <Text style={styles.nutrientText}>
-                        {formatNutrientValue(
-                          productInfo.nutriments?.["proteins_100g"],
-                          Number(quantityGrams)
-                        )}{" "}
-                        g
+                        {formatNutrientValue(productInfo.nutriments?.["proteins_100g"], Number(quantityGrams)) + " g"}
                       </Text>
                     </View>
                     <View
@@ -149,7 +166,7 @@ export default function QrCodeScreen({ route }) {
                         {formatNutrientValue(
                           productInfo.nutriments?.["fat_100g"],
                           Number(quantityGrams)
-                        )}{" "}
+                        ) + " "}
                         g
                       </Text>
                     </View>
@@ -164,7 +181,7 @@ export default function QrCodeScreen({ route }) {
                         {formatNutrientValue(
                           productInfo.nutriments?.["carbohydrates_100g"],
                           Number(quantityGrams)
-                        )}{" "}
+                        ) + " "}
                         g
                       </Text>
                     </View>
@@ -180,11 +197,22 @@ export default function QrCodeScreen({ route }) {
                 </View>
               </View>
             )}
+            <View style={[styles.badge, isHealthy() ? styles.healthy : styles.warning]}>
+              <MaterialIcons
+                name={isHealthy() ? "check-circle" : "warning"}
+                size={16}
+                color="white"
+                style={{ marginRight: 5 }}
+              />
+              <Text style={styles.text}>
+                {isHealthy() ? "Healthy" : "À consommer avec modération"}
+              </Text>
+            </View>
 
-            <Text>{isHealthy() ? "Healthy ✅" : "À consommer avec modération ⚠️"}</Text>
-
-            {productInfo.generic_name && (
-              <Text style={styles.productDesc}>{productInfo.generic_name}</Text>
+            {getGenericName(productInfo, i18n.language) !== '' && (
+              <Text style={styles.productDesc}>
+                {String(getGenericName(productInfo, i18n.language))}
+              </Text>
             )}
 
             <View style={styles.nutritionContainer}>
@@ -198,14 +226,14 @@ export default function QrCodeScreen({ route }) {
                   label: "Calories",
                   unit: "kcal",
                   maxValue: basalMetabolicRate,
-                  color: colors.gray,
+                  color: colors.blue,
                 },
                 {
                   key: "proteins_100g",
                   label: "Protéines",
                   unit: "g",
                   maxValue: proteinsGoal,
-                  color: colors.greenLight,
+                  color: colors.blue,
                 },
                 { key: "fat_100g", label: "Lipides", unit: "g", maxValue: carbsGoal, color: colors.blue },
                 {
@@ -213,7 +241,7 @@ export default function QrCodeScreen({ route }) {
                   label: "Glucides",
                   unit: "g",
                   maxValue: fatsGoal,
-                  color: colors.blueLight,
+                  color: colors.blue,
                 },
                 { key: "sugars_100g", label: "Sucres", unit: "g" },
                 { key: "saturated-fat_100g", label: "Graisses saturées", unit: "g" },
@@ -224,7 +252,7 @@ export default function QrCodeScreen({ route }) {
                 (nutrient) =>
                   productInfo.nutriments?.[nutrient.key] && (
                     <View
-                      style={[styles.nutritionRow, { backgroundColor: colors.gray }]}
+                      style={[styles.nutritionRow]}
                       key={nutrient.key}
                     >
                       <View
@@ -235,14 +263,8 @@ export default function QrCodeScreen({ route }) {
                         </Text>
                         <Text style={styles.nutritionValue}>
                           {nutrient.maxValue
-                            ? `${formatNutrientValue(
-                                productInfo.nutriments[nutrient.key],
-                                Number(quantityGrams)
-                              )} / ${nutrient.maxValue} ${nutrient.unit}`
-                            : `${formatNutrientValue(
-                                productInfo.nutriments[nutrient.key],
-                                Number(quantityGrams)
-                              )} ${nutrient.unit}`}
+                            ? `${formatNutrientValue(productInfo.nutriments[nutrient.key], Number(quantityGrams))} / ${nutrient.maxValue} ${nutrient.unit}`
+                            : `${formatNutrientValue(productInfo.nutriments[nutrient.key], Number(quantityGrams))} ${nutrient.unit}`}
                         </Text>
                       </View>
 
@@ -256,7 +278,7 @@ export default function QrCodeScreen({ route }) {
                             maxValue={Number(nutrient.maxValue)}
                             nutri={nutrient.unit}
                             colorBarProgresse={nutrient.color || "#4CAF50"}
-                            backgroundBarprogress="rgba(220, 220, 220, 1)"
+                            backgroundBarprogress="rgba(237, 237, 237, 1)"
                             height={18}
                           />
                         </View>
@@ -280,22 +302,46 @@ export default function QrCodeScreen({ route }) {
   );
 }
 
+
 const styles = StyleSheet.create({
   card: { marginTop: 20, padding: 16, borderRadius: 12, alignItems: "center", width: "100%", alignSelf: "center", backgroundColor: "white" },
-  productDesc: { fontSize: 14, color: "#666", textAlign: "center", marginBottom: 12 },
+  productDesc: { fontSize: 16, color: "black", textAlign: "center", marginBottom: 12 },
   nutritionContainer: { width: "100%", marginTop: 10, borderTopWidth: 1, borderTopColor: "#eee", paddingTop: 10, gap: 10 },
   nutritionTitle: { fontSize: 16, fontWeight: "600", marginBottom: 8, textAlign: "center" },
-  nutritionRow: { flexDirection: "column", paddingVertical: 10, paddingHorizontal: 12, borderRadius: 8, gap: 10 },
+  nutritionRow: { flexDirection: "column", paddingVertical: 14, paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: "#eee", borderRadius: 8, gap: 10 },
   nutritionLabel: { fontSize: 16, fontWeight: "500" },
-  nutritionValue: { fontSize: 16, fontWeight: "400" },
+  nutritionValue: { fontSize: 16, fontWeight: "500" },
   errorText: { color: "red", fontSize: 16, fontWeight: "bold" },
   containerImage: { flexDirection: "row", borderRadius: 10, padding: 10, marginVertical: 5, alignItems: "center" },
   image: { width: 110, height: 110, borderRadius: 10 },
   details: { flex: 1, marginLeft: 10 },
   title: { fontSize: 20, fontWeight: "bold" },
-  nutrients: { flexDirection: "row", marginVertical: 5, gap: 4 },
+  nutrients: { flexDirection: "row", marginVertical: 5, gap: 4, flexWrap: "wrap", overflow: "hidden" },
   nutrientItem: { flexDirection: "row", alignItems: "center", paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, overflow: "hidden" },
   nutrientText: { color: "black", marginLeft: 5 },
   calories: { fontSize: 20, fontWeight: "bold" },
   bottomBar: { position: "absolute", bottom: 0, left: 0, right: 0, backgroundColor: "white", paddingVertical: 8, borderTopWidth: 1, borderTopColor: "#eee" },
+  badge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+    marginVertical: 10,
+  },
+  healthy: {
+    backgroundColor: '#4CAF50',
+  },
+  warning: {
+    backgroundColor: '#FF9800',
+  },
+  text: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  icon: {
+    width: 25,
+    height: 25
+  },
 });
