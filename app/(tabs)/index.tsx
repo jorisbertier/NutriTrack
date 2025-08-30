@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import PremiumOverlayWrapper from '@/components/Premium';
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import ScanButton from '@/components/Scan/ScanButton';
 
 
 // import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
@@ -162,12 +163,7 @@ export default function HomeScreen() {
       }}
     /> */}
         <ScrollView showsVerticalScrollIndicator={false}>
-    <Pressable onPress={() => navigation.navigate('qrcode')}>
-      <Text>
-       Test qrcode
-
-      </Text>
-      </Pressable>
+      <ScanButton/>
           <Row style={{marginTop: 40}}>
             <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
           </Row>
