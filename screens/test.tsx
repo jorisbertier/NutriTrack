@@ -1,3 +1,7 @@
+import ProgressBarFluid from "@/components/ProgressBarFluid";
+import { ProgressBarKcal } from "@/components/ProgressBarKcal";
+import { useTheme } from "@/hooks/ThemeProvider";
+import { Ionicons } from "@expo/vector-icons";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
@@ -6,6 +10,8 @@ export default function BarcodeScannerScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanning, setScanning] = useState(false); // false = caméra fermée
   const [productInfo, setProductInfo] = useState<any>(null);
+
+  const { colors } = useTheme();
 
   if (!permission) {
     return <View />;
@@ -41,9 +47,18 @@ export default function BarcodeScannerScreen() {
       setProductInfo({ error: "Erreur API" });
     }
   };
-console.log(productInfo)
+
+  const isHealthy = () => {
+  const sugar = productInfo.nutriments?.["sugars_100g"] || 0;
+  const fat = productInfo.nutriments?.["fat_100g"] || 0;
+  const saturated = productInfo.nutriments?.["saturated-fat_100g"] || 0;
+
+  // Exemple simple : moins de 5g de sucre et moins de 5g de graisses saturées => healthy
+  return sugar <= 5 && fat <= 10 && saturated <= 5;
+};
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.white }
+    ]}>
       {!scanning ? (
         <>
           <Button title="Scanner un produit" onPress={() => setScanning(true)} />
@@ -55,18 +70,54 @@ console.log(productInfo)
       ) : (
         <>
           {/* Image du produit */}
-          {productInfo.image_url && (
+          {/* <View style={{width: "100%", flexDirection: 'row', backgroundColor: colors.gray, borderRadius: 20, padding: 10, alignItems: 'center'}}>
+          
             <View style={styles.imageWrapper}>
               <Image
                 source={{ uri: productInfo.image_url }}
                 style={styles.productImage}
-                resizeMode="contain"
+                resizeMode="cover"
               />
             </View>
+          
+            <View style={{marginLeft: 12, flex: 1}}>
+              <Text style={{fontSize: 16, fontWeight: 500}}>{productInfo.product_name}</Text>
+              <Text style={{fontSize: 20, fontWeight: 600}}>{productInfo.nutriments?.["energy-kcal_100g"] || 0} kcal</Text>
+            </View>
+          </View> */}
+          {productInfo.image_url && (
+<View style={[styles.containerImage, {backgroundColor: colors.gray}]}>
+      <Image
+        source={{ uri: productInfo.image_url }}
+        style={styles.image}
+        resizeMode="contain"
+      />
+      <View style={styles.details}>
+        <Text style={[styles.title, {color: colors.blackFix}]}>{productInfo.product_name}</Text>
+        <View style={styles.nutrients}>
+          <View style={[styles.nutrientItem, { backgroundColor: "rgba(0, 170, 255, 0.1)"}]}>
+            <Ionicons name="fast-food-outline" size={16} color="#00aaff" />
+            <Text style={styles.nutrientText}>{productInfo.nutriments?.["proteins_100g"] || 0} g</Text>
+          </View>
+          <View style={[styles.nutrientItem, { backgroundColor: "rgba(244, 162, 97, 0.1)"}]}>
+            <Ionicons name="egg-outline" size={16} color="#f4a261" />
+            <Text style={styles.nutrientText}>{productInfo.nutriments?.["fat_100g"] || 0} g</Text>
+          </View>
+          <View style={[styles.nutrientItem, { backgroundColor: "rgba(46, 204, 113, 0.1)"}]}>
+            <Ionicons name="leaf-outline" size={16} color="#2ecc71" />
+            <Text style={styles.nutrientText}>{productInfo.nutriments?.["carbohydrates_100g"] || 0} g</Text>
+          </View>
+        </View>
+        <Text style={[styles.calories, { color: colors.blackFix}]}>{productInfo.nutriments?.["energy-kcal_100g"] || 0} kcal</Text>
+      </View>
+    </View>
           )}
 
+
           {/* Nom du produit */}
-          <Text style={styles.productName}>{productInfo.product_name}</Text>
+                <Text>
+        {isHealthy() ? "Healthy ✅" : "À consommer avec modération ⚠️"}
+      </Text>
           {productInfo.generic_name && (
             <Text style={styles.productDesc}>{productInfo.generic_name}</Text>
           )}
@@ -74,11 +125,7 @@ console.log(productInfo)
   <Text style={styles.nutritionTitle}>Valeurs nutritionnelles (pour 100g)</Text>
 
   {[
-    { key: "energy-kcal_100g", label: "Calories", unit: "kcal" },
-    { key: "proteins_100g", label: "Protéines", unit: "g" },
-    { key: "carbohydrates_100g", label: "Glucides", unit: "g" },
     { key: "sugars_100g", label: "Sucres", unit: "g" },
-    { key: "fat_100g", label: "Lipides", unit: "g" },
     { key: "saturated-fat_100g", label: "Graisses saturées", unit: "g" },
     { key: "fiber_100g", label: "Fibres", unit: "g" },
     { key: "salt_100g", label: "Sel", unit: "g" },
@@ -99,11 +146,30 @@ console.log(productInfo)
     { key: "potassium_100g", label: "Potassium", unit: "mg" },
   ].map(({ key, label, unit }) =>
     productInfo.nutriments?.[key] ? (
-      <View style={styles.nutritionRow} key={key}>
-        <Text style={styles.nutritionLabel}>{label}</Text>
-        <Text style={styles.nutritionValue}>
-          {productInfo.nutriments[key]} {unit}
-        </Text>
+      <View style={[styles.nutritionRow, { backgroundColor: colors.gray}]} key={key}>
+        <View style={{flexDirection: "row"}}>
+          <Text style={[styles.nutritionLabel, { color : colors.black}]}>{label}</Text>
+          <Text style={[styles.nutritionValue]}>
+            {productInfo.nutriments[key]} {unit}
+          </Text>
+
+        </View>
+        <View style={{flexDirection: "row", alignItems: "center", gap: 6}}>
+          {/* <View style={{width: "20%"}}>
+          <Text>55 %</Text>
+
+          </View> */}
+          <View style={{width: "80%"}}>
+          <ProgressBarFluid
+  value={45}
+  maxValue={100}
+  nutri="kcal"
+  colorBarProgresse="#FF7043"
+  backgroundBarprogress="#F2F2F2"
+  height={18}
+/>
+            </View>
+        </View>
       </View>
     ) : null
   )}
@@ -130,26 +196,23 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 20,
     padding: 16,
-    backgroundColor: "#fff",
     borderRadius: 12,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 4,
-    width: "90%",
+    width: "100%",
     alignSelf: "center",
+    backgroundColor: "white"
   },
   imageWrapper: {
-    width: 120,
-    height: 120,
-    marginBottom: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    width: 80,
+    height: 80, 
+    borderRadius: 40,
   },
   productImage: {
     width: "100%",
     height: "100%",
-    borderRadius: 8,
   },
   productName: {
     fontSize: 20,
@@ -169,6 +232,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#eee",
     paddingTop: 10,
+    gap: 10
   },
   nutritionTitle: {
     fontSize: 16,
@@ -177,17 +241,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   nutritionRow: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
-    paddingVertical: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 8
   },
   nutritionLabel: {
-    fontSize: 14,
-    color: "#444",
+    fontSize: 16,
+    fontWeight: "500",
   },
   nutritionValue: {
-    fontSize: 14,
-    fontWeight: "500",
+    fontSize: 16,
+    fontWeight: "400",
   },
   errorText: {
     color: "red",
@@ -203,5 +269,50 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     elevation: 2,
+  },
+   containerImage: {
+    flexDirection: 'row',
+    backgroundColor: '#1a1a2e',
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 5,
+    alignItems: 'center',
+  },
+  image: {
+    width: 110,
+    height: 110,
+    borderRadius: 10,
+  },
+  details: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  nutrients: {
+    flexDirection: 'row',
+    marginVertical: 5,
+    gap: 4,
+  },
+  nutrientItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  nutrientText: {
+    color: "black",
+    marginLeft: 5,
+  },
+  calories: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  arrow: {
+    marginLeft: 10,
   },
 });
