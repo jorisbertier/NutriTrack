@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Image, StyleSheet, Pressable } from "react-native";
+import { View, Text, ScrollView, Image, StyleSheet, Pressable, Alert, KeyboardAvoidingView, Platform } from "react-native";
 import ProgressBarFluid from "@/components/ProgressBarFluid";
 import BottomInputBarQr from "@/components/Scan/QrBottomBar";
 import { useTheme } from "@/hooks/ThemeProvider";
@@ -60,6 +60,7 @@ export default function QrCodeScreen({ route }) {
   const [userData, setUserData] = useState<User[]>([]);
   const auth = getAuth();
   const user = auth.currentUser;
+  
 
   useEffect(() => {
     fetchUserDataConnected(user, setUserData);
@@ -177,27 +178,36 @@ const getGenericName = (product: any, lang: string) => {
               //     idUser: userData[0]?.id,
               //     ...nutrientValues
               // });
-              // setShowModal(true);
               setLoadingCreateAliment(true);
-              setTimeout(() => setLoadingCreateAliment(false), 800);
-              setTimeout(() => setSecondLoading(true), 800);
-              // setSecondLoading(true)
-              // resetForm();
+              setTimeout(() => setLoadingCreateAliment(false), 2400);
+  // console.log('Create an aliment error', error.message);
+
+  // 🔹 UX standard : message clair à l'utilisateur
               // setTimeout(() => {
               //   navigation.pop(2);
-              // }, 3000);
+              // }, 2400);
               console.log("Create an qr c ode aliment with success")
           } catch(error: any) {
-              console.log('Create an aliment error', error.message)
+              console.log('Create an aliment error', error.message);
+                Alert.alert(
+                  "Erreur",
+                  "Impossible d'ajouter cet aliment. Veuillez réessayer plus tard.",
+                  [{ text: "OK", style: "default" }]
+                );
           }
       }
 // console.log("Nutriments dispo :", productInfo.nutriments);
   return (
+        <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? -25 : 0} // ajuster si tu as un header
+    >
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
         <Image source={require('@/assets/images/back.png')} style={styles.icon} />
       </Pressable>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }} keyboardShouldPersistTaps="handled">
         {!productInfo ? (
           <Text>Chargement…</Text>
         ) : productInfo.error ? (
@@ -373,7 +383,6 @@ const getGenericName = (product: any, lang: string) => {
         )}
       </ScrollView>
 
-      <View style={styles.bottomBar}>
         <BottomInputBarQr
           quantityGrams={quantityGrams}
           handleCreateAliment={createAliment}
@@ -384,8 +393,8 @@ const getGenericName = (product: any, lang: string) => {
           secondLoading={secondLoading}
           isPremium={true}
         />
-      </View>
     </View>
+    </KeyboardAvoidingView>
   );
 }
 

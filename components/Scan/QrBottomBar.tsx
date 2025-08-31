@@ -42,44 +42,44 @@ export default function BottomInputBarQr({
             <View style={styles.row}>
                 {/* Picker */}
                 <View style={[[styles.pickerWrapper, { backgroundColor: colors.whiteFix}]]}>
-                <Picker
-                    selectedValue={selectedMealType}
-                    onValueChange={(itemValue) => setSelectedMealType(itemValue)}
-                    style={[styles.picker, { color: colors.blackFix }]}
-                    dropdownIconColor={colors.blackFix}
-                    numberOfLines={3}
-                >
-                    <Picker.Item label={t('choose')} value="" enabled={false} />
-                    <Picker.Item label={`${t('breakfast')} 🍳`} value="Breakfast" />
-                    <Picker.Item label={`${t('lunch')} 🍽️`} value="Lunch" />
-                    <Picker.Item label={`${t('dinner')} 🍝`} value="Dinner" />
-                    <Picker.Item label={`${t('snack')} 🍎`} value="Snack" />
-                </Picker>
+                    <Picker
+                        selectedValue={selectedMealType}
+                        onValueChange={(itemValue) => setSelectedMealType(itemValue)}
+                        style={[styles.picker, { color: colors.blackFix }]}
+                        dropdownIconColor={colors.blackFix}
+                        numberOfLines={3}
+                    >
+                        <Picker.Item label={t('choose')} value="" enabled={false} />
+                        <Picker.Item label={`${t('breakfast')} 🍳`} value="Breakfast" />
+                        <Picker.Item label={`${t('lunch')} 🍽️`} value="Lunch" />
+                        <Picker.Item label={`${t('dinner')} 🍝`} value="Dinner" />
+                        <Picker.Item label={`${t('snack')} 🍎`} value="Snack" />
+                    </Picker>
                 </View>
 
                 {/* Quantity Input */}
                 <View style={[styles.inputWrapper, { backgroundColor: colors.whiteFix}]}>
-                <TextInput
-                    keyboardType="numeric"
-                    value={quantityGrams}
-                    onChangeText={(text) => {
-                    if (/^\d*$/.test(text)) {
-                        setQuantityGrams(text);
-                    }
-                    }}
-                    style={[styles.input, { color: colors.blackFix, borderColor: colors.grayDark }]}
-                    placeholder="100"
-                    placeholderTextColor={colors.grayDark}
-                    maxLength={3}
-                />
-                <Text style={[styles.unit, { color: colors.blackFix }]}>g </Text>
+                    <TextInput
+                        keyboardType="numeric"
+                        value={quantityGrams}
+                        onChangeText={(text) => {
+                        if (/^\d*$/.test(text)) {
+                            setQuantityGrams(text);
+                        }
+                        }}
+                        style={[styles.input, { color: colors.blackFix, borderColor: colors.grayDark }]}
+                        placeholder="100"
+                        placeholderTextColor={colors.grayDark}
+                        maxLength={3}
+                    />
+                    <Text style={[styles.unit, { color: colors.blackFix }]}>g </Text>
                 </View>
 
                 {/* Add Button */}
                 {/* Add Button */}
                 <View style={{width: "25%", height: 60, justifyContent: "center", alignItems: "center"}}>
                     {isPremium ? (
-                        !secondLoading ? (
+                        !loading ? (
                             <TouchableOpacity
                             style={[
                                 styles.button,
@@ -88,20 +88,7 @@ export default function BottomInputBarQr({
                             onPress={handleCreateAliment}
                             disabled={isDisabled}
                             >
-                            {loading ? (
-                                !secondLoading ? (
-                                <ActivityIndicator color="white" />
-                                ) : (
-                                                             <LottieView
-                            source={require('@/assets/lottie/Black Check.json')}
-                            loop={false}
-                            style={{ width: 50, height: 50 }}
-                            autoPlay={true}
-                            />
-                                )
-                            ) : (
                                 <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('add')}</Text>
-                            )}
                             </TouchableOpacity>
                         ) : (
                             <LottieView
@@ -139,13 +126,15 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 10,
+        gap: 10
     },
-    pickerWrapper: {
+        pickerWrapper: {
         flex: 1.8,
-        borderWidth: 1,
-        borderRadius: 6,
         overflow: 'hidden',
+        borderTopRightRadius: 15,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#ccc',
     },
     picker: {
         height: 53,
@@ -155,9 +144,10 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth: 1,
-        borderRadius: 6,
         paddingHorizontal: 8,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 15,
     },
     input: {
         flex: 1,

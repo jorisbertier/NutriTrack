@@ -54,7 +54,7 @@ export default function ScannerScreen() {
         <CameraView
           style={styles.camera}
           facing="back"
-          onBarcodeScanned={handleBarCodeScanned} // ✅ Correct
+          onBarcodeScanned={handleBarCodeScanned}
         />
       )}
 
