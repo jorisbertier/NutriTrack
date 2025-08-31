@@ -210,6 +210,7 @@ console.log('selected date', selectedDate.toLocaleDateString())
                                 quantity={item.quantity}
                                 selectedDate={selectedDate.toLocaleDateString()}
                                 setNotification={setNotificationVisible}
+                                notification={notificationVisible}
                             />
                         )}
                         showsVerticalScrollIndicator={false}
@@ -223,19 +224,6 @@ console.log('selected date', selectedDate.toLocaleDateString())
                     {t('matchFood')} {text}.</Text>
                 }
                 </Row>
-                {notificationVisible && (
-                    <View style={styles.notification}>
-                        <View style={styles.wrapperNotification}>
-                        <Text style={styles.notificationText}>✓ {t('added')}</Text>
-                            <LottieView
-                                source={require('@/assets/lottie/check-popup.json')}
-                                loop={false}
-                                style={{ width: 30, height: 30 }}
-                                autoPlay={true}
-                            />
-                        </View>
-                    </View>
-                )}
             </SafeAreaView>
         </>
     );
@@ -342,46 +330,4 @@ const styles = StyleSheet.create({
         height: 35,
         width: 35
     },
-    notification: {
-        position: "absolute",
-        bottom: 30,
-        width: "100%",
-        alignItems: "center",
-        zIndex: 999
-    },
-    wrapperNotification: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: "white",
-        borderRadius: 20,
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 5,
-        borderWidth: 1,
-        borderColor: "#e0e0e0",
-    },
-    notificationText: {
-        color: "#333",
-        fontWeight: "600",
-        fontSize: 16,
-        textAlign: "center",
-        marginRight: 10
-    },
-    wrapperBloc: {
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 60,
-        width: '35%',
-        margin: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    }
 })

@@ -180,13 +180,9 @@ const getGenericName = (product: any, lang: string) => {
               // });
               setLoadingCreateAliment(true);
               setTimeout(() => setLoadingCreateAliment(false), 2400);
-  // console.log('Create an aliment error', error.message);
-
-  // 🔹 UX standard : message clair à l'utilisateur
-              // setTimeout(() => {
-              //   navigation.pop(2);
-              // }, 2400);
-              console.log("Create an qr c ode aliment with success")
+              setTimeout(() => {
+                navigation.pop(2);
+              }, 2400);
           } catch(error: any) {
               console.log('Create an aliment error', error.message);
                 Alert.alert(

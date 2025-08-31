@@ -10,6 +10,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { User } from "@/interface/User";
 import { useTranslation } from "react-i18next";
+import LottieView from "lottie-react-native";;
 
 type Props = {
     id: number;
@@ -18,18 +19,21 @@ type Props = {
     unit: string;
     quantity: number;
     selectedDate: string,
-    setNotification: any
+    setNotification: any,
+    notification : boolean
 };
 
-const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification}) => {
+const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification, notification}) => {
 
-    const {colors} = useTheme();
+    const {colors, theme} = useTheme();
     const { t } = useTranslation();
 
     const [modalVisible, setModalVisible] = useState(false);
     
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
+    const [activeAddId, setActiveAddId] = useState<number | null>(null);
     const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+    const colorMode: 'light' | 'dark' = 'light';
     
     const navigation = useNavigation<any>(); 
     const addImageRef = useRef(null);
@@ -65,6 +69,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
 
         setModalVisible(true);
     };
+    
 
     
     const generateUniqueId = () => {
@@ -86,17 +91,19 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
             addAliment()
             setModalVisible(false)
             setNotification(true)
+            setActiveAddId(idFood);
 
             setTimeout(() => {
-                setNotification(false)
-            }, 2100);
+                setNotification(false);
+                setActiveAddId(null)
+            }, 2400);
 
             console.log("Document successfully written with ID: ", newId)
         } catch(e) {
             console.log('Error add aliment to database UserMeals', e)
         }
     }
-
+console.log('ici', theme)
     return (
         <TouchableOpacity onPress={navigateToDetails}>
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
@@ -106,9 +113,30 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                         {calories} kcal, {quantity} {t(`units.${unit}`)}
                     </ThemedText>
                 </View>
-                <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
-                    <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: 0.9}]} />
-                </Pressable>
+                {(!notification || activeAddId !== id) ? (
+                    <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
+                        <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: 0.9}]} />
+                    </Pressable>
+                ) : (
+                    <View style={styles.wrapperAdd}>
+                    {theme === "light" ? (
+                        <LottieView
+                        source={require('@/assets/lottie/Black Check.json')}
+                        loop={false}
+                        style={{ width: 50, height: 50 }}
+                        autoPlay
+                        />
+                    ): (
+                        <LottieView
+                        source={require('@/assets/lottie/White Check.json')}
+                        loop={false}
+                        style={{ width: 50, height: 50 }}
+                        autoPlay
+                        />
+
+                    )}
+                    </View>
+                )}
                 <Modal
                     animationType="fade"
                     transparent={true}
