@@ -47,7 +47,7 @@ export default function TabLayout() {
 
     {/* Onglet 2 : Search */}
     <Tab.Screen 
-      name="Nutri search" 
+      name="NutriSearch" 
       component={Search} 
       // options={{ tabBarLabel: 'Search', tabBarIcon: ({ color, size }) => (
       options={{ 

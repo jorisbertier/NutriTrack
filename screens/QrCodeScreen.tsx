@@ -14,13 +14,20 @@ import {
   fetchUserDataConnected,
 } from "@/functions/function";
 import { User } from "@/interface/User";
-import useThemeColors from "@/hooks/useThemeColor";
 import { useTranslation } from "react-i18next";
-import { useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { firestore } from "@/firebaseConfig";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function QrCodeScreen({ route }) {
+
   const router = useRouter();
   const barcode = route?.params?.barcode;
+  const routeDate = useRoute();
+  const { date } = routeDate.params;
+  const navigation = useNavigation();
+  
 
   type ProductInfo = {
     product_name?: string;
@@ -43,8 +50,12 @@ export default function QrCodeScreen({ route }) {
 
   const [productInfo, setProductInfo] = useState<ProductInfo | null>(null);
   const [quantityGrams, setQuantityGrams] = useState("100");
+  const [selectedMealType, setSelectedMealType] = useState('Breakfast');
   const { colors } = useTheme();
   const { t, i18n } = useTranslation();
+  const [loadingCreateAliment, setLoadingCreateAliment] = useState(false);
+  const [secondLoading, setSecondLoading] = useState(false);
+
 
   const [userData, setUserData] = useState<User[]>([]);
   const auth = getAuth();
@@ -117,6 +128,70 @@ const getGenericName = (product: any, lang: string) => {
     return Math.round(adjusted * 10) / 10;
   };
 
+  
+      const generateManualId = () => {
+          return `ID-${Date.now()}`;
+      }
+  
+      const createAliment = async (event: any) => {
+          event.preventDefault();
+  
+          try {
+              const collectionRef = collection(firestore, "UserCreatedFoodsQr");
+  
+              // Récupérez tous les documents de la collection
+              const querySnapshot = await getDocs(collectionRef);
+          
+              // Calculez le prochain ID en trouvant le plus grand ID existant
+              let maxId = 0;
+              querySnapshot.forEach((doc) => {
+                  const data = doc.data();
+                  if (data.id && data.id > maxId) {
+                      maxId = data.id;
+                  }
+              });
+          
+              const newId = maxId + 1;
+          
+            const nutrientValues = {
+              title: productInfo?.product_name,
+              calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
+              proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
+              carbs: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
+              fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
+              sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
+              quantity: quantityGrams, 
+              unit: productInfo?.product_quantity_unit || 'g',
+              date: date,
+              mealType: selectedMealType,
+            };
+            console.log("Nutrient Values:", nutrientValues);
+              Object.keys(nutrientValues).forEach((key) => {
+                  if (nutrientValues[key] === null || nutrientValues[key] === undefined || nutrientValues[key] === '') {
+                      delete nutrientValues[key];
+                  }
+              });
+  
+              // await setDoc(doc(firestore, "UserCreatedFoodsQr",  generateManualId()), {
+              //     id: newId,
+              //     idUser: userData[0]?.id,
+              //     ...nutrientValues
+              // });
+              // setShowModal(true);
+              setLoadingCreateAliment(true);
+              setTimeout(() => setLoadingCreateAliment(false), 800);
+              setTimeout(() => setSecondLoading(true), 800);
+              // setSecondLoading(true)
+              // resetForm();
+              // setTimeout(() => {
+              //   navigation.pop(2);
+              // }, 3000);
+              console.log("Create an qr c ode aliment with success")
+          } catch(error: any) {
+              console.log('Create an aliment error', error.message)
+          }
+      }
+// console.log("Nutriments dispo :", productInfo.nutriments);
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
@@ -221,33 +296,40 @@ const getGenericName = (product: any, lang: string) => {
               </Text>
 
               {[
-                {
-                  key: "energy-kcal_100g",
-                  label: "Calories",
-                  unit: "kcal",
-                  maxValue: basalMetabolicRate,
-                  color: colors.blue,
-                },
-                {
-                  key: "proteins_100g",
-                  label: "Protéines",
-                  unit: "g",
-                  maxValue: proteinsGoal,
-                  color: colors.blue,
-                },
+                { key: "energy-kcal_100g", label: "Calories", unit: "kcal", maxValue: basalMetabolicRate, color: colors.blue },
+                { key: "proteins_100g", label: "Protéines", unit: "g", maxValue: proteinsGoal, color: colors.blue },
                 { key: "fat_100g", label: "Lipides", unit: "g", maxValue: carbsGoal, color: colors.blue },
-                {
-                  key: "carbohydrates_100g",
-                  label: "Glucides",
-                  unit: "g",
-                  maxValue: fatsGoal,
-                  color: colors.blue,
-                },
+                { key: "carbohydrates_100g", label: "Glucides", unit: "g", maxValue: fatsGoal, color: colors.blue },
                 { key: "sugars_100g", label: "Sucres", unit: "g" },
                 { key: "saturated-fat_100g", label: "Graisses saturées", unit: "g" },
                 { key: "fiber_100g", label: "Fibres", unit: "g" },
                 { key: "salt_100g", label: "Sel", unit: "g" },
                 { key: "sodium_100g", label: "Sodium", unit: "mg" },
+
+                // 🔹 Vitamines
+                { key: "vitamin-a_100g", label: "Vitamine A", unit: "µg" },
+                { key: "vitamin-d_100g", label: "Vitamine D", unit: "µg" },
+                { key: "vitamin-e_100g", label: "Vitamine E", unit: "mg" },
+                { key: "vitamin-k_100g", label: "Vitamine K", unit: "µg" },
+                { key: "vitamin-c_100g", label: "Vitamine C", unit: "mg" },
+                { key: "vitamin-b1_100g", label: "Vitamine B1", unit: "mg" },
+                { key: "vitamin-b2_100g", label: "Vitamine B2", unit: "mg" },
+                { key: "vitamin-pp_100g", label: "Vitamine B3 (PP)", unit: "mg" },
+                { key: "vitamin-b6_100g", label: "Vitamine B6", unit: "mg" },
+                { key: "vitamin-b9_100g", label: "Vitamine B9", unit: "µg" },
+                { key: "vitamin-b12_100g", label: "Vitamine B12", unit: "µg" },
+
+                // 🔹 Minéraux
+                { key: "calcium_100g", label: "Calcium", unit: "mg" },
+                { key: "iron_100g", label: "Fer", unit: "mg" },
+                { key: "magnesium_100g", label: "Magnésium", unit: "mg" },
+                { key: "zinc_100g", label: "Zinc", unit: "mg" },
+                { key: "potassium_100g", label: "Potassium", unit: "mg" },
+                { key: "phosphorus_100g", label: "Phosphore", unit: "mg" },
+                { key: "copper_100g", label: "Cuivre", unit: "mg" },
+                { key: "selenium_100g", label: "Sélénium", unit: "µg" },
+                { key: "manganese_100g", label: "Manganèse", unit: "mg" },
+                { key: "iodine_100g", label: "Iode", unit: "µg" },
               ].map(
                 (nutrient) =>
                   productInfo.nutriments?.[nutrient.key] && (
@@ -294,7 +376,12 @@ const getGenericName = (product: any, lang: string) => {
       <View style={styles.bottomBar}>
         <BottomInputBarQr
           quantityGrams={quantityGrams}
+          handleCreateAliment={createAliment}
+          selectedMealType={"breakfast"}
+          setSelectedMealType={setSelectedMealType}
           setQuantityGrams={setQuantityGrams}
+          loading={loadingCreateAliment}
+          secondLoading={secondLoading}
           isPremium={true}
         />
       </View>

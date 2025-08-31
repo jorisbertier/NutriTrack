@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, Button, StyleSheet, Pressable } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useNavigation, useIsFocused, useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useIsFocused, useFocusEffect, useRoute } from "@react-navigation/native";
 import { useTheme } from "@/hooks/ThemeProvider";
 import LottieView from "lottie-react-native";
 import Svg, { Path } from "react-native-svg";
@@ -12,6 +12,8 @@ export default function ScannerScreen() {
   const [scanned, setScanned] = useState(false);
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const route = useRoute();
+  const { date } = route.params;
 
   const { colors } = useTheme(); 
 
@@ -36,13 +38,14 @@ export default function ScannerScreen() {
       </View>
     );
   }
-
+  
   const handleBarCodeScanned = (event) => {
     const data = event?.data ?? event?.nativeEvent?.data;
     if (!data || scanned) return;
 
     setScanned(true);
-    navigation.navigate("qrcode", { barcode: data });
+    // @ts-ignore
+    navigation.navigate("qrcode", { barcode: data, date: date });
   };
 
   return (

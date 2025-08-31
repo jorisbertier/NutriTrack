@@ -109,19 +109,6 @@ export default function DetailsFoodCreated() {
             </Pressable>
         </View>
         <View style={[styles.header, {backgroundColor: colors.white}]}>
-            {/* <Row>
-                <View style={styles.wrapperBlock}>
-                    {isLoading ?
-                    <View style={[styles.block, {borderColor: colors.black}]}>
-                        <ThemedText color={colors.black} style={[{ fontSize: 12, fontWeight: '500'}]}>{filterUniqueFood?.calories} kcal</ThemedText>
-                    </View>
-                    :
-                    <View style={{ marginTop: 10 }}> 
-                        <Skeleton colorMode={colorMode} width={100} height={30} />
-                    </View>
-                    }
-                </View>
-            </Row> */}
             <Row style={styles.wrapperTitle}>
             
                 {isLoading ?
@@ -131,7 +118,6 @@ export default function DetailsFoodCreated() {
                 }
                 {isLoading ?
                     <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{t('quantity')}</ThemedText>
-                    // <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{t('quantity')} : {filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
                 :
                 <View style={{ marginTop: 10 }}> 
                     <Skeleton colorMode={colorMode} width={250} height={30} />

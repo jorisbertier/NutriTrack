@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text} from "react-native";
+import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text, ScrollView} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
@@ -15,6 +15,7 @@ import LottieView from "lottie-react-native";
 import { useTranslation } from "react-i18next";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
+import Svg, { Path } from "react-native-svg";
 
 export default function Search() {
 
@@ -80,7 +81,7 @@ export default function Search() {
     const handleDeleteValue = () => {
         onChangeText('')
     }
-
+console.log('selected date', selectedDate.toLocaleDateString())
     return (
         <>
             <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
@@ -99,23 +100,12 @@ export default function Search() {
                 </TouchableOpacity>
             </View>
             <SafeAreaView style={[styles.header, {backgroundColor: colors.whiteMode}]}>
-                {/* <Row>
-                    <View style={[styles.wrapperCalendar, backgroundColor : '#F6F6F6']}>
-                    <TouchableOpacity onPress={handleOpenCalendar}>
-                        <Image source={require('@/assets/images/calendar.png')} style={styles.calendar}/>
-                    </TouchableOpacity>
-                        <ThemedText variant="title1">
-                            {selectedDate.toLocaleDateString() === date.toLocaleDateString() ? 'Today': `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                            </ThemedText>
-                    </View> */}
-                    {isOpen && (<RNDateTimePicker
-                        onChange={setDate}
-                        value={selectedDate}
-                        timeZoneName={timeZone}
-                        // timeZoneOffsetInMinutes={new Date().getTimezoneOffset()}
-                    />)}
-                {/* </Row> */}
-                
+                {isOpen && (<RNDateTimePicker
+                    onChange={setDate}
+                    value={selectedDate}
+                    timeZoneName={timeZone}
+                    // timeZoneOffsetInMinutes={new Date().getTimezoneOffset()}
+                />)}
                 <View style={styles.wrapperInput}>
                     <TextInput
                         style={[styles.input, {backgroundColor: colors.white, color: colors.black, borderColor: isFocused ? colors.back : colors.grayDarkFix}]}
@@ -139,90 +129,99 @@ export default function Search() {
                         <Image source={require('@/assets/images/search.png')} style={[styles.iconSearch, { tintColor: isFocused ? colors.black : '#8a8a8a'}]}/>
 
                 </View>
-                {/* <Row>
-                    <View style={[styles.wrapperCreate, {backgroundColor : '#F6F6F6'}]}>
-                        <Image source={require('@/assets/images/grapes.png')} style={styles.imageCreate}/>
-                        <ThemedText variant="title1">Create a new aliment</ThemedText>
-                    </View>
-                </Row> */}
                 <Row style={[styles.wrapperFood]}>
-          { text.length === 0 && (
-    <Row style={styles.row}>
-        {/* Bouton Créer Aliment */}
-        {isPremium ? (
-            <TouchableOpacity
-                onPress={() => navigation.navigate("CreateAliment")}
-                style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
-                activeOpacity={0.85}
-            >
-                <Image
-                    source={require('@/assets/images/add.png')}
-                    style={{ width: 22, height: 22, tintColor: colors.blackFix }}
-                />
-                <ThemedText
-                    variant='title3'
-                    style={{ marginLeft: 8, color: colors.blackFix, fontSize: 13, fontWeight: '600' }}
-                >
-                    {t('create')}
-                </ThemedText>
-            </TouchableOpacity>
-        ) : (
-            <View style={[styles.wrapper, { backgroundColor: colors.blueLight, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
-                <Image
-                    source={require('@/assets/images/icon/crown.png')}
-                    style={{ width: 20, height: 20, tintColor: "#FFD700" }}
-                />
-            </View>
-        )}
-
-        {/* Bouton Liste Aliment */}
-        {isPremium ? (
-            <TouchableOpacity
-                onPress={() => navigation.navigate("SearchAlimentCreated")}
-                style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
-                activeOpacity={0.85}
-            >
-                <ThemedText
-                    variant='title3'
-                    style={{ color: colors.blackFix, fontSize: 13, fontWeight: '600' }}
-                >
-                    {t('list')}
-                </ThemedText>
-            </TouchableOpacity>
-        ) : (
-            <View style={[styles.wrapper, { backgroundColor: colors.blueLight, justifyContent: 'center', alignItems: 'center' }]}>
-                <Image
-                    source={require('@/assets/images/icon/crown.png')}
-                    style={{ width: 20, height: 20, tintColor: "#FFD700" }}
-                />
-            </View>
-        )}
-    </Row>
-)}
-
-                        <FlatList<FoodItem>
-                            data={filteredFood.slice(0, 40)}
-                            renderItem={({ item }) => (
-                                <CardFood
-                                    name={`${item[`name_${i18n.language}`] || item.name_en}`}
-                                    id={item.id}
-                                    calories={item.calories}
-                                    unit={item.unit}
-                                    quantity={item.quantity}
-                                    selectedDate={selectedDate.toLocaleDateString()}
-                                    setNotification={setNotificationVisible}
+                { text.length === 0 && (
+                    <ScrollView horizontal={true} style={styles.row} contentContainerStyle={{ gap: 12, paddingRight: 12 }} showsHorizontalScrollIndicator={false} >
+                            <TouchableOpacity
+                                // @ts-ignore
+                                onPress={() => navigation.navigate("Scanner", { date : selectedDate.toLocaleDateString() })}
+                                style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
+                                activeOpacity={0.85}
+                            >
+                            <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                                <Path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M5 8a1 1 0 0 1-2 0V5.923c0-.76.082-1.185.319-1.627.223-.419.558-.754.977-.977C4.738 3.082 5.162 3 5.923 3H8a1 1 0 0 1 0 2H5.923c-.459 0-.57.022-.684.082a.364.364 0 0 0-.157.157c-.06.113-.082.225-.082.684V8zm3 11a1 1 0 1 1 0 2H5.923c-.76 0-1.185-.082-1.627-.319a2.363 2.363 0 0 1-.977-.977C3.082 19.262 3 18.838 3 18.077V16a1 1 0 1 1 2 0v2.077c0 .459.022.57.082.684.038.07.087.12.157.157.113.06.225.082.684.082H8zm7-15a1 1 0 0 0 1 1h2.077c.459 0 .57.022.684.082.07.038.12.087.157.157.06.113.082.225.082.684V8a1 1 0 1 0 2 0V5.923c0-.76-.082-1.185-.319-1.627a2.363 2.363 0 0 0-.977-.977C19.262 3.082 18.838 3 18.077 3H16a1 1 0 0 0-1 1zm4 12a1 1 0 1 1 2 0v2.077c0 .76-.082 1.185-.319 1.627a2.364 2.364 0 0 1-.977.977c-.442.237-.866.319-1.627.319H16a1 1 0 1 1 0-2h2.077c.459 0 .57-.022.684-.082a.363.363 0 0 0 .157-.157c.06-.113.082-.225.082-.684V16zM3 11a1 1 0 1 0 0 2h18a1 1 0 1 0 0-2H3z"
+                                    fill="#000"
                                 />
-                            )}
-                            showsVerticalScrollIndicator={false}
-                            keyExtractor={(item, index) =>
-                                item.userMealId ? `meal-${item.userMealId}` : `id-${item.id}-${index}`
-                        }
-                            contentContainerStyle={styles.wrapperFood}
-                        />
-                        
-                    {filteredFood.length === 0 && <Text style={{color: colors.black}}>
-                        {t('matchFood')} {text}.</Text>
+                            </Svg>
+                            </TouchableOpacity>
+                        {/* Bouton Créer Aliment */}
+                        {isPremium ? (
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("CreateAliment")}
+                                style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
+                                activeOpacity={0.85}
+                            >
+                                <Image
+                                    source={require('@/assets/images/add.png')}
+                                    style={{ width: 22, height: 22, tintColor: colors.blackFix }}
+                                />
+                                <ThemedText
+                                    variant='title3'
+                                    style={{ marginLeft: 8, color: colors.blackFix, fontSize: 13, fontWeight: '600' }}
+                                >
+                                    {t('create')}
+                                </ThemedText>
+                            </TouchableOpacity>
+                        ) : (
+                            <View style={[styles.wrapper, { backgroundColor: colors.blueLight, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
+                                <Image
+                                    source={require('@/assets/images/icon/crown.png')}
+                                    style={{ width: 20, height: 20, tintColor: "#FFD700" }}
+                                />
+                            </View>
+                        )}
+
+                        {/* Bouton Liste Aliment */}
+                        {isPremium ? (
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("SearchAlimentCreated")}
+                                style={[styles.wrapper, { backgroundColor: colors.blueLight }]}
+                                activeOpacity={0.85}
+                            >
+                                <ThemedText
+                                    variant='title3'
+                                    style={{ color: colors.blackFix, fontSize: 13, fontWeight: '600' }}
+                                >
+                                    {t('list')}
+                                </ThemedText>
+                            </TouchableOpacity>
+                        ) : (
+                            <View style={[styles.wrapper, { backgroundColor: colors.blueLight, justifyContent: 'center', alignItems: 'center' }]}>
+                                <Image
+                                    source={require('@/assets/images/icon/crown.png')}
+                                    style={{ width: 20, height: 20, tintColor: "#FFD700" }}
+                                />
+                            </View>
+                        )}
+                    </ScrollView>
+                )}
+
+                    <FlatList<FoodItem>
+                        data={filteredFood.slice(0, 40)}
+                        renderItem={({ item }) => (
+                            <CardFood
+                                name={`${item[`name_${i18n.language}`] || item.name_en}`}
+                                id={item.id}
+                                calories={item.calories}
+                                unit={item.unit}
+                                quantity={item.quantity}
+                                selectedDate={selectedDate.toLocaleDateString()}
+                                setNotification={setNotificationVisible}
+                            />
+                        )}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={(item, index) =>
+                            item.userMealId ? `meal-${item.userMealId}` : `id-${item.id}-${index}`
                     }
+                        contentContainerStyle={styles.wrapperFood}
+                    />
+                    
+                {filteredFood.length === 0 && <Text style={{color: colors.black}}>
+                    {t('matchFood')} {text}.</Text>
+                }
                 </Row>
                 {notificationVisible && (
                     <View style={styles.notification}>
@@ -284,14 +283,13 @@ const styles = StyleSheet.create({
         borderRadius: 8
     },
     row : {
-        justifyContent: 'space-between',
-        width: '100%',
-        paddingHorizontal: 12,
-        gap: 12,
+        flexDirection: 'row',
+        paddingVertical: 10,
     },
     wrapper : {
         flex: 1,
         height: 60,
+        width: 130,
         borderRadius: 25,
         alignItems: 'center',
         justifyContent: 'center',

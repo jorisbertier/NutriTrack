@@ -8,7 +8,7 @@ type Props = {
     name: string,
     quantity: number,
     unit: string,
-    isPremium: boolean,
+    isPremium?: boolean,
     keyName?: string, 
 }
 
