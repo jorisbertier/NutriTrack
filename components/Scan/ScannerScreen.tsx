@@ -74,7 +74,7 @@ export default function ScannerScreen() {
       </View>
       <View style={styles.loading}>
         <LottieView
-            source={require('@/assets/lottie/Loading 12.json')}
+            source={require('@/assets/lottie/Loading.json')}
             loop={true}
             style={{ width: 90, height: 90, borderRadius: 30 }}
             autoPlay={true}

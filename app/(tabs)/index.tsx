@@ -1,4 +1,4 @@
-import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType, View, Modal, Button, TouchableOpacity, Linking, Image } from 'react-native';
+import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType, View, Modal, TouchableOpacity, Image } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -22,7 +22,6 @@ import { useTranslation } from 'react-i18next';
 import PremiumOverlayWrapper from '@/components/Premium';
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import ScanButton from '@/components/Scan/ScanButton';
 
 
 // import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
@@ -155,15 +154,7 @@ export default function HomeScreen() {
       <StatusBar barStyle="light-content" />
       <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)} isPremium={isPremium}/>
       <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
-            {/* <BannerAd
-      unitId={TestIds.BANNER} // remplace par ton vrai adUnitID plus tard
-      size={BannerAdSize.FULL_BANNER}
-      requestOptions={{
-        requestNonPersonalizedAdsOnly: true,
-      }}
-    /> */}
         <ScrollView showsVerticalScrollIndicator={false}>
-      <ScanButton/>
           <Row style={{marginTop: 40}}>
             <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
           </Row>
