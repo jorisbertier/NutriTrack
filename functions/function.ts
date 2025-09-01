@@ -116,7 +116,7 @@ export function calculCarbohydrates(calories: number) {
     return parseFloat(carbs.toFixed(1))
 }
 
-export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof FoodItem, setNutrient: any, resultAllDataFoodCreated?: any, resultFoodCustom?: any) => {
+export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof FoodItem, setNutrient: any, resultAllDataFoodCreated?: any, resultFoodCustom?: any, resultFoodQr?: any) => {
     const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
         return acc + nutrientValue;
@@ -127,21 +127,30 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
         return acc + nutrientValue;
     }, 0) || 0;
 
-const resultCustom = resultFoodCustom?.reduce((acc: number, item: FoodItem) => {
-    const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
+    const resultCustom = resultFoodCustom?.reduce((acc: number, item: FoodItem) => {
+        const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
 
-    const quantity = parseFloat(item.quantityCustom || "0");
-    const baseQuantity = item.quantity || 100; // généralement 100g
+        const quantity = parseFloat(item.quantityCustom || "0");
+        const baseQuantity = item.quantity || 100; // généralement 100g
 
-    const ratio = quantity / baseQuantity;
+        const ratio = quantity / baseQuantity;
 
-    return acc + (nutrientValue * ratio);
-}, 0) || 0;
+        return acc + (nutrientValue * ratio);
+    }, 0) || 0;
+
+    const resultQr = resultFoodQr?.reduce((acc:number,  item: FoodItem) => {
+        const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
+        return acc + nutrientValue;
+    }, 0) || 0;
+    console.log('resuklt qr', resultQr)
+
     const formattedResult = parseFloat(result.toFixed(2));
 
     const formattedResultCreated = parseFloat(resultCreated?.toFixed(2));
     
     const formattedResultCustom = parseFloat(resultCustom?.toFixed(2));
+
+    const formattedResultQr = parseFloat(resultQr?.toFixed(2));
 
     switch (nutrientKey) {
         case 'magnesium':
@@ -190,13 +199,13 @@ const resultCustom = resultFoodCustom?.reduce((acc: number, item: FoodItem) => {
             setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'sugar':
-            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom + formattedResultQr);
             break;
         case 'carbohydrates':
             setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
             break;
         case 'proteins':
-            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom + formattedResultQr);
             break;
         case 'fats':
             setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
