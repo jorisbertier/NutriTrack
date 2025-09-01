@@ -307,6 +307,10 @@
     "premium2": "Accès à tous les macronutriments",
     "premium3": "Suivi du poids",
     "premium4": "Sans publicité",
-    "noSugar": "Pas de sucre"
+    "noSugar": "Pas de sucre",
+    "productTitle": "Produit non trouvé",
+    "productText": "Désolé, nous n’avons pas pu trouver ce produit.",
+    "rescan": "Rescanner",
+    "tryAgain": "Veuillez reéssayer de nouveau."
 
 }

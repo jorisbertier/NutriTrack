@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Image, StyleSheet, Pressable, Alert, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, ScrollView, Image, StyleSheet, Pressable, Alert, KeyboardAvoidingView, Platform, ActivityIndicator, TouchableOpacity } from "react-native";
 import ProgressBarFluid from "@/components/ProgressBarFluid";
 import BottomInputBarQr from "@/components/Scan/QrBottomBar";
 import { useTheme } from "@/hooks/ThemeProvider";
@@ -106,19 +106,19 @@ export default function QrCodeScreen({ route }) {
     return sugar <= 5 && fat <= 10 && saturated <= 5;
   };
 
-const getGenericName = (product: any, lang: string) => {
-  if (!product) return '';
+  const getGenericName = (product: any, lang: string) => {
+    if (!product) return '';
 
-  switch (lang) {
-    case 'en':
-      return product.generic_name_en || product.product_name_en || '';
-    case 'es':
-      return product.generic_name_es || product.product_name_es || '';
-    default:
-      return product.generic_name || product.product_name || '';
-  }
-};
-  // Fonction pour adapter la valeur à la quantité et arrondir à 1 chiffre après la virgule
+    switch (lang) {
+      case 'en':
+        return product.generic_name_en || product.product_name_en || '';
+      case 'es':
+        return product.generic_name_es || product.product_name_es || '';
+      default:
+        return product.generic_name || product.product_name || '';
+    }
+  };
+
   const formatNutrientValue = (
     nutrientValue: number | string | undefined,
     grams: number
@@ -204,9 +204,24 @@ const getGenericName = (product: any, lang: string) => {
       </Pressable>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }} keyboardShouldPersistTaps="handled">
         {!productInfo ? (
-          <Text>Chargement…</Text>
+          <ActivityIndicator size="large" color={colors.black} />
         ) : productInfo.error ? (
-          <Text style={styles.errorText}>{productInfo.error}</Text>
+              <View style={styles.errorContainer}>
+
+        <Text style={styles.errorTitle}>{t('productTitle')}</Text>
+        <Text style={styles.errorMessage}>
+            {t('productText')}
+        </Text>
+        <Text style={styles.errorMessage}>
+            {t('tryAgain')}
+        </Text>
+        <TouchableOpacity 
+            style={[styles.retryButton, { backgroundColor: colors.black}]} 
+            onPress={() => navigation.pop(1)}
+        >
+            <Text style={[styles.retryButtonText, { color: colors.white}]}>{t('rescan')}</Text>
+        </TouchableOpacity>
+    </View>
         ) : (
           <>
             {productInfo.image_url && (
@@ -380,17 +395,18 @@ const getGenericName = (product: any, lang: string) => {
           </>
         )}
       </ScrollView>
-
-        <BottomInputBarQr
-          quantityGrams={quantityGrams}
-          handleCreateAliment={createAliment}
-          selectedMealType={"breakfast"}
-          setSelectedMealType={setSelectedMealType}
-          setQuantityGrams={setQuantityGrams}
-          loading={loadingCreateAliment}
-          secondLoading={secondLoading}
-          isPremium={true}
-        />
+        {productInfo && !productInfo.error && (
+          <BottomInputBarQr
+            quantityGrams={quantityGrams}
+            handleCreateAliment={createAliment}
+            selectedMealType={"breakfast"}
+            setSelectedMealType={setSelectedMealType}
+            setQuantityGrams={setQuantityGrams}
+            loading={loadingCreateAliment}
+            secondLoading={secondLoading}
+            isPremium={true}
+          />
+        )}
     </View>
     </KeyboardAvoidingView>
   );
@@ -438,4 +454,36 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25
   },
+   errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    errorImage: {
+        width: 150,
+        height: 150,
+        marginBottom: 20,
+    },
+    errorTitle: {
+        fontSize: 22,
+        fontWeight: '700',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    errorMessage: {
+        fontSize: 16,
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    retryButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 30,
+        borderRadius: 20,
+    },
+    retryButtonText: {
+        fontWeight: '600',
+        fontSize: 16,
+    },
 });

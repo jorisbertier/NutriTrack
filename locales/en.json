@@ -295,6 +295,10 @@
     "premium2": "Access to All Macronutrients",
     "premium3": "Weight Tracking",
     "premium4": "No ads",
-    "noSugar": "No sugar"
+    "noSugar": "No sugar",
+    "produtTitle": "Product not found",
+    "productText": "Sorry, we couldn't find this product.",
+    "rescan": "Rescan",
+    "tryAgain": "Please try again."
 
 }
