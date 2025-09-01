@@ -263,8 +263,7 @@ export default function QrCodeScreen({ route }) {
                         {formatNutrientValue(
                           productInfo.nutriments?.["fat_100g"],
                           Number(quantityGrams)
-                        ) + " "}
-                        g
+                        ) + " g"}
                       </Text>
                     </View>
                     <View
@@ -279,8 +278,7 @@ export default function QrCodeScreen({ route }) {
                         {formatNutrientValue(
                           productInfo.nutriments?.["carbohydrates_100g"],
                           Number(quantityGrams)
-                        ) + " "}
-                        g
+                        ) + " g"}
                       </Text>
                     </View>
                   </View>
