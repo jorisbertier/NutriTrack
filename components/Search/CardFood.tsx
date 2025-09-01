@@ -103,7 +103,6 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
             console.log('Error add aliment to database UserMeals', e)
         }
     }
-console.log('ici', theme)
     return (
         <TouchableOpacity onPress={navigateToDetails}>
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>

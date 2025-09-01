@@ -11,17 +11,22 @@ import { Skeleton } from "moti/skeleton";
 import UUID from 'react-native-uuid';
 import { useTranslation } from "react-i18next";
 import CardFoodResumeCustom from "./Screens/Dashboard/CardFoodResumeCustom";
+import { FoodItemQr } from "@/interface/FoodItemQr";
+import CardFoodResumeQr from "./Screens/Dashboard/CardFoodResumeQr";
 
 export function DisplayResultFoodByMeal(
     resultMeal: FoodItem[],
     resultMealCreated: FoodItem[],
-    resultMealCustom: FoodItemCreated [], meal: string,
+    resultMealCustom: FoodItemCreated [],
+    resultMealQr: FoodItemQr[],
+    meal: string,
     handleDeleteFood: (userMealId: string) => void,
     handleDeleteFoodCreated: (userMealId: string) => void,
     handleDeleteFoodCustom: (userMealId: string) => void,
     isLoading: boolean = false
 ) {
 
+    console.log("get an dipaly", resultMealQr)
     const {colors} = useTheme();
     const { t, i18n } = useTranslation();
     // console.log('gettt data: ', resultMealCustom)
@@ -57,6 +62,11 @@ export function DisplayResultFoodByMeal(
     }));
 
     const resultMealCustomWithUuid = resultMealCustom.map(item => ({
+        ...item,
+        uuid: UUID.v4() as string,
+    }));
+
+    const resultMealQrWithUuid = resultMealQr.map(item => ({
         ...item,
         uuid: UUID.v4() as string,
     }));
@@ -142,7 +152,33 @@ export function DisplayResultFoodByMeal(
                         )
                     }
                 </Row>
-                {resultMeal.length === 0 && resultMealCreated.length === 0 && resultMealCustom.length === 0 && (
+                <Row>
+                    { resultMealQr.length !== 0 && (
+                        <FlatList<FoodItemQr>
+                            data={resultMealQrWithUuid}
+                            renderItem={({ item }) => (
+                                // <ThemedText>{item.name}</ThemedText>
+                                <CardFoodResumeQr
+                                    name={item.title}
+                                    quantityCustom={item.quantity}
+                                    quantity={item.quantity}
+                                    proteins={item.proteins}
+                                    carbs={item.carbohydrates}
+                                    fats={item.fats}
+                                    unit={"g"}
+                                    image={item.image}
+                                    calories={item.calories}
+                                    // handleDelete={()=> handleDeleteFoodCustom(item.userMealId)}
+                                />
+                            )}
+                            showsVerticalScrollIndicator={false}
+                            scrollEnabled={false}
+                            keyExtractor={(item) => item.uuid}
+                        />
+                        )
+                    }
+                </Row>
+                {resultMeal.length === 0 && resultMealCreated.length === 0 && resultMealCustom.length === 0 && resultMealQr.length === 0 && (
                     <Row>
                         <ThemedText color={colors.black}>{t('dont_have')} {meal}</ThemedText>
                     </Row>
@@ -158,7 +194,7 @@ export function DisplayResultFoodByMeal(
 
 const styles = StyleSheet.create({
     wrapper: {
-        gap: 10,
+        gap: 5
     },
     wrapperFood : {
         marginBottom: 16,
@@ -167,6 +203,6 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'space-between',
         borderBottomColor: 'gray',
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
     }
 })

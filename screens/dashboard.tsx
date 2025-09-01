@@ -25,6 +25,7 @@ import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/r
 import { useTranslation } from "react-i18next";
 import LottieView from "lottie-react-native";
 import { RootState } from "@/redux/store";
+import { FoodItemQr } from "@/interface/FoodItemQr";
 
 
 
@@ -42,6 +43,7 @@ export default function Dashboard() {
     const [allFoodDataCreated, setAllFoodDataCreated] = useState<UserMealsCreated[]>([])
     const [allFoodDataCustomFoods, setAllFoodDataCustomFoods] = useState<FoodItemCreated[]>([]) //new to ingretate
     const [allUserCreatedFoods, setAllUserCreatedFoods] = useState<FoodItemCreated[]>([])
+    const [ allFoodQrcode, setAllFoodQrcode] = useState<FoodItemQr[]>([]);
 
     const [allFoodData, setAllFoodData] = useState<FoodItem[]>([]);  // all foods
     const [allUserData, setAllUserData] = useState([]);  // all user
@@ -68,6 +70,12 @@ export default function Dashboard() {
     const [resultLunchCreated, setResultLunchCreated] = useState<FoodItem[]>([])
     const [resultDinnerCreated, setResultDinnerCreated] = useState<FoodItem[]>([])
     const [resultSnackCreated, setResultSnackCreated] = useState<FoodItem[]>([])
+
+    /**MEALS QR */
+    const [resultBreakfastQr, setResultBreakfastQr] = useState<FoodItemQr[]>([])
+    const [resultLunchQr, setResultLunchQr] = useState<FoodItemQr[]>([])
+    const [resultDinnerQr, setResultDinnerQr] = useState<FoodItemQr[]>([])
+    const [resultSnackQr, setResultSnackQr] = useState<FoodItemQr[]>([])
 
     const [totalKcalConsumeToday, setTotalKcalConsumeToday] = useState<number>(0)
 
@@ -169,6 +177,25 @@ export default function Dashboard() {
 
                 setAllUserCreatedFoods(userCreatedFoodsList)
 
+                const userQrFoodsCollection = collection(firestore, 'UserCreatedFoodsQr');
+                const userQrFoodsSnapshot = await getDocs(userQrFoodsCollection);
+                const userQrFoodsList = userQrFoodsSnapshot.docs.map(doc => ({
+                    id: Number(doc.id),
+                    idUser: doc.data().idUser as string,
+                    calories: doc.data().calories as number,
+                    mealType: doc.data().mealType as string,
+                    image: doc.data().image as string,
+                    date: doc.data().date as string,
+                    carbohydrates: doc.data().carbs as number,
+                    fats: doc.data().fats as number,
+                    proteins: doc.data().proteins as number,
+                    quantity: doc.data().quantity as number,
+                    title: doc.data().title as string,
+                    unit: doc.data().unit as string,
+                    sugar: doc.data().sugar as number,
+                }));
+
+                setAllFoodQrcode(userQrFoodsList);
                 setIsLoading(false)
             }
             fetchData()
@@ -189,8 +216,6 @@ export default function Dashboard() {
         </View>
         );
     }
-    // console.log(allUsersFoodDataCustom)
-
     useEffect(() => {
         // const fetchData = async () => {
             // try {
@@ -274,6 +299,7 @@ export default function Dashboard() {
             filterAndSetFoodData(resultBySnack, setSortBySnack)
         }
     }, [selectedDate, allUsersFoodData, userData, allFoodData]);
+
     const [ resultCaloriesCustom, setResultCaloriesCustom] = useState<UserMealsCustom[]>([])
     useEffect(() => {
 
@@ -315,6 +341,38 @@ export default function Dashboard() {
             setIsOpen(true);
         }
     }
+      useEffect(() => {
+                /*get all foods created by user by a id user connected  */
+                console.log('user id: ', userData[0]?.id)
+                const userConnectedFoodQrcode = allFoodQrcode.filter(food => food.idUser === userData[0]?.id);
+                // console.log("get food qr by user", userConnectedFoodQrcode)
+
+                console.log(selectedDate.toLocaleDateString())
+                const mealsForSelectedDate = userConnectedFoodQrcode.filter(meal => 
+                    meal?.date === selectedDate.toLocaleDateString()  
+                );
+                // console.log('user food qr by date', mealsForSelectedDate)
+                // const foodsForSelectedDate = mealsForSelectedDate.map(meal => {
+                //     const foodDetails = userConnectedUserCreatedFoods.find(food => food.id === meal.foodId);
+                //     return {
+                //         ...meal,
+                //         ...foodDetails,
+                //         originalMealId: meal.id,
+                //     };
+                // });
+
+                const resultBreakfastQr = mealsForSelectedDate.filter(food => food.mealType === 'Breakfast');
+                const resultLunchQr = mealsForSelectedDate.filter(food => food.mealType === 'Lunch');
+                const resultDinnerQr = mealsForSelectedDate.filter(food => food.mealType === 'Dinner');
+                const resultSnackQr = mealsForSelectedDate.filter(food => food.mealType === 'Snack');
+
+                setResultBreakfastQr(resultBreakfastQr)
+                setResultLunchQr(resultLunchQr)
+                setResultDinnerQr(resultDinnerQr)
+                setResultSnackQr(resultSnackQr)
+                // handleTotalKcalConsumeToday()
+
+    }, [selectedDate, userData, allFoodQrcode])
 
     const handleDeleteFood = (userMealId: any) => {
 
@@ -702,10 +760,10 @@ export default function Dashboard() {
                 <ProgressRing isLoading={!isLoading} progressProteins={Number(proteins.toFixed(1))} proteinsGoal={proteinsGoal} progressCarbs={Number(carbs.toFixed(1))} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={Number(fats.toFixed(1))} fatsGoal={calculFats(basalMetabolicRate)} goal={userData[0]?.goal} goalProteins={userData[0]?.goalLogs['proteins']} goalCarbs={userData[0]?.goalLogs['carbs']} goalFats={userData[0]?.goalLogs['fats']}/>
                 
                 <View style={styles.wrapperMeals}>
-                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, sortByBreakfastCustom, t('breakfast'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false )}
-                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, sortByLunchCustom, t('lunch'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
-                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, sortByDinnerCustom, t('dinner'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
-                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, sortBySnackCustom, t('snack'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortByBreakfast,resultBreakfastCreated, sortByBreakfastCustom, resultBreakfastQr, t('breakfast'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false )}
+                    {DisplayResultFoodByMeal(sortByLunch, resultLunchCreated, sortByLunchCustom,resultLunchQr, t('lunch'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, sortByDinnerCustom, resultDinnerQr, t('dinner'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
+                    {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, sortBySnackCustom, resultSnackQr, t('snack'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, !isLoading || false)}
                 </View>
                 
                 <View style={{marginBottom: 60}}>

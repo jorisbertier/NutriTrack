@@ -165,6 +165,7 @@ const getGenericName = (product: any, lang: string) => {
               unit: productInfo?.product_quantity_unit || 'g',
               date: date,
               mealType: selectedMealType,
+              image: productInfo?.image_url
             };
             console.log("Nutrient Values:", nutrientValues);
               Object.keys(nutrientValues).forEach((key) => {
@@ -192,7 +193,6 @@ const getGenericName = (product: any, lang: string) => {
                 );
           }
       }
-// console.log("Nutriments dispo :", productInfo.nutriments);
   return (
         <KeyboardAvoidingView
       style={{ flex: 1 }}
