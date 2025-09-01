@@ -173,6 +173,7 @@ export default function Dashboard() {
                     iron: doc.data().iron as number,
                     sugar: doc.data().sugar as number,
                     folate: doc.data().folate as number,
+                    image: doc.data().image as string
 
                 }));
 

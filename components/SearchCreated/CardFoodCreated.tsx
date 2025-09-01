@@ -109,52 +109,45 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
         }
     }
 
-    const handleDelete = (id: any) => {
-        if (!id) {
-            showFeedback('error', t('error_meal'));
-            return;
+  const handleDelete = (docId: string) => {
+  if (!docId) {
+    showFeedback('error', t('error_meal'));
+    return;
+  }
+
+  Alert.alert(
+    t('confirmation'),
+    t('deleteFoodWarning'),
+    [
+      { text: t('cancel'), style: 'cancel' },
+      {
+        text: t('delete'),
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            // 1) Supprimer le doc principal
+            await deleteDoc(doc(firestore, "UserCreatedFoods", docId));
+
+            // 2) Supprimer les meals liés (foodId stocke **docId** chez toi)
+            const mealsSnap = await getDocs(collection(firestore, "UserMealsCreated"));
+            const related = mealsSnap.docs.filter(d => d.data().foodId === docId);
+            await Promise.all(related.map(d => deleteDoc(d.ref)));
+
+            // 3) MAJ état local
+            setAllDataFoodCreated(prev => prev.filter(f => f.idDoc !== docId));
+
+            showFeedback('success', t('foodDeleted'));
+          } catch (e) {
+            console.log(e);
+            showFeedback('error', t('error_food_deleted'));
+          }
         }
+      }
+    ],
+    { cancelable: false }
+  );
+};
 
-        Alert.alert(
-            t('confirmation'),
-            t('deleteFoodWarning'),
-
-            [
-                {
-                    text: t('cancel'),
-                    onPress: () => console.log("Deletion canceled"),
-                    style: "cancel",
-                },
-                {
-                    text: t('delete'),
-                    onPress: async () => {
-                        try {
-                            const mealDocRef = doc(firestore, "UserCreatedFoods", idDoc);
-                            await deleteDoc(mealDocRef);
-
-                            const mealsCollectionRef = collection(firestore, "UserMealsCreated");
-                            const querySnapshot = await getDocs(mealsCollectionRef);
-                            const relatedDocs = querySnapshot.docs.filter(
-                                doc => doc.data().foodId === idDoc
-                            ); 
-    
-                            const deletePromises = relatedDocs.map(doc => deleteDoc(doc.ref));
-                            await Promise.all(deletePromises);
-    
-                            setAllDataFoodCreated((prevData: FoodItemCreated[]) =>
-                                prevData.filter(food => food.idDoc !== idDoc)
-                            );
-                            showFeedback('success', t('foodDeleted'));
-                        } catch (error) {
-                            showFeedback('error', t('error_food_deleted'));
-                        }
-                    },
-                    style: "destructive",
-                },
-            ],
-            { cancelable: false } 
-        );
-    };
 
     return (
         <TouchableOpacity onPress={navigateToDetails}>
@@ -163,14 +156,14 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                 <View style={styles.text}>
                     <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(name)}</ThemedText>
                     <ThemedText variant="title2" color="grayDark">
-                        {calories} kcal,{name} {quantity} {unit}
+                        {calories} kcal, {name} {quantity} {unit}
                     </ThemedText>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 10}}>
                     <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
                         <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black}]} />
                     </Pressable>
-                    <Pressable style={[styles.wrapperAdd, {width: 50}]} onPress={() => handleDelete(id)}>
+                    <Pressable style={[styles.wrapperAdd, {width: 50}]} onPress={() => handleDelete(idDoc)}>
                         <Image source={require("@/assets/images/delete.png")} style={[styles.delete, {tintColor: colors.black}]}/>
                     </Pressable>
                 </View>

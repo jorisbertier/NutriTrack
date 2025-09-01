@@ -11,6 +11,7 @@ export interface FoodItemCreated {
     proteins: number;
     quantity: number;
     unit: string;
+    image?: string;
     sugar?: number;
     vitaminA?: number;
     vitaminB1?:number;

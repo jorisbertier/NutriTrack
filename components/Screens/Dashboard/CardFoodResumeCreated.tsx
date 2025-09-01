@@ -10,20 +10,28 @@ type Props = {
     unit: string,
     quantity: number,
     userMealId?: string | undefined,
-    handleDelete?: any
+    handleDelete?: any,
+    image?: string
 }
 
-export default function CardFoodResumeCreated({name, id, calories, unit, quantity, userMealId, handleDelete}: Props) {
+export default function CardFoodResumeCreated({name, id, calories, unit, quantity, userMealId, handleDelete, image}: Props) {
 
     const { theme, colors } = useTheme();
 
     return (
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
                 <View style={styles.wrapperText}>
-                    <Image source={require('@/assets/images/default/fooddefault.jpg')} style={styles.image}/>
+                    <Image
+                        source={
+                            image
+                            ? { uri: image }
+                            : require("@/assets/images/default/fooddefault.jpg")
+                        }
+                        style={styles.image}
+                        />
                     <View style={styles.text}>
                         <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(`${name}`)}</ThemedText>
-                        <ThemedText variant="title2" color={colors.grayDark}>{calories} Kcal,{quantity} {unit}</ThemedText>
+                        <ThemedText variant="title2" color={colors.grayDark}>{calories} Kcal, {quantity} {unit}</ThemedText>
                     </View>
                 </View>
                 <TouchableOpacity  style={styles.test} onPress={handleDelete}>

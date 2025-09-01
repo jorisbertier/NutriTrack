@@ -99,7 +99,14 @@ export default function DetailsFoodCreated() {
     return (
     <ScrollView persistentScrollbar={true}>
         <View style={styles.banner}>
-            <Image source={require('@/assets/images/default/fooddefault.jpg')} style={styles.image} />
+            <Image
+            source={
+                filterUniqueFood?.image
+                ? { uri: filterUniqueFood.image }
+                : require("@/assets/images/default/fooddefault.jpg")
+            }
+            style={styles.image}
+            />
             <Pressable onPress={handleGoBack} style={[styles.back, {backgroundColor: colors.white}]}>
                 {theme === 'light' ?
                     <Image source={require('@/assets/images/back.png')} style={styles.icon} />
@@ -117,7 +124,7 @@ export default function DetailsFoodCreated() {
                     <Skeleton colorMode={colorMode} width={250} height={30} ></Skeleton>
                 }
                 {isLoading ?
-                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{t('quantity')}</ThemedText>
+                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{t('quantity')} :{filterUniqueFood?.quantity} {filterUniqueFood?.unit} </ThemedText>
                 :
                 <View style={{ marginTop: 10 }}> 
                     <Skeleton colorMode={colorMode} width={250} height={30} />

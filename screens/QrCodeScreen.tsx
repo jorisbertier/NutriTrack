@@ -19,6 +19,7 @@ import { useRouter } from "expo-router";
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { MotiView } from "moti";
 
 export default function QrCodeScreen({ route }) {
 
@@ -54,8 +55,7 @@ export default function QrCodeScreen({ route }) {
   const { colors } = useTheme();
   const { t, i18n } = useTranslation();
   const [loadingCreateAliment, setLoadingCreateAliment] = useState(false);
-  const [secondLoading, setSecondLoading] = useState(false);
-
+  const [liked, setLiked] = useState(false);
 
   const [userData, setUserData] = useState<User[]>([]);
   const auth = getAuth();
@@ -130,78 +130,149 @@ export default function QrCodeScreen({ route }) {
   };
 
   
-      const generateManualId = () => {
-          return `ID-${Date.now()}`;
+  const generateManualId = () => {
+      return `ID-${Date.now()}`;
+  }
+
+  const createAliment = async (event: any) => {
+      event.preventDefault();
+
+      try {
+          const collectionRef = collection(firestore, "UserCreatedFoodsQr");
+
+          // Récupérez tous les documents de la collection
+          const querySnapshot = await getDocs(collectionRef);
+      
+          // Calculez le prochain ID en trouvant le plus grand ID existant
+          let maxId = 0;
+          querySnapshot.forEach((doc) => {
+              const data = doc.data();
+              if (data.id && data.id > maxId) {
+                  maxId = data.id;
+              }
+          });
+      
+          const newId = maxId + 1;
+      
+        const nutrientValues = {
+          title: productInfo?.product_name,
+          calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
+          proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
+          carbs: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
+          fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
+          sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
+          quantity: quantityGrams, 
+          unit: productInfo?.product_quantity_unit || 'g',
+          date: date,
+          mealType: selectedMealType,
+          image: productInfo?.image_url
+        };
+          Object.keys(nutrientValues).forEach((key) => {
+              if (nutrientValues[key] === null || nutrientValues[key] === undefined || nutrientValues[key] === '') {
+                  delete nutrientValues[key];
+              }
+          });
+
+          await setDoc(doc(firestore, "UserCreatedFoodsQr",  generateManualId()), {
+              id: newId,
+              idUser: userData[0]?.id,
+              ...nutrientValues
+          });
+          setLoadingCreateAliment(true);
+          setTimeout(() => setLoadingCreateAliment(false), 2400);
+          setTimeout(() => {
+            navigation.pop(2);
+          }, 2400);
+      } catch(error: any) {
+          console.log('Create an aliment error', error.message);
+            Alert.alert(
+              "Erreur",
+              "Impossible d'ajouter cet aliment. Veuillez réessayer plus tard.",
+              [{ text: "OK", style: "default" }]
+            );
       }
-  
-      const createAliment = async (event: any) => {
-          event.preventDefault();
-  
-          try {
-              const collectionRef = collection(firestore, "UserCreatedFoodsQr");
-  
-              // Récupérez tous les documents de la collection
-              const querySnapshot = await getDocs(collectionRef);
-          
-              // Calculez le prochain ID en trouvant le plus grand ID existant
-              let maxId = 0;
-              querySnapshot.forEach((doc) => {
-                  const data = doc.data();
-                  if (data.id && data.id > maxId) {
-                      maxId = data.id;
-                  }
-              });
-          
-              const newId = maxId + 1;
-          
-            const nutrientValues = {
+  }
+      const saveAliment = async (event: any) => {
+        event.preventDefault();
+        try {
+            const collectionRef = collection(firestore, "UserCreatedFoods");
+
+            const querySnapshot = await getDocs(collectionRef);
+        
+            let maxId = 0;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data.id && data.id > maxId) {
+                    maxId = data.id;
+                }
+            });
+        
+            const newId = maxId + 1;
+        
+            const dataToSave = {
               title: productInfo?.product_name,
-              calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
-              proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
-              carbs: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
-              fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
-              sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
               quantity: quantityGrams, 
               unit: productInfo?.product_quantity_unit || 'g',
-              date: date,
-              mealType: selectedMealType,
+              calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
+              proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
+              carbohydrates: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
+              fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
+              sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
               image: productInfo?.image_url
             };
-              Object.keys(nutrientValues).forEach((key) => {
-                  if (nutrientValues[key] === null || nutrientValues[key] === undefined || nutrientValues[key] === '') {
-                      delete nutrientValues[key];
-                  }
-              });
-  
-              await setDoc(doc(firestore, "UserCreatedFoodsQr",  generateManualId()), {
-                  id: newId,
-                  idUser: userData[0]?.id,
-                  ...nutrientValues
-              });
-              setLoadingCreateAliment(true);
-              setTimeout(() => setLoadingCreateAliment(false), 2400);
-              setTimeout(() => {
-                navigation.pop(2);
-              }, 2400);
-          } catch(error: any) {
-              console.log('Create an aliment error', error.message);
-                Alert.alert(
-                  "Erreur",
-                  "Impossible d'ajouter cet aliment. Veuillez réessayer plus tard.",
-                  [{ text: "OK", style: "default" }]
-                );
-          }
-      }
+
+            Object.keys(dataToSave).forEach((key) => {
+                if (dataToSave[key] === null || dataToSave[key] === undefined || dataToSave[key] === '') {
+                    delete dataToSave[key];
+                }
+            });
+
+            await setDoc(doc(firestore, "UserCreatedFoods",  generateManualId()), {
+              id: newId,
+              idUser: userData[0]?.id,
+              ...dataToSave
+          });
+            // setShowModal(true);
+            // setTimeout(() => setShowModal(false), 2500);
+            console.log("save to list")
+        } catch(error: any) {
+            console.log('Create an aliment qr error', error.message)
+        }
+    }
+
+        
   return (
-        <KeyboardAvoidingView
+      <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? -25 : 0}
     >
-    <View style={{ flex: 1, backgroundColor: colors.white }}>
-      <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
-        <Image source={require('@/assets/images/back.png')} style={styles.icon} />
+      <View style={{ flex: 1, backgroundColor: colors.white }}>
+        <View style={{flexDirection: "row", justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center'}}>
+        <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
+          <Image source={require('@/assets/images/back.png')} style={styles.icon} />
+        </Pressable>
+      <Pressable onPress={saveAliment}>
+      {/* <Pressable onPress={() => setLiked(!liked)}> */}
+        <MotiView
+          from={{ scale: 1 }}
+          animate={{ scale: liked ? 1.2 : 1 }}
+          transition={{ type: "spring", stiffness: 200 }}
+              style={{
+          justifyContent: "center",
+          alignItems: "center",
+          width: 40,
+          top: 12
+        }}
+        >
+          <Ionicons
+            name={liked ? "heart" : "heart-outline"}
+            size={30}
+            color={liked ? colors.blue : "black"}
+          />
+        </MotiView>
       </Pressable>
+      </View>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }} keyboardShouldPersistTaps="handled">
         {!productInfo ? (
           <ActivityIndicator size="large" color={colors.black} />
@@ -401,7 +472,6 @@ export default function QrCodeScreen({ route }) {
             setSelectedMealType={setSelectedMealType}
             setQuantityGrams={setQuantityGrams}
             loading={loadingCreateAliment}
-            secondLoading={secondLoading}
             isPremium={true}
           />
         )}

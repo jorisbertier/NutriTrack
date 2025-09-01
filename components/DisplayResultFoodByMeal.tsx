@@ -117,6 +117,7 @@ export function DisplayResultFoodByMeal(
                                     // userMealId={item.userMealId}
                                     calories={item.calories}
                                     handleDelete={()=> handleDeleteFoodCreated(item.originalMealId)}
+                                    image={item.image}
                                 />
                             )}
                             showsVerticalScrollIndicator={false}
