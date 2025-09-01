@@ -521,18 +521,13 @@ export default function Dashboard() {
                 const totalKcalQr = mealsForSelectedDateQr.reduce((acc: number, item: FoodItemQr) => {
                     return acc + (item.calories || 0);
                 }, 0);
-                // setFoodsQrBySeelectedDate(totalKcalQr);
-
                 totalKcal += Number(totalKcalQr);
-                // console.log("user data qr",allFoodQrcode)
-                console.log("total kcal",totalKcalQr)
             }
-
 
         setTotalKcalConsumeToday(totalKcal);
     }, [allFoodDataCreated, resultAllDataFood, selectedDate, foodsForSelectedDate, allFoodQrcode, userData, resultCaloriesCustom]);
 
-// console.log("result csutom", foodsQrBySelectedDate)
+    console.log('foodsQrBySelectedDate', foodsQrBySelectedDate)
     useEffect(() => {
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate, resultCaloriesCustom)
         getTotalNutrient(resultAllDataFood, 'potassium', setPotassium, foodsForSelectedDate, resultCaloriesCustom)
@@ -550,9 +545,9 @@ export default function Dashboard() {
         getTotalNutrient(resultAllDataFood, 'vitaminK', setVitaminK, foodsForSelectedDate, resultCaloriesCustom)
         getTotalNutrient(resultAllDataFood, 'folate', setFolate, foodsForSelectedDate, resultCaloriesCustom)
         getTotalNutrient(resultAllDataFood, 'sugar', setSugar, foodsForSelectedDate, resultCaloriesCustom, foodsQrBySelectedDate)
-        getTotalNutrient(resultAllDataFood, 'proteins', setProteins, foodsForSelectedDate, resultCaloriesCustom)
-        getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs, foodsForSelectedDate, resultCaloriesCustom)
-        getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate, resultCaloriesCustom)
+        getTotalNutrient(resultAllDataFood, 'proteins', setProteins, foodsForSelectedDate, resultCaloriesCustom, foodsQrBySelectedDate)
+        getTotalNutrient(resultAllDataFood, 'carbohydrates', setCarbs, foodsForSelectedDate, resultCaloriesCustom, foodsQrBySelectedDate)
+        getTotalNutrient(resultAllDataFood, 'fats', setFats, foodsForSelectedDate, resultCaloriesCustom, foodsQrBySelectedDate)
     }, [resultAllDataFood, foodsForSelectedDate, resultCaloriesCustom, foodsQrBySelectedDate]);
 
     const nutritionData = [

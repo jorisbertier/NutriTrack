@@ -202,13 +202,13 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
             setNutrient(formattedResult + formattedResultCreated + formattedResultCustom + formattedResultQr);
             break;
         case 'carbohydrates':
-            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom + formattedResultQr);
             break;
         case 'proteins':
             setNutrient(formattedResult + formattedResultCreated + formattedResultCustom + formattedResultQr);
             break;
         case 'fats':
-            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom);
+            setNutrient(formattedResult + formattedResultCreated + formattedResultCustom + formattedResultQr);
             break;
         default:
             break;
