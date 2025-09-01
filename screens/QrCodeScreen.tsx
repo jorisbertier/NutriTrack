@@ -16,10 +16,11 @@ import {
 import { User } from "@/interface/User";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MotiView } from "moti";
+import LottieView from "lottie-react-native";
 
 export default function QrCodeScreen({ route }) {
 
@@ -52,10 +53,14 @@ export default function QrCodeScreen({ route }) {
   const [productInfo, setProductInfo] = useState<ProductInfo | null>(null);
   const [quantityGrams, setQuantityGrams] = useState("100");
   const [selectedMealType, setSelectedMealType] = useState('Breakfast');
+  const [showNotification, setShowNotification] = useState(false);
   const { colors } = useTheme();
   const { t, i18n } = useTranslation();
   const [loadingCreateAliment, setLoadingCreateAliment] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [savedDocId, setSavedDocId] = useState<string | null>(null);
+  const [notifMessage, setNotifMessage] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const [userData, setUserData] = useState<User[]>([]);
   const auth = getAuth();
@@ -192,53 +197,81 @@ export default function QrCodeScreen({ route }) {
             );
       }
   }
-      const saveAliment = async (event: any) => {
-        event.preventDefault();
-        try {
-            const collectionRef = collection(firestore, "UserCreatedFoods");
 
-            const querySnapshot = await getDocs(collectionRef);
-        
-            let maxId = 0;
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                if (data.id && data.id > maxId) {
-                    maxId = data.id;
-                }
-            });
-        
-            const newId = maxId + 1;
-        
-            const dataToSave = {
-              title: productInfo?.product_name,
-              quantity: quantityGrams, 
-              unit: productInfo?.product_quantity_unit || 'g',
-              calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
-              proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
-              carbohydrates: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
-              fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
-              sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
-              image: productInfo?.image_url
-            };
+// Fonction toggle
+const toggleAliment = async () => {
+  if (isProcessing) return;
 
-            Object.keys(dataToSave).forEach((key) => {
-                if (dataToSave[key] === null || dataToSave[key] === undefined || dataToSave[key] === '') {
-                    delete dataToSave[key];
-                }
-            });
+  setIsProcessing(true);
+  try {
+    if (!liked) {
+      // -------- AJOUT --------
+      const collectionRef = collection(firestore, "UserCreatedFoods");
+      const querySnapshot = await getDocs(collectionRef);
 
-            await setDoc(doc(firestore, "UserCreatedFoods",  generateManualId()), {
-              id: newId,
-              idUser: userData[0]?.id,
-              ...dataToSave
-          });
-            // setShowModal(true);
-            // setTimeout(() => setShowModal(false), 2500);
-            console.log("save to list")
-        } catch(error: any) {
-            console.log('Create an aliment qr error', error.message)
+      let maxId = 0;
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data.id && data.id > maxId) {
+          maxId = data.id;
         }
+      });
+
+      const newId = maxId + 1;
+
+      const dataToSave = {
+        title: productInfo?.product_name,
+        quantity: quantityGrams,
+        unit: productInfo?.product_quantity_unit || "g",
+        calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
+        proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
+        carbohydrates: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
+        fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
+        sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
+        image: productInfo?.image_url,
+        idUser: userData[0]?.id,
+      };
+
+      const docId = generateManualId();
+      await setDoc(doc(firestore, "UserCreatedFoods", docId), {
+        id: newId,
+        ...dataToSave,
+      });
+
+      setSavedDocId(docId);
+      setLiked(true);
+
+      setNotifMessage("a bien été ajouté à la liste");
+      setShowNotification(true);
+      setTimeout(() => {
+        setShowNotification(false);
+        setIsProcessing(false);
+      }, 2500);
+
+      console.log("aliment ajouté")
+    } else {
+      // -------- SUPPRESSION --------
+      if (!savedDocId) return;
+
+      const docRef = doc(firestore, "UserCreatedFoods", savedDocId);
+      await deleteDoc(docRef);
+
+      setSavedDocId(null);
+      setLiked(false);
+
+      setNotifMessage("a bien été supprimé de la liste");
+      setShowNotification(true);
+      setTimeout(() => {
+        setShowNotification(false);
+        setIsProcessing(false);
+      }, 2500);
+      console.log("aliment supprimé")
     }
+  } catch (error: any) {
+    console.log("Toggle aliment error:", error.message);
+    setIsProcessing(false);
+  }
+};
 
         
   return (
@@ -252,8 +285,7 @@ export default function QrCodeScreen({ route }) {
         <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
           <Image source={require('@/assets/images/back.png')} style={styles.icon} />
         </Pressable>
-      <Pressable onPress={saveAliment}>
-      {/* <Pressable onPress={() => setLiked(!liked)}> */}
+      <Pressable onPress={toggleAliment} disabled={isProcessing}>
         <MotiView
           from={{ scale: 1 }}
           animate={{ scale: liked ? 1.2 : 1 }}
@@ -262,12 +294,13 @@ export default function QrCodeScreen({ route }) {
           justifyContent: "center",
           alignItems: "center",
           width: 40,
-          top: 12
+          top: 12,
+          opacity: isProcessing ? 0.5 : 1,
         }}
         >
           <Ionicons
             name={liked ? "heart" : "heart-outline"}
-            size={30}
+            size={25}
             color={liked ? colors.blue : "black"}
           />
         </MotiView>
@@ -384,7 +417,7 @@ export default function QrCodeScreen({ route }) {
 
             <View style={styles.nutritionContainer}>
               <Text style={styles.nutritionTitle}>
-                Valeurs nutritionnelles (pour {quantityGrams}g)
+                Valeurs nutritionnelles pour ( {quantityGrams} {productInfo?.product_quantity_unit || " g"})
               </Text>
 
               {[
@@ -475,6 +508,31 @@ export default function QrCodeScreen({ route }) {
             isPremium={true}
           />
         )}
+        {showNotification && (
+          <View style={[styles.notificationContainer, { backgroundColor: colors.grayMode}]}>
+            <Image source={{ uri: productInfo?.image_url }} resizeMode="contain" style={{width: 45, height: 45}}/>
+            <View>
+              <Text style={[styles.notificationTitle, { color: colors.black}]}>{productInfo?.product_name}</Text>
+              <Text style={[styles.notificationText, { color: colors.black}]}>{notifMessage}</Text>
+            </View>
+            {liked ? (
+            <LottieView
+              source={require('@/assets/lottie/Black Check.json')}
+              loop={false}
+              style={{ width: 40, height: 40 }}
+              autoPlay
+            />
+            ) : (
+            <LottieView
+              source={require('@/assets/lottie/Deleted.json')}
+              loop={false}
+              style={{ width: 40, height: 40 }}
+              autoPlay
+            />
+            )}
+          </View>
+        )}
+
     </View>
     </KeyboardAvoidingView>
   );
@@ -522,36 +580,60 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25
   },
-   errorContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-    },
-    errorImage: {
-        width: 150,
-        height: 150,
-        marginBottom: 20,
-    },
-    errorTitle: {
-        fontSize: 22,
-        fontWeight: '700',
-        marginBottom: 10,
-        textAlign: 'center',
-    },
-    errorMessage: {
-        fontSize: 16,
-        color: '#666',
-        textAlign: 'center',
-        marginBottom: 20,
-    },
-    retryButton: {
-        paddingVertical: 12,
-        paddingHorizontal: 30,
-        borderRadius: 20,
-    },
-    retryButtonText: {
-        fontWeight: '600',
-        fontSize: 16,
-    },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorImage: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
+  },
+  errorTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  errorMessage: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  retryButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 20,
+  },
+  retryButtonText: {
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  notificationContainer: {
+    position: "absolute",
+    flexDirection: "row",
+    height: 90,
+    bottom: 120,
+    borderRadius: 20,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    justifyContent: "space-around",
+    zIndex: 999,
+    width: "80%",
+    marginLeft: "10%",
+    padding: 10
+  },
+  notificationTitle :  {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  notificationText: {
+    fontSize: 14,
+    fontWeight: "400",
+    marginTop: 5
+  },
 });

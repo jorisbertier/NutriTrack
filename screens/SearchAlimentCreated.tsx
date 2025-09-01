@@ -222,10 +222,10 @@ function SearchAlimentCreated() {
 const styles = StyleSheet.create({
     header: {
         paddingHorizontal: 12,
-        paddingBottom: 8,
+        paddingBottom: 30,
         backgroundColor: 'white',
         flex: 1,
-        position: 'relative',
+        position: 'relative'
     },
     wrapperInput :{
         position: 'relative',
