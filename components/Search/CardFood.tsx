@@ -48,7 +48,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         Lunch: t('lunch'),  
         Dinner: t('dinner'), 
         Snack: t('snack'),  
-     };
+    };
 
     useEffect(() => {
         try {

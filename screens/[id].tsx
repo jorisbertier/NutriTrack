@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Text } from "react-native";
 import { fetchUserDataConnected } from "@/functions/function";
@@ -165,7 +164,7 @@ export default function DetailsFood() {
             <View style={[styles.header, {backgroundColor: colors.white}]}>
                 <Row style={styles.wrapperTitle}>
                     <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.[`name_${i18n.language}`]}</ThemedText>
-                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + filterUniqueFood?.unit}</ThemedText>
+                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + t(`units.${filterUniqueFood?.unit}`)}</ThemedText>
                     <ThemedText color={colors.black} variant="title1" style={styles.title}>
                     {(filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml") 
                         ? `${calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || "0")} kcal`

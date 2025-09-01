@@ -62,8 +62,8 @@ const WeightPicker = ({ selectedWeight, onChange, weight, isLoading }) => {
 
         return (
         <View style={styles.tickContainer}>
-            <View style={[styles.tick, isMajorTick && styles.majorTick]} />
-            {isMajorTick && <Text style={styles.label}>{item}</Text>}
+            <View style={[styles.tick, isMajorTick && styles.majorTick, { backgroundColor: colors.grayDarkFix}]} />
+            {isMajorTick && <Text style={[styles.label, { color : colors.black}]}>{item}</Text>}
         </View>
         );
     };
@@ -78,14 +78,14 @@ const WeightPicker = ({ selectedWeight, onChange, weight, isLoading }) => {
                     <Text style={styles.weightText}>{weight}</Text>
                     )}
                 </View>
-                <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: 'black', width: 20, height: 20}}  />
+                <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.blzck, width: 20, height: 20}}  />
                 <View style={{backgroundColor: colors.blueLight, height: 100, width: 120,borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={styles.weightText}>{selectedWeight}</Text>
                 </View>
             </View>
 
         <View style={styles.rulerContainer}>
-            <View style={styles.centerMarker} />
+            <View style={[styles.centerMarker, {backgroundColor: colors.black}]} />
 
             <Animated.FlatList
                 ref={flatListRef}
@@ -139,24 +139,20 @@ const styles = StyleSheet.create({
     tick: {
         width: 2,
         height: 20,
-        backgroundColor: '#ccc',
         marginBottom: 4,
     },
     majorTick: {
         height: 35,
-        backgroundColor: '#ccc',
     },
     label: {
         fontSize: 12,
         width: 25,
-        color: '#888',
     },
     centerMarker: {
         position: 'absolute',
         top: 0,
         bottom: 20,
         width: 2,
-        backgroundColor: 'black',
         height: 40,
         left: width / 2 - 21,
         zIndex: 10,
