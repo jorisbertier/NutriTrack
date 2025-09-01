@@ -2,21 +2,21 @@ import { colorMode } from '@/constants/Colors';
 import { calculatePercentage } from '@/functions/function';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { Skeleton } from 'moti/skeleton';
-import React, { useTransition } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
 import { Svg, Circle } from 'react-native-svg';
 
-    const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get('window').width;
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-    const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal, progressCarbs, carbsGoal, progressFats, fatsGoal,goal, goalProteins, goalCarbs, goalFats}) => {
+const ProgressRing: React.FC<any> = ({isLoading, progressProteins, proteinsGoal, progressCarbs, carbsGoal, progressFats, fatsGoal,goal, goalProteins, goalCarbs, goalFats}) => {
 
     const { colors } = useTheme();
     const { t } = useTranslation();
     const showGoalIconProteins = goalProteins > 0;
     const showGoalIconCarbs = goalCarbs > 0;
     const showGoalIconFats = goalFats > 0;
-    // const showGoalIcon = goal !== "maintain";
     const effectiveProteinGoal = proteinsGoal + (goalProteins && goalProteins > 0 ? goalProteins : 0);
     const effectiveCarbsGoal = carbsGoal + (goalCarbs && goalCarbs > 0 ? goalCarbs : 0);
     const effectiveFatsGoal = fatsGoal + (goalFats && goalFats > 0 ? goalFats : 0);
@@ -40,22 +40,38 @@ import { Svg, Circle } from 'react-native-svg';
     const circumferenceOuter = 2 * Math.PI * radiusOuter;
     const circumferenceMiddle = 2 * Math.PI * radiusMiddle;
     const circumferenceInner = 2 * Math.PI * radiusInner;
+    
+    const offsetFats = useRef(new Animated.Value(circumferenceOuter)).current;
+    const offsetCarbs = useRef(new Animated.Value(circumferenceMiddle)).current;
+    const offsetProteins = useRef(new Animated.Value(circumferenceInner)).current;
+
+    useEffect(() => {
+        Animated.timing(offsetFats, {
+        toValue: circumferenceOuter * (1 - percentageFats),
+        duration: 800,
+        useNativeDriver: false,
+        }).start();
+
+        Animated.timing(offsetCarbs, {
+        toValue: circumferenceMiddle * (1 - percentageCarbs),
+        duration: 800,
+        useNativeDriver: false,
+        }).start();
+
+        Animated.timing(offsetProteins, {
+        toValue: circumferenceInner * (1 - percentageProteins),
+        duration: 800,
+        useNativeDriver: false,
+        }).start();
+    }, [percentageFats, percentageCarbs, percentageProteins]);
 
     return (
         <View style={[styles.container, {backgroundColor: colors.white}]}>
             <View style={{width: '50%'}}>
-            <Svg height={150} width={150}>
-                {/* Cercle des graisses */}
-                <Circle
-                    cx="75"
-                    cy="75"
-                    r={radiusOuter}
-                    stroke="#E0E0E0"
-                    strokeWidth="7"
-                    fill="none"
-                />
-                {/* Cercle des graisses */}
-                <Circle
+                <Svg height={150} width={150}>
+                {/* Cercle de fond */}
+                <Circle cx="75" cy="75" r={radiusOuter} stroke="#E0E0E0" strokeWidth="7" fill="none" />
+                <AnimatedCircle
                     cx="75"
                     cy="75"
                     r={radiusOuter}
@@ -63,21 +79,12 @@ import { Svg, Circle } from 'react-native-svg';
                     strokeWidth="7"
                     fill="none"
                     strokeDasharray={`${circumferenceOuter} ${circumferenceOuter}`}
-                    strokeDashoffset={circumferenceOuter * (1 - percentageFats)} 
+                    strokeDashoffset={offsetFats}
                     strokeLinecap="round"
-                    // opacity={percentageFats}
                 />
-                {/* Cercle de fond pour les glucides */}
-                <Circle
-                    cx="75"
-                    cy="75"
-                    r={radiusMiddle}
-                    stroke="#E0E0E0"
-                    strokeWidth="7"
-                    fill="none"
-                />
-                {/* Cercle des glucides */}
-                <Circle
+
+                <Circle cx="75" cy="75" r={radiusMiddle} stroke="#E0E0E0" strokeWidth="7" fill="none" />
+                <AnimatedCircle
                     cx="75"
                     cy="75"
                     r={radiusMiddle}
@@ -85,21 +92,12 @@ import { Svg, Circle } from 'react-native-svg';
                     strokeWidth="7"
                     fill="none"
                     strokeDasharray={`${circumferenceMiddle} ${circumferenceMiddle}`}
-                    strokeDashoffset={circumferenceMiddle * (1 - percentageCarbs)}
+                    strokeDashoffset={offsetCarbs}
                     strokeLinecap="round"
-                    // opacity={percentageCarbs}
                 />
-                {/* Cercle de fond pour les protéines */}
-                <Circle
-                    cx="75"
-                    cy="75"
-                    r={radiusInner}
-                    stroke="#E0E0E0"
-                    strokeWidth="7"
-                    fill="none"
-                />
-                {/* Cercle des protéines */}
-                <Circle
+
+                <Circle cx="75" cy="75" r={radiusInner} stroke="#E0E0E0" strokeWidth="7" fill="none" />
+                <AnimatedCircle
                     cx="75"
                     cy="75"
                     r={radiusInner}
@@ -107,11 +105,10 @@ import { Svg, Circle } from 'react-native-svg';
                     strokeWidth="7"
                     fill="none"
                     strokeDasharray={`${circumferenceInner} ${circumferenceInner}`}
-                    strokeDashoffset={circumferenceInner * (1 - percentageProteins)}
+                    strokeDashoffset={offsetProteins}
                     strokeLinecap="round"
-                    // opacity={percentageProteins}
                 />
-            </Svg>
+                </Svg>
             </View>
             
             <View style={styles.percentageContainer}>
