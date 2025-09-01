@@ -167,7 +167,6 @@ const getGenericName = (product: any, lang: string) => {
               mealType: selectedMealType,
               image: productInfo?.image_url
             };
-            console.log("Nutrient Values:", nutrientValues);
               Object.keys(nutrientValues).forEach((key) => {
                   if (nutrientValues[key] === null || nutrientValues[key] === undefined || nutrientValues[key] === '') {
                       delete nutrientValues[key];
@@ -197,7 +196,7 @@ const getGenericName = (product: any, lang: string) => {
         <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? -25 : 0} // ajuster si tu as un header
+      keyboardVerticalOffset={Platform.OS === "ios" ? -25 : 0}
     >
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
@@ -231,7 +230,8 @@ const getGenericName = (product: any, lang: string) => {
                         { backgroundColor: "rgba(0,170,255,0.1)" },
                       ]}
                     >
-                      <Ionicons name="fast-food-outline" size={16} color="#00aaff" />
+                      {/* <Ionicons name="fast-food-outline" size={16} color="#00aaff" /> */}
+                      <Image source={require('@/assets/images/nutritional/protein.png')} style={{width: 14, height: 14}}/>
                       <Text style={styles.nutrientText}>
                         {formatNutrientValue(productInfo.nutriments?.["proteins_100g"], Number(quantityGrams)) + " g"}
                       </Text>
@@ -242,7 +242,8 @@ const getGenericName = (product: any, lang: string) => {
                         { backgroundColor: "rgba(244,162,97,0.1)" },
                       ]}
                     >
-                      <Ionicons name="egg-outline" size={16} color="#f4a261" />
+                      {/* <Ionicons name="egg-outline" size={16} color="#f4a261" /> */}
+                      <Image source={require('@/assets/images/nutritional/house.png')} style={{width: 14, height: 14}}/>
                       <Text style={styles.nutrientText}>
                         {formatNutrientValue(
                           productInfo.nutriments?.["fat_100g"],
@@ -257,7 +258,8 @@ const getGenericName = (product: any, lang: string) => {
                         { backgroundColor: "rgba(46,204,113,0.1)" },
                       ]}
                     >
-                      <Ionicons name="leaf-outline" size={16} color="#2ecc71" />
+                      {/* <Ionicons name="leaf-outline" size={16} color="#2ecc71" /> */}
+                      <Image source={require('@/assets/images/nutritional/watermelon.png')} style={{width: 14, height: 14}}/>
                       <Text style={styles.nutrientText}>
                         {formatNutrientValue(
                           productInfo.nutriments?.["carbohydrates_100g"],

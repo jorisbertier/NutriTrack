@@ -59,7 +59,7 @@ export default function ScannerScreen() {
       )}
 
       <Pressable onPress={() => navigation.goBack()}  style={[styles.topButtons, { backgroundColor: colors.whiteFix}]} >
-         <Svg viewBox="0 0 24 24" width={24} height={24} fill="none">
+        <Svg viewBox="0 0 24 24" width={24} height={24} fill="none">
           <Path
             fillRule="evenodd"
             clipRule="evenodd"
