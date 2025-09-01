@@ -567,7 +567,7 @@ const styles = StyleSheet.create({
         padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 30,
+        borderRadius: 20,
     },
     errorMessage : {
         color: 'red',

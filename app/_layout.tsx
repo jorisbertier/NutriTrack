@@ -272,7 +272,7 @@ export default function RootLayout() {
                 component={Dashboard}
                 options={{
                   headerShown: true,
-                  headerTitle: 'Nutrition track',
+                  headerTitle: 'Nutri track',
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',

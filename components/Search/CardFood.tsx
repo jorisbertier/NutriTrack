@@ -23,6 +23,8 @@ type Props = {
     notification : boolean
 };
 
+
+
 const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification, notification}) => {
 
     const {colors, theme} = useTheme();
@@ -39,7 +41,14 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     const addImageRef = useRef(null);
     const auth = getAuth();
     const user = auth.currentUser;
-    const [userData, setUserData] = useState<User[]>([])
+    const [userData, setUserData] = useState<User[]>([]);
+
+    const mealLabels: Record<string, string> = {
+        Breakfast: t('breakfast'), 
+        Lunch: t('lunch'),  
+        Dinner: t('dinner'), 
+        Snack: t('snack'),  
+     };
 
     useEffect(() => {
         try {
@@ -161,7 +170,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                                 key={`${index}-${meal}-${Math.random()}`} 
                                 onPress={() => handleValue(meal, id)}
                             >
-                                <Text style={styles.textMeal}>{meal}</Text>
+                                <Text style={styles.textMeal}>{mealLabels[meal]}</Text>
                             </Pressable>
                         ))}
                     </View>

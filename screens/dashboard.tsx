@@ -717,20 +717,20 @@ export default function Dashboard() {
         newDate.setDate(prevDate.getDate() - 1);
         return newDate;
     });
-};
+    };
 
-const goToNextDay = () => {
-    setSelectedDate(prevDate => {
-        const newDate = new Date(prevDate);
-        newDate.setDate(prevDate.getDate() + 1);
-        return newDate;
-    });
-};
+    const goToNextDay = () => {
+        setSelectedDate(prevDate => {
+            const newDate = new Date(prevDate);
+            newDate.setDate(prevDate.getDate() + 1);
+            return newDate;
+        });
+    };
     return (
-        <View style={{ backgroundColor: colors.whiteMode}}>
-            <View style={{flexDirection: "row", width: "100%", marginTop: 10, justifyContent: "space-around"}}>
+        <View style={{ backgroundColor: colors.whiteMode, paddingBottom: 10}}>
+            <View style={{flexDirection: "row", width: "100%", marginTop: 10, paddingBottom: 10, justifyContent: "space-around", backgroundColor: colors.whiteMode}}>
                 <TouchableOpacity onPress={goToPreviousDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
-                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.blackFix, width: 20, height: 20, transform: [{ scaleX: -1 }]}}/>
+                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20, transform: [{ scaleX: -1 }]}}/>
                 </TouchableOpacity>
 
                 <View style={{width: '70%',alignSelf: 'center', height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
@@ -740,11 +740,7 @@ const goToNextDay = () => {
                                 t('today'):
                                 `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                             </ThemedText>
-                            {theme === "light" ?
-                                <Image source={require('@/assets/images/calendarGray.png')} style={{tintColor: "black", width: 25, height: 25}}/>
-                                :
-                                <Image source={require('@/assets/images/chevronWhite.png')} style={{width: 25, height: 25}}/>
-                                }
+                            <Image source={require('@/assets/images/calendarGray.png')} style={{tintColor: colors.black, width: 25, height: 25}}/>
                         </View>
                     </TouchableOpacity>
                     {notificationVisible && (
@@ -762,7 +758,7 @@ const goToNextDay = () => {
                     )}
                 </View>
                 <TouchableOpacity onPress={goToNextDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
-                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.blackFix, width: 20, height: 20}}/>
+                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20}}/>
                 </TouchableOpacity>
             </View>
             <ScrollView style={[styles.header, {paddingTop: 10, backgroundColor: colors.whiteMode}]}>
