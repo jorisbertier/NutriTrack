@@ -710,35 +710,60 @@ export default function Dashboard() {
         fetch();
         }
     }, [proteins, carbs, fats])
+
+    const goToPreviousDay = () => {
+    setSelectedDate(prevDate => {
+        const newDate = new Date(prevDate);
+        newDate.setDate(prevDate.getDate() - 1);
+        return newDate;
+    });
+};
+
+const goToNextDay = () => {
+    setSelectedDate(prevDate => {
+        const newDate = new Date(prevDate);
+        newDate.setDate(prevDate.getDate() + 1);
+        return newDate;
+    });
+};
     return (
-        <>
-            <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
-                <TouchableOpacity onPress={handleOpenCalendar}>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
-                        <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                            t('today'):
-                            `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                        </ThemedText>
-                        {theme === "light" ?
-                            <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
-                            :
-                            <Image source={require('@/assets/images/chevronWhite.png')} style={{width: 20, height: 20}}/>
-                            }
-                    </View>
+        <View style={{ backgroundColor: colors.whiteMode}}>
+            <View style={{flexDirection: "row", width: "100%", marginTop: 10, justifyContent: "space-around"}}>
+                <TouchableOpacity onPress={goToPreviousDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
+                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.blackFix, width: 20, height: 20, transform: [{ scaleX: -1 }]}}/>
                 </TouchableOpacity>
-            {notificationVisible && (
-                <View style={styles.notification}>
-                    <View style={styles.wrapperNotification}>
-                        <Text style={styles.notificationText}>{t('msg_exp')}</Text>
-                    </View>
-                    <LottieView
-                    source={require('@/assets/lottie/Confetti.json')}
-                    loop={true}
-                    style={{ width: 400, height: 400, position: 'absolute' }}
-                    autoPlay={true}
-                    />
+
+                <View style={{width: '70%',alignSelf: 'center', height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
+                    <TouchableOpacity onPress={handleOpenCalendar}>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
+                            <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
+                                t('today'):
+                                `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
+                            </ThemedText>
+                            {theme === "light" ?
+                                <Image source={require('@/assets/images/calendarGray.png')} style={{tintColor: "black", width: 25, height: 25}}/>
+                                :
+                                <Image source={require('@/assets/images/chevronWhite.png')} style={{width: 25, height: 25}}/>
+                                }
+                        </View>
+                    </TouchableOpacity>
+                    {notificationVisible && (
+                        <View style={styles.notification}>
+                            <View style={styles.wrapperNotification}>
+                                <Text style={styles.notificationText}>{t('msg_exp')}</Text>
+                            </View>
+                            <LottieView
+                            source={require('@/assets/lottie/Confetti.json')}
+                            loop={true}
+                            style={{ width: 400, height: 400, position: 'absolute' }}
+                            autoPlay={true}
+                            />
+                        </View>
+                    )}
                 </View>
-            )}
+                <TouchableOpacity onPress={goToNextDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
+                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.blackFix, width: 20, height: 20}}/>
+                </TouchableOpacity>
             </View>
             <ScrollView style={[styles.header, {paddingTop: 10, backgroundColor: colors.whiteMode}]}>
             <View style={[styles.card, { backgroundColor: colors.white, shadowColor: colors.shadow }]}>
@@ -791,7 +816,7 @@ export default function Dashboard() {
                     <NutritionList data={nutritionData} isPremium={isPremium}/>
                 </View>
             </ScrollView>
-        </>
+        </View>
     )
 }
 
