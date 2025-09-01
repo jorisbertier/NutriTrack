@@ -23,14 +23,12 @@ export function DisplayResultFoodByMeal(
     handleDeleteFood: (userMealId: string) => void,
     handleDeleteFoodCreated: (userMealId: string) => void,
     handleDeleteFoodCustom: (userMealId: string) => void,
+    handleDeleteFoodQr: (userMealId: string) => void,
     isLoading: boolean = false
 ) {
 
-    console.log("get an dipaly", resultMealQr)
     const {colors} = useTheme();
     const { t, i18n } = useTranslation();
-    // console.log('gettt data: ', resultMealCustom)
-    // console.log('gettt data: ', resultMealCustom.length)
 
     const colorMode: 'light' | 'dark' = 'light';
     
@@ -168,7 +166,7 @@ export function DisplayResultFoodByMeal(
                                     unit={"g"}
                                     image={item.image}
                                     calories={item.calories}
-                                    // handleDelete={()=> handleDeleteFoodCustom(item.userMealId)}
+                                    handleDelete={()=> handleDeleteFoodQr(item.id)}
                                 />
                             )}
                             showsVerticalScrollIndicator={false}

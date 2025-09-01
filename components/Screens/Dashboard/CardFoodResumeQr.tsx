@@ -14,7 +14,7 @@ type Props = {
     quantity: number,
     quantityCustom: number,
     image: string,
-    // handleDelete: any
+    handleDelete: any
 }
 
 export default function CardFoodResumeQr({name, calories, unit, proteins,carbs, fats, quantityCustom, image, handleDelete}: Props) {

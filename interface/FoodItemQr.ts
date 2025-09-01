@@ -1,5 +1,5 @@
 export interface FoodItemQr {
-    id: number;
+    id: string;
     idUser: string;
     calories: number;
     mealType: string;

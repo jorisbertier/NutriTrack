@@ -1,4 +1,3 @@
-// a supprimer fait office de mock deurant la phase dev, la structure a changer en plus simple
 export interface FoodItem {
     id: number;
     name_en: string;

@@ -174,11 +174,11 @@ const getGenericName = (product: any, lang: string) => {
                   }
               });
   
-              // await setDoc(doc(firestore, "UserCreatedFoodsQr",  generateManualId()), {
-              //     id: newId,
-              //     idUser: userData[0]?.id,
-              //     ...nutrientValues
-              // });
+              await setDoc(doc(firestore, "UserCreatedFoodsQr",  generateManualId()), {
+                  id: newId,
+                  idUser: userData[0]?.id,
+                  ...nutrientValues
+              });
               setLoadingCreateAliment(true);
               setTimeout(() => setLoadingCreateAliment(false), 2400);
               setTimeout(() => {
