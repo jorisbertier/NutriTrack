@@ -729,14 +729,7 @@ export default function Dashboard() {
             {notificationVisible && (
                 <View style={styles.notification}>
                     <View style={styles.wrapperNotification}>
-                    <Text style={styles.notificationText}>{t('msg_exp')}</Text>
-                    {/* <LottieView
-                        source={require('@/assets/lottie/check-popup.json')}
-                        loop={false}
-                        style={{ width: 30, height: 30 }}
-                        autoPlay={true}
-                    /> */}
-                            
+                        <Text style={styles.notificationText}>{t('msg_exp')}</Text>
                     </View>
                     <LottieView
                     source={require('@/assets/lottie/Confetti.json')}
