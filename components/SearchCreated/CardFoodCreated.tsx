@@ -21,12 +21,13 @@ type Props = {
     calories: number;
     unit: string;
     quantity: number;
+    image?: string;
     selectedDate: string,
     setNotification: any
 };
 
 
-const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, selectedDate , setNotification}) => {
+const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, image, selectedDate , setNotification}) => {
 
     const {colors} = useTheme();
     const { t } = useTranslation();
@@ -109,54 +110,68 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
         }
     }
 
-  const handleDelete = (docId: string) => {
-  if (!docId) {
-    showFeedback('error', t('error_meal'));
-    return;
-  }
+    const handleDelete = (docId: string) => {
+    if (!docId) {
+        showFeedback('error', t('error_meal'));
+        return;
+    }
 
-  Alert.alert(
-    t('confirmation'),
-    t('deleteFoodWarning'),
-    [
-      { text: t('cancel'), style: 'cancel' },
-      {
-        text: t('delete'),
-        style: 'destructive',
-        onPress: async () => {
-          try {
-            // 1) Supprimer le doc principal
-            await deleteDoc(doc(firestore, "UserCreatedFoods", docId));
+    Alert.alert(
+        t('confirmation'),
+        t('deleteFoodWarning'),
+        [
+        { text: t('cancel'), style: 'cancel' },
+        {
+            text: t('delete'),
+            style: 'destructive',
+            onPress: async () => {
+            try {
+                // 1) Supprimer le doc principal
+                await deleteDoc(doc(firestore, "UserCreatedFoods", docId));
 
-            // 2) Supprimer les meals liés (foodId stocke **docId** chez toi)
-            const mealsSnap = await getDocs(collection(firestore, "UserMealsCreated"));
-            const related = mealsSnap.docs.filter(d => d.data().foodId === docId);
-            await Promise.all(related.map(d => deleteDoc(d.ref)));
+                // 2) Supprimer les meals liés (foodId stocke **docId** chez toi)
+                const mealsSnap = await getDocs(collection(firestore, "UserMealsCreated"));
+                const related = mealsSnap.docs.filter(d => d.data().foodId === docId);
+                await Promise.all(related.map(d => deleteDoc(d.ref)));
 
-            // 3) MAJ état local
-            setAllDataFoodCreated(prev => prev.filter(f => f.idDoc !== docId));
+                // 3) MAJ état local
+                setAllDataFoodCreated(prev => prev.filter(f => f.idDoc !== docId));
 
-            showFeedback('success', t('foodDeleted'));
-          } catch (e) {
-            console.log(e);
-            showFeedback('error', t('error_food_deleted'));
-          }
+                showFeedback('success', t('foodDeleted'));
+            } catch (e) {
+                console.log(e);
+                showFeedback('error', t('error_food_deleted'));
+            }
+            }
         }
-      }
-    ],
-    { cancelable: false }
-  );
-};
+        ],
+        { cancelable: false }
+    );
+    };
 
 
     return (
         <TouchableOpacity onPress={navigateToDetails}>
 
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
-                <View style={styles.text}>
-                    <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(name)}</ThemedText>
+                <View style={{width: 40, height: 40,borderRadius: 20,overflow: "hidden", marginRight: 10}}>
+                    <Image
+                        source={
+                            image
+                            ? { uri: image }
+                            : require("@/assets/images/default/fooddefault.jpg")
+                        }
+                        resizeMode="cover"
+                        style={{width: "100%", height: "100%"}}
+                    />
+                </View>
+
+                <View style={{flex: 1, justifyContent: "center", marginLeft: 10}}>
+                    <ThemedText variant="title1" color={colors.black}>
+                        {capitalizeFirstLetter(name.length > 10 ? name.slice(0, 8) + ".." : name)}
+                    </ThemedText>
                     <ThemedText variant="title2" color="grayDark">
-                        {calories} kcal, {name} {quantity} {unit}
+                        {calories} kcal, {name.length > 10 ? name.slice(0, 8) + ".." : name}, {quantity} {unit}
                     </ThemedText>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 10}}>
@@ -197,7 +212,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                     </View>
                 </Modal>
             </View>
-                        {feedback && (
+            {feedback && (
                 <AnimatedToast
                     message={feedback.message}
                     type={feedback.type}
@@ -225,6 +240,7 @@ const styles = StyleSheet.create({
     },
     text: {
         gap: 5,
+        textAlign: "left"
     },
     overlay: {
         position: "absolute",

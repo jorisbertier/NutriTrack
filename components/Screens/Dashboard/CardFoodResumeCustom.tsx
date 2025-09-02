@@ -26,7 +26,7 @@ export default function CardFoodResumeCustom({name, calories, unit, proteins,car
     const adjustedCarbs = ((carbs * quantityCustom) / 100).toFixed(1);
     const adjustedFats = ((fats * quantityCustom) / 100).toFixed(1);
 
-
+console.log('image', image)
     return (
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
                 <View style={styles.wrapperText}>

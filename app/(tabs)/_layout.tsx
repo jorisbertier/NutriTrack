@@ -12,6 +12,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Stats from '@/screens/Stats';
 import { useTranslation } from 'react-i18next';
 import { TouchableWithoutFeedback, View } from 'react-native';
+import CoachScreen from '@/screens/CoachScreen';
 
 export default function TabLayout() {
   
@@ -120,6 +121,26 @@ export default function TabLayout() {
       tabBarActiveTintColor : colors.black,
       headerShown: true,
       headerTitle: t('profile'),
+      headerTitleAlign: 'center',
+      headerStyle: {
+        backgroundColor: '#000',
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+    }} 
+    />
+    <Tab.Screen 
+      name="Coach"
+      component={CoachScreen}
+      options={{
+        tabBarLabel: ()=> null, 
+        tabBarIcon: ({ color, size }) => (
+          <MaterialIcons name="stars" size={26} color={color} />
+      ),
+      tabBarActiveTintColor : colors.black,
+      headerShown: true,
+      headerTitle: "Nutri coach",
       headerTitleAlign: 'center',
       headerStyle: {
         backgroundColor: '#000',

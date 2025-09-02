@@ -124,7 +124,7 @@ export default function RootLayout() {
       <Provider store={store}>
       <UserProvider>
       <FoodProvider>
-        <StatusBar backgroundColor="#000" barStyle="light-content" hidden={true}/>
+        <StatusBar backgroundColor="white" barStyle="light-content" hidden={true}/>
         {/* <StatusBar style="auto" /> */}
         {/* <NavigationContainer independent={true} ref={navigationRef}> */}
           <Stack.Navigator

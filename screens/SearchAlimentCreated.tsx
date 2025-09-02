@@ -183,6 +183,7 @@ function SearchAlimentCreated() {
                                 calories={item.calories}
                                 unit={item.unit}
                                 quantity={item.quantity}
+                                image={item.image}
                                 selectedDate={selectedDate.toLocaleDateString()}
                                 setNotification={setNotificationVisible}
                             />

@@ -24,7 +24,7 @@ export default function CardFoodResumeQr({name, calories, unit, proteins,carbs, 
     const adjustedProteins = ((proteins * quantityCustom) / 100).toFixed(1);
     const adjustedCarbs = ((carbs * quantityCustom) / 100).toFixed(1);
     const adjustedFats = ((fats * quantityCustom) / 100).toFixed(1);
-
+console.log(image)
 
     return (
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>

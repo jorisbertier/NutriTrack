@@ -100,12 +100,12 @@ export default function DetailsFoodCreated() {
     <ScrollView persistentScrollbar={true}>
         <View style={styles.banner}>
             <Image
-            source={
-                filterUniqueFood?.image
-                ? { uri: filterUniqueFood.image }
-                : require("@/assets/images/default/fooddefault.jpg")
-            }
-            style={styles.image}
+                source={
+                    filterUniqueFood?.image
+                    ? { uri: filterUniqueFood.image }
+                    : require("@/assets/images/default/fooddefault.jpg")
+                }
+                style={styles.image}
             />
             <Pressable onPress={handleGoBack} style={[styles.back, {backgroundColor: colors.white}]}>
                 {theme === 'light' ?
