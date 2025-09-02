@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     maxWidth: width * 0.8,
     position: "absolute",
-    top: 80, // position en haut
+    top: 320, // position en haut
     alignSelf: "center",
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
-    borderTopColor: "#FFF", // couleur bulle
+    borderTopColor: "#FFF",
   },
   adviceText: {
     fontSize: 16,
