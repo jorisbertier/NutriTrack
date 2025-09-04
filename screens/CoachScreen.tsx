@@ -14,8 +14,6 @@ const CoachScreen = () => {
     const user = auth.currentUser;
     const date = getTodayDate();
     const [adviceList, setAdviceList] = useState<string[]>([]);
-    // const [mood, setMood] = useState<"happy"|"sad"|"angry"|"motivated"|"neutral">("neutral");
-
 
     useEffect(() => {
         const fetchData = async () => {
