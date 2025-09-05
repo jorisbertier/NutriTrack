@@ -27,7 +27,7 @@ const CoachScreen = () => {
         fetchData();
     }, []);
 
-    /* ALL DATAS USER */
+    /* ALL DATAS ONE USER */
         const basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
         Number(userData[0]?.weight),
         Number(userData[0]?.height),
