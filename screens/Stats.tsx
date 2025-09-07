@@ -1,7 +1,7 @@
 import { WeeklyBarChart } from "@/components/Chart/BarChart";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
@@ -15,6 +15,7 @@ import { Skeleton } from "moti/skeleton";
 import { colorMode } from '@/constants/Colors';
 import WeightChart from "@/components/Chart/WeightChart";
 import { useTranslation } from "react-i18next";
+import { useNavigation } from "expo-router";
 
 
 function Stats() {
@@ -29,6 +30,8 @@ function Stats() {
     const userRedux = useSelector((state: RootState) => state.user.user);
     const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
     const [activeWeekIndex, setActiveWeekIndex] = useState(0);
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         try {
@@ -106,6 +109,9 @@ function Stats() {
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.white}]}>
+            <TouchableOpacity onPress={() => navigation.navigate('Badge')}>
+                <Text>Badge</Text>
+            </TouchableOpacity>
             <Row style={{marginBottom: 15,marginTop: 20, marginLeft: 10}}>
                 <ThemedText variant='title' color={colors.black}>Nutri calories</ThemedText>
             </Row>

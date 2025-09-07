@@ -37,6 +37,7 @@ import LottieView from 'lottie-react-native';
 import HistoryWeight from '@/screens/HistoryWeight';
 import QrCodeScreen from '@/screens/QrCodeScreen';
 import ScannerScreen from '@/components/Scan/ScannerScreen';
+import BadgeScreen from '@/screens/BadgeScreen';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -153,6 +154,7 @@ export default function RootLayout() {
               <Stack.Screen name="search" component={Search}/>
               <Stack.Screen name="FoodDetails" component={DetailsFood} />
               <Stack.Screen name="FoodDetailsCreated" component={DetailsFoodCreated} />
+              <Stack.Screen name="Badge" component={BadgeScreen} />
               <Stack.Screen name="Policy" component={PrivacyPolicy}
                 options={{
                   headerShown: true,

@@ -1,4 +1,8 @@
-import React from "react";
+import { checkCaloriesBadges } from "@/functions/badgeFunctions";
+import { calculateTotalCalories } from "@/functions/function";
+import { setBadges } from "@/redux/slices/badgeSlice";
+import { RootState } from "@/redux/store";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -9,6 +13,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // This is a single Expo + TypeScript React Native component that reproduces
 // the badges page shown in the image. Styles try to mimic spacing, fonts
@@ -37,8 +42,49 @@ const progressBadges = [
 const { width } = Dimensions.get("window");
 
 export default function BadgeScreen() {
+
+  const dispatch = useDispatch();
+    const userRedux = useSelector((state: RootState) => state.user.user);
+  const unlockedBadges = useSelector((state: RootState) => state.badges.unlocked);
+
+  
+    useEffect(() => {
+    if (userRedux?.consumeByDays) {
+      const dataConsumeByDays = Object.entries(userRedux.consumeByDays).map(
+        ([day, value]) => ({
+          day: new Date(`${day}T00:00:00Z`).toISOString().split("T")[0],
+          value,
+        })
+      );
+
+      const totalCalories = calculateTotalCalories(dataConsumeByDays);
+      console.log('total calories', totalCalories)
+      const unlocked = checkCaloriesBadges(totalCalories);
+
+      dispatch(setBadges(unlocked));
+    }
+  }, [userRedux, dispatch]);
+
+  console.log(unlockedBadges);
+
+
   return (
     <SafeAreaView style={styles.safe}>
+          <View>
+      <Text>🎖 Badges Débloqués</Text>
+
+      {unlockedBadges.length === 0 ? (
+        <Text>Aucun badge pour le moment 😢</Text>
+      ) : (
+        <FlatList
+          data={unlockedBadges}
+          keyExtractor={(item) => item}
+          renderItem={({ item }) => (
+            <Text>✅ {item}</Text>
+          )}
+        />
+      )}
+    </View>
       <View style={styles.container}>
         <Text style={styles.mainNumber}>81</Text>
         <Text style={styles.subtitle}>Badges Unlocked</Text>
