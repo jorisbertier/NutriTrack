@@ -303,6 +303,12 @@ export async function addExperience(userId: string, xpGained: number, date: stri
     }
 }
 
+export const calculateTotalCalories = (data: { day: string; value: number }[] = []) => {
+    if (!data || data.length === 0) return 0;
+
+    return data.reduce((total, entry) => total + (entry.value || 0), 0);
+};
+
 /* FUNCTION WHEN DELETE ACCOUNT*/
 export const deleteByCollection = async (nameCollection: string, uidUser: any, field: string) => {
     const Collection = collection(firestore, nameCollection);

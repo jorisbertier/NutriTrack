@@ -5,7 +5,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
-import { fetchUserDataConnected } from "@/functions/function";
+import { calculateTotalCalories, fetchUserDataConnected } from "@/functions/function";
 import { User } from "@/interface/User";
 import { getAuth } from "firebase/auth";
 import { useSelector } from "react-redux";
@@ -68,12 +68,13 @@ function Stats() {
         const normalizeDate = (date: any) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
         dataConsumeByDays = Object.entries(userRedux?.consumeByDays).map(([day, value]) => ({
             day: normalizeDate(day),
-            value,
+            value: Number(value),
         }));
     } else {
         console.error("userRedux is undefined");
     }
-    
+    const totalCalories = calculateTotalCalories(dataConsumeByDays);
+    console.log('total :', totalCalories)
     const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
     const data2 = getDataConsumeByDays(sortedData)
 
