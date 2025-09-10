@@ -653,7 +653,7 @@ export default function Dashboard() {
             await updateDoc(userDocRef, {
                 [`consumeByDays.${today}`]: totalKcalConsumeToday,
             });
-
+console.log('dare dispatch', today)
             // console.log("Dispatching update with data:", today, totalKcalConsumeToday);
             dispatch(updateUserCaloriesByDay({
                 consumeByDays: {

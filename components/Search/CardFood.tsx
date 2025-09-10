@@ -6,11 +6,14 @@ import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { User } from "@/interface/User";
 import { useTranslation } from "react-i18next";
-import LottieView from "lottie-react-native";;
+import LottieView from "lottie-react-native";import { useDispatch, useSelector } from "react-redux";
+import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
+import { RootState } from "@/redux/store";
+;
 
 type Props = {
     id: number;
@@ -23,8 +26,6 @@ type Props = {
     notification : boolean
 };
 
-
-
 const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selectedDate , setNotification, notification}) => {
 
     const {colors, theme} = useTheme();
@@ -35,7 +36,9 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
     const [activeAddId, setActiveAddId] = useState<number | null>(null);
     const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
-    const colorMode: 'light' | 'dark' = 'light';
+    
+    const dispatch = useDispatch();
+    const userRedux = useSelector((state: RootState) => state.user.user);
     
     const navigation = useNavigation<any>(); 
     const addImageRef = useRef(null);
@@ -79,8 +82,6 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         setModalVisible(true);
     };
     
-
-    
     const generateUniqueId = () => {
         return Date.now().toString(36) + Math.random().toString(36).substring(2);
     };
@@ -97,6 +98,46 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                     mealType: valueMeal,
                 });
             }
+            const normalizedDate = selectedDate.includes('-') 
+    ? selectedDate 
+    : selectedDate.split('/').reverse().join('-'); //
+            console.log('noramized date dispatch card food', normalizedDate)
+            console.log('date actuel dispatch', selectedDate)
+            dispatch(updateUserCaloriesByDay({
+                consumeByDays: {
+                    ...userRedux?.consumeByDays,
+                    [normalizedDate]: (userRedux?.consumeByDays?.[normalizedDate] || 0) + calories
+                }
+            }));
+            const userId = userData[0]?.id;
+                    const currentCalories = userRedux?.consumeByDays?.[normalizedDate] || 0;
+        const newCalories = currentCalories + calories;
+
+
+                const addConsumeByDaysDispatch = async () => {
+                    const userDocRef = doc(firestore, "User", userId);
+                    await updateDoc(userDocRef, {
+                        [`consumeByDays.${normalizedDate}`]: newCalories
+                    });
+                }
+                console.log('dispatch', userRedux?.consumeByDays)
+
+            dispatch(updateMacronutrients({
+                proteinsTotal: {
+                    ...userRedux?.proteinsTotal,
+                    [selectedDate]: (userRedux?.proteinsTotal?.[selectedDate] || 0) + 10
+                },
+                carbsTotal: {
+                    ...userRedux?.carbsTotal,
+                    [selectedDate]: (userRedux?.carbsTotal?.[selectedDate] || 0) + 20
+                },
+                fatsTotal: {
+                    ...userRedux?.fatsTotal,
+                    [selectedDate]: (userRedux?.fatsTotal?.[selectedDate] || 0) + 5
+                }
+            }));
+
+            addConsumeByDaysDispatch()
             addAliment()
             setModalVisible(false)
             setNotification(true)

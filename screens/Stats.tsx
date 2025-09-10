@@ -5,7 +5,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "rea
 import { getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
 import Row from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
-import { calculateTotalCalories, fetchUserDataConnected } from "@/functions/function";
+import { fetchUserDataConnected } from "@/functions/function";
 import { User } from "@/interface/User";
 import { getAuth } from "firebase/auth";
 import { useSelector } from "react-redux";
@@ -68,19 +68,34 @@ function Stats() {
 
     
     if (userRedux) {
-        const normalizeDate = (date: any) => new Date(`${date}T00:00:00Z`).toISOString().split('T')[0];
-        dataConsumeByDays = Object.entries(userRedux?.consumeByDays).map(([day, value]) => ({
-            day: normalizeDate(day),
+        const normalizeDate = (date: string | number | Date) => {
+    try {
+        if (!date) return null; // reject empty values
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return null; // invalid date
+        return d.toISOString().split('T')[0];
+    } catch (e) {
+        console.error("Invalid date", date, e);
+        return null;
+    }
+};
+dataConsumeByDays = Object.entries(userRedux?.consumeByDays)
+    .map(([day, value]) => {
+        const normalized = normalizeDate(day);
+        if (!normalized) return null; // skip invalid dates
+        return {
+            day: normalized,
             value: Number(value),
-        }));
+        };
+    })
+    .filter(Boolean);
     } else {
         console.error("userRedux is undefined");
     }
-    const totalCalories = calculateTotalCalories(dataConsumeByDays);
-    console.log('total :', totalCalories)
+
     const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
     const data2 = getDataConsumeByDays(sortedData)
-
+console.log(data2)
     if (!userRedux?.consumeByDays || !data2 || !userRedux?.proteinsTotal) {
         return (
             <View style={stylesNoData.container}>
@@ -103,8 +118,6 @@ function Stats() {
         { value: totalProteins, color: "#98CDFC", macro: 'proteins' },
         { value: totalCarbs, color: "#57D1E3" , macro: 'carbohydrates'},
         { value: totalFats, color: "#5F6A88" , macro: 'fats'},
-        // { value: 10, color: "#93A0FF" },
-        // { value: 25, color: "#95D3BE" },
     ];
 
     return (

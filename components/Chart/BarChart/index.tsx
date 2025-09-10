@@ -40,8 +40,7 @@ export const WeeklyBarChart = ({weeks , activeWeekIndex , onWeekChange,}: Weekly
 
     const getDaynumber = (date: string) => {
         const parsedDate = new Date(date);
-
-        // 🔑 On force l'heure à midi UTC pour éviter les décalages fuseaux
+        
         parsedDate.setUTCHours(12, 0, 0, 0);
 
         const weekStart = startOfWeek(parsedDate, { weekStartsOn: 0 });

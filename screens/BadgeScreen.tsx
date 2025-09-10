@@ -2,7 +2,7 @@ import { checkCaloriesBadges } from "@/functions/badgeFunctions";
 import { calculateTotalCalories } from "@/functions/function";
 import { setBadges } from "@/redux/slices/badgeSlice";
 import { RootState } from "@/redux/store";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -46,24 +46,34 @@ export default function BadgeScreen() {
   const dispatch = useDispatch();
     const userRedux = useSelector((state: RootState) => state.user.user);
   const unlockedBadges = useSelector((state: RootState) => state.badges.unlocked);
+  const [totalKcal, setTotalKcal] = useState(0);
 
-  
-    useEffect(() => {
-    if (userRedux?.consumeByDays) {
-      const dataConsumeByDays = Object.entries(userRedux.consumeByDays).map(
-        ([day, value]) => ({
-          day: new Date(`${day}T00:00:00Z`).toISOString().split("T")[0],
-          value,
-        })
-      );
+  const normalizeDate = (date: any) => {
+  if (!date) return null; // empty or null
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return null; // invalid date
+  return d.toISOString().split("T")[0];
+};
+console.log("userderedux consume by days badge scrren : ", userRedux?.consumeByDays)
+useEffect(() => {
+  if (userRedux?.consumeByDays) {
+    const dataConsumeByDays = Object.entries(userRedux.consumeByDays)
+      .map(([day, value]) => {
+        const normalized = normalizeDate(day);
+        if (!normalized) return null; // skip invalid date
+        return { day: normalized, value };
+      })
+      .filter(Boolean); // supprime les null
 
-      const totalCalories = calculateTotalCalories(dataConsumeByDays);
-      console.log('total calories', totalCalories)
-      const unlocked = checkCaloriesBadges(totalCalories);
+    const totalCalories = calculateTotalCalories(dataConsumeByDays);
+    setTotalKcal(totalCalories)
+    console.log("total calories", totalCalories);
+    const unlocked = checkCaloriesBadges(totalCalories);
 
-      dispatch(setBadges(unlocked));
-    }
-  }, [userRedux, dispatch]);
+    dispatch(setBadges(unlocked));
+  }
+}, [userRedux, dispatch]);
+
 
   console.log(unlockedBadges);
 
@@ -87,6 +97,7 @@ export default function BadgeScreen() {
     </View>
       <View style={styles.container}>
         <Text style={styles.mainNumber}>81</Text>
+        <Text>total calories : {totalKcal}</Text>
         <Text style={styles.subtitle}>Badges Unlocked</Text>
 
         {/* Badges row */}
