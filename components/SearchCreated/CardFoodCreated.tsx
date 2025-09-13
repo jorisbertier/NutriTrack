@@ -182,7 +182,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                 <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 10}}>
                         {(!notification || activeAddId !== id) ? (
                                         <Pressable ref={addImageRef} onPress={handlePress} disabled={notification} style={styles.wrapperAdd}>
-                                            <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: notification ? 0.7 : 0.9}]} />
+                                            <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: 0.9}]} />
                                         </Pressable>
                                     ) : (
                                         <View style={styles.wrapperAdd}>

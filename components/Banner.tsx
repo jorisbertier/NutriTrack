@@ -82,7 +82,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
             <View style={[styles.banner]}>
                 <Row style={{justifyContent: 'space-between', width: '90%'}}>
                     <View style={{flexDirection: 'row', gap: 10}}>
-                        <Image source={require('@/assets/images/calendarGray.png')} style={styles.imageMini} />
+                        <Image source={require('@/assets/images/calendar.png')} style={styles.imageMini} />
                         <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(monthLabel)} {date.getDate()},  {date.getFullYear()}</ThemedText>
                     </View>
                     <TouchableOpacity onPress={toggleTheme}>

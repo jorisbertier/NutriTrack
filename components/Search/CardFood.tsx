@@ -153,7 +153,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         }
     }
     return (
-        <TouchableOpacity onPress={navigateToDetails}>
+        <TouchableOpacity onPress={navigateToDetails} disabled={notification}>
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
                 <View style={styles.text}>
                     <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(name)}</ThemedText>
@@ -161,9 +161,9 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                         {calories} kcal, {quantity} {t(`units.${unit}`)}
                     </ThemedText>
                 </View>
-                
+
                 {(!notification || activeAddId !== id) ? (
-                    <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
+                    <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd} disabled={notification}>
                         <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: 0.9}]} />
                     </Pressable>
                 ) : (

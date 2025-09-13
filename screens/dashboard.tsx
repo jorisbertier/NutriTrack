@@ -741,7 +741,7 @@ console.log('dare dispatch', today)
                                 t('today'):
                                 `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
                             </ThemedText>
-                            <Image source={require('@/assets/images/calendarGray.png')} style={{tintColor: colors.black, width: 25, height: 25}}/>
+                            <Image source={require('@/assets/images/calendar.png')} style={{tintColor: colors.black, width: 25, height: 25}}/>
                         </View>
                     </TouchableOpacity>
                     {notificationVisible && (
