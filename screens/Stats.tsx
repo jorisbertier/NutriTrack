@@ -22,13 +22,32 @@ function Stats() {
     const { colors } = useTheme();
     const { t } = useTranslation();
 
-    const [isLoading, setIsLoading] = useState(true);
+    // const [isLoading, setIsLoading] = useState(true);
 
     const userRedux = useSelector((state: RootState) => state.user.user);
     const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
     const [activeWeekIndex, setActiveWeekIndex] = useState(0);
 
     const navigation = useNavigation();
+
+    if (!userRedux) {
+        
+        return <View style={{width: '90%', alignSelf: 'center', marginTop: 20}}>
+                <View style={{marginBottom: 20}}>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
+                </View>
+                <View style={{marginBottom: 20}}>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
+                </View>
+                <View style={{marginBottom: 20}}>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
+                </View>
+                <View style={{marginBottom: 20}}>
+                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
+                </View>
+                </View>
+    }
+
 
     const dataConsumeByDays = useMemo(() => {
         if (!userRedux?.consumeByDays) return [];
