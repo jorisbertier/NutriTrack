@@ -13,6 +13,7 @@ import { User } from "@/interface/User";
 import { useNavigation } from "expo-router";
 import { useTranslation } from "react-i18next";
 import AnimatedToast from "../AnimatedToastProps";
+import LottieView from "lottie-react-native";
 
 type Props = {
     id: number;
@@ -23,17 +24,19 @@ type Props = {
     quantity: number;
     image?: string;
     selectedDate: string,
-    setNotification: any
+    setNotification: any,
+    notification: boolean
 };
 
 
-const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, image, selectedDate , setNotification}) => {
+const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, quantity, image, selectedDate , setNotification, notification}) => {
 
-    const {colors} = useTheme();
+    const {colors, theme} = useTheme();
     const { t } = useTranslation();
     const navigation = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [activeAddId, setActiveAddId] = useState<number | null>(null);
     
     const [modalPosition, setModalPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
     const [userData, setUserData] = useState<User[]>([])
@@ -98,12 +101,14 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
             addAliment()
             setModalVisible(false)
             setNotification(true)
+            setActiveAddId(idFood);
 
             setTimeout(() => {
                 setNotification(false)
-            }, 2000);
+                setActiveAddId(null)
+            }, 2400);
 
-            // console.log("Document successfully written with ID: ", newId)
+            console.log("Document successfully written with ID: ", newId)
         } catch(e) {
             // console.log('Error add aliment to database UserMeals', e)
             showFeedback('error', t('error_food_created'));
@@ -175,9 +180,30 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                     </ThemedText>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 10}}>
-                    <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
-                        <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black}]} />
-                    </Pressable>
+                        {(!notification || activeAddId !== id) ? (
+                                        <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
+                                            <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: 0.9}]} />
+                                        </Pressable>
+                                    ) : (
+                                        <View style={styles.wrapperAdd}>
+                                        {theme === "light" ? (
+                                            <LottieView
+                                            source={require('@/assets/lottie/Black Check.json')}
+                                            loop={false}
+                                            style={{ width: 50, height: 50 }}
+                                            autoPlay
+                                            />
+                                        ): (
+                                            <LottieView
+                                            source={require('@/assets/lottie/White Check.json')}
+                                            loop={false}
+                                            style={{ width: 50, height: 50 }}
+                                            autoPlay
+                                            />
+
+                                        )}
+                                                            </View>
+                                                        )}
                     <Pressable style={[styles.wrapperAdd, {width: 50}]} onPress={() => handleDelete(idDoc)}>
                         <Image source={require("@/assets/images/delete.png")} style={[styles.delete, {tintColor: colors.black}]}/>
                     </Pressable>

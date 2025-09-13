@@ -65,8 +65,8 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     }, [user]);
     
     const navigateToDetails = () => {
-    navigation.navigate("FoodDetails", { id, date: selectedDate });
-};
+        navigation.navigate("FoodDetails", { id, date: selectedDate });
+    };
 
     const handlePress = (event: any) => {
         const { pageY } = event.nativeEvent;
@@ -99,10 +99,10 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                 });
             }
             const normalizedDate = selectedDate.includes('-') 
-    ? selectedDate 
-    : selectedDate.split('/').reverse().join('-'); //
-            console.log('noramized date dispatch card food', normalizedDate)
-            console.log('date actuel dispatch', selectedDate)
+                ? selectedDate 
+                : selectedDate.split('/').reverse().join('-');
+            // console.log('noramized date dispatch card food', normalizedDate)
+            // console.log('date actuel dispatch', selectedDate)
             dispatch(updateUserCaloriesByDay({
                 consumeByDays: {
                     ...userRedux?.consumeByDays,
@@ -110,17 +110,16 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                 }
             }));
             const userId = userData[0]?.id;
-                    const currentCalories = userRedux?.consumeByDays?.[normalizedDate] || 0;
-        const newCalories = currentCalories + calories;
+            const currentCalories = userRedux?.consumeByDays?.[normalizedDate] || 0;
+            const newCalories = currentCalories + calories;
 
-
-                const addConsumeByDaysDispatch = async () => {
-                    const userDocRef = doc(firestore, "User", userId);
-                    await updateDoc(userDocRef, {
-                        [`consumeByDays.${normalizedDate}`]: newCalories
-                    });
-                }
-                console.log('dispatch', userRedux?.consumeByDays)
+            const addConsumeByDaysDispatch = async () => {
+                const userDocRef = doc(firestore, "User", userId);
+                await updateDoc(userDocRef, {
+                    [`consumeByDays.${normalizedDate}`]: newCalories
+                });
+            }
+            // console.log('dispatch', userRedux?.consumeByDays)
 
             dispatch(updateMacronutrients({
                 proteinsTotal: {
@@ -162,6 +161,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                         {calories} kcal, {quantity} {t(`units.${unit}`)}
                     </ThemedText>
                 </View>
+                
                 {(!notification || activeAddId !== id) ? (
                     <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
                         <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: 0.9}]} />

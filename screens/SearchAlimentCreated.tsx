@@ -207,6 +207,8 @@ function SearchAlimentCreated() {
                                 image={item.image}
                                 selectedDate={selectedDate.toLocaleDateString()}
                                 setNotification={setNotificationVisible}
+                                notification={notificationVisible}
+                                
                             />
                         )}
                         showsVerticalScrollIndicator={false}
@@ -224,7 +226,7 @@ function SearchAlimentCreated() {
                         </Text>
                     )}
             </Row>
-            {notificationVisible &&
+            {/* {notificationVisible &&
             <View style={styles.notification}>
                 <View style={styles.wrapperNotification}>
                 <Text style={styles.notificationText}>✓ {t('added')}</Text>
@@ -236,7 +238,7 @@ function SearchAlimentCreated() {
                     />
                 </View>
             </View>
-            }
+            } */}
         </SafeAreaView>
     </>
     )
