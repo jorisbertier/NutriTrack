@@ -118,6 +118,7 @@ export default function Search() {
                     <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20}}/>
                 </TouchableOpacity>
             </View>
+            
             <SafeAreaView style={[styles.header, {backgroundColor: colors.whiteMode}]}>
                 {isOpen && (<RNDateTimePicker
                     onChange={setDate}

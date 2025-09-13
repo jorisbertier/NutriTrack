@@ -133,25 +133,30 @@ function SearchAlimentCreated() {
         });
     };
 
-    const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim())):
+    const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim()));
 
     return (
         <>
-        <View style={{width: '100%', height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
-            <TouchableOpacity onPress={handleOpenCalendar}>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
-                    <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                        t('today'):
-                        `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                    </ThemedText>
-                    {theme === "light" ?
-                    <Image source={require('@/assets/images/chevron-bas.png')} style={{width: 20, height: 20}}/>
-                    :
-                    <Image source={require('@/assets/images/chevronWhite.png')} style={{width: 20, height: 20}}/>
-                    }
+            <View style={{flexDirection: "row", width: "100%", paddingTop: 10, justifyContent: "space-around", backgroundColor: colors.whiteMode}}>
+                <TouchableOpacity onPress={goToPreviousDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
+                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20, transform: [{ scaleX: -1 }]}}/>
+                </TouchableOpacity>
+                <View style={{width: '70%',alignSelf: 'center', height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
+                    <TouchableOpacity onPress={handleOpenCalendar}>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
+                            <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
+                                t('today'):
+                                `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
+                            </ThemedText>
+                            <Image source={require('@/assets/images/calendarGray.png')} style={{tintColor: colors.black, width: 25, height: 25}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
-        </View>
+                <TouchableOpacity onPress={goToNextDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
+                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20}}/>
+                </TouchableOpacity>
+            </View>
+        
         <SafeAreaView style={[styles.header, {backgroundColor: colors.whiteMode}]}>
 
                 {isOpen && (<RNDateTimePicker
