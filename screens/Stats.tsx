@@ -1,6 +1,6 @@
 import { WeeklyBarChart } from "@/components/Chart/BarChart";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { getDataConsumeByDays } from '@/components/Chart/BarChart/constants';
 import Row from "@/components/Row";
@@ -33,81 +33,63 @@ function Stats() {
 
     const navigation = useNavigation();
 
-    useEffect(() => {
-        try {
-            const fetchData = async () => {
-            }
-            fetchData()
-            fetchUserDataConnected(user, setUserData)
-        } catch (e) {
-            console.log('Error processing data', e);
-        }finally {
-            setIsLoading(false)
-        }
-    }, []);
 
-    let dataConsumeByDays;
-
-    if (isLoading || userData.length === 0) {
+    // if (isLoading || !userRedux) {
         
-        return <View style={{width: '90%', alignSelf: 'center', marginTop: 20}}>
-                <View style={{marginBottom: 20}}>
-                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
-                </View>
-                <View style={{marginBottom: 20}}>
-                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
-                </View>
-                <View style={{marginBottom: 20}}>
-                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
-                </View>
-                <View style={{marginBottom: 20}}>
-                    <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
-                </View>
-                </View>
-    }
+    //     return <View style={{width: '90%', alignSelf: 'center', marginTop: 20}}>
+    //             <View style={{marginBottom: 20}}>
+    //                 <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
+    //             </View>
+    //             <View style={{marginBottom: 20}}>
+    //                 <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
+    //             </View>
+    //             <View style={{marginBottom: 20}}>
+    //                 <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
+    //             </View>
+    //             <View style={{marginBottom: 20}}>
+    //                 <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
+    //             </View>
+    //             </View>
+    // }
 
     
-    if (userRedux) {
-        const normalizeDate = (date: string | number | Date) => {
-    try {
-        if (!date) return null; // reject empty values
-        const d = new Date(date);
-        if (isNaN(d.getTime())) return null; // invalid date
-        return d.toISOString().split('T')[0];
-    } catch (e) {
-        console.error("Invalid date", date, e);
-        return null;
-    }
-};
-dataConsumeByDays = Object.entries(userRedux?.consumeByDays)
-    .map(([day, value]) => {
-        const normalized = normalizeDate(day);
-        if (!normalized) return null; // skip invalid dates
-        return {
-            day: normalized,
-            value: Number(value),
-        };
-    })
-    .filter(Boolean);
-    } else {
-        console.error("userRedux is undefined");
-    }
+//     if (userRedux) {
+//         const normalizeDate = (date: string | number | Date) => {
+//     try {
+//         if (!date) return null; // reject empty values
+//         const d = new Date(date);
+//         if (isNaN(d.getTime())) return null; // invalid date
+//         return d.toISOString().split('T')[0];
+//     } catch (e) {
+//         console.error("Invalid date", date, e);
+//         return null;
+//     }
+// };
+  const dataConsumeByDays = useMemo(() => {
+    if (!userRedux?.consumeByDays) return [];
 
-    const sortedData = dataConsumeByDays?.sort((a, b) => new Date(a.day) - new Date(b.day));
-    const data2 = getDataConsumeByDays(sortedData)
-console.log(data2)
-    if (!userRedux?.consumeByDays || !data2 || !userRedux?.proteinsTotal) {
-        return (
-            <View style={stylesNoData.container}>
-                <Text style={stylesNoData.message}>
-                    📊 {t('not_enought_data_statictis')}
-                </Text>
-                <Text style={stylesNoData.subMessage}>
-                    {t('text_enought')}
-                </Text>
-            </View>
-        );
-    }
+    const normalizeDate = (date: string | number | Date) => {
+      try {
+        if (!date) return null;
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return null;
+        return d.toISOString().split("T")[0];
+      } catch {
+        return null;
+      }
+    };
+
+    return Object.entries(userRedux.consumeByDays)
+      .map(([day, value]) => {
+        const normalized = normalizeDate(day);
+        if (!normalized) return null;
+        return { day: normalized, value: Number(value) };
+      })
+      .filter(Boolean)
+      .sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime());
+  }, [userRedux]);
+
+  const data2 = useMemo(() => getDataConsumeByDays(dataConsumeByDays), [dataConsumeByDays]);
     const totalProteins =(Object.values(userRedux?.proteinsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalCarbs = (Object.values(userRedux?.carbsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalFats = (Object.values(userRedux?.fatsTotal).reduce((a,b) =>  a = a + b , 0 ));
