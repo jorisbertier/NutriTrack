@@ -156,7 +156,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
 
 
     return (
-        <TouchableOpacity onPress={navigateToDetails}>
+        <TouchableOpacity onPress={navigateToDetails} disabled={notification}>
 
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>
                 <View style={{width: 40, height: 40,borderRadius: 20,overflow: "hidden", marginRight: 10}}>
@@ -181,8 +181,8 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center', width: '30%', height: '100%', gap: 10}}>
                         {(!notification || activeAddId !== id) ? (
-                                        <Pressable ref={addImageRef} onPress={handlePress} style={styles.wrapperAdd}>
-                                            <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: 0.9}]} />
+                                        <Pressable ref={addImageRef} onPress={handlePress} disabled={notification} style={styles.wrapperAdd}>
+                                            <Image source={require("@/assets/images/add.png")} style={[styles.add, { tintColor: colors.black, opacity: notification ? 0.7 : 0.9}]} />
                                         </Pressable>
                                     ) : (
                                         <View style={styles.wrapperAdd}>
@@ -204,7 +204,7 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                                         )}
                                                             </View>
                                                         )}
-                    <Pressable style={[styles.wrapperAdd, {width: 50}]} onPress={() => handleDelete(idDoc)}>
+                    <Pressable style={[styles.wrapperAdd, {width: 50}]} onPress={() => handleDelete(idDoc)} disabled={notification}>
                         <Image source={require("@/assets/images/delete.png")} style={[styles.delete, {tintColor: colors.black}]}/>
                     </Pressable>
                 </View>
