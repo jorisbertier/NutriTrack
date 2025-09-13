@@ -22,9 +22,6 @@ function Stats() {
     const { colors } = useTheme();
     const { t } = useTranslation();
 
-    const [userData, setUserData] = useState<User[]>([])
-    const auth = getAuth();
-    const user = auth.currentUser;
     const [isLoading, setIsLoading] = useState(true);
 
     const userRedux = useSelector((state: RootState) => state.user.user);
@@ -33,63 +30,32 @@ function Stats() {
 
     const navigation = useNavigation();
 
+    const dataConsumeByDays = useMemo(() => {
+        if (!userRedux?.consumeByDays) return [];
 
-    // if (isLoading || !userRedux) {
-        
-    //     return <View style={{width: '90%', alignSelf: 'center', marginTop: 20}}>
-    //             <View style={{marginBottom: 20}}>
-    //                 <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
-    //             </View>
-    //             <View style={{marginBottom: 20}}>
-    //                 <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
-    //             </View>
-    //             <View style={{marginBottom: 20}}>
-    //                 <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
-    //             </View>
-    //             <View style={{marginBottom: 20}}>
-    //                 <Skeleton colorMode={colorMode} width={'100%'} height={75}/>
-    //             </View>
-    //             </View>
-    // }
+        const normalizeDate = (date: string | number | Date) => {
+        try {
+            if (!date) return null;
+            const d = new Date(date);
+            if (isNaN(d.getTime())) return null;
+            return d.toISOString().split("T")[0];
+        } catch {
+            return null;
+        }
+        };
 
-    
-//     if (userRedux) {
-//         const normalizeDate = (date: string | number | Date) => {
-//     try {
-//         if (!date) return null; // reject empty values
-//         const d = new Date(date);
-//         if (isNaN(d.getTime())) return null; // invalid date
-//         return d.toISOString().split('T')[0];
-//     } catch (e) {
-//         console.error("Invalid date", date, e);
-//         return null;
-//     }
-// };
-  const dataConsumeByDays = useMemo(() => {
-    if (!userRedux?.consumeByDays) return [];
+        return Object.entries(userRedux.consumeByDays)
+        .map(([day, value]) => {
+            const normalized = normalizeDate(day);
+            if (!normalized) return null;
+            return { day: normalized, value: Number(value) };
+        })
+        .filter(Boolean)
+        .sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime());
+    }, [userRedux]);
 
-    const normalizeDate = (date: string | number | Date) => {
-      try {
-        if (!date) return null;
-        const d = new Date(date);
-        if (isNaN(d.getTime())) return null;
-        return d.toISOString().split("T")[0];
-      } catch {
-        return null;
-      }
-    };
+    const data2 = useMemo(() => getDataConsumeByDays(dataConsumeByDays), [dataConsumeByDays]);
 
-    return Object.entries(userRedux.consumeByDays)
-      .map(([day, value]) => {
-        const normalized = normalizeDate(day);
-        if (!normalized) return null;
-        return { day: normalized, value: Number(value) };
-      })
-      .filter(Boolean)
-      .sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime());
-  }, [userRedux]);
-
-  const data2 = useMemo(() => getDataConsumeByDays(dataConsumeByDays), [dataConsumeByDays]);
     const totalProteins =(Object.values(userRedux?.proteinsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalCarbs = (Object.values(userRedux?.carbsTotal).reduce((a,b) =>  a = a + b , 0 ));
     const totalFats = (Object.values(userRedux?.fatsTotal).reduce((a,b) =>  a = a + b , 0 ));
