@@ -117,7 +117,23 @@ function SearchAlimentCreated() {
         onChangeText('')
     }
 
-    const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim()))
+    const goToPreviousDay = () => {
+        setSelectedDate(prevDate => {
+            const newDate = new Date(prevDate);
+            newDate.setDate(prevDate.getDate() - 1);
+            return newDate;
+        });
+    };
+
+    const goToNextDay = () => {
+        setSelectedDate(prevDate => {
+            const newDate = new Date(prevDate);
+            newDate.setDate(prevDate.getDate() + 1);
+            return newDate;
+        });
+    };
+
+    const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim())):
 
     return (
         <>
