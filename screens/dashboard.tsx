@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 import LottieView from "lottie-react-native";
 import { RootState } from "@/redux/store";
 import { FoodItemQr } from "@/interface/FoodItemQr";
+import { DailyIntakeCard } from "@/components/DailyIntakeCard";
 
 
 
@@ -775,7 +776,7 @@ console.log('dare dispatch', today)
                     />
                 )}
 
-                {!isLoading ? (
+                {/* {!isLoading ? (
                     <>
                     <View style={styles.headerRow}>
                         <Text style={[styles.caloriesText, { color: colors.black }]}>
@@ -798,8 +799,17 @@ console.log('dare dispatch', today)
                     <View style={{marginBottom: 5}}><Skeleton width={100} height={24} colorMode={colorMode} /></View>
                     <View><Skeleton width={280} height={20} colorMode={colorMode} /></View>
                     </>
-                )}
+                )} */}
                 </View>
+                <DailyIntakeCard
+                    basalMetabolicRate={basalMetabolicRate} 
+                    totalKcalConsumeToday={totalKcalConsumeToday}
+                    remaining={basalMetabolicRate - totalKcalConsumeToday}             
+                    size={136}
+                    showIcon={showIcon}
+                    strokeWidth={14}
+                    duration={800}
+                />
                 <ProgressRing isLoading={!isLoading} progressProteins={Number(proteins.toFixed(1))} proteinsGoal={proteinsGoal} progressCarbs={Number(carbs.toFixed(1))} carbsGoal={calculCarbohydrates(basalMetabolicRate)} progressFats={Number(fats.toFixed(1))} fatsGoal={calculFats(basalMetabolicRate)} goal={userData[0]?.goal} goalProteins={userData[0]?.goalLogs['proteins']} goalCarbs={userData[0]?.goalLogs['carbs']} goalFats={userData[0]?.goalLogs['fats']}/>
                 
                 <View style={styles.wrapperMeals}>
