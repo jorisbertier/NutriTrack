@@ -49,9 +49,9 @@ export default function BadgeScreen() {
   const [totalKcal, setTotalKcal] = useState(0);
 
   const normalizeDate = (date: any) => {
-  if (!date) return null; // empty or null
+  if (!date) return null;
   const d = new Date(date);
-  if (isNaN(d.getTime())) return null; // invalid date
+  if (isNaN(d.getTime())) return null;
   return d.toISOString().split("T")[0];
 };
 console.log("userderedux consume by days badge scrren : ", userRedux?.consumeByDays)
