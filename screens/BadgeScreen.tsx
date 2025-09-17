@@ -54,7 +54,7 @@ export default function BadgeScreen() {
   if (isNaN(d.getTime())) return null;
   return d.toISOString().split("T")[0];
 };
-// console.log("userderedux consume by days badge scrren : ", userRedux?.consumeByDays)
+console.log("userderedux consume by days badge scrren : ", userRedux?.consumeByDays)
 useEffect(() => {
   if (userRedux?.consumeByDays) {
     const dataConsumeByDays = Object.entries(userRedux.consumeByDays)
