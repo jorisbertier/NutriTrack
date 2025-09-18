@@ -72,6 +72,7 @@
     "react-native-webview": "13.13.5",
     "react-native-wheel-picker-expo": "^0.5.4",
     "react-redux": "^9.2.0",
+    "rive-react-native": "^9.6.0",
     "uuid": "^10.0.0",
     "victory-native": "37.3.6"
   },
