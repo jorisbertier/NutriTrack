@@ -109,21 +109,8 @@ const CoachScreen = () => {
 
         {/* Animation en bas */}
         <View style={styles.animationContainer}>
-            {/* <LottieView
-            source={require("@/assets/lottie/Fox_angry.json")}
-            loop
-            autoPlay
-            style={{ width: 220, height: 220, zIndex: 100 }}
-              progress={0} 
-            /> */}
-{/* <Rive
-       url="https://raw.githubusercontent.com/jorisbertier/rive/main/monkey.riv"
-      artboardName="Avatar 1"
-      stateMachineName="avatar"
-      style={{width: 400, height: 400}}
-  /> */}
       <Rive
-       source={require("../assets/rive/monkey.riv")}
+       source={require("../assets/rive/monkey_sad.riv")}
       autoplay={true}
       style={{ width: 200, height: 200 }}
     />
