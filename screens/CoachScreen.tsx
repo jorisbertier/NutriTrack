@@ -344,8 +344,8 @@ function getMascotMood({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF5E1",
-    alignItems: "center",
+    backgroundColor: "white",
+    // alignItems: "center",
     justifyContent: "flex-end", // pousse tout vers le bas
     paddingHorizontal: 20,
     paddingBottom: 40,
