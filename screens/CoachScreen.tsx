@@ -4,6 +4,8 @@ import { getAuth } from "firebase/auth";
 import LottieView from "lottie-react-native";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native";
+import Rive from 'rive-react-native';
+
 
 const { width } = Dimensions.get("window");
 
@@ -107,13 +109,24 @@ const CoachScreen = () => {
 
         {/* Animation en bas */}
         <View style={styles.animationContainer}>
-            <LottieView
+            {/* <LottieView
             source={require("@/assets/lottie/Fox_angry.json")}
             loop
             autoPlay
             style={{ width: 220, height: 220, zIndex: 100 }}
               progress={0} 
-            />
+            /> */}
+{/* <Rive
+       url="https://raw.githubusercontent.com/jorisbertier/rive/main/monkey.riv"
+      artboardName="Avatar 1"
+      stateMachineName="avatar"
+      style={{width: 400, height: 400}}
+  /> */}
+      <Rive
+       source={require("../assets/rive/monkey.riv")}
+      autoplay={true}
+      style={{ width: 200, height: 200 }}
+    />
         </View>
 
         {/* Bouton en dessous */}
