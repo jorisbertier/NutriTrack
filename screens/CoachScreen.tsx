@@ -237,10 +237,10 @@ const nutritionAdvices = {
   }
 }
 
-// function randomPick(arr?: string[]) {
-//   if (!arr || arr.length === 0) return "Aucun conseil disponible 😅";
-//   return arr[Math.floor(Math.random() * arr.length)];
-// }
+function randomPick(arr?: string[]) {
+  if (!arr || arr.length === 0) return "Aucun conseil disponible 😅";
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 
 function getAdvice({
