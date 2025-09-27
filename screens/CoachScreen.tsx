@@ -52,10 +52,10 @@ const CoachScreen = () => {
     const caloriesToday = userData[0]?.consumeByDays?.[dateYMD] ?? 0;
     const xpToday = userData[0]?.xpLogs?.[dateDmyDash] ?? 0;
 
-    // console.log(date)
-    // console.log('activity', userData[0]?.activityLevel);
-    // console.log('goal gain | maintain | lose', userData[0]?.goal)
-    // console.log('bmr', basalMetabolicRate)
+    console.log(date)
+    console.log('activity', userData[0]?.activityLevel);
+    console.log('goal gain | maintain | lose', userData[0]?.goal)
+    console.log('bmr', basalMetabolicRate)
     // console.log("Carbs du jour :", carbsToday);
     // console.log("Protéines du jour :", proteinsToday);
     // console.log("Graisses du jour :", fatsToday);
