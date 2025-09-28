@@ -127,6 +127,9 @@ export default function DetailsFood() {
 
             setLoadingCreateAliment(true);
             setTimeout(() => setLoadingCreateAliment(false), 2400);
+            setTimeout(() => {
+                navigation.pop(1);
+            }, 2400);
         } catch (error) {
             console.error("Erreur lors de l’ajout :", error);
         }
