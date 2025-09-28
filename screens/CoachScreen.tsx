@@ -1,8 +1,10 @@
 import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculProteins, fetchUserDataConnected, getTodayDate } from "@/functions/function";
 import { User } from "@/interface/User";
+import { RootState } from "@/redux/store";
 import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import Rive from 'rive-react-native';
 
 
@@ -14,7 +16,16 @@ const CoachScreen = () => {
     const auth = getAuth();
     const user = auth.currentUser;
     const date = getTodayDate();
+    /*convert date */
     const [adviceList, setAdviceList] = useState<string[]>([]);
+
+    // REDUX
+      const dispatch = useDispatch();
+    const userRedux = useSelector((state: RootState) => state.user.user);
+    const unlockedBadges = useSelector((state: RootState) => state.badges.unlocked);
+
+    // console.log("userderedux consume by days coach srceen : ", userRedux?.consumeByDays)
+    console.log('date ', date)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,7 +59,7 @@ const CoachScreen = () => {
     const carbsToday = userData[0]?.carbsTotal?.[dateYMD] ?? 0;
     const proteinsToday = userData[0]?.proteinsTotal?.[dateYMD] ?? 0;
     const fatsToday = userData[0]?.fatsTotal?.[dateYMD] ?? 0;
-    const caloriesToday = userData[0]?.consumeByDays?.[dateYMD] ?? 0;
+    const caloriesToday = userRedux?.consumeByDays?.[dateYMD] ?? 0;
     const xpToday = userData[0]?.xpLogs?.[dateDmyDash] ?? 0;
 
     console.log(date)
@@ -58,7 +69,7 @@ const CoachScreen = () => {
     // console.log("Carbs du jour :", carbsToday);
     // console.log("Protéines du jour :", proteinsToday);
     // console.log("Graisses du jour :", fatsToday);
-    // console.log("Calories du jour :", caloriesToday);
+    console.log("Calories du jour :", caloriesToday);
     // console.log("XP du jour :", xpToday);
     // console.log("proteins by day :", proteinsBmr);
     // console.log("carbs by day :", carbsBmr);
@@ -104,6 +115,7 @@ const CoachScreen = () => {
         <View style={styles.adviceContainer}>
             <Text style={styles.adviceText}>{adviceList[adviceIndex]}</Text>
             <View style={styles.triangle} />
+            <Text>Consume today : {caloriesToday}</Text>
         </View>
 
         {/* Animation en bas */}
