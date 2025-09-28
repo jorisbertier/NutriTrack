@@ -2,6 +2,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'reac
 import { Picker } from '@react-native-picker/picker';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/ThemeProvider';
+import LottieView from 'lottie-react-native';
 
 type BottomInputBarProps = {
     filterUniqueFood: {
@@ -12,6 +13,7 @@ type BottomInputBarProps = {
     handleCreateAliment: () => void;
     selectedMealType: string;
     setSelectedMealType: (value: string) => void;
+    loading: boolean;
     isPremium: boolean;
 };
 
@@ -22,6 +24,7 @@ export default function BottomInputBar({
     handleCreateAliment,
     selectedMealType,
     setSelectedMealType,
+    loading,
     isPremium
 }: BottomInputBarProps) {
     const { t } = useTranslation();
@@ -74,23 +77,34 @@ export default function BottomInputBar({
                 </View>
 
                 {/* Add Button */}
-                {isPremium ? (
-                <TouchableOpacity
-                    style={[
-                        styles.button,
-                        { backgroundColor: isDisabled ? colors.grayDarkFix : colors.blackFix }
-                    ]}
-                    onPress={handleCreateAliment}
-                    disabled={isDisabled}
-                    >
-                    <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('add')}</Text>
-                </TouchableOpacity>
-                ) : (
-                    <Image
-                        source={require('@/assets/images/icon/crown.png')}
-                        style={{width: 20, height: 20, tintColor: "#FFD700"}}
-                    />
-                )}
+                <View style={{width: "25%", height: 60, justifyContent: "center", alignItems: "center"}}>
+                    {isPremium ? (
+                        !loading ? (
+                    <TouchableOpacity
+                        style={[
+                            styles.button,
+                            { backgroundColor: isDisabled ? colors.grayDarkFix : colors.blackFix }
+                        ]}
+                        onPress={handleCreateAliment}
+                        disabled={isDisabled}
+                        >
+                        <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('add')}</Text>
+                    </TouchableOpacity>
+                        ) : (
+                            <LottieView
+                            source={require('@/assets/lottie/Black Check.json')}
+                            loop={false}
+                            style={{ width: 50, height: 50 }}
+                            autoPlay={true}
+                            />
+                        )
+                    ) : (
+                        <Image
+                            source={require('@/assets/images/icon/crown.png')}
+                            style={{width: 20, height: 20, tintColor: "#FFD700"}}
+                        />
+                    )}
+                </View>
             </View>
             </View>
         )}
@@ -147,6 +161,7 @@ const styles = StyleSheet.create({
     },
     button: {
         flex: 0.9,
+        width: "100%",
         height: 53,
         borderRadius: 23,
         justifyContent: 'center',

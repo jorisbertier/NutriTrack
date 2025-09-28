@@ -34,7 +34,7 @@ export default function DetailsFood() {
     const [selectedMealType, setSelectedMealType] = useState('');
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<FoodItem[]>([]);
-    const [notificationVisible, setNotificationVisible] = useState(false)
+    const [loadingCreateAliment, setLoadingCreateAliment] = useState(false)
 
     const dispatch = useDispatch();
     const userRedux = useSelector((state: RootState) => state.user.user);
@@ -50,7 +50,7 @@ export default function DetailsFood() {
     const handleGoBack = () => {
         navigation.goBack();
     };
-    
+
     const nutrients = [
         { key: 'proteins', label: t('proteins'), unit: 'g' },
         { key: 'carbohydrates', label: t('carbs'), unit: 'g' },
@@ -125,11 +125,8 @@ export default function DetailsFood() {
                 }
             }));
 
-            setNotificationVisible(true)
-
-            setTimeout(() => {
-                setNotificationVisible(false)
-            }, 2100);
+            setLoadingCreateAliment(true);
+            setTimeout(() => setLoadingCreateAliment(false), 2400);
         } catch (error) {
             console.error("Erreur lors de l’ajout :", error);
         }
@@ -262,8 +259,9 @@ export default function DetailsFood() {
             selectedMealType={selectedMealType}
             setSelectedMealType={setSelectedMealType}
             isPremium={isPremium}
+            loading={loadingCreateAliment}
         />
-        {notificationVisible && (
+        {/* {notificationVisible && (
                         <View style={styles.notification}>
                             <View style={styles.wrapperNotification}>
                             <Text style={styles.notificationText}>✓ {t('added')}</Text>
@@ -275,7 +273,7 @@ export default function DetailsFood() {
                                 />
                             </View>
                         </View>
-                    )}
+                    )} */}
     </>
     )
 }

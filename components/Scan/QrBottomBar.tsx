@@ -77,34 +77,34 @@ export default function BottomInputBarQr({
 
                 {/* Add Button */}
                 {/* Add Button */}
-                <View style={{width: "25%", height: 60, justifyContent: "center", alignItems: "center"}}>
-                    {isPremium ? (
-                        !loading ? (
-                            <TouchableOpacity
-                            style={[
-                                styles.button,
-                                { backgroundColor: isDisabled ? colors.grayDarkFix : colors.blackFix }
-                            ]}
-                            onPress={handleCreateAliment}
-                            disabled={isDisabled}
-                            >
-                                <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('add')}</Text>
-                            </TouchableOpacity>
-                        ) : (
-                            <LottieView
-                            source={require('@/assets/lottie/Black Check.json')}
-                            loop={false}
-                            style={{ width: 50, height: 50 }}
-                            autoPlay={true}
+                    <View style={{width: "25%", height: 60, justifyContent: "center", alignItems: "center"}}>
+                        {isPremium ? (
+                            !loading ? (
+                                <TouchableOpacity
+                                style={[
+                                    styles.button,
+                                    { backgroundColor: isDisabled ? colors.grayDarkFix : colors.blackFix }
+                                ]}
+                                onPress={handleCreateAliment}
+                                disabled={isDisabled}
+                                >
+                                    <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('add')}</Text>
+                                </TouchableOpacity>
+                            ) : (
+                                <LottieView
+                                source={require('@/assets/lottie/Black Check.json')}
+                                loop={false}
+                                style={{ width: 50, height: 50 }}
+                                autoPlay={true}
+                                />
+                            )
+                            ) : (
+                            <Image
+                                source={require('@/assets/images/icon/crown.png')}
+                                style={{ width: 20, height: 20, tintColor: "#FFD700" }}
                             />
-                        )
-                        ) : (
-                        <Image
-                            source={require('@/assets/images/icon/crown.png')}
-                            style={{ width: 20, height: 20, tintColor: "#FFD700" }}
-                        />
-                    )}
-                </View>
+                        )}
+                    </View>
                 </View>
             </View>
         </>
