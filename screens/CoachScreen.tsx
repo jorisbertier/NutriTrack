@@ -1,3 +1,4 @@
+import BetaBadge from "@/components/BadgeBeta";
 import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculProteins, fetchUserDataConnected, getTodayDate } from "@/functions/function";
 import { User } from "@/interface/User";
 import { RootState } from "@/redux/store";
@@ -75,10 +76,6 @@ const CoachScreen = () => {
     // console.log("carbs by day :", carbsBmr);
     // console.log("fats by days :", fatsBmr);
 
-    const nextAdvice = () => {
-        setAdviceIndex((prev) => (prev + 1) % adviceList.length);
-    };
-
     const mood = getMascotMood({
         caloriesToday,
         caloriesTarget: Number(basalMetabolicRate),
@@ -91,7 +88,7 @@ const CoachScreen = () => {
         goal: (userData[0]?.goal ?? "maintain") as "gain" | "lose" | "maintain",
         xpToday
     });
-    console.log("mood : ", mood)
+
     useEffect(() => {
         const advices = getAdvice({
             caloriesToday,
@@ -109,32 +106,38 @@ const CoachScreen = () => {
         setAdviceList(advices);
     }, [caloriesToday, proteinsToday, carbsToday, fatsToday, xpToday, mood]);
 
+      const riveSources: Record<string, any> = {
+        happy: require("../assets/rive/monkey_happy.riv"),
+        sad: require("../assets/rive/monkey_sad.riv"),
+        angry: require("../assets/rive/monkey_angry.riv"),
+        motivated: require("../assets/rive/monkey_motivated.riv"),
+        neutral: require("../assets/rive/monkey_sad.riv"),
+      };
+
     return (
         <View style={styles.container}>
         {/* Bulle de conversation */}
+        <BetaBadge/>
         <View style={styles.adviceContainer}>
-            <Text style={styles.adviceText}>{adviceList[adviceIndex]}</Text>
+            <Text style={styles.adviceText}>{adviceList[0]}</Text>
             <View style={styles.triangle} />
             <Text>Consume today : {caloriesToday}</Text>
         </View>
 
         {/* Animation en bas */}
         <View style={styles.animationContainer}>
-      <Rive
-       source={require("../assets/rive/monkey_sad.riv")}
-      autoplay={true}
-      style={{ width: 200, height: 200 }}
-    />
+        <Rive
+          source={riveSources[mood]}
+          autoplay={true}
+          style={{ width: 300, height: 300 }}
+        />
         </View>
 
-        {/* Bouton en dessous */}
-        <TouchableOpacity style={styles.button} onPress={nextAdvice}>
-            <Text style={styles.buttonText}>Prochain conseil</Text>
-        </TouchableOpacity>
         <Text>{mood}</Text>
         </View>
     );
 };
+
 type AdviceResult = {
     message: string;
     status: "low" | "ok" | "high";
@@ -326,28 +329,44 @@ function getMascotMood({
     xpToday: number;
 }): Mood {
 
-    if (caloriesToday < caloriesTarget * 0.9 || proteinsToday < proteinsTarget * 0.8) {
-        return "sad";
+    // if (caloriesToday < caloriesTarget * 0.9 || proteinsToday < proteinsTarget * 0.8) {
+    //     return "sad";
+    // }
+  if (caloriesToday === 0) {
+        return "neutral";
     }
 
-    if (caloriesToday > caloriesTarget * 1.1 || carbsToday > carbsTarget * 1.2 || fatsToday > fatsTarget * 1.2) {
+    if (caloriesToday > caloriesTarget + 500) {
         return "angry";
     }
-
-    if (
-        caloriesToday >= caloriesTarget * 0.9 &&
-        caloriesToday <= caloriesTarget * 1.1 &&
-        proteinsToday >= proteinsTarget * 0.8 &&
-        carbsToday >= carbsTarget * 0.8 &&
-        fatsToday >= fatsTarget * 0.8 &&
-        xpToday > 0
-    ) {
+    if (caloriesToday > caloriesTarget) {
         return "happy";
     }
 
-    if (goal === "gain" && caloriesToday >= caloriesTarget * 0.9) return "motivated";
-    if (goal === "lose" && caloriesToday <= caloriesTarget * 1.1) return "motivated";
-    if (goal === "maintain" && Math.abs(caloriesToday - caloriesTarget) <= caloriesTarget * 0.1) return "motivated";
+    if (caloriesToday >= caloriesTarget * 0.3 && caloriesToday <= caloriesTarget) {
+        return "motivated";
+    }
+
+    // if (caloriesToday > caloriesTarget * 1.1 || carbsToday > carbsTarget * 1.2 || fatsToday > fatsTarget * 1.2) {
+    //     return "angry";
+    // }
+
+
+
+    // if (
+    //     caloriesToday >= caloriesTarget * 0.9 &&
+    //     caloriesToday <= caloriesTarget * 1.1 &&
+    //     proteinsToday >= proteinsTarget * 0.8 &&
+    //     carbsToday >= carbsTarget * 0.8 &&
+    //     fatsToday >= fatsTarget * 0.8 &&
+    //     xpToday > 0
+    // ) {
+    //     return "happy";
+    // }
+
+    // if (goal === "gain" && caloriesToday >= caloriesTarget * 0.9) return "motivated";
+    // if (goal === "lose" && caloriesToday <= caloriesTarget * 1.1) return "motivated";
+    // if (goal === "maintain" && Math.abs(caloriesToday - caloriesTarget) <= caloriesTarget * 0.1) return "motivated";
 
     return "neutral";
 }
@@ -367,7 +386,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     maxWidth: width * 0.8,
     position: "absolute",
-    top: 320, // position en haut
+    top: 200,
+    height: 100,
     alignSelf: "center",
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -391,9 +411,11 @@ const styles = StyleSheet.create({
     borderTopColor: "#FFF",
   },
   adviceText: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "center",
     color: "#333",
+    marginTop: -60,
+    fontWeight: 600
   },
   animationContainer: {
     alignItems: "center",
