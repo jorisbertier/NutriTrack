@@ -52,7 +52,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         Dinner: t('dinner'), 
         Snack: t('snack'),  
     };
-console.log(' user id', userRedux?.id)
+    
 // console.log(' user id without reduc', userData[0]?.id)
     // useEffect(() => {
     //     try {
