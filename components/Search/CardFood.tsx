@@ -42,9 +42,9 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     
     const navigation = useNavigation<any>(); 
     const addImageRef = useRef(null);
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const [userData, setUserData] = useState<User[]>([]);
+    // const auth = getAuth();
+    // const user = auth.currentUser;
+    // const [userData, setUserData] = useState<User[]>([]);
 
     const mealLabels: Record<string, string> = {
         Breakfast: t('breakfast'), 
@@ -52,17 +52,18 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         Dinner: t('dinner'), 
         Snack: t('snack'),  
     };
-
-    useEffect(() => {
-        try {
-            const fetch = async () => {
-                fetchUserDataConnected(user, setUserData)
-            }
-            fetch()
-        } catch (e) {
-            console.log('Error processing data', e);
-        }
-    }, [user]);
+console.log(' user id', userRedux?.id)
+// console.log(' user id without reduc', userData[0]?.id)
+    // useEffect(() => {
+    //     try {
+    //         const fetch = async () => {
+    //             fetchUserDataConnected(user, setUserData)
+    //         }
+    //         fetch()
+    //     } catch (e) {
+    //         console.log('Error processing data', e);
+    //     }
+    // }, [user]);
     
     const navigateToDetails = () => {
         navigation.navigate("FoodDetails", { id, date: selectedDate });
@@ -93,7 +94,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
             const addAliment = async() => {
                 await setDoc(doc(firestore, "UserMeals", newId), {
                     foodId: idFood,
-                    userId: userData[0]?.id,
+                    userId: userRedux?.id,
                     date: selectedDate,
                     mealType: valueMeal,
                 });
@@ -101,15 +102,14 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
             const normalizedDate = selectedDate.includes('-') 
                 ? selectedDate 
                 : selectedDate.split('/').reverse().join('-');
-            // console.log('noramized date dispatch card food', normalizedDate)
-            // console.log('date actuel dispatch', selectedDate)
+                
             dispatch(updateUserCaloriesByDay({
                 consumeByDays: {
                     ...userRedux?.consumeByDays,
                     [normalizedDate]: (userRedux?.consumeByDays?.[normalizedDate] || 0) + calories
                 }
             }));
-            const userId = userData[0]?.id;
+            const userId = userRedux?.id;
             const currentCalories = userRedux?.consumeByDays?.[normalizedDate] || 0;
             const newCalories = currentCalories + calories;
 

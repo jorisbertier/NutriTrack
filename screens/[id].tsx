@@ -3,7 +3,6 @@ import { Image, Pressable, StyleSheet, View, ScrollView, ActivityIndicator } fro
 import { useNavigation } from "expo-router";
 import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
-import { Dimensions } from "react-native";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
 import { useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
@@ -12,23 +11,17 @@ import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useTranslation } from "react-i18next";
 import { Text } from "react-native";
-import { fetchUserDataConnected } from "@/functions/function";
-import { User } from "@/interface/User";
-import { getAuth } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import BottomInputBar from "@/components/BottomBar";
 import LottieView from "lottie-react-native";
 import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
 
 export default function DetailsFood() {
 
     const {theme, colors} = useTheme();
-
-    const [userData, setUserData] = useState<User[]>([])
-    const auth = getAuth();
-    const user = auth.currentUser;
 
     const navigation = useNavigation();
     const { t, i18n } = useTranslation();
@@ -43,16 +36,8 @@ export default function DetailsFood() {
     const [data, setData] = useState<FoodItem[]>([]);
     const [notificationVisible, setNotificationVisible] = useState(false)
 
-    useEffect(() => {
-        try {
-            const fetch = async () => {
-                fetchUserDataConnected(user, setUserData)
-            }
-            fetch()
-        } catch (e) {
-            console.log('Error processing data', e);
-        }
-    }, [user]);
+    const dispatch = useDispatch();
+    const userRedux = useSelector((state: RootState) => state.user.user);
 
     useEffect(() => {
         try {
@@ -65,6 +50,7 @@ export default function DetailsFood() {
     const handleGoBack = () => {
         navigation.goBack();
     };
+    
     const nutrients = [
         { key: 'proteins', label: t('proteins'), unit: 'g' },
         { key: 'carbohydrates', label: t('carbs'), unit: 'g' },
@@ -101,7 +87,7 @@ export default function DetailsFood() {
     };
 
     const handleCreateAliment = async () => {
-        const userId = userData[0]?.id;
+        const userId = userRedux?.id;
         const foodId = filterUniqueFood?.id;
 
         try {
@@ -113,12 +99,37 @@ export default function DetailsFood() {
                 date: date,
                 mealType: selectedMealType
             });
+
+            const normalizedDate = date.includes('-') 
+                ? date 
+                : date.split('/').reverse().join('-');
+                    dispatch(updateUserCaloriesByDay({
+            consumeByDays: {
+                ...userRedux?.consumeByDays,
+                [normalizedDate]: (userRedux?.consumeByDays?.[normalizedDate] || 0) + (filterUniqueFood?.calories ?? 0)
+                }
+            }));
+
+            dispatch(updateMacronutrients({
+                proteinsTotal: {
+                    ...userRedux?.proteinsTotal,
+                    [normalizedDate]: (userRedux?.proteinsTotal?.[normalizedDate] || 0) + (filterUniqueFood?.proteins ?? 0)
+                },
+                carbsTotal: {
+                    ...userRedux?.carbsTotal,
+                    [normalizedDate]: (userRedux?.carbsTotal?.[normalizedDate] || 0) + (filterUniqueFood?.carbohydrates ?? 0)
+                },
+                fatsTotal: {
+                    ...userRedux?.fatsTotal,
+                    [normalizedDate]: (userRedux?.fatsTotal?.[normalizedDate] || 0) + (filterUniqueFood?.fats ?? 0)
+                }
+            }));
+
             setNotificationVisible(true)
 
             setTimeout(() => {
                 setNotificationVisible(false)
             }, 2100);
-            // console.log("Aliment ajouté avec succès");
         } catch (error) {
             console.error("Erreur lors de l’ajout :", error);
         }
