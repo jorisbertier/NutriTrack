@@ -1,9 +1,8 @@
 import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculProteins, fetchUserDataConnected, getTodayDate } from "@/functions/function";
 import { User } from "@/interface/User";
 import { getAuth } from "firebase/auth";
-import LottieView from "lottie-react-native";
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import Rive from 'rive-react-native';
 
 
