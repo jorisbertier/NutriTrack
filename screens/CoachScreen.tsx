@@ -1,4 +1,5 @@
 import BetaBadge from "@/components/BadgeBeta";
+import HelpCoachButton from "@/components/HelpCoachButton";
 import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculProteins, fetchUserDataConnected, getTodayDate } from "@/functions/function";
 import { User } from "@/interface/User";
 import { RootState } from "@/redux/store";
@@ -118,6 +119,7 @@ const CoachScreen = () => {
         <View style={styles.container}>
         {/* Bulle de conversation */}
         <BetaBadge/>
+        <HelpCoachButton/>
         <View style={styles.adviceContainer}>
             <Text style={styles.adviceText}>{adviceList[0]}</Text>
             <View style={styles.triangle} />
