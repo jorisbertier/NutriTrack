@@ -12,6 +12,7 @@ import {
   calculFats,
   calculProteins,
   fetchUserDataConnected,
+  updateNutritionRedux,
 } from "@/functions/function";
 import { User } from "@/interface/User";
 import { useTranslation } from "react-i18next";
@@ -21,6 +22,9 @@ import { firestore } from "@/firebaseConfig";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MotiView } from "moti";
 import LottieView from "lottie-react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
 
 export default function QrCodeScreen({ route }) {
 
@@ -29,6 +33,9 @@ export default function QrCodeScreen({ route }) {
   const routeDate = useRoute();
   const { date } = routeDate.params;
   const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+  const userRedux = useSelector((state: RootState) => state.user.user);
   
 
   type ProductInfo = {
@@ -86,7 +93,6 @@ export default function QrCodeScreen({ route }) {
   const carbsGoal = calculCarbohydrates(basalMetabolicRate);
   const fatsGoal = calculFats(basalMetabolicRate);
 
-  console.log(i18n.language);
   useEffect(() => {
     if (!barcode) return;
     const fetchProduct = async () => {
@@ -159,19 +165,20 @@ export default function QrCodeScreen({ route }) {
       
           const newId = maxId + 1;
       
-        const nutrientValues = {
-          title: productInfo?.product_name,
-          calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
-          proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
-          carbs: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
-          fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
-          sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
-          quantity: quantityGrams, 
-          unit: productInfo?.product_quantity_unit || 'g',
-          date: date,
-          mealType: selectedMealType,
-          image: productInfo?.image_url
-        };
+          const nutrientValues = {
+            title: productInfo?.product_name,
+            calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
+            proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
+            carbs: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
+            fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
+            sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
+            quantity: quantityGrams, 
+            unit: productInfo?.product_quantity_unit || 'g',
+            date: date,
+            mealType: selectedMealType,
+            image: productInfo?.image_url
+          };
+
           Object.keys(nutrientValues).forEach((key) => {
               if (nutrientValues[key] === null || nutrientValues[key] === undefined || nutrientValues[key] === '') {
                   delete nutrientValues[key];
@@ -183,6 +190,14 @@ export default function QrCodeScreen({ route }) {
               idUser: userData[0]?.id,
               ...nutrientValues
           });
+
+          updateNutritionRedux(dispatch, userRedux, date, {
+            calories: nutrientValues.calories,
+            proteins: nutrientValues.proteins,
+            carbs: nutrientValues.carbs,
+            fats: nutrientValues.fats,
+          });
+
           setLoadingCreateAliment(true);
           setTimeout(() => setLoadingCreateAliment(false), 2400);
           setTimeout(() => {

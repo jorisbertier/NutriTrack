@@ -76,7 +76,7 @@ export const DailyIntakeCard: React.FC<Props> = ({
         <View style={styles.left}>
             <View style={styles.titleRow}>
             <View style={styles.iconCircle}>
-                <Text style={styles.iconText}>⚡</Text>
+                {/* <Text style={styles.iconText}>⚡</Text> */}
                 <Text style={styles.iconText}>{showIcon && '🎯'}</Text>
             </View>
             <Text style={[styles.titleText, { color: colors.black }]}>
@@ -164,6 +164,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        marginTop: -70,
+        marginBottom: 25
     },
     left: {
         flex: 1,

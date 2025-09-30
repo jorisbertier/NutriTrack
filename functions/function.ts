@@ -1,7 +1,9 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
-import { User as FirebaseUser } from "firebase/auth"; // Import Firebase user type
+import { User as FirebaseUser } from "firebase/auth";
 import { FoodItem } from '../interface/FoodItem';
+import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
+import { AppDispatch, RootState } from "@/redux/store";
 
 export function capitalizeFirstLetter(name: string) {
     if (!name) return '';
@@ -309,6 +311,7 @@ export const calculateTotalCalories = (data: { day: string; value: number }[] = 
     return data.reduce((total, entry) => total + (entry.value || 0), 0);
 };
 
+
 /* FUNCTION WHEN DELETE ACCOUNT*/
 export const deleteByCollection = async (nameCollection: string, uidUser: any, field: string) => {
     const Collection = collection(firestore, nameCollection);
@@ -338,3 +341,59 @@ export const getTodayDate = (): string => {
 //     }).start();
 //     setIsOpenDrop(!isOpenDrop)
 // };
+
+/*  REDUX FUNCTION*/
+
+
+type NutrientValues = {
+    calories?: number;
+    proteins?: number;
+    carbs?: number;
+    fats?: number;
+};
+export const updateNutritionRedux = (
+    dispatch: AppDispatch,
+    userRedux: RootState["user"]["user"],
+    date: string,
+    nutrientValues: NutrientValues
+    ) => {
+    if (!userRedux) return;
+
+    const normalizedDate = date.includes("-")
+        ? date
+        : date.split("/").reverse().join("-");
+
+    dispatch(
+        updateUserCaloriesByDay({
+        consumeByDays: {
+            ...userRedux.consumeByDays,
+            [normalizedDate]:
+            (userRedux.consumeByDays?.[normalizedDate] || 0) +
+            (nutrientValues.calories ?? 0),
+        },
+        })
+    );
+
+    dispatch(
+        updateMacronutrients({
+        proteinsTotal: {
+            ...userRedux.proteinsTotal,
+            [normalizedDate]:
+            (userRedux.proteinsTotal?.[normalizedDate] || 0) +
+            (nutrientValues.proteins ?? 0),
+        },
+        carbsTotal: {
+            ...userRedux.carbsTotal,
+            [normalizedDate]:
+            (userRedux.carbsTotal?.[normalizedDate] || 0) +
+            (nutrientValues.carbs ?? 0),
+        },
+        fatsTotal: {
+            ...userRedux.fatsTotal,
+            [normalizedDate]:
+            (userRedux.fatsTotal?.[normalizedDate] || 0) +
+            (nutrientValues.fats ?? 0),
+        },
+        })
+    );
+};
