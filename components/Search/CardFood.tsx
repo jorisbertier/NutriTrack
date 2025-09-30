@@ -1,19 +1,15 @@
 import React, { useState, useRef } from "react";
 import { View, Image, StyleSheet, TouchableOpacity, Modal, Pressable, Text, Dimensions } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/function";
+import { capitalizeFirstLetter } from "@/functions/function";
 import { useNavigation } from "expo-router";
-import { useEffect } from "react";
-import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
-import { User } from "@/interface/User";
 import { useTranslation } from "react-i18next";
 import LottieView from "lottie-react-native";import { useDispatch, useSelector } from "react-redux";
 import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
 import { RootState } from "@/redux/store";
-;
 
 type Props = {
     id: number;
@@ -103,7 +99,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                     [`consumeByDays.${normalizedDate}`]: newCalories
                 });
             }
-            
+
             dispatch(updateMacronutrients({
                 proteinsTotal: {
                     ...userRedux?.proteinsTotal,

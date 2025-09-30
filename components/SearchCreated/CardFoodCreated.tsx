@@ -5,10 +5,9 @@ import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/funct
 import { useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { firestore } from "@/firebaseConfig";
-import { collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { FoodContext } from "@/hooks/FoodContext";
-import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { User } from "@/interface/User";
 import { useNavigation } from "expo-router";
 import { useTranslation } from "react-i18next";
