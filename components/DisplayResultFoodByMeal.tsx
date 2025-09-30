@@ -47,6 +47,7 @@ export function DisplayResultFoodByMeal(
         const ratio = quantity / quantityRef;
         return accumulator + (baseCalories * ratio);
     }, 0);
+    
     const totalCaloriesByMealQr = resultMealQr.reduce((accumulator, item) => {
         return accumulator + (item.calories || 0);
     }, 0);

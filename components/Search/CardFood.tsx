@@ -42,9 +42,6 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
     
     const navigation = useNavigation<any>(); 
     const addImageRef = useRef(null);
-    // const auth = getAuth();
-    // const user = auth.currentUser;
-    // const [userData, setUserData] = useState<User[]>([]);
 
     const mealLabels: Record<string, string> = {
         Breakfast: t('breakfast'), 
@@ -52,18 +49,6 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         Dinner: t('dinner'), 
         Snack: t('snack'),  
     };
-    
-// console.log(' user id without reduc', userData[0]?.id)
-    // useEffect(() => {
-    //     try {
-    //         const fetch = async () => {
-    //             fetchUserDataConnected(user, setUserData)
-    //         }
-    //         fetch()
-    //     } catch (e) {
-    //         console.log('Error processing data', e);
-    //     }
-    // }, [user]);
     
     const navigateToDetails = () => {
         navigation.navigate("FoodDetails", { id, date: selectedDate });
@@ -73,11 +58,10 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
         const { pageY } = event.nativeEvent;
         const screenHeight = Dimensions.get('window').height;
 
-        // Verify is element es near of bottom at the screen
         if (pageY > screenHeight - 200) {
-            setModalPosition({ top: pageY - 250, left: event.nativeEvent.pageX - 60 }); // Open to the top
+            setModalPosition({ top: pageY - 250, left: event.nativeEvent.pageX - 60 });
         } else {
-            setModalPosition({ top: pageY -17, left: event.nativeEvent.pageX - 60 }); //Open to the bottom
+            setModalPosition({ top: pageY -17, left: event.nativeEvent.pageX - 60 });
         }
 
         setModalVisible(true);
@@ -119,8 +103,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
                     [`consumeByDays.${normalizedDate}`]: newCalories
                 });
             }
-            // console.log('dispatch', userRedux?.consumeByDays)
-
+            
             dispatch(updateMacronutrients({
                 proteinsTotal: {
                     ...userRedux?.proteinsTotal,
@@ -152,6 +135,7 @@ const CardFood: React.FC<Props> = ({ name, id, calories, unit, quantity, selecte
             console.log('Error add aliment to database UserMeals', e)
         }
     }
+
     return (
         <TouchableOpacity onPress={navigateToDetails} disabled={notification}>
             <View style={[styles.cardFood, {backgroundColor: colors.grayMode}]}>

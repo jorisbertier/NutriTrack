@@ -303,7 +303,8 @@ export default function Dashboard() {
         }
     }, [selectedDate, allUsersFoodData, userData, allFoodData]);
 
-    const [ resultCaloriesCustom, setResultCaloriesCustom] = useState<UserMealsCustom[]>([])
+    const [ resultCaloriesCustom, setResultCaloriesCustom] = useState<UserMealsCustom[]>([]);
+
     useEffect(() => {
 
         const filterAndSetFoodDataCustom = (
@@ -330,7 +331,7 @@ export default function Dashboard() {
                 entry.userId === userData[0]?.id &&
                 entry.date === selectedDate.toLocaleDateString()
         );
-
+console.log('resume custom', resultCustom)
         filterAndSetFoodDataCustom(resultCustom,  setResultCaloriesCustom);
         filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Breakfast'), setSortByBreakfastCustom);
         filterAndSetFoodDataCustom(resultCustom.filter(f => f.mealType === 'Lunch'), setSortByLunchCustom);
@@ -344,27 +345,28 @@ export default function Dashboard() {
             setIsOpen(true);
         }
     }
-      useEffect(() => {
-                /*get all foods created by user by a id user connected  */
-                console.log('user id: ', userData[0]?.id)
-                const userConnectedFoodQrcode = allFoodQrcode.filter(food => food.idUser === userData[0]?.id);
-                // console.log("get food qr by user", userConnectedFoodQrcode)
 
-                // console.log(selectedDate.toLocaleDateString())
-                const mealsForSelectedDate = userConnectedFoodQrcode.filter(meal => 
-                    meal?.date === selectedDate.toLocaleDateString()  
-                );
+    useEffect(() => {
+        /*get all foods created by user by a id user connected  */
+        console.log('user id: ', userData[0]?.id)
+        const userConnectedFoodQrcode = allFoodQrcode.filter(food => food.idUser === userData[0]?.id);
+        // console.log("get food qr by user", userConnectedFoodQrcode)
 
-                const resultBreakfastQr = mealsForSelectedDate.filter(food => food.mealType === 'Breakfast');
-                const resultLunchQr = mealsForSelectedDate.filter(food => food.mealType === 'Lunch');
-                const resultDinnerQr = mealsForSelectedDate.filter(food => food.mealType === 'Dinner');
-                const resultSnackQr = mealsForSelectedDate.filter(food => food.mealType === 'Snack');
+        // console.log(selectedDate.toLocaleDateString())
+        const mealsForSelectedDate = userConnectedFoodQrcode.filter(meal => 
+            meal?.date === selectedDate.toLocaleDateString()  
+        );
 
-                setFoodsQrBySelectedDate(mealsForSelectedDate)
-                setResultBreakfastQr(resultBreakfastQr)
-                setResultLunchQr(resultLunchQr)
-                setResultDinnerQr(resultDinnerQr)
-                setResultSnackQr(resultSnackQr)
+        const resultBreakfastQr = mealsForSelectedDate.filter(food => food.mealType === 'Breakfast');
+        const resultLunchQr = mealsForSelectedDate.filter(food => food.mealType === 'Lunch');
+        const resultDinnerQr = mealsForSelectedDate.filter(food => food.mealType === 'Dinner');
+        const resultSnackQr = mealsForSelectedDate.filter(food => food.mealType === 'Snack');
+
+        setFoodsQrBySelectedDate(mealsForSelectedDate)
+        setResultBreakfastQr(resultBreakfastQr)
+        setResultLunchQr(resultLunchQr)
+        setResultDinnerQr(resultDinnerQr)
+        setResultSnackQr(resultSnackQr)
 
     }, [selectedDate, userData, allFoodQrcode])
 
@@ -487,9 +489,7 @@ export default function Dashboard() {
     const [proteins, setProteins] = useState(0);
     const [carbs, setCarbs] = useState(0);
     const [fats, setFats] = useState(0);
-// console.log('length', resultCaloriesCustom?.length)
-// console.log('value: ', resultCaloriesCustom)
-// const [foodsQrBySelectedDate, setFoodsQrBySelectedDate] = useState<FoodItemQr[]>([]);
+
     useEffect(() => {
 
         let totalKcal = 0;
@@ -529,7 +529,6 @@ export default function Dashboard() {
         setTotalKcalConsumeToday(totalKcal);
     }, [allFoodDataCreated, resultAllDataFood, selectedDate, foodsForSelectedDate, allFoodQrcode, userData, resultCaloriesCustom]);
 
-    console.log('foodsQrBySelectedDate', foodsQrBySelectedDate)
     useEffect(() => {
         getTotalNutrient(resultAllDataFood, 'magnesium', setMagnesium, foodsForSelectedDate, resultCaloriesCustom)
         getTotalNutrient(resultAllDataFood, 'potassium', setPotassium, foodsForSelectedDate, resultCaloriesCustom)
@@ -611,8 +610,7 @@ export default function Dashboard() {
                         const updatedUserDoc = doc(firestore, "User", userData[0]?.id);
                         const updatedUserSnapshot = await getDoc(updatedUserDoc);
                         const updatedUserData = updatedUserSnapshot.data();
-    
-                        // console.log('first xp', userData[0].xp)
+                        
                         // Met à jour Redux
                         if (updatedUserData) {
                             dispatch(updateUserXp({
@@ -654,16 +652,13 @@ export default function Dashboard() {
             await updateDoc(userDocRef, {
                 [`consumeByDays.${today}`]: totalKcalConsumeToday,
             });
-console.log('dare dispatch', today)
-            // console.log("Dispatching update with data:", today, totalKcalConsumeToday);
+
             dispatch(updateUserCaloriesByDay({
                 consumeByDays: {
                     [today]: totalKcalConsumeToday, // Add new data for today
                 }
             }))
-            // console.log("Data successfully sent to Firestore");
-            // console.log("Dispatch finished for today:", today, totalKcalConsumeToday);
-            // console.log("Data successfully sent to Firestore");
+
         } catch (err) {
             console.error("Error posting totalKcalConsumeToday:", err);
         }
@@ -728,6 +723,7 @@ console.log('dare dispatch', today)
             return newDate;
         });
     };
+    console.log('progress prot ', Number(proteins.toFixed(1)))
     return (
         <View style={{ backgroundColor: colors.whiteMode, paddingBottom: 10}}>
             <View style={{flexDirection: "row", width: "100%", marginTop: 10, paddingBottom: 10, justifyContent: "space-around", backgroundColor: colors.whiteMode}}>

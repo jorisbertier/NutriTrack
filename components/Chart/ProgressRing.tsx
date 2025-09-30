@@ -84,31 +84,40 @@ const ProgressBars: React.FC<any> = ({
     const formatNumber = (num: number) => {
         if (num === 0) return "0";
         return Number.isInteger(num) ? num.toString() : num.toFixed(1);
-        };
-    const renderBar = (label: string, value: number, goal: number, anim: any, showGoal: boolean) => {
+    };
+    console.log('porogress proteins progress rig: ', progressProteins)
+    const renderBar = (
+        label: string,
+        progressValue: number, // ex: 2 g
+        goal: number,          // ex: 10 g
+        anim: any,
+        showGoal: boolean
+    ) => {
+        const ratio = goal > 0 ? progressValue / goal : 0;
+
         return (
-        <View style={{ marginBottom: 15, width: '100%', gap: 5 }}>
+            <View style={{ marginBottom: 15, width: '100%', gap: 5 }}>
             <Text style={[styles.percentageText, { color: colors.black }]}>
-            {label} {(value * 100).toFixed(0)} %
+                {label} {(ratio * 100).toFixed(0)} %
             </Text>
             <View style={styles.progressBarBackground}>
-            <Animated.View
+                <Animated.View
                 style={[
-                styles.progressBarFill,
-                {
+                    styles.progressBarFill,
+                    {
                     backgroundColor: '#8592F2',
                     width: anim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0%', '100%'],
+                        inputRange: [0, 1],
+                        outputRange: ['0%', '100%'],
                     }),
-                },
+                    },
                 ]}
-            />
+                />
             </View>
             <Text style={[styles.percentageSubtext, { color: colors.black }]}>
-                {showGoal && '🎯'} {formatNumber(value * goal)} / {formatNumber(goal)} g
+                {showGoal && '🎯'} {formatNumber(progressValue)} / {formatNumber(goal)} g
             </Text>
-        </View>
+            </View>
         );
     };
 
@@ -117,9 +126,9 @@ const ProgressBars: React.FC<any> = ({
         <View style={styles.percentageContainer}>
             {isLoading ? (
             <>
-                {renderBar(t('proteins'), percentageProteins, effectiveProteinGoal, animProteins, showGoalIconProteins)}
-                {renderBar(t('carbs'), percentageCarbs, effectiveCarbsGoal, animCarbs, showGoalIconCarbs)}
-                {renderBar(t('fats'), percentageFats, effectiveFatsGoal, animFats, showGoalIconFats)}
+                {renderBar(t('proteins'), progressProteins, effectiveProteinGoal, animProteins, showGoalIconProteins)}
+                {renderBar(t('carbs'), progressCarbs, effectiveCarbsGoal, animCarbs, showGoalIconCarbs)}
+                {renderBar(t('fats'), progressFats, effectiveFatsGoal, animFats, showGoalIconFats)}
             </>
             ) : (
             <Skeleton colorMode={colorMode} width={screenWidth * 0.8} />
