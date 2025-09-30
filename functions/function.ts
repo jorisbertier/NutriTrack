@@ -311,6 +311,15 @@ export const calculateTotalCalories = (data: { day: string; value: number }[] = 
     return data.reduce((total, entry) => total + (entry.value || 0), 0);
 };
 
+export const formatName = (name: string): string => {
+    if (!name) return "";
+
+    const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
+
+    return capitalized.length > 25
+        ? capitalized.slice(0, 25) + "..."
+        : capitalized;
+};
 
 /* FUNCTION WHEN DELETE ACCOUNT*/
 export const deleteByCollection = async (nameCollection: string, uidUser: any, field: string) => {

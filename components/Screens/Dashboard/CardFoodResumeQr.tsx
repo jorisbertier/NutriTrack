@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { capitalizeFirstLetter } from "@/functions/function";
+import { capitalizeFirstLetter, formatName } from "@/functions/function";
 import { useTheme } from "@/hooks/ThemeProvider";
 
 type Props = {
@@ -31,7 +31,7 @@ console.log(image)
                 <View style={styles.wrapperText}>
                     <Image source={{uri: `${image}`}} style={styles.image}/>
                     <View style={styles.text}>
-                        <ThemedText variant="title1" color={colors.black}>{capitalizeFirstLetter(`${name}`)}</ThemedText>
+                        <ThemedText variant="title1" color={colors.black}>{formatName(name)}</ThemedText>
                         <ThemedText variant="title2" color={colors.grayDark}>{adjustedCalories} Kcal, {quantityCustom} {unit}</ThemedText>
                     </View>
                 </View>
