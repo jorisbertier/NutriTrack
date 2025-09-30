@@ -72,94 +72,94 @@ export const DailyIntakeCard: React.FC<Props> = ({
 
     return (
         <View style={[styles.card, { backgroundColor: colors.blueLight }, style]}>
-        {/* Left: title + big percent */}
-        <View style={styles.left}>
-            <View style={styles.titleRow}>
-            <View style={styles.iconCircle}>
-                {/* <Text style={styles.iconText}>⚡</Text> */}
-                <Text style={styles.iconText}>{showIcon && '🎯'}</Text>
-            </View>
-            <Text style={[styles.titleText, { color: colors.black }]}>
-                Daily intake
-            </Text>
-            </View>
+            {/* Left: title + big percent */}
+            <View style={styles.left}>
+                <View style={styles.titleRow}>
+                    <View style={styles.iconCircle}>
+                        {/* <Text style={styles.iconText}>⚡</Text> */}
+                        <Text style={styles.iconText}>{showIcon && '🎯'}</Text>
+                    </View>
+                    <Text style={[styles.titleText, { color: colors.black }]}>
+                        Daily intake
+                    </Text>
+                </View>
 
-            <Text style={[styles.bigPercent, { color: colors.black }]}>
-            {displayPercent}%
-            </Text>
-        </View>
-
-        {/* Right: circular progress */}
-        <View style={styles.right}>
-            <View style={{ width: size, height: size, alignItems: "center", justifyContent: "center" }}>
-            <Svg width={size} height={size}>
-                {/* subtle full-track circle */}
-                <Circle
-                cx={center}
-                cy={center}
-                r={radius}
-                stroke={colors.white}
-                strokeWidth={10}
-                fill="none"
-                />
-
-                {/* animated progress circle */}
-                <AnimatedCircle
-                cx={center}
-                cy={center}
-                r={radius}
-                stroke={colors.black}
-                strokeWidth={10}
-                strokeLinecap="round"
-                strokeDasharray={`${circumference} ${circumference}`}
-                // @ts-ignore: animated interpolation is ok here
-                strokeDashoffset={strokeDashoffset}
-                rotation="-90"
-                origin={`${center}, ${center}`}
-                fill="none"
-                />
-            </Svg>
-
-            {/* Inner white disc to create the donut look */}
-            <View
-                style={[
-                styles.innerCircle,
-                {
-                    width: size - strokeWidth * 2.2,
-                    height: size - strokeWidth * 2.2,
-                    borderRadius: (size - strokeWidth * 2.2) / 2,
-                },
-                ]}
-            />
-
-            {/* Center texts (current / goal) */}
-            <View style={styles.centerTextContainer}>
-                <Text style={[styles.centerCurrent, { color: colors.black }]}>
-                {current}
-                </Text>
-                <View style={styles.centerDivider} />
-                <Text style={[styles.centerGoal, { color: colors.black }]}>
-                {showIcon && '🎯'}{safeGoal}
+                <Text style={[styles.bigPercent, { color: colors.black }]}>
+                {displayPercent}%
                 </Text>
             </View>
-            </View>
-        </View>
 
-        {/* small badge showing remaining if provided */}
-        {typeof remaining === "number" && remaining > 0 &&(
-            <View style={[styles.badge, { backgroundColor: "#EEF9D9" }]}>
-            <Text style={[styles.badgeText, { color: colors.black }]}>
-                {Math.round(remaining)} left
-            </Text>
+            {/* Right: circular progress */}
+            <View style={styles.right}>
+                <View style={{ width: size, height: size, alignItems: "center", justifyContent: "center" }}>
+                <Svg width={size} height={size}>
+                    {/* subtle full-track circle */}
+                    <Circle
+                    cx={center}
+                    cy={center}
+                    r={radius}
+                    stroke={colors.white}
+                    strokeWidth={10}
+                    fill="none"
+                    />
+
+                    {/* animated progress circle */}
+                    <AnimatedCircle
+                    cx={center}
+                    cy={center}
+                    r={radius}
+                    stroke={colors.black}
+                    strokeWidth={10}
+                    strokeLinecap="round"
+                    strokeDasharray={`${circumference} ${circumference}`}
+                    // @ts-ignore: animated interpolation is ok here
+                    strokeDashoffset={strokeDashoffset}
+                    rotation="-90"
+                    origin={`${center}, ${center}`}
+                    fill="none"
+                    />
+                </Svg>
+
+                {/* Inner white disc to create the donut look */}
+                <View
+                    style={[
+                    styles.innerCircle,
+                    {
+                        width: size - strokeWidth * 2.2,
+                        height: size - strokeWidth * 2.2,
+                        borderRadius: (size - strokeWidth * 2.2) / 2,
+                    },
+                    ]}
+                />
+
+                {/* Center texts (current / goal) */}
+                <View style={styles.centerTextContainer}>
+                    <Text style={[styles.centerCurrent, { color: colors.black }]}>
+                    {current}
+                    </Text>
+                    <View style={styles.centerDivider} />
+                    <Text style={[styles.centerGoal, { color: colors.black }]}>
+                    {safeGoal}
+                    </Text>
+                </View>
+                </View>
             </View>
-        )}
+
+            {/* small badge showing remaining if provided */}
+            {typeof remaining === "number" && remaining > 0 &&(
+                <View style={[styles.badge, { backgroundColor: colors.grayMode }]}>
+                    <Text style={[styles.badgeText, { color: colors.black }]}>
+                        {Math.round(remaining)} kcal left
+                    </Text>
+                </View>
+            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     card: {
-        borderRadius: 18,
+        borderRadius: 25,
         padding: 14,
         flexDirection: "row",
         alignItems: "center",
@@ -170,6 +170,8 @@ const styles = StyleSheet.create({
     left: {
         flex: 1,
         paddingRight: 8,
+        marginLeft: 10,
+        gap: 10
     },
     titleRow: {
         flexDirection: "row",
@@ -192,8 +194,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     titleText: {
-        fontSize: 14,
-        fontWeight: "600",
+        fontWeight: "500",
+        letterSpacing: 1,
+        fontSize: 16
     } as TextStyle,
     bigPercent: {
         marginTop: 10,
@@ -217,12 +220,13 @@ const styles = StyleSheet.create({
     },
     centerCurrent: {
         fontSize: 16,
-        fontWeight: "700",
+        fontWeight: "600",
     },
     centerGoal: {
-        fontSize: 12,
-        color: "#6b6b6b",
+        fontSize: 16,
+        color: "#121212ff",
         marginTop: 2,
+        fontWeight: "500",
     },
     centerDivider: {
         width: 36,
@@ -233,7 +237,7 @@ const styles = StyleSheet.create({
     badge: {
         position: "absolute",
         right: 12,
-        top: 12,
+        top: -18,
         paddingVertical: 6,
         paddingHorizontal: 10,
         borderRadius: 12,
