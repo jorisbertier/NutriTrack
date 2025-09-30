@@ -18,6 +18,7 @@ import LottieView from "lottie-react-native";
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
+import { updateNutritionRedux } from "@/functions/function";
 
 export default function DetailsFood() {
 
@@ -100,30 +101,12 @@ export default function DetailsFood() {
                 mealType: selectedMealType
             });
 
-            const normalizedDate = date.includes('-') 
-                ? date 
-                : date.split('/').reverse().join('-');
-                    dispatch(updateUserCaloriesByDay({
-            consumeByDays: {
-                ...userRedux?.consumeByDays,
-                [normalizedDate]: (userRedux?.consumeByDays?.[normalizedDate] || 0) + (filterUniqueFood?.calories ?? 0)
-                }
-            }));
-
-            dispatch(updateMacronutrients({
-                proteinsTotal: {
-                    ...userRedux?.proteinsTotal,
-                    [normalizedDate]: (userRedux?.proteinsTotal?.[normalizedDate] || 0) + (filterUniqueFood?.proteins ?? 0)
-                },
-                carbsTotal: {
-                    ...userRedux?.carbsTotal,
-                    [normalizedDate]: (userRedux?.carbsTotal?.[normalizedDate] || 0) + (filterUniqueFood?.carbohydrates ?? 0)
-                },
-                fatsTotal: {
-                    ...userRedux?.fatsTotal,
-                    [normalizedDate]: (userRedux?.fatsTotal?.[normalizedDate] || 0) + (filterUniqueFood?.fats ?? 0)
-                }
-            }));
+            updateNutritionRedux(dispatch, userRedux, date, {
+                calories: filterUniqueFood?.calories ?? 0,
+                proteins: filterUniqueFood?.proteins ?? 0,
+                carbs: filterUniqueFood?.carbohydrates ?? 0,
+                fats: filterUniqueFood?.fats ?? 0,
+            });
 
             setLoadingCreateAliment(true);
             setTimeout(() => setLoadingCreateAliment(false), 2400);

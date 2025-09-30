@@ -24,7 +24,6 @@ import { MotiView } from "moti";
 import LottieView from "lottie-react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
 
 export default function QrCodeScreen({ route }) {
 
