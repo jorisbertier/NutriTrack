@@ -222,23 +222,10 @@ function SearchAlimentCreated() {
                     
                     {isLoading && filteredAllDataFoodCreated.length === 0 && (
                         <Text style={{ color: colors.black }}>
-                            No food matches with the search {text}.
+                            {t('matchFood')} {text}.
                         </Text>
                     )}
             </Row>
-            {/* {notificationVisible &&
-            <View style={styles.notification}>
-                <View style={styles.wrapperNotification}>
-                <Text style={styles.notificationText}>✓ {t('added')}</Text>
-                    <LottieView
-                        source={require('@/assets/lottie/check-popup.json')}
-                        loop={false}
-                        style={{ width: 30, height: 30 }}
-                        autoPlay={true}
-                    />
-                </View>
-            </View>
-            } */}
         </SafeAreaView>
     </>
     )
