@@ -58,9 +58,9 @@ const CoachScreen = () => {
 
     const dateYMD = `${yyyy}-${mm}-${dd}`;
     const dateDmyDash = `${dd}-${mm}-${yyyy}`;
-    const carbsToday = userData[0]?.carbsTotal?.[dateYMD] ?? 0;
-    const proteinsToday = userData[0]?.proteinsTotal?.[dateYMD] ?? 0;
-    const fatsToday = userData[0]?.fatsTotal?.[dateYMD] ?? 0;
+    const carbsToday = userRedux?.carbsTotal?.[dateYMD] ?? 0;
+    const proteinsToday = userRedux?.proteinsTotal?.[dateYMD] ?? 0;
+    const fatsToday = userRedux?.fatsTotal?.[dateYMD] ?? 0;
     const caloriesToday = userRedux?.consumeByDays?.[dateYMD] ?? 0;
     const xpToday = userData[0]?.xpLogs?.[dateDmyDash] ?? 0;
 
@@ -124,6 +124,9 @@ const CoachScreen = () => {
             <Text style={styles.adviceText}>{adviceList[0]}</Text>
             <View style={styles.triangle} />
             <Text>Consume today : {caloriesToday}</Text>
+            <Text>Consume today proteins: {proteinsToday}</Text>
+            <Text>Consume today fats: {fatsToday}</Text>
+            <Text>Consume today varbs: {carbsToday}</Text>
         </View>
 
         {/* Animation en bas */}

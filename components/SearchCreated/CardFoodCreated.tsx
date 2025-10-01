@@ -13,6 +13,9 @@ import { useNavigation } from "expo-router";
 import { useTranslation } from "react-i18next";
 import AnimatedToast from "../AnimatedToastProps";
 import LottieView from "lottie-react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
+import { RootState } from "@/redux/store";
 
 type Props = {
     id: number;
@@ -50,6 +53,9 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
     const showFeedback = (type: 'success' | 'error', message: string) => {
         setFeedback({ type, message });
     };
+
+    const dispatch = useDispatch();
+    const userRedux = useSelector((state: RootState) => state.user.user);
 
     useEffect(() => {
         try {
@@ -97,6 +103,32 @@ const CardFoodCreated: React.FC<Props> = ({ idDoc, name, id, calories, unit, qua
                     mealType: valueMeal,
                 });
             }
+            
+            const normalizedDate = selectedDate.includes('-')
+                ? selectedDate
+                : selectedDate.split('/').reverse().join('-');
+
+            dispatch(updateUserCaloriesByDay({
+                consumeByDays: {
+                    ...userRedux?.consumeByDays,
+                    [normalizedDate]: (userRedux?.consumeByDays?.[normalizedDate] || 0) + calories
+                }
+            }));
+
+            dispatch(updateMacronutrients({
+                proteinsTotal: {
+                    ...userRedux?.proteinsTotal,
+                    [normalizedDate]: (userRedux?.proteinsTotal?.[normalizedDate] || 0) + 10
+                },
+                carbsTotal: {
+                    ...userRedux?.carbsTotal,
+                    [normalizedDate]: (userRedux?.carbsTotal?.[normalizedDate] || 0) + 20
+                },
+                fatsTotal: {
+                    ...userRedux?.fatsTotal,
+                    [normalizedDate]: (userRedux?.fatsTotal?.[normalizedDate] || 0) + 5
+                }
+            }));
             addAliment()
             setModalVisible(false)
             setNotification(true)
