@@ -353,7 +353,7 @@ export const getTodayDate = (): string => {
 //     setIsOpenDrop(!isOpenDrop)
 // };
 
-// /*  REDUX FUNCTION */
+// /*  REDUX FUNCTION NUTRITION*/
 
 
 type NutrientValues = {
