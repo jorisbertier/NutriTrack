@@ -235,15 +235,31 @@ const nutritionAdvices = {
   },
   moods: {
     happy: [
-      "Ta mascotte est super fière de toi aujourd’hui 😄",
-      
+      "Récompense-toi avec un petit plaisir sain, comme un carré de chocolat noir ou un smoothie aux fruits, bien mérité !",
+      "Bois un peu d’eau infusée (citron, menthe) pour célébrer sans calories inutiles",
+      "Planifie ton prochain objectif avec un repas équilibré demain pour rester constant",
+      "Note ton succès ou partage-le avec quelqu’un, ça renforce ta motivation",
+      "Un carré de chocolat noir (70% ou plus, 1-2 g) ou une poignée de baies (framboises, myrtilles) pour satisfaire tes envies sans excès",
+      "Dessine, lis ou écoute ta musique préférée, des récompenses qui boostent ton moral sans impact calorique"
     ],
     sad: [
       "Ta mascotte est un peu triste, mais elle croit en toi 💙",
       
     ],
     angry: [
-      
+      "Un excès arrive, ce n’est pas la fin du monde. Reprends ton rythme habituel dès le prochain repas.",
+      "Une promenade de 20-30 minutes peut brûler une partie des calories supplémentaires et te sentir plus léger.",
+      "Opte pour une soupe de légumes ou une salade avec des protéines maigres (poulet, poisson) pour équilibrer sans te priver.",
+      "Un déficit trop fort ralentit ton métabolisme, garde un équilibre raisonnable.",
+      "Planifie 3 repas et 1-2 collations par jour pour éviter la faim excessive qui mène aux excès.",
+      "Consomme des légumes, fruits et céréales complètes pour rester rassasié plus longtemps.",
+      "Mange sans écran (TV, téléphone) pour te concentrer sur tes signaux de satiété.",
+      "Aie des options saines sous la main (fruits secs, yaourt nature) pour résister aux envies impulsives.",
+      "Pratique des activités comme la respiration ou la marche pour réduire les grignotages émotionnels.",
+      "7-8 heures par nuit régulent les hormones de la faim (ghréline et leptine)",
+      "T’as clairement dépassé les calories aujourd’hui 😡 ! Pas grave, on rééquilibre demain avec des repas plus légers et riches en fibres 🥦.",
+      "Surveille un peu le sel et le sucre demain, ils retiennent l’eau et entretiennent la fatigue",
+      "Essaie de limiter les produits sucrés et gras sur le prochain repas, ton corps te remerciera "
     ],
     motivated: [
       "Bois au moins 1,5 à 2 litres d’eau par jour, surtout si tu es actif, pour optimiser la digestion et l’élimination des toxines..",
