@@ -137,11 +137,6 @@ const CoachScreen = () => {
           autoplay={true}
           style={{ width: 300, height: 300 }}
         />
-        <Rive
-          source={riveSources["test"]}
-          autoplay={true}
-          style={{ width: 300, height: 300 }}
-        />
         </View>
 
         <Text>{mood}</Text>

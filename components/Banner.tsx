@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/userSlice";
 import { useTranslation } from "react-i18next";
+import Rive from "rive-react-native";
 
 type Props = {
     name: string;
@@ -83,6 +84,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                 <Row style={{justifyContent: 'space-between', width: '90%'}}>
                     <View style={{flexDirection: 'row', gap: 10}}>
                         <Image source={require('@/assets/images/calendar.png')} style={styles.imageMini} />
+
                         <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(monthLabel)} {date.getDate()},  {date.getFullYear()}</ThemedText>
                     </View>
                     <TouchableOpacity onPress={toggleTheme}>
@@ -98,7 +100,15 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                 <View style={{flexDirection: 'row', gap: 20, justifyContent: 'flex-start', width: '90%', marginBottom: -50}}>
                     <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
                         {isLoading ?
-                            <Image source={avatar} style={styles.imageProfil} />
+                            // <Image source={avatar} style={styles.imageProfil} />
+                            <View style={{backgroundColor: colors.white, borderRadius: "50%", justifyContent: 'center', alignItems: 'center', height: 80, width: 80}}>
+
+                                <Rive
+                                                        source={require("../assets/rive/monkey_profil_picture.riv")}
+                                                        autoplay={true}
+                                                        style={{ width: 100, height: 100 }}
+                                                      />
+                            </View>
                         : null}
                     </Skeleton>
                         <View style={{flexDirection: 'column'}}>
