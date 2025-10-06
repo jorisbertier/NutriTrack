@@ -243,15 +243,37 @@ const nutritionAdvices = {
       
     ],
     angry: [
-      "Ta mascotte est vénère 😡, mais ça veut dire qu’elle sait que tu peux faire mieux !",
       
     ],
     motivated: [
-      "Motivation au max 🚀, rien ne peut t’arrêter !",
-      
+      "Bois au moins 1,5 à 2 litres d’eau par jour, surtout si tu es actif, pour optimiser la digestion et l’élimination des toxines..",
+      "Hydrate-toi bien, ça soutient encore mieux ce bel équilibre.",
+      "Continue à répartir tes calories entre protéines, glucides complexes et graisses saines (comme les avocats, les noix ou l’huile d’olive) pour soutenir ton énergie et tes muscles.",
+      "Super gestion aujourd’hui, on maintient la cadence sans pression pour atteindre tes objectifs.",
+      "Tu peux être fier, c’est ce genre de journée qui construit tes résultats durables, continue comme cela.",
+      "Intègre des légumes colorés (brocolis, carottes, épinards) pour booster tes vitamines et minéraux sans dépasser ton quota calorique.",
+      "N’oublie pas les bonnes graisses (avocat, noix, huile d’olive) qui aident à l’absorption des vitamines et au bon fonctionnement hormonal.",
+      "Pense à varier tes sources de protéines (poulet, poisson, tofu, légumineuses) pour un apport complet en acides aminés.",
+      "Garde cette belle énergie, elle est le moteur de ta progression !",
+      "Si tu te sens fatigué, ajuste légèrement avec une petite collation saine (une poignée d’amandes ou un yaourt nature) dans tes limites caloriques.",
+      "Un bon sommeil (7-8h) aide ton métabolisme à bien utiliser les calories que tu consommes.",
+      "Une fois par semaine, offre-toi un petit plaisir (un carré de chocolat noir, par exemple) pour rester motivé sans déraper.",
+      "Combine cardio (30 min, 3-4 fois/semaine) et musculation (2-3 fois/semaine) pour augmenter ta dépense énergétique au repos.",
+      "Ajoute du piment, du gingembre, du thé vert ou du café (modérément) pour activer la combustion des calories.",
+      "Une réduction calorique excessive ralentit le métabolisme. Garde un déficit modéré si tu vises une perte de poids."
+          
     ],
     neutral: [
-      "Calme et posé, on continue la routine tranquillement 🌿",
+      "Quand tu te sens bas, évite les excès sucrés : ils soulagent sur le coup mais fatiguent ensuite",
+      "Ajoute un peu de protéines, elles stabilisent l’humeur (œufs, poisson, tofu...)",
+      "Pas encore de calories ? C’est le moment parfait pour planifier ton premier repas.",
+      "Si t’as pas encore mangé, n’attends pas trop, ton corps a besoin d’énergie dès le matin ☀️.",
+      "Un petit déjeuner équilibré, c’est la clé pour démarrer ta journée du bon pied.",
+      "N’oublie pas de noter ce que tu as mangés, ça m’aide à te guider.",
+      "Je t’attends pour suivre tes repas, allez, on s’y met petit à petit.",
+      "Pense à te préparer quelque chose de simple et nutritif aujourd’hui pour commencer la journée avec des forces.",
+      // "Zéro calories ? Peut-être une journée de repos, mais hydrate-toi bien 💧.",
+      "Même sans faim, une petite collation légère peut aider à garder ton énergie stable .",
       
     ]
   }
@@ -278,33 +300,49 @@ function getAdvice({
 }: any) {
     const advices: string[] = [];
 
+    if (caloriesToday === 0) {
+        advices.push(randomPick(nutritionAdvices.moods["neutral"]))
+    }
+
+    if (caloriesToday > caloriesTarget + 500) {
+        advices.push(randomPick(nutritionAdvices.moods["angry"]))
+    }
+
+    if (caloriesToday > caloriesTarget) {
+        advices.push(randomPick(nutritionAdvices.moods["happy"]))
+    }
+
+    if (caloriesToday >= caloriesTarget * 0.3 && caloriesToday <= caloriesTarget) {
+        advices.push(randomPick(nutritionAdvices.moods["motivated"]))
+    }
+
   // Calories
-  if (caloriesToday < caloriesTarget * 0.9) advices.push(randomPick(nutritionAdvices.calories.low));
-  else if (caloriesToday > caloriesTarget * 1.1) advices.push(randomPick(nutritionAdvices.calories.high));
-  else advices.push(randomPick(nutritionAdvices.calories.ok));
+  // if (caloriesToday < caloriesTarget * 0.9) advices.push(randomPick(nutritionAdvices.calories.low));
+  // else if (caloriesToday > caloriesTarget * 1.1) advices.push(randomPick(nutritionAdvices.calories.high));
+  // else advices.push(randomPick(nutritionAdvices.calories.ok));
 
-  // Protéines
-  if (proteinsToday < proteinsTarget * 0.8) advices.push(randomPick(nutritionAdvices.proteins.low));
-  else advices.push(randomPick(nutritionAdvices.proteins.ok));
+  // // Protéines
+  // if (proteinsToday < proteinsTarget * 0.8) advices.push(randomPick(nutritionAdvices.proteins.low));
+  // else advices.push(randomPick(nutritionAdvices.proteins.ok));
 
-  // Glucides
-  if (carbsToday > carbsTarget * 1.2) advices.push(randomPick(nutritionAdvices.carbs.high));
-  else if (carbsToday < carbsTarget * 0.8) advices.push(randomPick(nutritionAdvices.carbs.low));
-  else advices.push(randomPick(nutritionAdvices.carbs.ok));
+  // // Glucides
+  // if (carbsToday > carbsTarget * 1.2) advices.push(randomPick(nutritionAdvices.carbs.high));
+  // else if (carbsToday < carbsTarget * 0.8) advices.push(randomPick(nutritionAdvices.carbs.low));
+  // else advices.push(randomPick(nutritionAdvices.carbs.ok));
 
-  // Graisses
-  if (fatsToday > fatsTarget * 1.2) advices.push(randomPick(nutritionAdvices.fats.high));
-  else if (fatsToday < fatsTarget * 0.8) advices.push(randomPick(nutritionAdvices.fats.low));
+  // // Graisses
+  // if (fatsToday > fatsTarget * 1.2) advices.push(randomPick(nutritionAdvices.fats.high));
+  // else if (fatsToday < fatsTarget * 0.8) advices.push(randomPick(nutritionAdvices.fats.low));
 
-  // XP
-  if (xpToday === 0) advices.push(randomPick(nutritionAdvices.xp.zero));
-  else advices.push(randomPick(nutritionAdvices.xp.positive));
+  // // XP
+  // if (xpToday === 0) advices.push(randomPick(nutritionAdvices.xp.zero));
+  // else advices.push(randomPick(nutritionAdvices.xp.positive));
 
-  // Goal
-  advices.push(randomPick(nutritionAdvices.encouragements[goal]));
+  // // Goal
+  // advices.push(randomPick(nutritionAdvices.encouragements[goal]));
 
-  // Mood de la mascotte
-  advices.push(randomPick(nutritionAdvices.moods[mood]));
+  // // Mood de la mascotte
+  // advices.push(randomPick(nutritionAdvices.moods[mood]));
 
   return advices;
 }
@@ -338,13 +376,14 @@ function getMascotMood({
     // if (caloriesToday < caloriesTarget * 0.9 || proteinsToday < proteinsTarget * 0.8) {
     //     return "sad";
     // }
-  if (caloriesToday === 0) {
+    if (caloriesToday === 0) {
         return "neutral";
     }
 
     if (caloriesToday > caloriesTarget + 500) {
         return "angry";
     }
+
     if (caloriesToday > caloriesTarget) {
         return "happy";
     }
@@ -356,8 +395,6 @@ function getMascotMood({
     // if (caloriesToday > caloriesTarget * 1.1 || carbsToday > carbsTarget * 1.2 || fatsToday > fatsTarget * 1.2) {
     //     return "angry";
     // }
-
-
 
     // if (
     //     caloriesToday >= caloriesTarget * 0.9 &&
