@@ -113,6 +113,7 @@ const CoachScreen = () => {
         angry: require("../assets/rive/monkey_angry.riv"),
         motivated: require("../assets/rive/monkey_motivated.riv"),
         neutral: require("../assets/rive/monkey_sad.riv"),
+        test: require("../assets/rive/monkey_profil_picture.riv"),
       };
 
     return (
@@ -133,6 +134,11 @@ const CoachScreen = () => {
         <View style={styles.animationContainer}>
         <Rive
           source={riveSources[mood]}
+          autoplay={true}
+          style={{ width: 300, height: 300 }}
+        />
+        <Rive
+          source={riveSources["test"]}
           autoplay={true}
           style={{ width: 300, height: 300 }}
         />
