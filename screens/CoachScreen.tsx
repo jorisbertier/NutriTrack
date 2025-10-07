@@ -5,14 +5,18 @@ import { User } from "@/interface/User";
 import { RootState } from "@/redux/store";
 import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Rive from 'rive-react-native';
-
+import {nutritionAdvices} from '../data/advices';
+import { useTranslation } from "react-i18next";
 
 const { width } = Dimensions.get("window");
 
 const CoachScreen = () => {
+
+  const { t } = useTranslation();
+
     const [adviceIndex, setAdviceIndex] = useState(0);
     const [userData, setUserData] = useState<User[]>([])
     const auth = getAuth();
@@ -22,11 +26,10 @@ const CoachScreen = () => {
     const [adviceList, setAdviceList] = useState<string[]>([]);
 
     // REDUX
-      const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const userRedux = useSelector((state: RootState) => state.user.user);
     const unlockedBadges = useSelector((state: RootState) => state.badges.unlocked);
 
-    // console.log("userderedux consume by days coach srceen : ", userRedux?.consumeByDays)
     console.log('date ', date)
 
     useEffect(() => {
@@ -64,14 +67,14 @@ const CoachScreen = () => {
     const caloriesToday = userRedux?.consumeByDays?.[dateYMD] ?? 0;
     const xpToday = userData[0]?.xpLogs?.[dateDmyDash] ?? 0;
 
-    console.log(date)
-    console.log('activity', userData[0]?.activityLevel);
-    console.log('goal gain | maintain | lose', userData[0]?.goal)
-    console.log('bmr', basalMetabolicRate)
+    // console.log(date)
+    // console.log('activity', userData[0]?.activityLevel);
+    // console.log('goal gain | maintain | lose', userData[0]?.goal)
+    // console.log('bmr', basalMetabolicRate)
     // console.log("Carbs du jour :", carbsToday);
     // console.log("Protéines du jour :", proteinsToday);
     // console.log("Graisses du jour :", fatsToday);
-    console.log("Calories du jour :", caloriesToday);
+    // console.log("Calories du jour :", caloriesToday);
     // console.log("XP du jour :", xpToday);
     // console.log("proteins by day :", proteinsBmr);
     // console.log("carbs by day :", carbsBmr);
@@ -122,7 +125,7 @@ const CoachScreen = () => {
         <BetaBadge/>
         <HelpCoachButton/>
         <View style={styles.adviceContainer}>
-            <Text style={styles.adviceText}>{adviceList[0]}</Text>
+            <Text style={styles.adviceText}>{t(adviceList[0])}</Text>
             <View style={styles.triangle} />
             <Text>Consume today : {caloriesToday}</Text>
             <Text>Consume today proteins: {proteinsToday}</Text>
@@ -149,151 +152,7 @@ type AdviceResult = {
     status: "low" | "ok" | "high";
 };
 
-const nutritionAdvices = {
-  calories: {
-    low: [
-      "Tu n’as pas mangé assez aujourd’hui, ton énergie risque de baisser ⚡️",
-      "Ton apport calorique est trop bas, ajoute une collation protéinée 💪",
-      "Attention, ton corps a besoin de carburant pour progresser 🚀",
-      
-    ],
-    high: [
-      "Tu as un peu dépassé aujourd’hui, pas grave ! Demain équilibre tes portions 🌱",
-      "Un surplus calorique peut freiner ton objectif si ça se répète, reste attentif 👀",
-      
-    ],
-    ok: [
-      "Bravo 👏 ton apport calorique colle bien à ton objectif !",
-      "Nickel ! Ton équilibre énergétique est bien respecté 🔥",
-      
-    ]
-  },
-  proteins: {
-    low: [
-      "Tu manques de protéines, ajoute du poulet, du tofu ou des œufs 🥚",
-      "Les muscles adorent les protéines, vise un apport plus élevé 💪",
-      
-    ],
-    ok: [
-      "Tes protéines sont parfaites pour soutenir ta progression 👌",
-      
-    ]
-  },
-  carbs: {
-    high: [
-      "Tu as un peu abusé sur les glucides 🍞, pense à équilibrer avec plus de fibres 🥦",
-      "Beaucoup de glucides aujourd’hui, garde-les pour les jours d’entraînement intense 🏋️",
-      
-    ],
-    low: [
-      "Pas assez de glucides ⚡️, tu risques de manquer d’énergie demain",
-      
-    ],
-    ok: [
-      "Apport en glucides parfait pour soutenir ton énergie 🌟",
-      
-    ]
-  },
-  fats: {
-    high: [
-      "Les graisses sont importantes, mais évite les excès 🧈",
-      
-    ],
-    low: [
-      "Un peu plus de bonnes graisses (avocat, amandes 🥑) serait top",
-      
-    ]
-  },
-  xp: {
-    zero: [
-      "Aucune XP gagnée aujourd’hui 😕, mais demain est une nouvelle chance 🌞",
-      "Pas de progression pour aujourd’hui, continue tes efforts 💪",
-      
-    ],
-    positive: [
-      "Bravo 🎉 tu gagnes en XP, continue comme ça !",
-      "Progression validée ✅, tu es sur la bonne voie 🚀",
-      
-    ]
-  },
-  encouragements: {
-    gain: [
-      "Objectif prise de masse 💪, assure-toi de bien manger suffisamment",
-      "Ton corps construit du muscle, patience et rigueur 🔥",
-      
-    ],
-    lose: [
-      "Objectif perte de poids 🌱, bravo pour ton contrôle des calories",
-      "Chaque petit effort te rapproche de ton objectif 👊",
-      
-    ],
-    maintain: [
-      "Stabiliser demande autant de rigueur que progresser 👏",
-      "Ton équilibre est essentiel, tu gères bien 👌",
-      
-    ]
-  },
-  moods: {
-    happy: [
-      "Récompense-toi avec un petit plaisir sain, comme un carré de chocolat noir ou un smoothie aux fruits, bien mérité !",
-      "Bois un peu d’eau infusée (citron, menthe) pour célébrer sans calories inutiles",
-      "Planifie ton prochain objectif avec un repas équilibré demain pour rester constant",
-      "Note ton succès ou partage-le avec quelqu’un, ça renforce ta motivation",
-      "Un carré de chocolat noir (70% ou plus, 1-2 g) ou une poignée de baies (framboises, myrtilles) pour satisfaire tes envies sans excès",
-      "Dessine, lis ou écoute ta musique préférée, des récompenses qui boostent ton moral sans impact calorique"
-    ],
-    sad: [
-      "Ta mascotte est un peu triste, mais elle croit en toi 💙",
-      
-    ],
-    angry: [
-      "Un excès arrive, ce n’est pas la fin du monde. Reprends ton rythme habituel dès le prochain repas.",
-      "Une promenade de 20-30 minutes peut brûler une partie des calories supplémentaires et te sentir plus léger.",
-      "Opte pour une soupe de légumes ou une salade avec des protéines maigres (poulet, poisson) pour équilibrer sans te priver.",
-      "Un déficit trop fort ralentit ton métabolisme, garde un équilibre raisonnable.",
-      "Planifie 3 repas et 1-2 collations par jour pour éviter la faim excessive qui mène aux excès.",
-      "Consomme des légumes, fruits et céréales complètes pour rester rassasié plus longtemps.",
-      "Mange sans écran (TV, téléphone) pour te concentrer sur tes signaux de satiété.",
-      "Aie des options saines sous la main (fruits secs, yaourt nature) pour résister aux envies impulsives.",
-      "Pratique des activités comme la respiration ou la marche pour réduire les grignotages émotionnels.",
-      "7-8 heures par nuit régulent les hormones de la faim (ghréline et leptine)",
-      "T’as clairement dépassé les calories aujourd’hui 😡 ! Pas grave, on rééquilibre demain avec des repas plus légers et riches en fibres 🥦.",
-      "Surveille un peu le sel et le sucre demain, ils retiennent l’eau et entretiennent la fatigue",
-      "Essaie de limiter les produits sucrés et gras sur le prochain repas, ton corps te remerciera "
-    ],
-    motivated: [
-      "Bois au moins 1,5 à 2 litres d’eau par jour, surtout si tu es actif, pour optimiser la digestion et l’élimination des toxines..",
-      "Hydrate-toi bien, ça soutient encore mieux ce bel équilibre.",
-      "Continue à répartir tes calories entre protéines, glucides complexes et graisses saines (comme les avocats, les noix ou l’huile d’olive) pour soutenir ton énergie et tes muscles.",
-      "Super gestion aujourd’hui, on maintient la cadence sans pression pour atteindre tes objectifs.",
-      "Tu peux être fier, c’est ce genre de journée qui construit tes résultats durables, continue comme cela.",
-      "Intègre des légumes colorés (brocolis, carottes, épinards) pour booster tes vitamines et minéraux sans dépasser ton quota calorique.",
-      "N’oublie pas les bonnes graisses (avocat, noix, huile d’olive) qui aident à l’absorption des vitamines et au bon fonctionnement hormonal.",
-      "Pense à varier tes sources de protéines (poulet, poisson, tofu, légumineuses) pour un apport complet en acides aminés.",
-      "Garde cette belle énergie, elle est le moteur de ta progression !",
-      "Si tu te sens fatigué, ajuste légèrement avec une petite collation saine (une poignée d’amandes ou un yaourt nature) dans tes limites caloriques.",
-      "Un bon sommeil (7-8h) aide ton métabolisme à bien utiliser les calories que tu consommes.",
-      "Une fois par semaine, offre-toi un petit plaisir (un carré de chocolat noir, par exemple) pour rester motivé sans déraper.",
-      "Combine cardio (30 min, 3-4 fois/semaine) et musculation (2-3 fois/semaine) pour augmenter ta dépense énergétique au repos.",
-      "Ajoute du piment, du gingembre, du thé vert ou du café (modérément) pour activer la combustion des calories.",
-      "Une réduction calorique excessive ralentit le métabolisme. Garde un déficit modéré si tu vises une perte de poids."
-          
-    ],
-    neutral: [
-      "Quand tu te sens bas, évite les excès sucrés : ils soulagent sur le coup mais fatiguent ensuite",
-      "Ajoute un peu de protéines, elles stabilisent l’humeur (œufs, poisson, tofu...)",
-      "Pas encore de calories ? C’est le moment parfait pour planifier ton premier repas.",
-      "Si t’as pas encore mangé, n’attends pas trop, ton corps a besoin d’énergie dès le matin ☀️.",
-      "Un petit déjeuner équilibré, c’est la clé pour démarrer ta journée du bon pied.",
-      "N’oublie pas de noter ce que tu as mangés, ça m’aide à te guider.",
-      "Je t’attends pour suivre tes repas, allez, on s’y met petit à petit.",
-      "Pense à te préparer quelque chose de simple et nutritif aujourd’hui pour commencer la journée avec des forces.",
-      // "Zéro calories ? Peut-être une journée de repos, mais hydrate-toi bien 💧.",
-      "Même sans faim, une petite collation légère peut aider à garder ton énergie stable .",
-      
-    ]
-  }
-}
+
 
 function randomPick(arr?: string[]) {
   if (!arr || arr.length === 0) return "Aucun conseil disponible 😅";
