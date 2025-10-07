@@ -4,7 +4,7 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import { Skeleton } from 'moti/skeleton';
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -61,23 +61,31 @@ const ProgressBars: React.FC<any> = ({
     const animCarbs = useRef(new Animated.Value(0)).current;
     const animFats = useRef(new Animated.Value(0)).current;
 
+    const normProteins = Math.min(percentageProteins, 100) / 100;
+const normCarbs = Math.min(percentageCarbs, 100) / 100;
+const normFats = Math.min(percentageFats, 100) / 100;
+
+
     useEffect(() => {
         Animated.timing(animProteins, {
-        toValue: percentageProteins,
-        duration: 800,
-        useNativeDriver: false,
+            toValue: percentageProteins,
+            duration: 800,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: false,
         }).start();
 
         Animated.timing(animCarbs, {
-        toValue: percentageCarbs,
-        duration: 800,
-        useNativeDriver: false,
+            toValue: percentageCarbs,
+            easing: Easing.out(Easing.cubic),
+            duration: 800,
+            useNativeDriver: false,
         }).start();
 
         Animated.timing(animFats, {
-        toValue: percentageFats,
-        duration: 800,
-        useNativeDriver: false,
+            toValue: percentageFats,
+            duration: 800,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: false,
         }).start();
     }, [percentageProteins, percentageCarbs, percentageFats]);
 
@@ -105,7 +113,7 @@ const ProgressBars: React.FC<any> = ({
                 style={[
                     styles.progressBarFill,
                     {
-                    backgroundColor: '#8592F2',
+                    backgroundColor: 'black',
                     width: anim.interpolate({
                         inputRange: [0, 1],
                         outputRange: ['0%', '100%'],
