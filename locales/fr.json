@@ -337,7 +337,7 @@
     "advice13": "Combine cardio (30 min, 3-4 fois/semaine) et musculation (2-3 fois/semaine) pour augmenter ta dépense énergétique au repos.",
     "advice14": "Ajoute du piment, du gingembre, du thé vert ou du café (modérément) pour activer la combustion des calories.",
     "advice15": "Une réduction calorique excessive ralentit le métabolisme. Garde un déficit modéré si tu vises une perte de poids.",
-    "angry1":   "Un excès arrive, ce n’est pas la fin du monde. Reprends ton rythme habituel dès le prochain repas.",
+    "angry1":  "Un excès arrive, ce n’est pas la fin du monde. Reprends ton rythme habituel dès le prochain repas.",
     "angry2":  "Une promenade de 20-30 minutes peut brûler une partie des calories supplémentaires et te sentir plus léger.",
     "angry3":  "Opte pour une soupe de légumes ou une salade avec des protéines maigres (poulet, poisson) pour équilibrer sans te priver.",
     "angry4":  "Un déficit trop fort ralentit ton métabolisme, garde un équilibre raisonnable.",
@@ -349,5 +349,11 @@
     "angry10":  "7-8 heures par nuit régulent les hormones de la faim (ghréline et leptine)",
     "angry11":  "T’as clairement dépassé les calories aujourd’hui 😡 ! Pas grave, on rééquilibre demain avec des repas plus légers et riches en fibres 🥦.",
     "angry12":  "Surveille un peu le sel et le sucre demain, ils retiennent l’eau et entretiennent la fatigue",
-    "angry13":  "Essaie de limiter les produits sucrés et gras sur le prochain repas, ton corps te remerciera "
+    "angry13":  "Essaie de limiter les produits sucrés et gras sur le prochain repas, ton corps te remerciera ",
+    "happy1":  "Récompense-toi avec un petit plaisir sain, comme un carré de chocolat noir ou un smoothie aux fruits, bien mérité !",
+    "happy2":  "Bois un peu d’eau infusée (citron, menthe) pour célébrer sans calories inutiles",
+    "happy3":  "Planifie ton prochain objectif avec un repas équilibré demain pour rester constant",
+    "happy4":  "Note ton succès ou partage-le avec quelqu’un, ça renforce ta motivation",
+    "happy5":  "Un carré de chocolat noir (70% ou plus, 1-2 g) ou une poignée de baies (framboises, myrtilles) pour satisfaire tes envies sans excès",
+    "happy6":  "Dessine, lis ou écoute ta musique préférée, des récompenses qui boostent ton moral sans impact calorique"
 }
