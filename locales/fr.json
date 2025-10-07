@@ -312,6 +312,14 @@
     "productText": "Désolé, nous n’avons pas pu trouver ce produit.",
     "rescan": "Rescanner",
     "tryAgain": "Veuillez reéssayer de nouveau.",
-    "value": "Valeurs nutritionnelles pour"
-
+    "value": "Valeurs nutritionnelles pour",
+    "neutral1":  "Quand tu te sens bas, évite les excès sucrés : ils soulagent sur le coup mais fatiguent ensuite",
+    "neutral2":  "Ajoute un peu de protéines, elles stabilisent l’humeur (œufs, poisson, tofu...)",
+    "neutral3":  "Pas encore de calories ? C’est le moment parfait pour planifier ton premier repas.",
+    "neutral4":  "Si t’as pas encore mangé, n’attends pas trop, ton corps a besoin d’énergie dès le matin ☀️.",
+    "neutral5":  "Un petit déjeuner équilibré, c’est la clé pour démarrer ta journée du bon pied.",
+    "neutral6":  "N’oublie pas de noter ce que tu as mangés, ça m’aide à te guider.",
+    "neutral7":  "Je t’attends pour suivre tes repas, allez, on s’y met petit à petit.",
+    "neutral8":  "Pense à te préparer quelque chose de simple et nutritif aujourd’hui pour commencer la journée avec des forces.",
+    "neutral9":  "Même sans faim, une petite collation légère peut aider à garder ton énergie stable ."
 }
