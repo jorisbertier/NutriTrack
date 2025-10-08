@@ -125,7 +125,7 @@ const CoachScreen = () => {
         <BetaBadge/>
         <HelpCoachButton/>
         <View style={styles.adviceContainer}>
-            <Text style={styles.adviceText}>{t(adviceList[0])}</Text>
+            <Text style={styles.adviceText}>{adviceList[0] ? t(adviceList[0]) : ""}</Text>
             <View style={styles.triangle} />
             <Text>Consume today : {caloriesToday}</Text>
             <Text>Consume today proteins: {proteinsToday}</Text>
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
   adviceText: {
     fontSize: 20,
     textAlign: "center",
-    color: "#333",
+    color: "black",
     marginTop: -60,
     fontWeight: 600
   },

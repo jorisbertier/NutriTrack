@@ -96,8 +96,8 @@ const normFats = Math.min(percentageFats, 100) / 100;
     console.log('porogress proteins progress rig: ', progressProteins)
     const renderBar = (
         label: string,
-        progressValue: number, // ex: 2 g
-        goal: number,          // ex: 10 g
+        progressValue: number,
+        goal: number,
         anim: any,
         showGoal: boolean
     ) => {

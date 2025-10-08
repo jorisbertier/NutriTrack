@@ -101,7 +101,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                     <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
                         {isLoading ?
                             // <Image source={avatar} style={styles.imageProfil} />
-                            <View style={{backgroundColor: colors.white, borderRadius: "50%", justifyContent: 'center', alignItems: 'center', height: 85, width: 85, marginTop: -8}}>
+                            <View style={{backgroundColor: colors.white, borderRadius: "50%",justifyContent: 'center', alignItems: 'center', height: 85, width: 85, marginTop: -8}}>
                                 <Rive
                                     source={require("../assets/rive/monkey_profil_picture.riv")}
                                     autoplay={true}

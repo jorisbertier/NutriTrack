@@ -313,7 +313,6 @@
     "rescan": "Rescanner",
     "tryAgain": "Veuillez reéssayer de nouveau.",
     "value": "Valeurs nutritionnelles pour",
-    "moods" : {
         "neutral1":  "Quand tu te sens bas, évite les excès sucrés : ils soulagent sur le coup mais fatiguent ensuite",
         "neutral2":  "Ajoute un peu de protéines, elles stabilisent l’humeur (œufs, poisson, tofu...)",
         "neutral3":  "Pas encore de calories ? C’est le moment parfait pour planifier ton premier repas.",
@@ -357,5 +356,4 @@
         "happy4":  "Note ton succès ou partage-le avec quelqu’un, ça renforce ta motivation",
         "happy5":  "Un carré de chocolat noir (70% ou plus, 1-2 g) ou une poignée de baies (framboises, myrtilles) pour satisfaire tes envies sans excès",
         "happy6":  "Dessine, lis ou écoute ta musique préférée, des récompenses qui boostent ton moral sans impact calorique"
-    }
 }

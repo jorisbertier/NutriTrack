@@ -71,10 +71,10 @@ export const nutritionAdvices = {
         ]
     },
     moods: {
-        happy: ["moods.happy1", "moods.happy2", "moods.happy3", "moods.happy4", "moods.happy5", "moods.happy6"],
-        sad: ["moods.sad1"],
-        angry: ["moods.angry1", "moods.angry2", "moods.angry3", "moods.angry4", "moods.angry5", "moods.angry6", "moods.angry7", "moods.angry8", "moods.angry9", "moods.angry10", "moods.angry11", "moods.angry12", "moods.angry13"],
-        motivated: ["moods.motivated1","moods.motivated2","moods.motivated3","moods.motivated4","moods.motivated5","moods.motivated6","moods.motivated7","moods.motivated8","moods.motivated9","moods.motivated10","moods.motivated11","moods.motivated12","moods.motivated13","moods.motivated14","moods.motivated15"],
-        neutral: ["moods.neutral1","moods.neutral2","moods.neutral3","moods.neutral4","moods.neutral5","moods.neutral6","moods.neutral7","moods.neutral8","moods.neutral9"]
+        happy: ["happy1", "happy2", "happy3", "happy4", "happy5", "happy6"],
+        sad: ["sad1"],
+        angry: ["angry1", "angry2", "angry3", "angry4", "angry5", "angry6", "angry7", "angry8", "angry9", "angry10", "angry11", "angry12", "angry13"],
+        motivated: ["motivated1","motivated2","motivated3","motivated4","motivated5","motivated6","motivated7","motivated8","motivated9","motivated10","motivated11","motivated12","motivated13","motivated14","motivated15"],
+        neutral: ["neutral1","neutral2","neutral3","neutral4","neutral5","neutral6","neutral7","neutral8","neutral9"]
     }
 }
