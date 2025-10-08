@@ -10,12 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Rive from 'rive-react-native';
 import {nutritionAdvices} from '../data/advices';
 import { useTranslation } from "react-i18next";
+import { set } from "date-fns";
 
 const { width } = Dimensions.get("window");
 
 const CoachScreen = () => {
 
-  const { t } = useTranslation();
+  const { i18n,t } = useTranslation();
 
     const [adviceIndex, setAdviceIndex] = useState(0);
     const [userData, setUserData] = useState<User[]>([])
@@ -23,7 +24,7 @@ const CoachScreen = () => {
     const user = auth.currentUser;
     const date = getTodayDate();
     /*convert date */
-    const [adviceList, setAdviceList] = useState<string[]>([]);
+    const [adviceList, setAdviceList] = useState<string[]>(["loading"]);
 
     // REDUX
     const dispatch = useDispatch();
@@ -93,22 +94,38 @@ const CoachScreen = () => {
         xpToday
     });
 
-    useEffect(() => {
-        const advices = getAdvice({
-            caloriesToday,
-            proteinsToday,
-            carbsToday,
-            fatsToday,
-            caloriesTarget: basalMetabolicRate,
-            proteinsTarget: proteinsBmr,
-            carbsTarget: carbsBmr,
-            fatsTarget: fatsBmr,
-            goal: userData[0]?.goal,
-            xpToday,
-            mood
-        });
-        setAdviceList(advices);
-    }, [caloriesToday, proteinsToday, carbsToday, fatsToday, xpToday, mood]);
+  useEffect(() => {
+    console.log("Paramètres pour getAdvice - caloriesToday:", caloriesToday, "proteinsToday:", proteinsToday, "carbsToday:", carbsToday, "fatsToday:", fatsToday, "caloriesTarget:", basalMetabolicRate, "proteinsTarget:", proteinsBmr, "carbsTarget:", carbsBmr, "fatsTarget:", fatsBmr, "goal:", userData[0]?.goal, "xpToday:", xpToday, "mood:", mood);
+    const advices = getAdvice({
+      caloriesToday,
+      proteinsToday,
+      carbsToday,
+      fatsToday,
+      caloriesTarget: basalMetabolicRate,
+      proteinsTarget: proteinsBmr,
+      carbsTarget: carbsBmr,
+      fatsTarget: fatsBmr,
+      goal: userData[0]?.goal,
+      xpToday,
+      mood,
+    });
+    setAdviceList(advices);
+  }, [caloriesToday, proteinsToday, carbsToday, fatsToday, xpToday, mood, userData]);
+
+//     useEffect(() => {
+//   console.log("Langue actuelle :", i18n.language);
+//   // console.log("Traduction test neutral6 :", t("neutral6"));
+//   // console.log("Traduction test neutral6 :", adviceList[0]);
+//   // console.log("Traduction test neutral6 :", t(adviceList[0]));
+// }, []);
+    // const [translatedAdvice, setTranslatedAdvice] = useState<string>("Chargement...");
+    // useEffect(() => {
+    //     if (adviceList[0]) {
+    //       const translation = t(adviceList[0]);
+    //       setTranslatedAdvice(translation);
+    //       console.log("Traduction mise à jour :", translation);
+    //     }
+    //   }, [adviceList, i18n.language, t]);
 
       const riveSources: Record<string, any> = {
         happy: require("../assets/rive/monkey_happy.riv"),
@@ -125,12 +142,14 @@ const CoachScreen = () => {
         <BetaBadge/>
         <HelpCoachButton/>
         <View style={styles.adviceContainer}>
-            <Text style={styles.adviceText}>{adviceList[0] ? t(adviceList[0]) : ""}</Text>
+            {/* <Text style={styles.adviceText}>{translatedAdvice}</Text> */}
+            <Text style={styles.adviceText}>{adviceList.length > 0 && adviceList[0] ? t(adviceList[0]) : "Chargement en cours..."}</Text>
             <View style={styles.triangle} />
-            <Text>Consume today : {caloriesToday}</Text>
+            {/* FOR DISPLAY VALUE MACRO */}
+            {/* <Text>Consume today : {caloriesToday}</Text>
             <Text>Consume today proteins: {proteinsToday}</Text>
             <Text>Consume today fats: {fatsToday}</Text>
-            <Text>Consume today varbs: {carbsToday}</Text>
+            <Text>Consume today varbs: {carbsToday}</Text> */}
         </View>
 
         {/* Animation en bas */}
@@ -141,7 +160,7 @@ const CoachScreen = () => {
           style={{ width: 300, height: 300 }}
         />
         </View>
-
+        {/* FOR DISPLAY MOOD */}
         <Text>{mood}</Text>
         </View>
     );
@@ -189,6 +208,10 @@ function getAdvice({
 
     if (caloriesToday >= caloriesTarget * 0.3 && caloriesToday <= caloriesTarget) {
         advices.push(randomPick(nutritionAdvices.moods["motivated"]))
+    }
+
+    if (caloriesToday > 0 && caloriesToday < caloriesTarget * 0.3) {
+      advices.push(randomPick(nutritionAdvices.moods["neutral"]));
     }
 
   // Calories

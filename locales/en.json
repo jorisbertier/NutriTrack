@@ -301,7 +301,6 @@
     "rescan": "Rescan",
     "tryAgain": "Please try again.",
     "value": "Nutritional values​​ for",
-    "moods": {
         "neutral1": "When you’re feeling low, avoid sugary foods: they help at first but drain your energy later.",
         "neutral2": "Add some protein — it helps stabilize your mood (eggs, fish, tofu...).",
         "neutral3": "No calories yet? That’s the perfect time to plan your first meal.",
@@ -345,5 +344,4 @@
         "happy4": "Note your success or share it with someone — it boosts your motivation.",
         "happy5": "A piece of dark chocolate (70% or more, 1-2g) or a handful of berries (raspberries, blueberries) to satisfy cravings without overdoing it.",
         "happy6": "Draw, read, or listen to your favorite music — rewards that lift your mood without calorie impact."
-    }
 }

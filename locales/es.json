@@ -300,7 +300,6 @@
     "rescan": "Escanear",
     "tryAgain": "Por favor inténtalo de nuevo.",
     "value": "Valores nutricionales para",
-    "moods": {
         "neutral1": "Cuando te sientas decaído, evita los excesos de azúcar: alivian al principio pero cansan después.",
         "neutral2": "Añade un poco de proteínas, ayudan a estabilizar el estado de ánimo (huevos, pescado, tofu...).",
         "neutral3": "¿Aún no has consumido calorías? Es el momento perfecto para planificar tu primera comida.",
@@ -344,5 +343,4 @@
         "happy4": "Anota tu éxito o compártelo con alguien, esto refuerza tu motivación.",
         "happy5": "Un trozo de chocolate negro (70% o más, 1-2g) o un puñado de bayas (frambuesas, arándanos) para satisfacer tus antojos sin excesos.",
         "happy6": "Dibuja, lee o escucha tu música favorita — recompensas que levantan el ánimo sin impacto calórico."
-    }
 }
