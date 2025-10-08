@@ -10,36 +10,39 @@ import { useDispatch, useSelector } from "react-redux";
 import Rive from 'rive-react-native';
 import {nutritionAdvices} from '../data/advices';
 import { useTranslation } from "react-i18next";
-import { set } from "date-fns";
+import { Skeleton } from "moti/skeleton";
 
 const { width } = Dimensions.get("window");
 
 const CoachScreen = () => {
 
-  const { i18n,t } = useTranslation();
+  const { t } = useTranslation();
 
     const [adviceIndex, setAdviceIndex] = useState(0);
-    const [userData, setUserData] = useState<User[]>([])
+    const [userData, setUserData] = useState<User[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const auth = getAuth();
     const user = auth.currentUser;
     const date = getTodayDate();
     /*convert date */
-    const [adviceList, setAdviceList] = useState<string[]>(["loading"]);
+    const [adviceList, setAdviceList] = useState<string[]>([]);
 
     // REDUX
     const dispatch = useDispatch();
+    const colorMode: 'light' | 'dark' = 'light';
     const userRedux = useSelector((state: RootState) => state.user.user);
     const unlockedBadges = useSelector((state: RootState) => state.badges.unlocked);
-
-    console.log('date ', date)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                fetchUserDataConnected(user, setUserData)
+                await fetchUserDataConnected(user, setUserData)
             }
             catch (e) {
                 console.log('Error processing data', e);
+            }
+            finally{
+              setTimeout(() => { setIsLoading(false), 1000})
             }
         }
         fetchData();
@@ -95,7 +98,7 @@ const CoachScreen = () => {
     });
 
   useEffect(() => {
-    console.log("Paramètres pour getAdvice - caloriesToday:", caloriesToday, "proteinsToday:", proteinsToday, "carbsToday:", carbsToday, "fatsToday:", fatsToday, "caloriesTarget:", basalMetabolicRate, "proteinsTarget:", proteinsBmr, "carbsTarget:", carbsBmr, "fatsTarget:", fatsBmr, "goal:", userData[0]?.goal, "xpToday:", xpToday, "mood:", mood);
+    // console.log("Paramètres pour getAdvice - caloriesToday:", caloriesToday, "proteinsToday:", proteinsToday, "carbsToday:", carbsToday, "fatsToday:", fatsToday, "caloriesTarget:", basalMetabolicRate, "proteinsTarget:", proteinsBmr, "carbsTarget:", carbsBmr, "fatsTarget:", fatsBmr, "goal:", userData[0]?.goal, "xpToday:", xpToday, "mood:", mood);
     const advices = getAdvice({
       caloriesToday,
       proteinsToday,
@@ -143,8 +146,12 @@ const CoachScreen = () => {
         <HelpCoachButton/>
         <View style={styles.adviceContainer}>
             {/* <Text style={styles.adviceText}>{translatedAdvice}</Text> */}
-            <Text style={styles.adviceText}>{adviceList.length > 0 && adviceList[0] ? t(adviceList[0]) : "Chargement en cours..."}</Text>
-            <View style={styles.triangle} />
+            {isLoading ? ( 
+              <Skeleton colorMode={colorMode} width={300} height={75} radius={10}></Skeleton>
+            ) : (
+              <Text style={styles.adviceText}>{adviceList.length > 0 && adviceList[0] ? t(adviceList[0]) : "Chargement en cours..."}</Text>
+
+            )}
             {/* FOR DISPLAY VALUE MACRO */}
             {/* <Text>Consume today : {caloriesToday}</Text>
             <Text>Consume today proteins: {proteinsToday}</Text>
@@ -154,14 +161,19 @@ const CoachScreen = () => {
 
         {/* Animation en bas */}
         <View style={styles.animationContainer}>
-        <Rive
-          source={riveSources[mood]}
-          autoplay={true}
-          style={{ width: 300, height: 300 }}
-        />
+          {isLoading ? ( 
+            <Skeleton colorMode={colorMode} width={200} height={200} radius={'round'}></Skeleton>
+          ) : (
+            <Rive
+              source={riveSources[mood]}
+              autoplay={true}
+              style={{ width: 300, height: 300 }}
+            />
+          )}
+
         </View>
         {/* FOR DISPLAY MOOD */}
-        <Text>{mood}</Text>
+        {/* <Text>{mood}</Text> */}
         </View>
     );
 };
