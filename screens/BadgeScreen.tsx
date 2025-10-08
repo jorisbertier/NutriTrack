@@ -1,3 +1,4 @@
+import Badge from "@/components/Badge";
 import { checkCaloriesBadges } from "@/functions/badgeFunctions";
 import { calculateTotalCalories } from "@/functions/function";
 import { setBadges } from "@/redux/slices/badgeSlice";
@@ -96,12 +97,19 @@ useEffect(() => {
       )}
     </View>
       <View style={styles.container}>
-        <Text style={styles.mainNumber}>81</Text>
+        {/* <Text style={styles.mainNumber}>81</Text> */}
         <Text>total calories : {totalKcal}</Text>
         <Text style={styles.subtitle}>Badges Unlocked</Text>
+        <View style={{gap: 10, flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginTop: 20}}>
+
+          <Badge name={'Ultimate Eater'} level={1} progress={100}  />
+        <Image source={require('@/assets/achievments/badge2-removebg-preview.png')} style={{height: 95, width: 95, borderRadius: 30}}/>
+        <Image source={require('@/assets/achievments/badge3-removebg-preview.png')} style={{height: 80, width: 80, borderRadius: 30}}/>
+
+        </View>
 
         {/* Badges row */}
-        <View style={styles.badgeRow}>
+        {/* <View style={styles.badgeRow}>
           {badges.map((b, idx) => (
             <View key={b.id} style={styles.badgeWrapper}>
               {b.variant === "large" ? (
@@ -112,7 +120,6 @@ useEffect(() => {
                 </View>
               ) : (
                 <View style={styles.smallBadge}>
-                  {/* simple icon placeholder */}
                   <View style={styles.iconPlaceholder} />
                 </View>
               )}
@@ -123,7 +130,6 @@ useEffect(() => {
           ))}
         </View>
 
-        {/* Next badge / progress cards */}
         <View style={styles.nextContainer}>
           <View style={styles.nextHeader}>
             <Text style={styles.nextTitle}>Your Next Badge</Text>
@@ -153,7 +159,7 @@ useEffect(() => {
               </View>
             )}
           />
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
