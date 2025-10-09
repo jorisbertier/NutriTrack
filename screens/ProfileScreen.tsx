@@ -161,11 +161,11 @@ console.log(i18n.language)
       {/* <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
       </Skeleton> */}
-            <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 85, width: 85, marginTop: -8}}>
+            <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
           <Rive
-              source={require("../assets/rive/monkey_profil_picture.riv")}
+              source={require("../assets/rive/panda.riv")}
               autoplay={true}
-              style={{ width: 100, height: 100, marginTop: -20 }}
+              style={{ width: 170, height: 170, marginTop: 25 }}
           />
       </View>
       {/* {isLoading ? <Image source={{ uri: `data:image/jpeg;base64,${userData[0]?.profilPicture}` }} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> } */}
