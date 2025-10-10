@@ -1,8 +1,8 @@
 import { User } from '@/interface/User';
 import { deleteUser, getAuth, signOut } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
@@ -137,7 +137,8 @@ const ProfileScreen = () => {
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
-console.log(i18n.language)
+
+
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.grayBg}]} persistentScrollbar={true}>
         <View style={[styles.containerTranslate, { backgroundColor: colors.white}]}>
@@ -168,6 +169,7 @@ console.log(i18n.language)
               style={{ width: 170, height: 170, marginTop: 25 }}
           />
       </View>
+
       {/* {isLoading ? <Image source={{ uri: `data:image/jpeg;base64,${userData[0]?.profilPicture}` }} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> } */}
         {!isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.name} {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
