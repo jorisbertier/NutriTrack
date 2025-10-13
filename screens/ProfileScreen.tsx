@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import '../locales/i18n';
 import EditLink from '@/components/EditLink';
 import Rive from 'rive-react-native';
+import BMIBar from '@/components/BMIBar';
 
 
 const ProfileScreen = () => {
@@ -162,7 +163,7 @@ const ProfileScreen = () => {
       {/* <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
       </Skeleton> */}
-            <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
+        <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
           <Rive
               source={require("../assets/rive/panda.riv")}
               autoplay={true}
@@ -174,11 +175,12 @@ const ProfileScreen = () => {
         {!isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.name} {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
       </View>
-              <EditLink
+        <EditLink
           label="Avatar"
           iconSource={require('@/assets/images/icon/goal.png')}
           navigateTo="Avatar"
         />
+        <BMIBar weight={160} height={Number(800)}/>
       <View style={{ flexDirection: 'row',  marginBottom: 20}}>
         <View style={{width: '50%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 5, borderBottomColor: "black"}}>
         <Text style={{}} >Profile</Text>
@@ -382,13 +384,13 @@ const styles = StyleSheet.create({
   },
   section: {
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 15,
     marginBottom: 15,
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.1,
-    // shadowRadius: 8,
-    // elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 5,
   },
   sectionTitle: {
     fontSize: 20,
