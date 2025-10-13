@@ -50,52 +50,70 @@ export default function BMIBar({ weight, height }: BMIBarProps) {
 
     return (
         <View style={styles.container}>
-        <View style={styles.header}>
-            <Text style={styles.title}>Your BMI</Text>
-            <Text style={styles.bmiValue}>{bmi}</Text>
-            <View style={[styles.badge, { backgroundColor: currentCategory.color + "33" }]}>
-            <Text style={[styles.badgeText, { color: currentCategory.color }]}>
-                {currentCategory.label}
-            </Text>
+            <View style={styles.header}>
+                <View style={{ flexDirection: "row", gap: 25}}>
+                    <Text style={styles.bmiValue}>
+                        {bmi}
+                    </Text>
+                    <View
+                        style={[
+                        styles.badge,
+                        { backgroundColor: currentCategory.color + "20" },
+                        ]}
+                    >
+                        <Text
+                        style={[
+                            styles.badgeText,
+                            { color: currentCategory.color, fontWeight: "700" },
+                        ]}
+                        >
+                        {currentCategory.label.toUpperCase()}
+                        </Text>
+                    </View>
+                </View>
+                {/* <Text style={styles.subtitle}>Your current BMI Mass Index</Text> */}
+                <Text style={styles.subtitle}>BMI indicates your weight relative to your height.</Text>
+                {/* <Text style={styles.helperText}>
+                    BMI indicates your weight relative to your height.
+                </Text> */}
             </View>
-        </View>
 
-        <View style={styles.gradientWrapper}>
-            <View style={styles.gradientContainer} onLayout={handleBarLayout}>
-            <LinearGradient
-                colors={["#4DA6FF", "#4CAF50", "#FFC107", "#F44336"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.gradientBar}
-            />
+            <View style={styles.gradientWrapper}>
+                <View style={styles.gradientContainer} onLayout={handleBarLayout}>
+                <LinearGradient
+                    colors={["#4DA6FF", "#4CAF50", "#FFC107", "#F44336"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.gradientBar}
+                />
+                </View>
+                <Animated.View
+                style={[
+                    styles.indicator,
+                    {
+                    transform: [{ translateX: animatedValue }],
+                    backgroundColor: "black",
+                    },
+                ]}
+                onLayout={() => console.log("Indicator rendered")}
+                />
             </View>
-            <Animated.View
-            style={[
-                styles.indicator,
-                {
-                transform: [{ translateX: animatedValue }],
-                backgroundColor: "black",
-                },
-            ]}
-            onLayout={() => console.log("Indicator rendered")}
-            />
-        </View>
 
-        <View style={styles.legend}>
-            {categories.map((cat) => (
-            <View key={cat.label} style={styles.legendItem}>
-                <View style={[styles.dot, { backgroundColor: cat.color }]} />
-                <Text style={styles.legendText}>{cat.label}</Text>
+            <View style={styles.legend}>
+                {categories.map((cat) => (
+                <View key={cat.label} style={styles.legendItem}>
+                    <View style={[styles.dot, { backgroundColor: cat.color }]} />
+                    <Text style={styles.legendText}>{cat.label}</Text>
+                </View>
+                ))}
             </View>
-            ))}
-        </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: "92%",
+        width: "100%",
         alignSelf: "center",
         backgroundColor: "#FFF",
         borderRadius: 16,
@@ -111,29 +129,45 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginBottom: 15,
     },
-    title: {
-        fontSize: 18,
-        color: "#444",
+    subtitle: {
+        fontSize: 14,
+        color: "#888",
+        fontWeight: "500",
         marginBottom: 4,
-    },
+        textAlign: "center",
+        marginTop: 2
+    }, 
     bmiValue: {
         fontSize: 34,
         fontWeight: "700",
         color: "#000",
+        textAlign: "center",
+    },
+    unit: {
+        fontSize: 18,
+        fontWeight: "500",
+        color: "#555",
+    },
+    helperText: {
+        fontSize: 12,
+        color: "#666",
+        textAlign: "center",
+        marginTop: 6,
+        lineHeight: 16,
     },
     badge: {
-        paddingHorizontal: 10,
-        paddingVertical: 4,
-        borderRadius: 12,
-        marginTop: 6,
+        alignSelf: "center",
+        paddingHorizontal: 12,
+        paddingVertical: 5,
+        borderRadius: 16,
+        marginTop: 8,
     },
     badgeText: {
-        fontSize: 14,
-        fontWeight: "600",
+        fontSize: 12,
     },
     gradientWrapper: {
         position: "relative",
-        marginTop: 20,
+        marginTop: 8,
         marginBottom: 10,
         overflow: "visible",
     },
