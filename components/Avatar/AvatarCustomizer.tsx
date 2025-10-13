@@ -8,6 +8,7 @@ import {
     StyleSheet,
     Dimensions,
 } from "react-native";
+import Rive, { RiveRef } from "rive-react-native";
 
 const { width } = Dimensions.get("window");
 
@@ -22,7 +23,7 @@ type Option = {
 };
 
 const categories: Category[] = [
-    { id: "glasses", label: "Lunettes" },
+    { id: "glasses", label: "Couleur" },
     { id: "hair", label: "Cheveux" },
     { id: "beard", label: "Barbe" },
     { id: "hat", label: "Chapeau" },
@@ -30,27 +31,81 @@ const categories: Category[] = [
     { id: "test2", label: "Chapeau" },
 ];
 
-const options: Option[] = [
-    { id: "1", image: "https://via.placeholder.com/80" },
-    { id: "2", image: "https://via.placeholder.com/80" },
-    { id: "3", image: "https://via.placeholder.com/80" },
-    { id: "4", image: "https://via.placeholder.com/80" },
-    { id: "5", image: "https://via.placeholder.com/80" },
-];
-
+const categoryOptions: Record<string, Option[]> = {
+  glasses: [
+    { id: "1", image: "https://via.placeholder.com/80/ff0000" },
+    { id: "2", image: "https://via.placeholder.com/80/00ff00" },
+    { id: "3", image: "https://via.placeholder.com/80/0000ff" },
+  ],
+  hair: [
+    { id: "1", image: "https://via.placeholder.com/80/f1c40f" },
+    { id: "2", image: "https://via.placeholder.com/80/8e44ad" },
+    { id: "3", image: "https://via.placeholder.com/80/2ecc71" },
+  ],
+  beard: [
+    { id: "1", image: "https://via.placeholder.com/80/795548" },
+    { id: "2", image: "https://via.placeholder.com/80/4e342e" },
+  ],
+  hat: [
+    { id: "1", image: "https://via.placeholder.com/80/3498db" },
+    { id: "2", image: "https://via.placeholder.com/80/9b59b6" },
+  ],
+  test: [],
+  test2: [],
+};
 export const AvatarCustomizer = () => {
     const [selectedCategory, setSelectedCategory] = useState("glasses");
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
+
+    
+          const riveRef = React.useRef<RiveRef>(null);
+          //     if (riveRef.current) {
+          // exemple d’API hypothétique : setInputState(stateMachineName, inputName, value)
+          //@ts-ignore
+        //   riveRef.current.setInputState("MyStateMachine", inputName, value);
+        // }
+    // const test = riveRef.current?.setInputState("MyStateMachine", "EyeColor", 2);
+      const handlePlay = () => { riveRef.current?.play() };
+        const [colorIndex, setColorIndex] = useState(0);
+    
+      const handleChangeColor = () => {
+    
+        // Cycle entre 0 → 1 → 2 → 0
+        const nextColor = (colorIndex + 1) % 5;
+    
+        // Change l’input "EyeColor" dans la state machine
+        riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", nextColor);
+    console.log("🎨 set EyeColor =", nextColor, riveRef.current);
+    
+        // Met à jour l’état React
+        setColorIndex(nextColor);
+    
+        console.log("👁 Couleur changée :", nextColor);
+      };
+    
+      const handleCategorySelect = (catId: string) => {
+  setSelectedCategory(catId);
+  setSelectedOption(null); // Reset selection
+};
     return (
         <View style={styles.container}>
         {/* --- Image principale --- */}
         <View style={styles.avatarContainer}>
-            <Image
+            {/* <Image
             source={{ uri: "https://via.placeholder.com/150" }}
             style={styles.avatarImage}
-            />
+            /> */}
+                 <Rive
+                 ref={riveRef}
+              source={require("../../assets/rive/panda_neutral (16).riv")}
+              autoplay={true}
+              style={{ width: 300, height: 320, marginTop: 70 }}
+          />
         </View>
+            <TouchableOpacity style={{padding: 20, backgroundColor: 'red'}} onPress={handleChangeColor}>
+        <Text >Changer la couleur des yeux</Text>
+      </TouchableOpacity>
 
         {/* --- Scroll horizontal (catégories) --- */}
         <ScrollView
@@ -81,27 +136,34 @@ export const AvatarCustomizer = () => {
         </ScrollView>
 
         {/* --- Scroll vertical (options à choisir) --- */}
-        <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={styles.optionScroll}
-            contentContainerStyle={styles.optionScrollContent}
-        >
-            {options.map((opt) => (
-            <TouchableOpacity
-                key={opt.id}
-                style={[
-                styles.optionItem,
-                selectedOption === opt.id && styles.optionItemSelected,
-                ]}
-                onPress={() => setSelectedOption(opt.id)}
-            >
-                <Image source={{ uri: opt.image }} style={styles.optionImage} />
-            </TouchableOpacity>
-            ))}
-        </ScrollView>
+<ScrollView
+  showsVerticalScrollIndicator={false}
+  style={styles.optionScroll}
+  contentContainerStyle={styles.optionScrollContent}
+>
+  {(categoryOptions[selectedCategory] || []).map((opt) => (
+    <TouchableOpacity
+      key={opt.id}
+      style={[
+        styles.optionItem,
+        selectedOption === opt.id && styles.optionItemSelected,
+      ]}
+      onPress={() => setSelectedOption(opt.id)}
+    >
+      <Image source={{ uri: opt.image }} style={styles.optionImage} />
+    </TouchableOpacity>
+  ))}
+
+  {/* Message si aucune option */}
+  {categoryOptions[selectedCategory]?.length === 0 && (
+    <Text style={{ textAlign: "center", color: "#777", marginTop: 20 }}>
+      Aucune option disponible pour cette catégorie
+    </Text>
+  )}
+</ScrollView>
         </View>
     );
-    };
+};
 
     const styles = StyleSheet.create({
     container: {

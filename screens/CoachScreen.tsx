@@ -46,7 +46,7 @@ const CoachScreen = () => {
   const handleChangeColor = () => {
 
     // Cycle entre 0 → 1 → 2 → 0
-    const nextColor = (colorIndex + 1) % 2;
+    const nextColor = (colorIndex + 1) % 3;
 
     // Change l’input "EyeColor" dans la state machine
     riveRef.current?.setInputState("StateMachine", "EyeColor", nextColor);
@@ -164,7 +164,8 @@ console.log("🎨 set EyeColor =", nextColor);
         angry: require("../assets/rive/monkey_angry.riv"),
         motivated: require("../assets/rive/monkey_motivated.riv"),
         neutral: require("../assets/rive/monkey_sad.riv"),
-        test: require("../assets/rive/test (3).riv"),
+        // test: require("../assets/rive/test (3).riv"),
+        test: require("../assets/rive/test (5).riv"),
       };
 
     return (

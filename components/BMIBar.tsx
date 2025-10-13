@@ -51,7 +51,7 @@ export default function BMIBar({ weight, height }: BMIBarProps) {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <View style={{ flexDirection: "row", gap: 25}}>
+                <View style={{ flexDirection: "row", gap: 25, alignItems: "center" }}>
                     <Text style={styles.bmiValue}>
                         {bmi}
                     </Text>
@@ -160,7 +160,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 5,
         borderRadius: 16,
-        marginTop: 8,
     },
     badgeText: {
         fontSize: 12,
