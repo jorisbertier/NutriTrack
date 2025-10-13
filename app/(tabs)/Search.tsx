@@ -4,14 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
 import { foodData } from "@/data/food.js";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { FoodItem } from "@/interface/FoodItem";
-import { capitalizeFirstLetter } from "@/functions/function";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useNavigation } from "@react-navigation/native";
-import { t } from "i18next";
-import LottieView from "lottie-react-native";
 import { useTranslation } from "react-i18next";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -20,7 +17,7 @@ import { DayCarousel } from "@/components/DayCarousel";
 
 export default function Search() {
 
-    const {theme, colors} = useTheme();
+    const { colors } = useTheme();
     const { t, i18n } = useTranslation();
     const navigation = useNavigation();
 
@@ -36,8 +33,6 @@ export default function Search() {
 
     const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
-    
-    let date = new Date();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
         setIsOpen(false)

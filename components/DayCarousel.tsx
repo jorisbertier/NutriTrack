@@ -156,5 +156,3 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
             </View>
     )
 }
-
-export default Calendar

@@ -1,10 +1,9 @@
-import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import React, { useContext, useEffect, useState } from "react";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { capitalizeFirstLetter, fetchUserDataConnected } from "@/functions/function";
+import { fetchUserDataConnected } from "@/functions/function";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
 import { getAuth } from "firebase/auth";
@@ -14,8 +13,8 @@ import CardFoodCreated from "@/components/SearchCreated/CardFoodCreated";
 import { FoodContext } from "@/hooks/FoodContext";
 import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { User } from "@/interface/User";
-import LottieView from "lottie-react-native";
 import { useTranslation } from "react-i18next";
+import { DayCarousel } from "@/components/DayCarousel";
 
 function SearchAlimentCreated() {
 
@@ -26,7 +25,7 @@ function SearchAlimentCreated() {
 
     const { allDataFoodCreated, setAllDataFoodCreated } = useContext(FoodContext);
 
-    const {theme, colors} = useTheme();
+    const { colors} = useTheme();
     const { t } = useTranslation();
 
     const [text, onChangeText] = useState('');
@@ -95,20 +94,6 @@ function SearchAlimentCreated() {
 
     }, [allDataFoodCreated])
 
-    // useEffect(() => {
-    //     try {
-    //         if (foodData && foodData.length > 0) {
-    //             setData(foodData);
-    //         } else {
-    //             setError('No data found');
-    //         }
-    //     } catch (e) {
-    //         setError('Error processing data');
-    //     } finally {
-    //         setIsLoading(true);
-    //     }
-    // }, []);
-
     const handleOpenCalendar = () => {
         setIsOpen(!isOpen)
     }
@@ -117,44 +102,16 @@ function SearchAlimentCreated() {
         onChangeText('')
     }
 
-    const goToPreviousDay = () => {
-        setSelectedDate(prevDate => {
-            const newDate = new Date(prevDate);
-            newDate.setDate(prevDate.getDate() - 1);
-            return newDate;
-        });
-    };
-
-    const goToNextDay = () => {
-        setSelectedDate(prevDate => {
-            const newDate = new Date(prevDate);
-            newDate.setDate(prevDate.getDate() + 1);
-            return newDate;
-        });
-    };
-
     const filteredAllDataFoodCreated = allDataFoodCreated.filter(food => food.title.toLowerCase().includes(text.toLowerCase().trim()));
 
     return (
         <>
             <View style={{flexDirection: "row", width: "100%", paddingTop: 10, justifyContent: "space-around", backgroundColor: colors.whiteMode}}>
-                <TouchableOpacity onPress={goToPreviousDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
-                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20, transform: [{ scaleX: -1 }]}}/>
-                </TouchableOpacity>
-                <View style={{width: '70%',alignSelf: 'center', height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
-                    <TouchableOpacity onPress={handleOpenCalendar}>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
-                            <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                                t('today'):
-                                `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                            </ThemedText>
-                            <Image source={require('@/assets/images/calendar.png')} style={{tintColor: colors.black, width: 25, height: 25}}/>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity onPress={goToNextDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
-                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20}}/>
-                </TouchableOpacity>
+                <DayCarousel
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    handleOpenCalendar={handleOpenCalendar}
+                />
             </View>
         
         <SafeAreaView style={[styles.header, {backgroundColor: colors.whiteMode}]}>
@@ -178,7 +135,6 @@ function SearchAlimentCreated() {
                     onBlur={() => setIsFocused(false)}
                 >
                 </TextInput>
-                    {/* <Image source={require('@/assets/images/search.png')} style={styles.iconSearch}/> */}
                     {text !== '' ? (
                         <TouchableOpacity style={[styles.wrapperDelete, { backgroundColor: colors.morphism2}]} onPress={handleDeleteValue}>
                             <Image source={require('@/assets/images/delete.png')} style={styles.deleteSearch}/>
@@ -347,4 +303,5 @@ const styles = StyleSheet.create({
         height: 20
     }
 })
+
 export default SearchAlimentCreated

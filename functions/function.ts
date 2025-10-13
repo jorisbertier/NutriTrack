@@ -122,7 +122,7 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
     
     const result = resultAllDataFood.reduce((acc:number,  item: FoodItem) => {
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
-        console.log(item[nutrientKey],' : ', nutrientValue)
+        // console.log(item[nutrientKey],' : ', nutrientValue);
         return acc + nutrientValue;
     }, 0) || 0;
 
@@ -146,7 +146,6 @@ export const getTotalNutrient = (resultAllDataFood: any, nutrientKey: keyof Food
         const nutrientValue = typeof item[nutrientKey] === 'number' ? item[nutrientKey] : 0;
         return acc + nutrientValue;
     }, 0) || 0;
-    console.log('resuklt qr', result)
 
     const formattedResult = parseFloat(result.toFixed(2));
 

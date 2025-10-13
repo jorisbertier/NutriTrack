@@ -1,5 +1,4 @@
-import { ThemedText } from "@/components/ThemedText";
-import { StyleSheet, View, Image, TouchableOpacity, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import React, { useState, useEffect } from "react";
 import { foodData } from "@/data/food";
@@ -13,8 +12,6 @@ import { collection, getDocs, doc, deleteDoc, getDoc, updateDoc } from "firebase
 import { DisplayResultFoodByMeal } from "@/components/DisplayResultFoodByMeal";
 import { User } from "@/interface/User";
 import NutritionList from "@/components/Screens/Dashboard/NutritionList";
-import { capitalizeFirstLetter } from "@/functions/function";
-import { ProgressBarKcal } from "@/components/ProgressBarKcal";
 import ProgressRing from "@/components/Chart/ProgressRing";
 import { Skeleton } from "moti/skeleton";
 import { colorMode } from "@/constants/Colors";
@@ -23,12 +20,10 @@ import { FoodItemCreated } from "@/interface/FoodItemCreated";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMacronutrients, updateUserCaloriesByDay, updateUserXp } from "@/redux/userSlice";
 import { useTranslation } from "react-i18next";
-import LottieView from "lottie-react-native";
 import { RootState } from "@/redux/store";
 import { FoodItemQr } from "@/interface/FoodItemQr";
 import { DailyIntakeCard } from "@/components/DailyIntakeCard";
-
-
+import { DayCarousel } from "@/components/DayCarousel";
 
 export default function Dashboard() {
     
@@ -708,56 +703,15 @@ console.log('resume custom', resultCustom)
         }
     }, [proteins, carbs, fats])
 
-    const goToPreviousDay = () => {
-    setSelectedDate(prevDate => {
-        const newDate = new Date(prevDate);
-        newDate.setDate(prevDate.getDate() - 1);
-        return newDate;
-    });
-    };
-
-    const goToNextDay = () => {
-        setSelectedDate(prevDate => {
-            const newDate = new Date(prevDate);
-            newDate.setDate(prevDate.getDate() + 1);
-            return newDate;
-        });
-    };
-    console.log('progress prot ', Number(proteins.toFixed(1)))
+    // console.log('progress prot ', Number(proteins.toFixed(1)))
     return (
         <View style={{ backgroundColor: colors.whiteMode, paddingBottom: 10}}>
             <View style={{flexDirection: "row", width: "100%", marginTop: 10, paddingBottom: 10, justifyContent: "space-around", backgroundColor: colors.whiteMode}}>
-                <TouchableOpacity onPress={goToPreviousDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
-                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20, transform: [{ scaleX: -1 }]}}/>
-                </TouchableOpacity>
-
-                <View style={{width: '70%',alignSelf: 'center', height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
-                    <TouchableOpacity onPress={handleOpenCalendar}>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
-                            <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                                t('today'):
-                                `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                            </ThemedText>
-                            <Image source={require('@/assets/images/calendar.png')} style={{tintColor: colors.black, width: 25, height: 25}}/>
-                        </View>
-                    </TouchableOpacity>
-                    {notificationVisible && (
-                        <View style={styles.notification}>
-                            <View style={styles.wrapperNotification}>
-                                <Text style={styles.notificationText}>{t('msg_exp')}</Text>
-                            </View>
-                            <LottieView
-                            source={require('@/assets/lottie/Confetti.json')}
-                            loop={true}
-                            style={{ width: 400, height: 400, position: 'absolute' }}
-                            autoPlay={true}
-                            />
-                        </View>
-                    )}
-                </View>
-                <TouchableOpacity onPress={goToNextDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
-                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20}}/>
-                </TouchableOpacity>
+                <DayCarousel
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    handleOpenCalendar={handleOpenCalendar}
+                />
             </View>
             <ScrollView style={[styles.header, {paddingTop: 10, backgroundColor: colors.whiteMode}]}>
             <View style={[styles.card, { backgroundColor: colors.white, shadowColor: colors.shadow }]}>
@@ -771,31 +725,6 @@ console.log('resume custom', resultCustom)
                     style={{ width: '100%' }}
                     />
                 )}
-
-                {/* {!isLoading ? (
-                    <>
-                    <View style={styles.headerRow}>
-                        <Text style={[styles.caloriesText, { color: colors.black }]}>
-                        {showIcon && '🎯'} {Math.round(basalMetabolicRate)} <Text style={styles.unit}>kcal</Text>
-                        </Text>
-                        <View style={[styles.badge, { backgroundColor: colors.primaryLight }]}>
-                        <Text style={[styles.badgeText, { color: colors.black }]}>
-                            {goal.toFixed(0)} {t('left')}
-                        </Text>
-                        </View>
-                    </View>
-                    <Text style={[styles.progressText, { color: colors.black }]}>
-                        {Math.round(totalKcalConsumeToday)} / {Math.round(basalMetabolicRate)} 
-                    </Text>
-                        <ProgressBarKcal isLoading={!isLoading} progress={totalKcalConsumeToday} nutri={'Kcal'} quantityGoal={basalMetabolicRate}/>
-                    </>
-                ) : (
-                    <>
-                    <View style={{marginBottom: 5}}><Skeleton width={280} height={40} colorMode={colorMode} /></View>
-                    <View style={{marginBottom: 5}}><Skeleton width={100} height={24} colorMode={colorMode} /></View>
-                    <View><Skeleton width={280} height={20} colorMode={colorMode} /></View>
-                    </>
-                )} */}
                 </View>
                 <DailyIntakeCard
                     basalMetabolicRate={basalMetabolicRate} 
