@@ -38,6 +38,7 @@ import HistoryWeight from '@/screens/HistoryWeight';
 import QrCodeScreen from '@/screens/QrCodeScreen';
 import ScannerScreen from '@/components/Scan/ScannerScreen';
 import BadgeScreen from '@/screens/BadgeScreen';
+import { AvatarCustomizer } from '@/components/Avatar/AvatarCustomizer';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -155,7 +156,7 @@ export default function RootLayout() {
               <Stack.Screen name="FoodDetails" component={DetailsFood} />
               <Stack.Screen name="FoodDetailsCreated" component={DetailsFoodCreated} />
               {/* <Stack.Screen name="Badge" component={BadgeScreen} /> */}
-                            <Stack.Screen name="Badge" component={BadgeScreen}
+              <Stack.Screen name="Badge" component={BadgeScreen}
                 options={{
                   headerShown: true,
                   headerTitle: "badge",
@@ -173,6 +174,20 @@ export default function RootLayout() {
                 options={{
                   headerShown: true,
                   headerTitle: t('privacyPolicy'),
+                  headerTitleAlign: 'center',
+                  headerStyle: {
+                    backgroundColor: '#000',
+                  },
+                  headerTitleStyle: {
+                    color: 'white',
+                  },
+                  headerTintColor: '#ffffff'
+                }}
+              />
+              <Stack.Screen name="Avatar" component={AvatarCustomizer}
+                options={{
+                  headerShown: true,
+                  headerTitle: "Avatar",
                   headerTitleAlign: 'center',
                   headerStyle: {
                     backgroundColor: '#000',

@@ -174,6 +174,11 @@ const ProfileScreen = () => {
         {!isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.name} {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
       </View>
+              <EditLink
+          label="Avatar"
+          iconSource={require('@/assets/images/icon/goal.png')}
+          navigateTo="Avatar"
+        />
       <View style={{ flexDirection: 'row',  marginBottom: 20}}>
         <View style={{width: '50%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 5, borderBottomColor: "black"}}>
         <Text style={{}} >Profile</Text>
