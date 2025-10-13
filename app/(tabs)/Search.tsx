@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import Svg, { Path } from "react-native-svg";
+import { DayCarousel } from "@/components/DayCarousel";
 
 export default function Search() {
 
@@ -82,194 +83,14 @@ export default function Search() {
         onChangeText('')
     }
 
-    // const goToPreviousDay = () => {
-    // setSelectedDate(prevDate => {
-    //     const newDate = new Date(prevDate);
-    //     newDate.setDate(prevDate.getDate() - 1);
-    //     return newDate;
-    // });
-    // };
-
-    // const goToNextDay = () => {
-    //     setSelectedDate(prevDate => {
-    //         const newDate = new Date(prevDate);
-    //         newDate.setDate(prevDate.getDate() + 1);
-    //         return newDate;
-    //     });
-    // };
-
-  const fadeAnim = useRef(new Animated.Value(1)).current;
-  const translateY = useRef(new Animated.Value(0)).current;
-
-  // Fonction pour animer le glissement du jour
- const animateChange = (newDate) => {
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 0,
-          duration: 150,
-          useNativeDriver: true,
-        }),
-        Animated.timing(translateY, {
-          toValue: 10,
-          duration: 150,
-          easing: Easing.out(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ]),
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.timing(translateY, {
-          toValue: 0,
-          duration: 200,
-          easing: Easing.out(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ]),
-    ]).start(() => setSelectedDate(newDate));
-  };
-
-  // Changer de jour
-  const goToPreviousDay = () => {
-    const newDate = new Date(selectedDate);
-    newDate.setDate(selectedDate.getDate() - 1);
-    animateChange(newDate);
-  };
-
-  const goToNextDay = () => {
-    const newDate = new Date(selectedDate);
-    newDate.setDate(selectedDate.getDate() + 1);
-    animateChange(newDate);
-  };
-
-  // Jours autour
-  const previousDay = new Date(selectedDate);
-  previousDay.setDate(selectedDate.getDate() - 1);
-
-  const nextDay = new Date(selectedDate);
-  nextDay.setDate(selectedDate.getDate() + 1);
-
     return (
         <>
             <View style={{flexDirection: "row", width: "100%", paddingTop: 10, justifyContent: "space-around", backgroundColor: colors.whiteMode}}>
-                {/* <TouchableOpacity onPress={goToPreviousDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
-                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20, transform: [{ scaleX: -1 }]}}/>
-                </TouchableOpacity> */}
-                {/* <View style={{width: '70%',alignSelf: 'center', height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.grayMode}}>
-                    <TouchableOpacity onPress={handleOpenCalendar}>
-                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, height: '100%', width: '40%'}}>
-                            <ThemedText variant="title1" color={colors.black} style={{height: '100%', textAlignVertical: 'center', textAlign: 'center'}}>{selectedDate.toLocaleDateString() === date.toLocaleDateString() ?
-                                t('today'):
-                                `${capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`}
-                            </ThemedText>
-                            <Image source={require('@/assets/images/calendar.png')} style={{tintColor: colors.black, width: 25, height: 25}}/>
-                        </View>
-                    </TouchableOpacity>
-                </View> */}
-                {/* <View style={{width: '20%',alignSelf: 'center', height: 80, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.blueLight}}>
-                    <TouchableOpacity onPress={handleOpenCalendar}>
-                        <View style={{flexDirection: 'column', alignItems: 'center',gap: 3, justifyContent: 'center', height: '100%', width: '100%'}}>
-                            <ThemedText variant="title3" color={colors.black} style={{textAlignVertical: 'center', textAlign: 'center', fontSize: 12}}>
-                                {capitalizeFirstLetter(selectedDate.toLocaleString('default', { weekday: 'short' }))}
-                            </ThemedText>
-                            <Text style={{textAlignVertical: 'center', textAlign: 'center', fontSize: 18, fontWeight: 500}}>
-                                {selectedDate.getDate()}
-                            </Text>
-                            <ThemedText variant="title3" color={colors.black} style={{textAlignVertical: 'center', textAlign: 'center', fontSize: 12}}>
-                                {capitalizeFirstLetter(selectedDate.toLocaleString('default', { month: 'short' }))} {selectedDate.getFullYear()}
-                            </ThemedText>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity onPress={goToNextDay} style={{backgroundColor: colors.grayMode, width: "10%", justifyContent: "center", alignItems: "center", borderRadius: 10, height: 40}}>
-                    <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.black, width: 20, height: 20}}/>
-                </TouchableOpacity> */}
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-around",
-                        alignItems: "center",
-                        width: "100%",
-                        backgroundColor: colors.whiteMode,
-                    }}
-                >
-                    <TouchableOpacity
-                        onPress={goToPreviousDay}
-                        activeOpacity={0.6}
-                        style={{
-                        backgroundColor: colors.grayMode,
-                        width: "25%",
-                        height: 80,
-                        borderRadius: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        opacity: 0.6,
-                        }}
-                    >
-                        <ThemedText variant="title3" color={colors.black} style={{ fontSize: 12 }}>
-                        {capitalizeFirstLetter(previousDay.toLocaleString("default", { weekday: "short" }))}
-                        </ThemedText>
-                        <Text style={{ fontSize: 18, fontWeight: "500" }}>{previousDay.getDate()}</Text>
-                    </TouchableOpacity>
-
-                    {/* Jour sélectionné (animé) */}
-                    <Animated.View
-                        style={{
-                        width: "30%",
-                        height: 80,
-                        borderRadius: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: colors.blueLight,
-                        transform: [{ translateY }],
-                        opacity: fadeAnim,
-                        }}
-                    >
-                        <TouchableOpacity onPress={handleOpenCalendar}>
-                            <View style={{ alignItems: "center", gap: 3 }}>
-                                <ThemedText
-                                variant="title3"
-                                color={colors.black}
-                                style={{ fontSize: 12, textAlign: "center" }}
-                                >
-                                {capitalizeFirstLetter(selectedDate.toLocaleString("default", { weekday: "short" }))}
-                                </ThemedText>
-                                <Text style={{ fontSize: 20, fontWeight: "600", textAlign: "center" }}>
-                                {selectedDate.getDate()}
-                                </Text>
-                                <Text
-                                style={{ fontSize: 16, textAlign: "center", fontWeight: "500", color: colors.black }}
-                                >
-                                {capitalizeFirstLetter(selectedDate.toLocaleString("default", { month: "short" }))}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </Animated.View>
-
-                    {/* Jour suivant */}
-                    <TouchableOpacity
-                        onPress={goToNextDay}
-                        activeOpacity={0.6}
-                        style={{
-                        backgroundColor: colors.grayMode,
-                        width: "25%",
-                        height: 80,
-                        borderRadius: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        opacity: 0.6,
-                        }}
-                    >
-                        <ThemedText variant="title3" color={colors.black} style={{ fontSize: 12 }}>
-                        {capitalizeFirstLetter(nextDay.toLocaleString("default", { weekday: "short" }))}
-                        </ThemedText>
-                        <Text style={{ fontSize: 18, fontWeight: "500" }}>{nextDay.getDate()}</Text>
-                    </TouchableOpacity>
-                </View>
+                <DayCarousel
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    handleOpenCalendar={handleOpenCalendar}
+                />
             </View>
             <SafeAreaView style={[styles.header, {backgroundColor: colors.whiteMode}]}>
                 {isOpen && (<RNDateTimePicker
