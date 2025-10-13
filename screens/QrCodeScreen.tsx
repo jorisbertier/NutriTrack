@@ -179,7 +179,9 @@ export default function QrCodeScreen({ route }) {
           };
 
           Object.keys(nutrientValues).forEach((key) => {
+            //@ts-ignore
               if (nutrientValues[key] === null || nutrientValues[key] === undefined || nutrientValues[key] === '') {
+                //@ts-ignore
                   delete nutrientValues[key];
               }
           });
@@ -200,6 +202,7 @@ export default function QrCodeScreen({ route }) {
           setLoadingCreateAliment(true);
           setTimeout(() => setLoadingCreateAliment(false), 2400);
           setTimeout(() => {
+            //@ts-ignore
             navigation.pop(2);
           }, 2400);
       } catch(error: any) {
@@ -299,26 +302,28 @@ const toggleAliment = async () => {
         <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
           <Image source={require('@/assets/images/back.png')} style={styles.icon} />
         </Pressable>
-      <Pressable onPress={toggleAliment} disabled={isProcessing}>
-        <MotiView
-          from={{ scale: 1 }}
-          animate={{ scale: liked ? 1.2 : 1 }}
-          transition={{ type: "spring", stiffness: 200 }}
-              style={{
-          justifyContent: "center",
-          alignItems: "center",
-          width: 40,
-          top: 12,
-          opacity: isProcessing ? 0.5 : 1,
-        }}
-        >
-          <Ionicons
-            name={liked ? "heart" : "heart-outline"}
-            size={25}
-            color={liked ? colors.blue : "black"}
-          />
-        </MotiView>
-      </Pressable>
+        {!productInfo?.error && (
+          <Pressable onPress={toggleAliment} disabled={isProcessing}>
+            <MotiView
+              from={{ scale: 1 }}
+              animate={{ scale: liked ? 1.2 : 1 }}
+              transition={{ type: "spring", stiffness: 200 }}
+                  style={{
+              justifyContent: "center",
+              alignItems: "center",
+              width: 40,
+              top: 12,
+              opacity: isProcessing ? 0.5 : 1,
+            }}
+            >
+              <Ionicons
+                name={liked ? "heart" : "heart-outline"}
+                size={25}
+                color={liked ? colors.blue : "black"}
+              />
+            </MotiView>
+          </Pressable>
+        )}
       </View>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }} keyboardShouldPersistTaps="handled">
         {!productInfo ? (
@@ -334,7 +339,8 @@ const toggleAliment = async () => {
             {t('tryAgain')}
         </Text>
         <TouchableOpacity 
-            style={[styles.retryButton, { backgroundColor: colors.black}]} 
+            style={[styles.retryButton, { backgroundColor: colors.black}]}
+            //@ts-ignore
             onPress={() => navigation.pop(1)}
         >
             <Text style={[styles.retryButtonText, { color: colors.white}]}>{t('rescan')}</Text>
