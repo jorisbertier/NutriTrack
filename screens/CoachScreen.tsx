@@ -4,10 +4,10 @@ import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculP
 import { User } from "@/interface/User";
 import { RootState } from "@/redux/store";
 import { getAuth } from "firebase/auth";
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Rive from 'rive-react-native';
+import Rive, { RiveRef } from 'rive-react-native';
 import {nutritionAdvices} from '../data/advices';
 import { useTranslation } from "react-i18next";
 import { Skeleton } from "moti/skeleton";
@@ -33,6 +33,34 @@ const CoachScreen = () => {
     const userRedux = useSelector((state: RootState) => state.user.user);
     const unlockedBadges = useSelector((state: RootState) => state.badges.unlocked);
 
+      const riveRef = React.useRef<RiveRef>(null);
+      //     if (riveRef.current) {
+      // exemple d’API hypothétique : setInputState(stateMachineName, inputName, value)
+      //@ts-ignore
+    //   riveRef.current.setInputState("MyStateMachine", inputName, value);
+    // }
+// const test = riveRef.current?.setInputState("MyStateMachine", "EyeColor", 2);
+  const handlePlay = () => { riveRef.current?.play() };
+    const [colorIndex, setColorIndex] = useState(0);
+
+  const handleChangeColor = () => {
+
+    // Cycle entre 0 → 1 → 2 → 0
+    const nextColor = (colorIndex + 1) % 2;
+
+    // Change l’input "EyeColor" dans la state machine
+    riveRef.current?.setInputState("StateMachine", "EyeColor", nextColor);
+console.log("🎨 set EyeColor =", nextColor);
+
+    // Met à jour l’état React
+    setColorIndex(nextColor);
+
+    console.log("👁 Couleur changée :", nextColor);
+  };
+
+// console.log('rive ref', riveRef);
+// console.log('rive ref', test);
+// console.log('rive ref', handlePlay);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -136,7 +164,7 @@ const CoachScreen = () => {
         angry: require("../assets/rive/monkey_angry.riv"),
         motivated: require("../assets/rive/monkey_motivated.riv"),
         neutral: require("../assets/rive/monkey_sad.riv"),
-        test: require("../assets/rive/monkey_profil_picture.riv"),
+        test: require("../assets/rive/test (3).riv"),
       };
 
     return (
@@ -165,12 +193,19 @@ const CoachScreen = () => {
             <Skeleton colorMode={colorMode} width={200} height={200} radius={'round'}></Skeleton>
           ) : (
             <Rive
-              source={riveSources[mood]}
+            ref={riveRef}
+              // source={riveSources[mood]}
+              source={riveSources["test"]}
               autoplay={true}
               style={{ width: 300, height: 300 }}
             />
           )}
-
+{/* <TouchableOpacity style={styles.button} onPress={handlePlay}>
+        <Text style={styles.buttonText}>{t("play_animation")}</Text>
+      </TouchableOpacity> */}
+            <TouchableOpacity style={styles.button} onPress={handleChangeColor}>
+        <Text style={styles.buttonText}>Changer la couleur des yeux</Text>
+      </TouchableOpacity>
         </View>
         {/* FOR DISPLAY MOOD */}
         {/* <Text>{mood}</Text> */}
