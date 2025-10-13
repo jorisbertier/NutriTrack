@@ -120,7 +120,8 @@ const styles = StyleSheet.create({
         zIndex: 999,
         height: 110,
         justifyContent: 'center',
-        backgroundColor: 'red'
+        borderTopWidth: 0,
+        marginBottom: 0
     },
     row: {
         flex: 1,

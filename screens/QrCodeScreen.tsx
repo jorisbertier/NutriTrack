@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Image, StyleSheet, Pressable, Alert, KeyboardAvoidingView, Platform, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, Image, StyleSheet, Pressable, Alert, KeyboardAvoidingView, ActivityIndicator, TouchableOpacity } from "react-native";
 import ProgressBarFluid from "@/components/ProgressBarFluid";
 import BottomInputBarQr from "@/components/Scan/QrBottomBar";
 import { useTheme } from "@/hooks/ThemeProvider";
@@ -24,6 +24,7 @@ import { MotiView } from "moti";
 import LottieView from "lottie-react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function QrCodeScreen({ route }) {
 
@@ -215,87 +216,86 @@ export default function QrCodeScreen({ route }) {
       }
   }
 
-// Fonction toggle
-const toggleAliment = async () => {
-  if (isProcessing) return;
+  // Fonction toggle
+  const toggleAliment = async () => {
+    if (isProcessing) return;
 
-  setIsProcessing(true);
-  try {
-    if (!liked) {
-      // -------- AJOUT --------
-      const collectionRef = collection(firestore, "UserCreatedFoods");
-      const querySnapshot = await getDocs(collectionRef);
+    setIsProcessing(true);
+    try {
+      if (!liked) {
+        // -------- AJOUT --------
+        const collectionRef = collection(firestore, "UserCreatedFoods");
+        const querySnapshot = await getDocs(collectionRef);
 
-      let maxId = 0;
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        if (data.id && data.id > maxId) {
-          maxId = data.id;
-        }
-      });
+        let maxId = 0;
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.id && data.id > maxId) {
+            maxId = data.id;
+          }
+        });
 
-      const newId = maxId + 1;
+        const newId = maxId + 1;
 
-      const dataToSave = {
-        title: productInfo?.product_name,
-        quantity: quantityGrams,
-        unit: productInfo?.product_quantity_unit || "g",
-        calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
-        proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
-        carbohydrates: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
-        fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
-        sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
-        image: productInfo?.image_url,
-        idUser: userData[0]?.id,
-      };
+        const dataToSave = {
+          title: productInfo?.product_name,
+          quantity: quantityGrams,
+          unit: productInfo?.product_quantity_unit || "g",
+          calories: formatNutrientValue(productInfo?.nutriments?.["energy-kcal_100g"], Number(quantityGrams)),
+          proteins: formatNutrientValue(productInfo?.nutriments?.["proteins_100g"], Number(quantityGrams)),
+          carbohydrates: formatNutrientValue(productInfo?.nutriments?.["carbohydrates_100g"], Number(quantityGrams)),
+          fats: formatNutrientValue(productInfo?.nutriments?.["fat_100g"], Number(quantityGrams)),
+          sugar: formatNutrientValue(productInfo?.nutriments?.["sugars_100g"], Number(quantityGrams)),
+          image: productInfo?.image_url,
+          idUser: userData[0]?.id,
+        };
 
-      const docId = generateManualId();
-      await setDoc(doc(firestore, "UserCreatedFoods", docId), {
-        id: newId,
-        ...dataToSave,
-      });
+        const docId = generateManualId();
+        await setDoc(doc(firestore, "UserCreatedFoods", docId), {
+          id: newId,
+          ...dataToSave,
+        });
 
-      setSavedDocId(docId);
-      setLiked(true);
+        setSavedDocId(docId);
+        setLiked(true);
 
-      setNotifMessage("a bien été ajouté à la liste");
-      setShowNotification(true);
-      setTimeout(() => {
-        setShowNotification(false);
-        setIsProcessing(false);
-      }, 2500);
+        setNotifMessage("a bien été ajouté à la liste");
+        setShowNotification(true);
+        setTimeout(() => {
+          setShowNotification(false);
+          setIsProcessing(false);
+        }, 2500);
 
-      console.log("aliment ajouté")
-    } else {
-      // -------- SUPPRESSION --------
-      if (!savedDocId) return;
+        console.log("aliment ajouté")
+      } else {
+        // -------- SUPPRESSION --------
+        if (!savedDocId) return;
 
-      const docRef = doc(firestore, "UserCreatedFoods", savedDocId);
-      await deleteDoc(docRef);
+        const docRef = doc(firestore, "UserCreatedFoods", savedDocId);
+        await deleteDoc(docRef);
 
-      setSavedDocId(null);
-      setLiked(false);
+        setSavedDocId(null);
+        setLiked(false);
 
-      setNotifMessage("a bien été supprimé de la liste");
-      setShowNotification(true);
-      setTimeout(() => {
-        setShowNotification(false);
-        setIsProcessing(false);
-      }, 2500);
-      console.log("aliment supprimé")
+        setNotifMessage("a bien été supprimé de la liste");
+        setShowNotification(true);
+        setTimeout(() => {
+          setShowNotification(false);
+          setIsProcessing(false);
+        }, 2500);
+        console.log("aliment supprimé")
+      }
+    } catch (error: any) {
+      console.log("Toggle aliment error:", error.message);
+      setIsProcessing(false);
     }
-  } catch (error: any) {
-    console.log("Toggle aliment error:", error.message);
-    setIsProcessing(false);
-  }
-};
+  };
 
-        
   return (
       <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? -25 : 0}
+      behavior="padding"
+      keyboardVerticalOffset={0}
     >
       <View style={{ flex: 1, backgroundColor: colors.white }}>
         <View style={{flexDirection: "row", justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center'}}>
@@ -325,7 +325,7 @@ const toggleAliment = async () => {
           </Pressable>
         )}
       </View>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }} keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 20 }} keyboardShouldPersistTaps="handled">
         {!productInfo ? (
           <ActivityIndicator size="large" color={colors.black} />
         ) : productInfo.error ? (
