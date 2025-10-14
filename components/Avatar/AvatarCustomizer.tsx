@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
 import {
     View,
     Text,
@@ -27,77 +29,106 @@ type Option = {
 const categories: Category[] = [
     { id: "color", label: "Couleur" },
     { id: "hat", label: "Chapeau" },
-    // { id: "hair", label: "Cheveux" },
-    // { id: "beard", label: "Barbe" },
-    // { id: "test", label: "Chapeau" },
-    // { id: "test2", label: "Chapeau" },
 ];
 
 const categoryOptions: Record<string, Option[]> = {
     color: [
-        { id: "1", color: "#00000", value: 0 }, 
+        { id: "1", color: "#000", value: 0 }, 
         { id: "2", color: "#C258CA", value: 1 },
         { id: "3", color: "#73D2DE", value: 2 },
         { id: "4", color: "#68FF26", value: 3 },
         { id: "5", color: "#1C29D4", value: 4 },
     ],
     hat: [
-        { id: "1", image: "https://via.placeholder.com/80/f1c40f" },
-        { id: "2", image: "https://via.placeholder.com/80/8e44ad" },
-        { id: "3", image: "https://via.placeholder.com/80/2ecc71" },
+        { id: "1", image: "https://via.placeholder.com/80/f1c40f", value: 0 },
+        { id: "2", image: "https://via.placeholder.com/80/8e44ad", value: 1 },
+        { id: "3", image: "https://via.placeholder.com/80/2ecc71", value: 2 },
     ],
-    // beard: [
-    //     { id: "1", image: "https://via.placeholder.com/80/795548" },
-    //     { id: "2", image: "https://via.placeholder.com/80/4e342e" },
-    // ],
-    // hat: [
-    //     { id: "1", image: "https://via.placeholder.com/80/3498db" },
-    //     { id: "2", image: "https://via.placeholder.com/80/9b59b6" },
-    // ],
 };
 
 const riveMappings: Record<string, { machine: string; input: string }> = {
     color: { machine: "StateMachineChangeEyesColor", input: "EyeColor" },
-    hair: { machine: "StateMachineChangeHair", input: "Hair" },
-    beard: { machine: "StateMachineChangeBeard", input: "Beard" },
-    hat: { machine: "StateMachineChangeHat", input: "Hat" },
+    hat: { machine: "StateMachineChangeEyesColor", input: "HatType" },
 };
 
 export const AvatarCustomizer = () => {
     const [selectedCategory, setSelectedCategory] = useState("glasses");
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
+    const [riveReady, setRiveReady] = useState(false);
+    console.log('selectedOption', selectedOptions);
 
     const riveRef = React.useRef<RiveRef>(null);
-          //     if (riveRef.current) {
-          // exemple d’API hypothétique : setInputState(stateMachineName, inputName, value)
-          //@ts-ignore
-        //   riveRef.current.setInputState("MyStateMachine", inputName, value);
-        // }
+    //     if (riveRef.current) {
+    // exemple d’API hypothétique : setInputState(stateMachineName, inputName, value)
+    //@ts-ignore
+    //   riveRef.current.setInputState("MyStateMachine", inputName, value);
+    // }
     // const test = riveRef.current?.setInputState("MyStateMachine", "EyeColor", 2);
     const handlePlay = () => { riveRef.current?.play() };
     const [colorIndex, setColorIndex] = useState(0);
     
-    const handleChangeColor = () => {
+    // const handleChangeColor = () => {
     
-        // Cycle entre 0 → 1 → 2 → 0
-        const nextColor = (colorIndex + 1) % 5;
+    //     // Cycle entre 0 → 1 → 2 → 0
+    //     const nextColor = (colorIndex + 1) % 5;
     
-        // Change l’input "EyeColor" dans la state machine
-        riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", nextColor);
-        console.log("🎨 set EyeColor =", nextColor, riveRef.current);
+    //     // Change l’input "EyeColor" dans la state machine
+    //     riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", nextColor);
+    //     console.log("🎨 set EyeColor =", nextColor, riveRef.current);
     
-        // Met à jour l’état React
-        setColorIndex(nextColor);
+    //     // Met à jour l’état React
+    //     setColorIndex(nextColor);
     
-        console.log("👁 Couleur changée :", nextColor);
-    };
+    //     console.log("👁 Couleur changée :", nextColor);
+    // };
     
-    const handleCategorySelect = (catId: string) => {
-        setSelectedCategory(catId);
-        setSelectedOption(null); // Reset selection
+    // const handleCategorySelect = (catId: string) => {
+    //     setSelectedCategory(catId);
+    //     setSelectedOption(null); // Reset selection
+    // };
+
+    console.log("selectedOption", selectedOptions);
+
+    // SAVE SELECTION
+
+    const saveSelection = async (inputName: string, value: number) => {
+        try {
+            await AsyncStorage.setItem(inputName, value.toString());
+            console.log(`✅ Saved ${inputName} = ${value}`);
+        } catch (e) {
+            console.error("Error saving selection", e);
+        }
     };
 
-    console.log(" selectedOption", selectedOption);
+    useFocusEffect(
+        useCallback(() => {
+            const restoreUserSelections = async () => {
+            try {
+                const newSelectedOptions: { [key: string]: string | null } = {};
+
+                const savedEyeColor = await AsyncStorage.getItem("EyeColor");
+                if (savedEyeColor !== null) {
+                const value = parseInt(savedEyeColor);
+                newSelectedOptions.color = categoryOptions.color.find(opt => opt.value === value)?.id || null;
+                riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", value);
+                }
+
+                const savedHat = await AsyncStorage.getItem("HatType");
+                if (savedHat !== null) {
+                const value = parseInt(savedHat);
+                newSelectedOptions.hat = categoryOptions.hat.find(opt => opt.value === value)?.id || null;
+                riveRef.current?.setInputState("StateMachineChangeEyesColor", "HatType", value);
+                }
+
+                setSelectedOptions(newSelectedOptions);
+            } catch (e) {
+                console.error("Error restoring selections", e);
+            }
+            };
+
+            restoreUserSelections();
+        }, [riveReady])
+    );
 
     return (
         <View style={styles.container}>
@@ -109,14 +140,15 @@ export const AvatarCustomizer = () => {
             /> */}
             <Rive
                 ref={riveRef}
-                source={require("../../assets/rive/panda_neutral (16).riv")}
+                source={require("../../assets/rive/panda_neutral (17).riv")}
                 autoplay={true}
                 style={{ width: 300, height: 320, marginTop: 70 }}
+                 onLoad={() => setRiveReady(true)} 
             />
         </View>
-        <TouchableOpacity style={{padding: 20, backgroundColor: 'red'}} onPress={handleChangeColor}>
+        {/* <TouchableOpacity style={{padding: 20, backgroundColor: 'red'}} onPress={handleChangeColor}>
             <Text >Changer la couleur des yeux</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* --- Scroll horizontal (catégories) --- */}
         <ScrollView
@@ -157,11 +189,11 @@ export const AvatarCustomizer = () => {
                 key={opt.id}
                 style={[
                     styles.optionItem,
-                    selectedOption === opt.id && styles.optionItemSelected,
+                    selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
                     , {backgroundColor: opt.color ? opt.color : '#FFF'}
                 ]}
                 onPress={() => {
-                setSelectedOption(opt.id);
+                  setSelectedOptions(prev => ({ ...prev, [selectedCategory]: opt.id }));
                 setColorIndex(Number(opt.value));
 
                 const mapping = riveMappings[selectedCategory];
@@ -171,6 +203,7 @@ export const AvatarCustomizer = () => {
                     mapping.input,
                     Number(opt.value)
                     );
+                    saveSelection(mapping.input, Number(opt.value));
                     console.log(`🎨 ${mapping.input} changé =`, opt.value);
                 } else {
                     console.warn("⚠️ Aucun mapping trouvé pour", selectedCategory);
