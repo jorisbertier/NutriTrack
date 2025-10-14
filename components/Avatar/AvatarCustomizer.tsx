@@ -19,75 +19,86 @@ type Category = {
 
 type Option = {
     id: string;
-    image: string;
+    image?: string;
+    color?: string; 
+    value?: number; 
 };
 
 const categories: Category[] = [
-    { id: "glasses", label: "Couleur" },
-    { id: "hair", label: "Cheveux" },
-    { id: "beard", label: "Barbe" },
+    { id: "color", label: "Couleur" },
     { id: "hat", label: "Chapeau" },
-    { id: "test", label: "Chapeau" },
-    { id: "test2", label: "Chapeau" },
+    // { id: "hair", label: "Cheveux" },
+    // { id: "beard", label: "Barbe" },
+    // { id: "test", label: "Chapeau" },
+    // { id: "test2", label: "Chapeau" },
 ];
 
 const categoryOptions: Record<string, Option[]> = {
-  glasses: [
-    { id: "1", image: "https://via.placeholder.com/80/ff0000" },
-    { id: "2", image: "https://via.placeholder.com/80/00ff00" },
-    { id: "3", image: "https://via.placeholder.com/80/0000ff" },
-  ],
-  hair: [
-    { id: "1", image: "https://via.placeholder.com/80/f1c40f" },
-    { id: "2", image: "https://via.placeholder.com/80/8e44ad" },
-    { id: "3", image: "https://via.placeholder.com/80/2ecc71" },
-  ],
-  beard: [
-    { id: "1", image: "https://via.placeholder.com/80/795548" },
-    { id: "2", image: "https://via.placeholder.com/80/4e342e" },
-  ],
-  hat: [
-    { id: "1", image: "https://via.placeholder.com/80/3498db" },
-    { id: "2", image: "https://via.placeholder.com/80/9b59b6" },
-  ],
-  test: [],
-  test2: [],
+    color: [
+        { id: "1", color: "#00000", value: 0 }, 
+        { id: "2", color: "#C258CA", value: 1 },
+        { id: "3", color: "#73D2DE", value: 2 },
+        { id: "4", color: "#68FF26", value: 3 },
+        { id: "5", color: "#1C29D4", value: 4 },
+    ],
+    hat: [
+        { id: "1", image: "https://via.placeholder.com/80/f1c40f" },
+        { id: "2", image: "https://via.placeholder.com/80/8e44ad" },
+        { id: "3", image: "https://via.placeholder.com/80/2ecc71" },
+    ],
+    // beard: [
+    //     { id: "1", image: "https://via.placeholder.com/80/795548" },
+    //     { id: "2", image: "https://via.placeholder.com/80/4e342e" },
+    // ],
+    // hat: [
+    //     { id: "1", image: "https://via.placeholder.com/80/3498db" },
+    //     { id: "2", image: "https://via.placeholder.com/80/9b59b6" },
+    // ],
 };
+
+const riveMappings: Record<string, { machine: string; input: string }> = {
+    color: { machine: "StateMachineChangeEyesColor", input: "EyeColor" },
+    hair: { machine: "StateMachineChangeHair", input: "Hair" },
+    beard: { machine: "StateMachineChangeBeard", input: "Beard" },
+    hat: { machine: "StateMachineChangeHat", input: "Hat" },
+};
+
 export const AvatarCustomizer = () => {
     const [selectedCategory, setSelectedCategory] = useState("glasses");
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-
-    
-          const riveRef = React.useRef<RiveRef>(null);
+    const riveRef = React.useRef<RiveRef>(null);
           //     if (riveRef.current) {
           // exemple d’API hypothétique : setInputState(stateMachineName, inputName, value)
           //@ts-ignore
         //   riveRef.current.setInputState("MyStateMachine", inputName, value);
         // }
     // const test = riveRef.current?.setInputState("MyStateMachine", "EyeColor", 2);
-      const handlePlay = () => { riveRef.current?.play() };
-        const [colorIndex, setColorIndex] = useState(0);
+    const handlePlay = () => { riveRef.current?.play() };
+    const [colorIndex, setColorIndex] = useState(0);
     
-      const handleChangeColor = () => {
+    const handleChangeColor = () => {
     
         // Cycle entre 0 → 1 → 2 → 0
         const nextColor = (colorIndex + 1) % 5;
     
         // Change l’input "EyeColor" dans la state machine
         riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", nextColor);
-    console.log("🎨 set EyeColor =", nextColor, riveRef.current);
+        console.log("🎨 set EyeColor =", nextColor, riveRef.current);
     
         // Met à jour l’état React
         setColorIndex(nextColor);
     
         console.log("👁 Couleur changée :", nextColor);
-      };
+    };
     
-      const handleCategorySelect = (catId: string) => {
-  setSelectedCategory(catId);
-  setSelectedOption(null); // Reset selection
-};
+    const handleCategorySelect = (catId: string) => {
+        setSelectedCategory(catId);
+        setSelectedOption(null); // Reset selection
+    };
+
+    console.log(" selectedOption", selectedOption);
+
     return (
         <View style={styles.container}>
         {/* --- Image principale --- */}
@@ -96,16 +107,16 @@ export const AvatarCustomizer = () => {
             source={{ uri: "https://via.placeholder.com/150" }}
             style={styles.avatarImage}
             /> */}
-                 <Rive
-                 ref={riveRef}
-              source={require("../../assets/rive/panda_neutral (16).riv")}
-              autoplay={true}
-              style={{ width: 300, height: 320, marginTop: 70 }}
-          />
+            <Rive
+                ref={riveRef}
+                source={require("../../assets/rive/panda_neutral (16).riv")}
+                autoplay={true}
+                style={{ width: 300, height: 320, marginTop: 70 }}
+            />
         </View>
-            <TouchableOpacity style={{padding: 20, backgroundColor: 'red'}} onPress={handleChangeColor}>
-        <Text >Changer la couleur des yeux</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={{padding: 20, backgroundColor: 'red'}} onPress={handleChangeColor}>
+            <Text >Changer la couleur des yeux</Text>
+        </TouchableOpacity>
 
         {/* --- Scroll horizontal (catégories) --- */}
         <ScrollView
@@ -136,31 +147,47 @@ export const AvatarCustomizer = () => {
         </ScrollView>
 
         {/* --- Scroll vertical (options à choisir) --- */}
-<ScrollView
-  showsVerticalScrollIndicator={false}
-  style={styles.optionScroll}
-  contentContainerStyle={styles.optionScrollContent}
->
-  {(categoryOptions[selectedCategory] || []).map((opt) => (
-    <TouchableOpacity
-      key={opt.id}
-      style={[
-        styles.optionItem,
-        selectedOption === opt.id && styles.optionItemSelected,
-      ]}
-      onPress={() => setSelectedOption(opt.id)}
-    >
-      <Image source={{ uri: opt.image }} style={styles.optionImage} />
-    </TouchableOpacity>
-  ))}
+            <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.optionScroll}
+            contentContainerStyle={styles.optionScrollContent}
+            >
+            {(categoryOptions[selectedCategory] || []).map((opt) => (
+                <TouchableOpacity
+                key={opt.id}
+                style={[
+                    styles.optionItem,
+                    selectedOption === opt.id && styles.optionItemSelected,
+                    , {backgroundColor: opt.color ? opt.color : '#FFF'}
+                ]}
+                onPress={() => {
+                setSelectedOption(opt.id);
+                setColorIndex(Number(opt.value));
 
-  {/* Message si aucune option */}
-  {categoryOptions[selectedCategory]?.length === 0 && (
-    <Text style={{ textAlign: "center", color: "#777", marginTop: 20 }}>
-      Aucune option disponible pour cette catégorie
-    </Text>
-  )}
-</ScrollView>
+                const mapping = riveMappings[selectedCategory];
+                if (mapping && riveRef.current) {
+                    riveRef.current.setInputState(
+                    mapping.machine,
+                    mapping.input,
+                    Number(opt.value)
+                    );
+                    console.log(`🎨 ${mapping.input} changé =`, opt.value);
+                } else {
+                    console.warn("⚠️ Aucun mapping trouvé pour", selectedCategory);
+                }
+                }}
+                >
+                <Image source={{ uri: opt.image }} style={styles.optionImage} />
+                </TouchableOpacity>
+            ))}
+
+            {/* Message si aucune option */}
+            {categoryOptions[selectedCategory]?.length === 0 && (
+                <Text style={{ textAlign: "center", color: "#777", marginTop: 20 }}>
+                Aucune option disponible pour cette catégorie
+                </Text>
+            )}
+            </ScrollView>
         </View>
     );
 };
