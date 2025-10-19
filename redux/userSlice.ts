@@ -11,6 +11,8 @@ interface UserState {
     xp: number | null,
     level?: number | null,
     consumeByDays?: any,
+    weight?: number,
+    height?: number,
     proteinsTotal?: any,
     carbsTotal?: any,
     fatsTotal?: any,

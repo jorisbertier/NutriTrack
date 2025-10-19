@@ -176,13 +176,26 @@ const ProfileScreen = () => {
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
       </Skeleton> */}
         <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
-          <Rive
+          {/* <Rive
               ref={riveRef}
               source={require("../assets/rive/panda_neutral (19).riv")}
               autoplay={true}
               style={{ width: 200, height: 200, marginTop: 50 }}
-          />
+          /> */}
       </View>
+                <Rive
+              ref={riveRef}
+              source={require("../assets/rive/panda_neutral (22).riv")}
+              autoplay={true}
+              style={{ width: 200, height: 200, marginTop: 50 }}
+          />
+          {/* <Rive
+              ref={riveRef}
+              source={require("../assets/rive/panda_neutral (19).riv")}
+              autoplay={true}
+              style={{ width: 200, height: 200, marginTop: 50 }}
+          /> */}
+
 {/* TEST DIFFERENT SIZE PANDA  */}
         {/* <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
           <Rive
@@ -227,7 +240,7 @@ const ProfileScreen = () => {
           iconSource={require('@/assets/images/icon/goal.png')}
           navigateTo="Avatar"
         />
-        <BMIBar weight={250} height={110}/>
+        <BMIBar weight={70} height={180}/>
       <View style={{ flexDirection: 'row',  marginBottom: 20}}>
         <View style={{width: '50%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 5, borderBottomColor: "black"}}>
         <Text style={{}} >Profile</Text>

@@ -1,3 +1,4 @@
+import { calculateBMI } from "@/functions/function";
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Animated, LayoutChangeEvent } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -8,8 +9,8 @@ type BMIBarProps = {
 };
 
 export default function BMIBar({ weight, height }: BMIBarProps) {
-    const bmi = weight && height ? Number((weight / ((height / 100) ** 2)).toFixed(1)) : 0;
-
+    const bmi = calculateBMI(weight, height);
+    
     const categories = [
         { label: "Underweight", min: 0, max: 18.5, color: "#4DA6FF" },
         { label: "Healthy", min: 18.5, max: 25, color: "#4CAF50" },

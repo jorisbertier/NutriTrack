@@ -322,6 +322,21 @@ export const formatName = (name: string): string => {
         : capitalized;
 };
 
+export const calculateBMI = (weight: number, height: number): number => {
+    const bmi = weight && height ? Number((weight / ((height / 100) ** 2)).toFixed(1)) : 0;
+    return bmi;
+};
+
+export const calculateBMIRive = (weight: number, height: number): number => {
+    const bmi = weight && height ? Number((weight / ((height / 100) ** 2)).toFixed(1)) : 0;
+    if(bmi > 36) {
+        return 36;
+    }
+    if(bmi < 16) {
+        return 16;
+    }
+    return bmi;
+};
 /* FUNCTION WHEN DELETE ACCOUNT*/
 export const deleteByCollection = async (nameCollection: string, uidUser: any, field: string) => {
     const Collection = collection(firestore, nameCollection);

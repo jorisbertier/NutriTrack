@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RiveRef } from 'rive-react-native';
+import { calculateBMI, calculateBMIRive } from '@/functions/function';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 type OptionMap = { [key: string]: string | null };
 
@@ -86,6 +89,9 @@ console.log(riveRef.current)
 
 export const useRiveRestore = (riveRef: React.RefObject<RiveRef>) => {
     const [riveReady, setRiveReady] = useState(false);
+    const user = useSelector((state: RootState) => state.user.user);
+     const chonkValue = calculateBMIRive(user?.weight ?? 0, user?.height ?? 0);
+     console.log("Chonk value:", chonkValue);
 
     useEffect(() => {
         if (riveRef.current) setRiveReady(true);
@@ -115,7 +121,7 @@ export const useRiveRestore = (riveRef: React.RefObject<RiveRef>) => {
                 parseInt(hatType)
                 );
             }
-            riveRef.current.setInputState("StateMachineChangeEyesColor", "Chonk", 10);
+            riveRef.current.setInputState("StateMachineChangeEyesColor", "Chonk", 31);
             } catch (e) {
             console.error("Error restoring Rive inputs", e);
             }
