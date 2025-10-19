@@ -1,6 +1,7 @@
+import { useRiveSelections } from "@/hooks/useRiveSelections";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -9,6 +10,7 @@ import {
     Image,
     StyleSheet,
     Dimensions,
+    ActivityIndicator,
 } from "react-native";
 import Rive, { RiveRef } from "rive-react-native";
 
@@ -53,11 +55,16 @@ const riveMappings: Record<string, { machine: string; input: string }> = {
 
 export const AvatarCustomizer = () => {
     const [selectedCategory, setSelectedCategory] = useState("glasses");
-    const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
-    const [riveReady, setRiveReady] = useState(false);
+    // const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
+    const riveRef = React.useRef<RiveRef>(null);
+    const { selectedOptions, setSelectedOptions, riveReady } = useRiveSelections(
+        riveRef,
+        categoryOptions,
+        riveMappings
+    );
+    
     console.log('selectedOption', selectedOptions);
 
-    const riveRef = React.useRef<RiveRef>(null);
     //     if (riveRef.current) {
     // exemple d’API hypothétique : setInputState(stateMachineName, inputName, value)
     //@ts-ignore
@@ -100,36 +107,49 @@ export const AvatarCustomizer = () => {
         }
     };
 
-    useFocusEffect(
-        useCallback(() => {
-            const restoreUserSelections = async () => {
-            try {
-                const newSelectedOptions: { [key: string]: string | null } = {};
+    //     const [riveReady, setRiveReady] = useState(false);
 
-                const savedEyeColor = await AsyncStorage.getItem("EyeColor");
-                if (savedEyeColor !== null) {
-                const value = parseInt(savedEyeColor);
-                newSelectedOptions.color = categoryOptions.color.find(opt => opt.value === value)?.id || null;
-                riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", value);
-                }
+// useEffect(() => {
+//   if (riveRef.current) setRiveReady(true);
+// }, []);
 
-                const savedHat = await AsyncStorage.getItem("HatType");
-                if (savedHat !== null) {
-                const value = parseInt(savedHat);
-                newSelectedOptions.hat = categoryOptions.hat.find(opt => opt.value === value)?.id || null;
-                riveRef.current?.setInputState("StateMachineChangeEyesColor", "HatType", value);
-                }
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         const restoreSelections = async () => {
+    //         try {
+    //             const savedEyeColor = await AsyncStorage.getItem("EyeColor");
+    //             const savedHat = await AsyncStorage.getItem("HatType");
 
-                setSelectedOptions(newSelectedOptions);
-            } catch (e) {
-                console.error("Error restoring selections", e);
-            }
-            };
+    //             setSelectedOptions({
+    //             color: savedEyeColor ? categoryOptions.color.find(opt => opt.value === parseInt(savedEyeColor))?.id || null : null,
+    //             hat: savedHat ? categoryOptions.hat.find(opt => opt.value === parseInt(savedHat))?.id || null : null,
+    //             });
+    //         } catch (e) {
+    //             console.error("Error restoring selections", e);
+    //         }
+    //         };
 
-            restoreUserSelections();
-        }, [riveReady])
-    );
+    //         restoreSelections();
+    //     }, [])
+    // );
+    // useEffect(() => {
+    //     if (!riveReady) return;
 
+    //     if (selectedOptions.color) {
+    //         const value = categoryOptions.color.find(opt => opt.id === selectedOptions.color)?.value;
+    //         if (value !== undefined) {
+    //         riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", value);
+    //         }
+    //     }
+
+    //     if (selectedOptions.hat) {
+    //         const value = categoryOptions.hat.find(opt => opt.id === selectedOptions.hat)?.value;
+    //         if (value !== undefined) {
+    //         riveRef.current?.setInputState("StateMachineChangeEyesColor", "HatType", value);
+    //         }
+    //     }
+    // }, [riveReady, selectedOptions]);
+    console.log('rive reday' , riveReady)
     return (
         <View style={styles.container}>
         {/* --- Image principale --- */}
@@ -139,11 +159,10 @@ export const AvatarCustomizer = () => {
             style={styles.avatarImage}
             /> */}
             <Rive
-                ref={riveRef}
-                source={require("../../assets/rive/panda_neutral (17).riv")}
-                autoplay={true}
-                style={{ width: 300, height: 320, marginTop: 70 }}
-                 onLoad={() => setRiveReady(true)} 
+            ref={riveRef}
+            source={require("../../assets/rive/panda_neutral (17).riv")}
+            autoplay={true}
+            style={{ width: 300, height: 320, marginTop: 70 }}
             />
         </View>
         {/* <TouchableOpacity style={{padding: 20, backgroundColor: 'red'}} onPress={handleChangeColor}>

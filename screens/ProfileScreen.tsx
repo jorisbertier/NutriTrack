@@ -14,8 +14,10 @@ import { clearUser } from '@/redux/userSlice';
 import { useTranslation } from 'react-i18next';
 import '../locales/i18n';
 import EditLink from '@/components/EditLink';
-import Rive from 'rive-react-native';
+import Rive, { RiveRef } from 'rive-react-native';
 import BMIBar from '@/components/BMIBar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRiveRestore } from '@/hooks/useRiveSelections';
 
 
 const ProfileScreen = () => {
@@ -35,6 +37,18 @@ const ProfileScreen = () => {
   
   const navigation = useNavigation()
   const genderKey = userData[0]?.gender;
+
+  /**RIVE SETUP*/
+  const riveRef = useRef<RiveRef>(null);
+  //@ts-ignore
+  useRiveRestore(riveRef);
+  // useEffect(() => {
+//   if (!isLoading && userData[0] && riveRef.current) {
+//     // Applique directement la valeur sur l'input "Chonk"
+//     riveRef.current.setInputState("StateMachineChangeEyesColor", "Chonk", 5);
+//     console.log("Valeur Chonk appliquée:", 5);
+//   }
+// }, [isLoading, userData]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -138,8 +152,6 @@ const ProfileScreen = () => {
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
-
-
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.grayBg}]} persistentScrollbar={true}>
         <View style={[styles.containerTranslate, { backgroundColor: colors.white}]}>
@@ -163,8 +175,16 @@ const ProfileScreen = () => {
       {/* <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
       </Skeleton> */}
-
         <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
+          <Rive
+              ref={riveRef}
+              source={require("../assets/rive/panda_neutral (19).riv")}
+              autoplay={true}
+              style={{ width: 200, height: 200, marginTop: 50 }}
+          />
+      </View>
+{/* TEST DIFFERENT SIZE PANDA  */}
+        {/* <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
           <Rive
               source={require("../assets/rive/panda_neutral (8).riv")}
               autoplay={true}
@@ -193,11 +213,11 @@ const ProfileScreen = () => {
               source={require("../assets/rive/panda_neutral (10).riv")}
               autoplay={true}
               style={{ width: 200, height: 200, marginTop: 70 }}
-          />          <Rive
+          />    <Rive
               source={require("../assets/rive/panda_neutral (11).riv")}
               autoplay={true}
               style={{ width: 200, height: 200, marginTop: 70 }}
-          />
+          /> */}
       {/* {isLoading ? <Image source={{ uri: `data:image/jpeg;base64,${userData[0]?.profilPicture}` }} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> } */}
         {!isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.name} {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
@@ -207,7 +227,7 @@ const ProfileScreen = () => {
           iconSource={require('@/assets/images/icon/goal.png')}
           navigateTo="Avatar"
         />
-        <BMIBar weight={160} height={Number(800)}/>
+        <BMIBar weight={250} height={110}/>
       <View style={{ flexDirection: 'row',  marginBottom: 20}}>
         <View style={{width: '50%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 5, borderBottomColor: "black"}}>
         <Text style={{}} >Profile</Text>

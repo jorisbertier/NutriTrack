@@ -154,12 +154,12 @@ const Registration = () => {
     if (currentStep === 2) {
       const w = parseFloat(weight);
       const h = parseFloat(height);
-      if (!w || isNaN(w) || w < 15 || w > 250) {
+      if (!w || isNaN(w) || w < 25 || w > 250) {
         setWeightError(t('error_weight_invalid'));
         isValid = false;
       } else setWeightError('');
 
-      if (!h || isNaN(h) || h < 50 || h > 250) {
+      if (!h || isNaN(h) || h < 100 || h > 250) {
         setHeightError(t('error_height_invalid'));
         isValid = false;
       } else setHeightError('');
