@@ -160,7 +160,7 @@ export const AvatarCustomizer = () => {
             /> */}
             <Rive
             ref={riveRef}
-            source={require("../../assets/rive/panda_neutral (17).riv")}
+            source={require("../../assets/rive/panda_neutral (22).riv")}
             autoplay={true}
             style={{ width: 300, height: 320, marginTop: 70 }}
             />
