@@ -232,8 +232,8 @@ const ProfileScreen = () => {
               style={{ width: 200, height: 200, marginTop: 70 }}
           /> */}
       {/* {isLoading ? <Image source={{ uri: `data:image/jpeg;base64,${userData[0]?.profilPicture}` }} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> } */}
-        {!isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.name} {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
-        {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
+        {/* {!isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.name} {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
+        {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> } */}
       </View>
         <EditLink
           label="Avatar"
@@ -257,7 +257,9 @@ const ProfileScreen = () => {
         {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('lastName')}: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('gender')}: {t(`gender_${genderKey}`)}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={200}/></View> }
         {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('dateOfBirth')}: {userData[0]?.dateOfBirth}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
-      </View>
+        
+        {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{t('email')} : {userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
+        </View>
       <View style={[styles.section, {backgroundColor: colors.white}]}>
         <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('healthDetails')}</Text>
         {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('height')}: {userData[0]?.height} cm</Text> : <Skeleton colorMode={colorMode} width={200}/> }
