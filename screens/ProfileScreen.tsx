@@ -42,13 +42,6 @@ const ProfileScreen = () => {
   const riveRef = useRef<RiveRef>(null);
   //@ts-ignore
   useRiveRestore(riveRef);
-  // useEffect(() => {
-//   if (!isLoading && userData[0] && riveRef.current) {
-//     // Applique directement la valeur sur l'input "Chonk"
-//     riveRef.current.setInputState("StateMachineChangeEyesColor", "Chonk", 5);
-//     console.log("Valeur Chonk appliquée:", 5);
-//   }
-// }, [isLoading, userData]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -152,6 +145,7 @@ const ProfileScreen = () => {
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
+  
   return (
     <ScrollView contentContainerStyle={[styles.container, {backgroundColor: colors.grayBg}]} persistentScrollbar={true}>
         <View style={[styles.containerTranslate, { backgroundColor: colors.white}]}>

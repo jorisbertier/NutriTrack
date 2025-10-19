@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, View, Modal, TouchableOpacity, TouchableWithou
 import { ThemedText } from "./ThemedText";
 import { capitalizeFirstLetter, fetchUserDataConnected, getIdAvatarProfile } from "@/functions/function";
 import Row from "./Row";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
 import ExperienceBar from "./game/ExperienceBar";
@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/userSlice";
 import { useTranslation } from "react-i18next";
-import Rive from "rive-react-native";
+import Rive, { RiveRef } from "rive-react-native";
+import { useRiveRestore } from "@/hooks/useRiveSelections";
 
 type Props = {
     name: string;
@@ -65,6 +66,11 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
 
     const [currentGreeting, setCurrentGreeting] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
+
+    /**RIVE SETUP*/
+    const riveRef = useRef<RiveRef>(null);
+    //@ts-ignore
+    useRiveRestore(riveRef);
     
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -83,7 +89,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
             <View style={[styles.banner]}>
                 <Row style={{justifyContent: 'space-between', width: '90%'}}>
                     <View style={{flexDirection: 'row', gap: 10}}>
-                        <Image source={require('@/assets/images/calendar.png')} style={styles.imageMini} />
+                        <Image source={require('@/assets/images/calendar.png')} style={[styles.imageMini, { tintColor: "white" }]} />
 
                         <ThemedText color={colors.gray} style={{fontSize: 15, fontWeight: 800}}>{capitalizeFirstLetter(monthLabel)} {date.getDate()},  {date.getFullYear()}</ThemedText>
                     </View>
@@ -101,11 +107,12 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                     <Skeleton colorMode={colorMode} width={60} height={60} radius={'round'}>
                         {isLoading ?
                             // <Image source={avatar} style={styles.imageProfil} />
-                            <View style={{backgroundColor: colors.white, borderRadius: "50%",justifyContent: 'center', alignItems: 'center', height: 85, width: 85, marginTop: -8}}>
+                            <View style={{backgroundColor: colors.white, overflow: "hidden", borderRadius: "50%",justifyContent: 'center', alignItems: 'center', height: 90, width: 90, marginTop: -8}}>
                                 <Rive
-                                    source={require("../assets/rive/monkey_profil_picture.riv")}
+                                    ref={riveRef}
+                                    source={require("../assets/rive/panda_neutral (22).riv")}
                                     autoplay={true}
-                                    style={{ width: 100, height: 100, marginTop: -20 }}
+                                    style={{ width: 130, height: 130, marginTop: 30 }}
                                 />
                             </View>
                         : null}
