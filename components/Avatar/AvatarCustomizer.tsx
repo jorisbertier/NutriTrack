@@ -8,6 +8,7 @@ import {
     ScrollView,
     TouchableOpacity,
     Image,
+    ImageSourcePropType,
     StyleSheet,
     Dimensions,
     ActivityIndicator,
@@ -15,10 +16,10 @@ import {
 import Rive, { RiveRef } from "rive-react-native";
 
 const { width } = Dimensions.get("window");
-
 type Category = {
     id: string;
     label: string;
+    image: ImageSourcePropType;
 };
 
 type Option = {
@@ -29,8 +30,8 @@ type Option = {
 };
 
 const categories: Category[] = [
-    { id: "color", label: "Couleur" },
-    { id: "hat", label: "Chapeau" },
+    { id: "color", label: "Couleur", image: require("../../assets/avatar/category/eyes.png")},
+    { id: "hat", label: "Chapeau", image: require("../../assets/avatar/category/hat.png") },
 ];
 
 const categoryOptions: Record<string, Option[]> = {
@@ -45,6 +46,10 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "1", image: "https://via.placeholder.com/80/f1c40f", value: 0 },
         { id: "2", image: "https://via.placeholder.com/80/8e44ad", value: 1 },
         { id: "3", image: "https://via.placeholder.com/80/2ecc71", value: 2 },
+        { id: "4", image: "https://via.placeholder.com/80/2ecc71", value: 3 },
+        { id: "5", image: "https://via.placeholder.com/80/2ecc71", value: 4 },
+        { id: "6", image: "https://via.placeholder.com/80/2ecc71", value: 5 },
+        { id: "7", image: "https://via.placeholder.com/80/2ecc71", value: 6 },
     ],
 };
 
@@ -150,171 +155,271 @@ export const AvatarCustomizer = () => {
     //     }
     // }, [riveReady, selectedOptions]);
     console.log('rive reday' , riveReady)
-    return (
-        <View style={styles.container}>
-        {/* --- Image principale --- */}
+return (
+    <View style={styles.container}>
+        {/* --- Image principale avec fond décoratif --- */}
         <View style={styles.avatarContainer}>
-            {/* <Image
-            source={{ uri: "https://via.placeholder.com/150" }}
-            style={styles.avatarImage}
-            /> */}
+            <View style={styles.avatarBackground}>
+                <View style={styles.decorCircle1} />
+                <View style={styles.decorCircle2} />
+            </View>
             <Rive
-            ref={riveRef}
-            source={require("../../assets/rive/panda_neutral (22).riv")}
-            autoplay={true}
-            style={{ width: 300, height: 320, marginTop: 70 }}
+                ref={riveRef}
+                source={require("../../assets/rive/panda_neutral (21).riv")}
+                autoplay={true}
+                style={styles.riveAnimation}
             />
         </View>
-        {/* <TouchableOpacity style={{padding: 20, backgroundColor: 'red'}} onPress={handleChangeColor}>
-            <Text >Changer la couleur des yeux</Text>
-        </TouchableOpacity> */}
 
-        {/* --- Scroll horizontal (catégories) --- */}
-        <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.categoryScroll}
-            contentContainerStyle={styles.categoryScrollContent}
-        >
-            {categories.map((cat) => (
-            <TouchableOpacity
-                key={cat.id}
-                style={[
-                styles.categoryButton,
-                selectedCategory === cat.id && styles.categoryButtonSelected,
-                ]}
-                onPress={() => setSelectedCategory(cat.id)}
+        {/* --- Scroll vertical (catégories) - Position absolue à droite --- */}
+        <View style={styles.categorySidebar}>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.categoryScrollContent}
             >
-                <Text
-                style={[
-                    styles.categoryText,
-                    selectedCategory === cat.id && styles.categoryTextSelected,
-                ]}
-                >
-                {cat.label}
-                </Text>
-            </TouchableOpacity>
-            ))}
-        </ScrollView>
+                {categories.map((cat) => (
+                    <TouchableOpacity
+                        key={cat.id}
+                        style={[
+                            styles.categoryButton,
+                            selectedCategory === cat.id && styles.categoryButtonSelected,
+                        ]}
+                        onPress={() => setSelectedCategory(cat.id)}
+                        activeOpacity={0.7}
+                    >
+                        {/* Icône/Logo de la catégorie */}
+                        <View style={styles.categoryIconContainer}>
+                            <Image
+                                style={{ width: 24, height: 24, tintColor: selectedCategory === cat.id ? 'black' : '#CBD5E1', opacity: selectedCategory === cat.id ? 1 : 0.8, }}
+                                source={cat.image}
+                            />
+                        </View>
+                        
+                        {/* Point indicateur sous l'icône */}
+                        {selectedCategory === cat.id && (
+                            <View style={styles.categoryDot} />
+                        )}
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+        </View>
 
         {/* --- Scroll vertical (options à choisir) --- */}
-            <ScrollView
+        <ScrollView
             showsVerticalScrollIndicator={false}
             style={styles.optionScroll}
             contentContainerStyle={styles.optionScrollContent}
-            >
+        >
             {(categoryOptions[selectedCategory] || []).map((opt) => (
                 <TouchableOpacity
-                key={opt.id}
-                style={[
-                    styles.optionItem,
-                    selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
-                    , {backgroundColor: opt.color ? opt.color : '#FFF'}
-                ]}
-                onPress={() => {
-                  setSelectedOptions(prev => ({ ...prev, [selectedCategory]: opt.id }));
-                setColorIndex(Number(opt.value));
+                    key={opt.id}
+                    style={[
+                        styles.optionItem,
+                        selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
+                        { backgroundColor: opt.color ? opt.color : '#FFFFFF' }
+                    ]}
+                    onPress={() => {
+                        setSelectedOptions(prev => ({ ...prev, [selectedCategory]: opt.id }));
+                        setColorIndex(Number(opt.value));
 
-                const mapping = riveMappings[selectedCategory];
-                if (mapping && riveRef.current) {
-                    riveRef.current.setInputState(
-                    mapping.machine,
-                    mapping.input,
-                    Number(opt.value)
-                    );
-                    saveSelection(mapping.input, Number(opt.value));
-                    console.log(`🎨 ${mapping.input} changé =`, opt.value);
-                } else {
-                    console.warn("⚠️ Aucun mapping trouvé pour", selectedCategory);
-                }
-                }}
+                        const mapping = riveMappings[selectedCategory];
+                        if (mapping && riveRef.current) {
+                            riveRef.current.setInputState(
+                                mapping.machine,
+                                mapping.input,
+                                Number(opt.value)
+                            );
+                            saveSelection(mapping.input, Number(opt.value));
+                            console.log(`🎨 ${mapping.input} changé =`, opt.value);
+                        } else {
+                            console.warn("⚠️ Aucun mapping trouvé pour", selectedCategory);
+                        }
+                    }}
+                    activeOpacity={0.8}
                 >
-                <Image source={{ uri: opt.image }} style={styles.optionImage} />
+                    <Image source={{ uri: opt.image }} style={styles.optionImage} />
+                    {selectedOptions[selectedCategory] === opt.id && (
+                        <View style={styles.checkmarkContainer}>
+                            <View style={styles.checkmark} />
+                        </View>
+                    )}
                 </TouchableOpacity>
             ))}
 
             {/* Message si aucune option */}
             {categoryOptions[selectedCategory]?.length === 0 && (
-                <Text style={{ textAlign: "center", color: "#777", marginTop: 20 }}>
-                Aucune option disponible pour cette catégorie
-                </Text>
+                <View style={styles.emptyState}>
+                    <Text style={styles.emptyStateText}>
+                        Aucune option disponible
+                    </Text>
+                </View>
             )}
-            </ScrollView>
-        </View>
-    );
-};
+        </ScrollView>
+    </View>
+);
+}
 
-    const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F9F9F9",
-        alignItems: "center",
+        backgroundColor: "#F5F7FA",
         paddingTop: 20,
     },
     avatarContainer: {
         alignItems: "center",
         justifyContent: "center",
-        height: 200,
+        height: 280,
+        position: "relative",
     },
-    avatarImage: {
+    avatarBackground: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+    },
+    decorCircle1: {
+        position: "absolute",
+        width: 200,
+        height: 200,
+        borderRadius: 100,
+        backgroundColor: "#E8F0FE",
+        top: 20,
+        left: -50,
+        opacity: 0.5,
+    },
+    decorCircle2: {
+        position: "absolute",
         width: 150,
         height: 150,
         borderRadius: 75,
-        backgroundColor: "#E0E0E0",
+        backgroundColor: "#FFF4E6",
+        bottom: 30,
+        right: -30,
+        opacity: 0.5,
     },
-    categoryScroll: {
-        marginTop: 10,
-        maxHeight: 60,
+    riveAnimation: {
+        width: 300,
+        height: 320,
+        marginTop: 20,
+        zIndex: 10,
+    },
+    categorySidebar: {
+        position: "absolute",
+        right: 15,
+        top: 40,
+        height: "60%",
+        maxHeight: 270,
+        width: 70,
+        backgroundColor: "#FFFFFF",
+        borderRadius: 35,
+        paddingVertical: 15,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+        elevation: 8,
+        zIndex: 100,
     },
     categoryScrollContent: {
-        paddingHorizontal: 10,
         alignItems: "center",
+        paddingVertical: 5,
+        gap: 18,
     },
     categoryButton: {
-        backgroundColor: "#EEE",
-        paddingHorizontal: 16,
-        paddingVertical: 10,
-        borderRadius: 20,
-        marginHorizontal: 6,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 8,
+        paddingHorizontal: 10,
     },
     categoryButtonSelected: {
-        backgroundColor: "#4E8DF5",
+        transform: [{ scale: 1.1 }],
     },
-    categoryText: {
-        color: "#555",
-        fontWeight: "500",
+    categoryIconContainer: {
+        width: 42,
+        height: 42,
+        borderRadius: 21,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#F1F5F9",
     },
-    categoryTextSelected: {
-        color: "#FFF",
+    categoryDot: {
+        width: 6,
+        height: 6,
+        borderRadius: 3,
+        backgroundColor: "black",
+        marginTop: 8,
     },
     optionScroll: {
-        marginTop: 20,
-        width: width * 0.9,
+        marginTop: 35,
+        paddingHorizontal: 20,
     },
     optionScrollContent: {
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         paddingBottom: 40,
+        gap: 12,
     },
     optionItem: {
-        width: 80,
-        height: 80,
-        marginVertical: 8,
+        width: (width * 0.9 - 60) / 3,
+        height: (width * 0.9 - 60) / 3,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 15,
-        backgroundColor: "#FFF",
-        borderWidth: 1,
-        borderColor: "#DDD",
+        borderRadius: 20,
+        marginTop: 3,
+        position: "relative",
+        overflow: "hidden",
     },
     optionItemSelected: {
         borderColor: "#4E8DF5",
-        borderWidth: 2,
+        borderWidth: 3,
+        shadowColor: "#4E8DF5",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 8,
+        transform: [{ scale: 1.05 }],
     },
     optionImage: {
-        width: 60,
-        height: 60,
-        borderRadius: 10,
+        width: "75%",
+        height: "75%",
+        borderRadius: 12,
+    },
+    checkmarkContainer: {
+        position: "absolute",
+        top: 8,
+        right: 8,
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        backgroundColor: "#4E8DF5",
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#4E8DF5",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    checkmark: {
+        width: 8,
+        height: 12,
+        borderBottomWidth: 2.5,
+        borderRightWidth: 2.5,
+        borderColor: "#FFFFFF",
+        transform: [{ rotate: "45deg" }],
+        marginBottom: 3,
+        marginLeft: 2,
+    },
+    emptyState: {
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 40,
+    },
+    emptyStateText: {
+        textAlign: "center",
+        color: "#94A3B8",
+        fontSize: 15,
+        fontWeight: "500",
     },
 });

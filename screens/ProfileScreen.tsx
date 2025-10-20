@@ -172,7 +172,7 @@ const ProfileScreen = () => {
         <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
           <Rive
               ref={riveRef}
-              source={require("../assets/rive/panda_neutral (22).riv")}
+              source={require("../assets/rive/panda_neutral (18).riv")}
               autoplay={true}
               style={{ width: 200, height: 200, marginTop: 50 }}
           />
