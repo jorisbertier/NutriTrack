@@ -11,6 +11,8 @@ type OptionMap = { [key: string]: string | null };
 type CategoryOptions = {
     color: { id: string; value: number }[];
     hat: { id: string; value: number }[];
+    eyes: { id: string; value: number }[];
+    mouth: { id: string; value: number }[];
 };
 
 type RiveMapping = {
@@ -39,6 +41,8 @@ export const useRiveSelections = (
                 try {
                     const savedEyeColor = await AsyncStorage.getItem('EyeColor');
                     const savedHat = await AsyncStorage.getItem('HatType');
+                    const savedEyes = await AsyncStorage.getItem('EyesType');
+                    const savedMouth = await AsyncStorage.getItem('MouthType');
 
                     const newOptions: OptionMap = {
                         color: savedEyeColor
@@ -46,6 +50,12 @@ export const useRiveSelections = (
                             : null,
                         hat: savedHat
                             ? categoryOptions.hat.find(opt => opt.value === parseInt(savedHat))?.id || null
+                            : null,
+                        eyes: savedEyes
+                            ? categoryOptions.eyes.find(opt => opt.value === parseInt(savedEyes))?.id || null
+                            : null,
+                        mouth: savedMouth
+                            ? categoryOptions.mouth.find(opt => opt.value === parseInt(savedMouth))?.id || null
                             : null,
                     };
 

@@ -19,19 +19,21 @@ const { width } = Dimensions.get("window");
 type Category = {
     id: string;
     label: string;
-    image: ImageSourcePropType;
+    source: ImageSourcePropType;
 };
 
 type Option = {
     id: string;
-    image?: string;
+    source?: ImageSourcePropType;
     color?: string; 
     value?: number; 
 };
 
 const categories: Category[] = [
-    { id: "color", label: "Couleur", image: require("../../assets/avatar/category/eyes.png")},
-    { id: "hat", label: "Chapeau", image: require("../../assets/avatar/category/hat.png") },
+    { id: "color", label: "Couleur", source: require("../../assets/avatar/category/color.png")},
+    { id: "hat", label: "Chapeau", source: require("../../assets/avatar/category/hat.png") },
+    { id: "eyes", label: "Eyes", source: require("../../assets/avatar/category/eyes.png") },
+    { id: "mouth", label: "Mouth", source: require("../../assets/avatar/category/mouth.png") },
 ];
 
 const categoryOptions: Record<string, Option[]> = {
@@ -43,25 +45,41 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "5", color: "#1C29D4", value: 4 },
     ],
     hat: [
-        { id: "1", image: "https://via.placeholder.com/80/f1c40f", value: 0 },
-        { id: "2", image: "https://via.placeholder.com/80/8e44ad", value: 1 },
-        { id: "3", image: "https://via.placeholder.com/80/2ecc71", value: 2 },
-        { id: "4", image: "https://via.placeholder.com/80/2ecc71", value: 3 },
-        { id: "5", image: "https://via.placeholder.com/80/2ecc71", value: 4 },
-        { id: "6", image: "https://via.placeholder.com/80/2ecc71", value: 5 },
-        { id: "7", image: "https://via.placeholder.com/80/2ecc71", value: 6 },
+        { id: "1", source: "", value: 0 },
+        { id: "2", source: require("../../assets/avatar/hat/hat1.png"), value: 1 },
+        { id: "3", source: require("../../assets/avatar/hat/hat2.png"), value: 2 },
+        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3 },
+        { id: "5", source: require("../../assets/avatar/hat/hat4.png"), value: 4 },
+        { id: "6", source: require("../../assets/avatar/hat/hat5.png"), value: 5 },
+        { id: "7", source: require("../../assets/avatar/hat/hat6.png"), value: 6 },
+    ],
+    eyes: [
+        { id: "1", source: "", value: 0 },
+        { id: "2", source: require("../../assets/avatar/hat/hat1.png"), value: 1 },
+        { id: "3", source: require("../../assets/avatar/hat/hat2.png"), value: 2 },
+        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3 },
+    ],
+    mouth: [
+        { id: "1", source: require("../../assets/avatar/mouth/mouth_00.png"), value: 0 },
+        { id: "2", source: require("../../assets/avatar/mouth/mouth_01.png"), value: 1 },
+        { id: "3", source: require("../../assets/avatar/mouth/mouth_02.png"), value: 2 },
+        { id: "4", source: require("../../assets/avatar/mouth/mouth_03.png"), value: 3 },
+        { id: "5", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 4 },
     ],
 };
 
 const riveMappings: Record<string, { machine: string; input: string }> = {
     color: { machine: "StateMachineChangeEyesColor", input: "EyeColor" },
     hat: { machine: "StateMachineChangeEyesColor", input: "HatType" },
+    eyes: { machine: "StateMachineChangeEyesColor", input: "EyesType" },
+    mouth: { machine: "StateMachineChangeEyesColor", input: "MouthType" },
 };
 
 export const AvatarCustomizer = () => {
     const [selectedCategory, setSelectedCategory] = useState("glasses");
     // const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
     const riveRef = React.useRef<RiveRef>(null);
+    //@ts-ignore
     const { selectedOptions, setSelectedOptions, riveReady } = useRiveSelections(
         riveRef,
         categoryOptions,
@@ -165,7 +183,7 @@ return (
             </View>
             <Rive
                 ref={riveRef}
-                source={require("../../assets/rive/panda_neutral (21).riv")}
+                source={require("../../assets/rive/panda_neutral (25).riv")}
                 autoplay={true}
                 style={styles.riveAnimation}
             />
@@ -191,7 +209,7 @@ return (
                         <View style={styles.categoryIconContainer}>
                             <Image
                                 style={{ width: 24, height: 24, tintColor: selectedCategory === cat.id ? 'black' : '#CBD5E1', opacity: selectedCategory === cat.id ? 1 : 0.8, }}
-                                source={cat.image}
+                                source={cat.source}
                             />
                         </View>
                         
@@ -237,7 +255,10 @@ return (
                     }}
                     activeOpacity={0.8}
                 >
-                    <Image source={{ uri: opt.image }} style={styles.optionImage} />
+                    <Image
+                        style={[styles.optionImage, selectedCategory === "mouth" ? { width: "150%", height: "150%" } : { objectFit: "contain" }]}
+                        source={opt.source}
+                    />
                     {selectedOptions[selectedCategory] === opt.id && (
                         <View style={styles.checkmarkContainer}>
                             <View style={styles.checkmark} />
@@ -366,6 +387,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         borderRadius: 20,
         marginTop: 3,
+        padding: 10,
+        backgroundColor: "red",
         position: "relative",
         overflow: "hidden",
     },
@@ -380,8 +403,8 @@ const styles = StyleSheet.create({
         transform: [{ scale: 1.05 }],
     },
     optionImage: {
-        width: "75%",
-        height: "75%",
+        width: "60%",
+        height: "60%",
         borderRadius: 12,
     },
     checkmarkContainer: {
