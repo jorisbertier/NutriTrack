@@ -39,10 +39,16 @@ const categories: Category[] = [
 const categoryOptions: Record<string, Option[]> = {
     color: [
         { id: "1", color: "#000", value: 0 }, 
-        { id: "2", color: "#C258CA", value: 1 },
-        { id: "3", color: "#73D2DE", value: 2 },
-        { id: "4", color: "#68FF26", value: 3 },
-        { id: "5", color: "#1C29D4", value: 4 },
+        { id: "2", color: "#00B9E8", value: 1 },
+        { id: "3", color: "#1C29D4", value: 2 },
+        { id: "4", color: "#73D2DE", value: 3 },
+        { id: "5", color: "#99D17B", value: 4 },
+        { id: "5", color: "#68FF26", value: 5 },
+        { id: "5", color: "#C258CA", value: 6 },
+        { id: "5", color: "#702963", value: 7 },
+        { id: "5", color: "#9F8170", value: 8 },
+        { id: "5", color: "#D36135", value: 9 },
+        { id: "5", color: "#FFEF00", value: 10 },
     ],
     hat: [
         { id: "1", source: "", value: 0 },
@@ -234,7 +240,7 @@ return (
                     style={[
                         styles.optionItem,
                         selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
-                        { backgroundColor: opt.color ? opt.color : '#FFFFFF' }
+                        { backgroundColor: '#FFFFFF', height: opt.color ? 60: 100, width: opt.color ? 60 : 100},
                     ]}
                     onPress={() => {
                         setSelectedOptions(prev => ({ ...prev, [selectedCategory]: opt.id }));
@@ -255,15 +261,31 @@ return (
                     }}
                     activeOpacity={0.8}
                 >
-                    <Image
-                        style={[styles.optionImage, selectedCategory === "mouth" ? { width: "150%", height: "150%" } : { objectFit: "contain" }]}
-                        source={opt.source}
-                    />
-                    {selectedOptions[selectedCategory] === opt.id && (
-                        <View style={styles.checkmarkContainer}>
-                            <View style={styles.checkmark} />
-                        </View>
-                    )}
+                    {selectedCategory !== "color"  ? (
+                    <>
+                        {selectedCategory === "mouth" ? (
+                            <View style={{ overflow: 'hidden', height: 150, width: 150 }}>
+                                <Image
+                                    source={opt.source}
+                                    style={styles.itemImage}
+                                    resizeMode="cover"
+                                />
+                            </View>
+                        ): (
+                            <Image
+                                style={[styles.optionImage, selectedCategory === "mouth" ? { width: 150, height: 150, paddingTop: 50 } : { resizeMode: 'contain' }]}
+                                source={opt.source}
+                            />
+                        )}
+                        {selectedOptions[selectedCategory] === opt.id && (
+                            <View style={styles.checkmarkContainer}>
+                                <View style={styles.checkmark} />
+                            </View>
+                        )}
+                    </>
+                ): (
+                    <View style={[styles.itemColor ,{backgroundColor: opt.color}]}></View>
+                )}
                 </TouchableOpacity>
             ))}
 
@@ -381,20 +403,18 @@ const styles = StyleSheet.create({
         gap: 12,
     },
     optionItem: {
-        width: (width * 0.9 - 60) / 3,
-        height: (width * 0.9 - 60) / 3,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 20,
         marginTop: 3,
-        padding: 10,
+        padding: 6,
         backgroundColor: "red",
         position: "relative",
         overflow: "hidden",
     },
     optionItemSelected: {
-        borderColor: "#4E8DF5",
-        borderWidth: 3,
+        borderColor: "black",
+        borderWidth: 2,
         shadowColor: "#4E8DF5",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
@@ -433,6 +453,8 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         marginLeft: 2,
     },
+    itemImage: { width: 150, height: 150, position: 'absolute', top: 20},
+    itemColor: {height: "90%", width: "90%", borderRadius: 15},
     emptyState: {
         width: "100%",
         alignItems: "center",
