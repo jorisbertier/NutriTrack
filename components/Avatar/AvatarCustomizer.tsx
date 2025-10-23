@@ -1,3 +1,4 @@
+import { useTheme } from "@/hooks/ThemeProvider";
 import { useRiveSelections } from "@/hooks/useRiveSelections";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
@@ -87,6 +88,7 @@ const riveMappings: Record<string, { machine: string; input: string }> = {
 
 export const AvatarCustomizer = () => {
     const [selectedCategory, setSelectedCategory] = useState("glasses");
+    const { colors } = useTheme();
     // const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
     const riveRef = React.useRef<RiveRef>(null);
     //@ts-ignore
@@ -186,10 +188,8 @@ export const AvatarCustomizer = () => {
 return (
     <View style={styles.container}>
         {/* --- Image principale avec fond décoratif --- */}
-        <View style={styles.avatarContainer}>
+        <View style={[styles.avatarContainer, { backgroundColor: colors.grayPress }]}>
             <View style={styles.avatarBackground}>
-                <View style={styles.decorCircle1} />
-                <View style={styles.decorCircle2} />
             </View>
             <Rive
                 ref={riveRef}
@@ -200,10 +200,11 @@ return (
         </View>
 
         {/* --- Scroll vertical (catégories) - Position absolue à droite --- */}
-        <View style={styles.categorySidebar}>
+        <View style={[styles.categorySidebar, , { borderBottomColor: colors.grayPress }]}>
             <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.categoryScrollContent}
+                horizontal={true} // 👈 active le scroll horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={[styles.categoryScrollContent]}
             >
                 {categories.map((cat) => (
                     <TouchableOpacity
@@ -244,7 +245,7 @@ return (
                     style={[
                         styles.optionItem,
                         selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
-                        { backgroundColor: '#FFFFFF', height: opt.color ? 60: 100, width: opt.color ? 60 : 100},
+                        { backgroundColor: '#FFFFFF', height: opt.color ? 60: 100, width: opt.color ? 60 : 100, elevation : selectedCategory === 'color' ? 0 : 2 },
                     ]}
                     onPress={() => {
                         setSelectedOptions(prev => ({ ...prev, [selectedCategory]: opt.id }));
@@ -310,64 +311,39 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#F5F7FA",
-        paddingTop: 20,
     },
     avatarContainer: {
         alignItems: "center",
         justifyContent: "center",
-        height: 280,
+        margin: 0,
+        height: 320,
         position: "relative",
+        overflow: 'hidden',
     },
     avatarBackground: {
         position: "absolute",
         width: "100%",
         height: "100%",
     },
-    decorCircle1: {
-        position: "absolute",
-        width: 200,
-        height: 200,
-        borderRadius: 100,
-        backgroundColor: "#E8F0FE",
-        top: 20,
-        left: -50,
-        opacity: 0.5,
-    },
-    decorCircle2: {
-        position: "absolute",
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        backgroundColor: "#FFF4E6",
-        bottom: 30,
-        right: -30,
-        opacity: 0.5,
-    },
     riveAnimation: {
-        width: 300,
-        height: 320,
-        marginTop: 20,
+        width: 360,
+        height: 360,
+        marginTop: 120,
         zIndex: 10,
     },
     categorySidebar: {
-        position: "absolute",
-        right: 15,
-        top: 40,
-        height: "60%",
-        maxHeight: 270,
-        width: 70,
-        backgroundColor: "#FFFFFF",
-        borderRadius: 35,
-        paddingVertical: 15,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
-        elevation: 8,
-        zIndex: 100,
+        borderBottomWidth: 2,
+        height: 80,
+        maxHeight: 80,
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 3,
+        alignSelf: "center",
     },
     categoryScrollContent: {
         alignItems: "center",
+        flexDirection: "row",
         paddingVertical: 5,
         gap: 18,
     },
@@ -406,25 +382,32 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
         gap: 12,
     },
-    optionItem: {
+ optionItem: {
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 20,
+        borderRadius: 24,
         marginTop: 3,
-        padding: 6,
-        backgroundColor: "red",
+        padding: 8,
+        backgroundColor: "#FFFFFF",
         position: "relative",
         overflow: "hidden",
+        borderWidth: 2,
+        borderColor: "#E2E8F0",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
+        elevation: 3,
     },
     optionItemSelected: {
-        borderColor: "black",
-        borderWidth: 2,
-        shadowColor: "#4E8DF5",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-        elevation: 8,
-        transform: [{ scale: 1.05 }],
+        borderColor: "#4E8DF5",
+        borderWidth: 3,
+        backgroundColor: "#F0F7FF",
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.25,
+        shadowRadius: 16,
+        transform: [{ scale: 1.08 }],
     },
     optionImage: {
         width: "60%",
@@ -458,7 +441,7 @@ const styles = StyleSheet.create({
         marginLeft: 2,
     },
     itemImage: { width: 150, height: 150, position: 'absolute', top: 20},
-    itemColor: {height: "90%", width: "90%", borderRadius: 15},
+    itemColor: {height: "80%", width: "80%", borderRadius: 15},
     emptyState: {
         width: "100%",
         alignItems: "center",
