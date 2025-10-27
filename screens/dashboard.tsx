@@ -68,7 +68,7 @@ export default function Dashboard() {
     const [resultDinnerCreated, setResultDinnerCreated] = useState<FoodItem[]>([])
     const [resultSnackCreated, setResultSnackCreated] = useState<FoodItem[]>([])
 
-    /**MEALS QR */
+    /**MEALS QR CODE */
     const [resultBreakfastQr, setResultBreakfastQr] = useState<FoodItemQr[]>([])
     const [resultLunchQr, setResultLunchQr] = useState<FoodItemQr[]>([])
     const [resultDinnerQr, setResultDinnerQr] = useState<FoodItemQr[]>([])
