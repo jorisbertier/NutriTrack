@@ -1,7 +1,7 @@
 import { StyleSheet, Alert, ScrollView, StatusBar, Text, ImageSourcePropType, View, Modal, TouchableOpacity, Image } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { firestore } from '@/firebaseConfig';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { getAuth } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
@@ -20,15 +20,9 @@ import { Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import PremiumOverlayWrapper from '@/components/Premium';
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-
-
-// import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
-    // "googleMobileAds": {
-    //   "androidAppId": "ca-app-pub-3940256099942544~3347511713",
-    //   "iosAppId": "ca-app-pub-3940256099942544~1458002511"
-    // },
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { fetchUserData } from '@/redux/userSlice';
 
 export default function HomeScreen() {
 
@@ -43,6 +37,10 @@ export default function HomeScreen() {
   const [soon, setSoon]= useState(true);
 
   const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
+
+  const userRedux = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch<AppDispatch>();
+  const showIcon = userRedux?.goal === "gain" || userRedux?.goal === "lose";
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -72,6 +70,15 @@ export default function HomeScreen() {
     }
     fetchUserData()
   }, [])
+
+    useFocusEffect(
+      React.useCallback(() => {
+        if (user?.email) {
+          //@ts-ignore
+          dispatch(fetchUserData(user.email));
+        }
+      }, [user])
+    );
 
   const basalMetabolicRate = userData.length > 0 ? BasalMetabolicRate(
     Number(userData[0]?.weight),
@@ -186,6 +193,8 @@ export default function HomeScreen() {
                 backgroundcolor={colors.gray}
                 indice={'kcal'}
                 setState={isLoading}
+                goal={userRedux?.goalLogs['calories']}
+                showIcon={showIcon}
               />
               <NutritionalCard
                 nutritionalName={`${t('proteins')}`}
@@ -194,6 +203,8 @@ export default function HomeScreen() {
                 indice={'g'}
                 icon={'protein'}
                 setState={isLoading}
+                goal={userRedux?.goalLogs['proteins']}
+                showIcon={showIcon}  
               />
               <NutritionalCard
                 nutritionalName={t('carbs')}
@@ -202,6 +213,8 @@ export default function HomeScreen() {
                 indice={'g'}
                 icon={'carbs'}
                 setState={isLoading}
+                goal={userRedux?.goalLogs['carbs']}
+                showIcon={showIcon}
               />
               <NutritionalCard
                 nutritionalName={t('fats')}
@@ -210,6 +223,8 @@ export default function HomeScreen() {
                 indice={'g'}
                 icon={'fat'}
                 setState={isLoading}
+                goal={userRedux?.goalLogs['fats']}
+                showIcon={showIcon}
               />
             </Row>
             <Row>

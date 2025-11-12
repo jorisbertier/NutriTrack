@@ -13,7 +13,9 @@ type Props = {
     nutrionalData: string | null | number,
     backgroundcolor: string,
     indice: string,
-    setState: any
+    setState: any,
+    goal: number,
+    showIcon: boolean,
 }
 
 const imageMapping: { [key: string ]: any } = {
@@ -24,11 +26,13 @@ const imageMapping: { [key: string ]: any } = {
 };
 
 
-export default function NutritionalCard({icon, nutritionalName,setState, nutrionalData, indice, backgroundcolor, style, ...rest}: Props) {
+export default function NutritionalCard({icon, nutritionalName,setState, nutrionalData, indice, backgroundcolor, style, goal, showIcon, ...rest}: Props) {
     
     const { colors } = useTheme();
     const imageSource = imageMapping[icon];
     
+    const totalValue = Number(nutrionalData ?? 0) + Number(goal ?? 0);
+
     return (
         <View style={[styles.card, {backgroundColor: backgroundcolor}]}>
             <View style={styles.block1}>
@@ -42,16 +46,21 @@ export default function NutritionalCard({icon, nutritionalName,setState, nutrion
                 }
                 </Skeleton>
             </View>
-            <View style={styles.block2}>
-                <Skeleton colorMode={colorMode} width={100}>
-                    {setState && 
-                    <ThemedText variant="title1" color={colors.blackFix}>
-                        {nutrionalData} 
+            <View style={styles.valueRow}>
+                <Skeleton colorMode={colorMode} width={100} height={30} radius={8}>
+                    <View style={styles.rowContent}>
+                    {showIcon && goal > 0 && (
+                        <Image
+                        source={require('@/assets/images/icon/goal.png')}
+                        style={{ width: 20, height: 20, marginRight: 5 }}
+                        />
+                    )}
+                    {setState && (
                         <ThemedText variant="title1" color={colors.blackFix}>
-                            {' ' + indice}
+                        {totalValue} {indice}
                         </ThemedText>
-                        </ThemedText>
-                    }
+                    )}
+                    </View>
                 </Skeleton>
             </View>
         </View>
@@ -99,5 +108,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
-    block2 : {},
+    valueRow: {
+        width: '100%',
+        marginTop: 5,
+    },
+    rowContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: 5,
+        marginTop: 5
+    },
 })
