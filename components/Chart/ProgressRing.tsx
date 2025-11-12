@@ -4,7 +4,7 @@ import { useTheme } from '@/hooks/ThemeProvider';
 import { Skeleton } from 'moti/skeleton';
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated, Easing, Image } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -105,26 +105,34 @@ const normFats = Math.min(percentageFats, 100) / 100;
 
         return (
             <View style={{ marginBottom: 15, width: '100%', gap: 5 }}>
-            <Text style={[styles.percentageText, { color: colors.black }]}>
-                {label} {(ratio * 100).toFixed(0)} %
-            </Text>
-            <View style={styles.progressBarBackground}>
-                <Animated.View
-                style={[
-                    styles.progressBarFill,
-                    {
-                    backgroundColor: 'black',
-                    width: anim.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ['0%', '100%'],
-                    }),
-                    },
-                ]}
-                />
-            </View>
-            <Text style={[styles.percentageSubtext, { color: colors.black }]}>
-                {showGoal && '🎯'} {formatNumber(progressValue)} / {formatNumber(goal)} g
-            </Text>
+                <Text style={[styles.percentageText, { color: colors.black }]}>
+                    {label} {(ratio * 100).toFixed(0)} %
+                </Text>
+                <View style={styles.progressBarBackground}>
+                    <Animated.View
+                    style={[
+                        styles.progressBarFill,
+                        {
+                        backgroundColor: 'black',
+                        width: anim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0%', '100%'],
+                        }),
+                        },
+                    ]}
+                    />
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {showGoal && (
+                        <Image
+                        source={require('@/assets/images/icon/goal.png')}
+                        style={{ width: 20, height: 20, marginRight: 5 }}
+                        />
+                    )}
+                    <Text style={[styles.percentageSubtext, { color: colors.black }]}>
+                        {formatNumber(progressValue)} / {formatNumber(goal)} g
+                    </Text>
+                </View>
             </View>
         );
     };

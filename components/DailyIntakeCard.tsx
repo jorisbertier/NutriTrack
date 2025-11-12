@@ -10,6 +10,7 @@ import {
     Animated,
     ViewStyle,
     TextStyle,
+    Image,
 } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
@@ -76,8 +77,9 @@ export const DailyIntakeCard: React.FC<Props> = ({
             <View style={styles.left}>
                 <View style={styles.titleRow}>
                     <View style={styles.iconCircle}>
-                        {/* <Text style={styles.iconText}>⚡</Text> */}
-                        <Text style={styles.iconText}>{showIcon && '🎯'}</Text>
+                        {showIcon && (
+                            <Image source={require('@/assets/images/icon/goal.png')} style={{ width: 20, height: 20 }} />
+                        )}
                     </View>
                     <Text style={[styles.titleText, { color: colors.black }]}>
                         Daily intake
