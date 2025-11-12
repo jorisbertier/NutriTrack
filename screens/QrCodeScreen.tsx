@@ -292,7 +292,7 @@ export default function QrCodeScreen({ route }) {
   };
 
   return (
-      <KeyboardAvoidingView
+    <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior="padding"
       keyboardVerticalOffset={0}
@@ -434,86 +434,67 @@ export default function QrCodeScreen({ route }) {
                 {String(getGenericName(productInfo, i18n.language))}
               </Text>
             )}
+    <View style={styles.nutritionContainer}>
+      <Text style={styles.nutritionTitle}>
+        Valeurs nutritionnelles pour ({quantityGrams} {productInfo?.product_quantity_unit || "g"})
+      </Text>
 
-            <View style={styles.nutritionContainer}>
-              <Text style={styles.nutritionTitle}>
-                Valeurs nutritionnelles pour ( {quantityGrams} {productInfo?.product_quantity_unit || " g"})
+      {[
+        { key: "energy-kcal_100g", label: "Calories", unit: "kcal", maxValue: basalMetabolicRate, color: colors.blue, reduxKey: "calories" },
+        { key: "proteins_100g", label: "Protéines", unit: "g", maxValue: proteinsGoal, color: colors.blue, reduxKey: "proteins" },
+        { key: "fat_100g", label: "Lipides", unit: "g", maxValue: fatsGoal, color: colors.blue, reduxKey: "fats" },
+        { key: "carbohydrates_100g", label: "Glucides", unit: "g", maxValue: carbsGoal, color: colors.blue, reduxKey: "carbs" },
+        { key: "sugars_100g", label: "Sucres", unit: "g" },
+        { key: "saturated-fat_100g", label: "Graisses saturées", unit: "g" },
+        { key: "fiber_100g", label: "Fibres", unit: "g" },
+        { key: "salt_100g", label: "Sel", unit: "g" },
+        { key: "sodium_100g", label: "Sodium", unit: "mg" },
+      ].map((nutrient) => {
+        if (!productInfo.nutriments?.[nutrient.key]) return null;
+
+        const productValue = Number(formatNutrientValue(productInfo.nutriments[nutrient.key], Number(quantityGrams)));
+        const reduxValue = nutrient.reduxKey ? Number(userRedux?.goalLogs?.[nutrient.reduxKey] || 0) : 0;
+        const totalMax = Number(nutrient.maxValue) + reduxValue;
+        const totalValue = productValue + reduxValue;
+
+        const percentageValue = productValue;
+        const maxForBar = nutrient.maxValue; 
+
+        return (
+          <View style={styles.nutritionRow} key={nutrient.key}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <Text style={[styles.nutritionLabel, { color: colors.black }]}>{nutrient.label}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.nutritionValue}>
+                {nutrient.maxValue
+                  ? `${productValue} / ${totalMax} ${nutrient.unit}`
+                  : `${productValue} ${nutrient.unit}`}
               </Text>
-
-              {[
-                { key: "energy-kcal_100g", label: "Calories", unit: "kcal", maxValue: basalMetabolicRate, color: colors.blue },
-                { key: "proteins_100g", label: "Protéines", unit: "g", maxValue: proteinsGoal, color: colors.blue },
-                { key: "fat_100g", label: "Lipides", unit: "g", maxValue: carbsGoal, color: colors.blue },
-                { key: "carbohydrates_100g", label: "Glucides", unit: "g", maxValue: fatsGoal, color: colors.blue },
-                { key: "sugars_100g", label: "Sucres", unit: "g" },
-                { key: "saturated-fat_100g", label: "Graisses saturées", unit: "g" },
-                { key: "fiber_100g", label: "Fibres", unit: "g" },
-                { key: "salt_100g", label: "Sel", unit: "g" },
-                { key: "sodium_100g", label: "Sodium", unit: "mg" },
-
-                // 🔹 Vitamines
-                { key: "vitamin-a_100g", label: "Vitamine A", unit: "µg" },
-                { key: "vitamin-d_100g", label: "Vitamine D", unit: "µg" },
-                { key: "vitamin-e_100g", label: "Vitamine E", unit: "mg" },
-                { key: "vitamin-k_100g", label: "Vitamine K", unit: "µg" },
-                { key: "vitamin-c_100g", label: "Vitamine C", unit: "mg" },
-                { key: "vitamin-b1_100g", label: "Vitamine B1", unit: "mg" },
-                { key: "vitamin-b2_100g", label: "Vitamine B2", unit: "mg" },
-                { key: "vitamin-pp_100g", label: "Vitamine B3 (PP)", unit: "mg" },
-                { key: "vitamin-b6_100g", label: "Vitamine B6", unit: "mg" },
-                { key: "vitamin-b9_100g", label: "Vitamine B9", unit: "µg" },
-                { key: "vitamin-b12_100g", label: "Vitamine B12", unit: "µg" },
-
-                // 🔹 Minéraux
-                { key: "calcium_100g", label: "Calcium", unit: "mg" },
-                { key: "iron_100g", label: "Fer", unit: "mg" },
-                { key: "magnesium_100g", label: "Magnésium", unit: "mg" },
-                { key: "zinc_100g", label: "Zinc", unit: "mg" },
-                { key: "potassium_100g", label: "Potassium", unit: "mg" },
-                { key: "phosphorus_100g", label: "Phosphore", unit: "mg" },
-                { key: "copper_100g", label: "Cuivre", unit: "mg" },
-                { key: "selenium_100g", label: "Sélénium", unit: "µg" },
-                { key: "manganese_100g", label: "Manganèse", unit: "mg" },
-                { key: "iodine_100g", label: "Iode", unit: "µg" },
-              ].map(
-                (nutrient) =>
-                  productInfo.nutriments?.[nutrient.key] && (
-                    <View
-                      style={[styles.nutritionRow]}
-                      key={nutrient.key}
-                    >
-                      <View
-                        style={{ flexDirection: "row", justifyContent: "space-between" }}
-                      >
-                        <Text style={[styles.nutritionLabel, { color: colors.black }]}>
-                          {nutrient.label}
-                        </Text>
-                        <Text style={styles.nutritionValue}>
-                          {nutrient.maxValue
-                            ? `${formatNutrientValue(productInfo.nutriments[nutrient.key], Number(quantityGrams))} / ${nutrient.maxValue} ${nutrient.unit}`
-                            : `${formatNutrientValue(productInfo.nutriments[nutrient.key], Number(quantityGrams))} ${nutrient.unit}`}
-                        </Text>
-                      </View>
-
-                      {nutrient.maxValue && (
-                        <View style={{ marginTop: 8 }}>
-                          <ProgressBarFluid
-                            value={formatNutrientValue(
-                              productInfo.nutriments[nutrient.key],
-                              Number(quantityGrams)
-                            )}
-                            maxValue={Number(nutrient.maxValue)}
-                            nutri={nutrient.unit}
-                            colorBarProgresse={nutrient.color || "#4CAF50"}
-                            backgroundBarprogress="rgba(237, 237, 237, 1)"
-                            height={18}
-                          />
-                        </View>
-                      )}
-                    </View>
-                  )
+              {reduxValue > 0 && (
+                <Image
+                  source={require('@/assets/images/icon/goal.png')}
+                  style={{ width: 20, height: 20, marginLeft: 5 }}
+                />
               )}
+              </View>
             </View>
+
+            {nutrient.maxValue && (
+              <View style={{ marginTop: 8 }}>
+                <ProgressBarFluid
+                  value={percentageValue}
+                  maxValue={maxForBar}
+                  nutri={nutrient.unit}
+                  colorBarProgresse={nutrient.color || "#4CAF50"}
+                  backgroundBarprogress="rgba(237, 237, 237, 1)"
+                  height={18}
+                />
+              </View>
+            )}
+          </View>
+        );
+      })}
+    </View>
           </>
         )}
       </ScrollView>
@@ -562,7 +543,7 @@ export default function QrCodeScreen({ route }) {
 const styles = StyleSheet.create({
   card: { marginTop: 20, padding: 16, borderRadius: 12, alignItems: "center", width: "100%", alignSelf: "center", backgroundColor: "white" },
   productDesc: { fontSize: 16, color: "black", textAlign: "center", marginBottom: 12 },
-  nutritionContainer: { width: "100%", marginTop: 10, borderTopWidth: 1, borderTopColor: "#eee", paddingTop: 10, gap: 10 },
+  nutritionContainer: { width: "100%", marginTop: 10, borderTopWidth: 1,marginBottom: 20, borderTopColor: "#eee", paddingTop: 10, gap: 10 },
   nutritionTitle: { fontSize: 16, fontWeight: "600", marginBottom: 8, textAlign: "center" },
   nutritionRow: { flexDirection: "column", paddingVertical: 14, paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: "#eee", borderRadius: 8, gap: 10 },
   nutritionLabel: { fontSize: 16, fontWeight: "500" },
@@ -643,9 +624,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     zIndex: 999,
-    width: "80%",
-    marginLeft: "10%",
-    padding: 10
+    width: "90%",
+    marginLeft: "5%",
+    padding: 10,
+    overflow: "hidden",
   },
   notificationTitle :  {
     fontSize: 16,

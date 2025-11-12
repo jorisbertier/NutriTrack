@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText"
-import { Image, Pressable, StyleSheet, View, ScrollView } from "react-native";
+import { Image, Pressable, StyleSheet, View, ScrollView, Text } from "react-native";
 import { useNavigation } from "expo-router";
 import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
@@ -119,7 +119,7 @@ export default function DetailsFoodCreated() {
             <Row style={styles.wrapperTitle}>
             
                 {isLoading ?
-                    <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.title}</ThemedText>
+                    <Text style={{ color: colors.black, fontSize: 28, fontWeight: "bold", textAlign: 'center'}}>{filterUniqueFood?.title}</Text>
                 : 
                     <Skeleton colorMode={colorMode} width={250} height={30} ></Skeleton>
                 }
@@ -131,7 +131,7 @@ export default function DetailsFoodCreated() {
                 </View>
                 }
                 {isLoading ?
-                <ThemedText color={colors.black} variant="title1" style={styles.title}>{t('calories')} : {filterUniqueFood?.calories} kcal</ThemedText>
+                <ThemedText color={colors.black} variant="title1">{t('calories')} : {filterUniqueFood?.calories} kcal</ThemedText>
                 :
                 <View style={{ marginTop: 10, marginBottom: 10 }}> 
                     <Skeleton colorMode={colorMode} width={250} height={30} />
@@ -258,11 +258,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
+        gap: 15,
+        marginHorizontal: 10,
         flexDirection: 'column',
-        overflow: "visible"
-    },
-    title: {
-        height: 50,
+        overflow: "visible",
+        marginBottom: 20
     },
     subtitle : {
         marginBottom: 10
