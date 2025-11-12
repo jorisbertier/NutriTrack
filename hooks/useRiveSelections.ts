@@ -19,72 +19,155 @@ type RiveMapping = {
     
 };
 
+// export const useRiveSelections = (
+//     riveRef: React.RefObject<RiveRef>,
+//     categoryOptions: CategoryOptions,
+//     riveMappings: RiveMapping,
+// ) => {
+//     const [riveReady, setRiveReady] = useState(false);
+//     const [selectedOptions, setSelectedOptions] = useState<OptionMap>({});
+//     const user = useSelector((state: RootState) => state.user.user);
+//     const chonkValue = calculateBMIRive(user?.weight ?? 0, user?.height ?? 0);
+
+//     // ✅ Consider Rive ready as soon as the ref is mounted
+//     useEffect(() => {
+//         if (riveRef.current) setRiveReady(true);
+//     }, [riveRef]);
+
+//     // ✅ Restore selections from AsyncStorage
+//     useFocusEffect(
+//         useCallback(() => {
+//             const restoreSelections = async () => {
+//                 try {
+//                     const savedEyeColor = await AsyncStorage.getItem('EyeColor');
+//                     const savedHat = await AsyncStorage.getItem('HatType');
+//                     const savedEyes = await AsyncStorage.getItem('EyesType');
+//                     const savedMouth = await AsyncStorage.getItem('MouthType');
+
+//                     const newOptions: OptionMap = {
+//                         color: savedEyeColor
+//                             ? categoryOptions.color.find(opt => opt.value === parseInt(savedEyeColor))?.id || null
+//                             : null,
+//                         hat: savedHat
+//                             ? categoryOptions.hat.find(opt => opt.value === parseInt(savedHat))?.id || null
+//                             : null,
+//                         eyes: savedEyes
+//                             ? categoryOptions.eyes.find(opt => opt.value === parseInt(savedEyes))?.id || null
+//                             : null,
+//                         mouth: savedMouth
+//                             ? categoryOptions.mouth.find(opt => opt.value === parseInt(savedMouth))?.id || null
+//                             : null,
+//                     };
+
+//                     setSelectedOptions(newOptions);
+//                 } catch (e) {
+//                     console.error('Error restoring selections', e);
+//                 }
+//             };
+//             restoreSelections();
+//         }, [categoryOptions])
+//     );
+
+//     // ✅ APPLY ALL SELECTIONS AN CHONK ON RIVE WHEN ALL IS READY
+//     useEffect(() => {
+//         if (!riveReady || !riveRef.current) return;
+
+//         Object.entries(selectedOptions).forEach(([category, optionId]) => {
+//             if (!optionId) return;
+//             const value = categoryOptions[category as keyof CategoryOptions]
+//                 .find(opt => opt.id === optionId)?.value;
+//             const mapping = riveMappings[category];
+//             if (value !== undefined && mapping) {
+//                 riveRef.current.setInputState(mapping.machine, mapping.input, value);
+//             }
+//         });
+
+//         // Apply chonk
+//         riveRef.current.setInputState("StateMachineChangeEyesColor", "Chonk", chonkValue);
+//     }, [riveReady, selectedOptions, categoryOptions, riveMappings, riveRef, chonkValue]);
+
+//     return { selectedOptions, setSelectedOptions };
+// };
 export const useRiveSelections = (
     riveRef: React.RefObject<RiveRef>,
     categoryOptions: CategoryOptions,
-    riveMappings: RiveMapping,
+    riveMappings: RiveMapping
 ) => {
-    const [riveReady, setRiveReady] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState<OptionMap>({});
     const user = useSelector((state: RootState) => state.user.user);
     const chonkValue = calculateBMIRive(user?.weight ?? 0, user?.height ?? 0);
 
-    // ✅ Consider Rive ready as soon as the ref is mounted
+    // Charger les options sauvegardées
     useEffect(() => {
-        if (riveRef.current) setRiveReady(true);
-    }, [riveRef]);
+        const restoreSelections = async () => {
+        try {
+            const savedEyeColor = await AsyncStorage.getItem('EyeColor');
+            const savedHat = await AsyncStorage.getItem('HatType');
+            const savedEyes = await AsyncStorage.getItem('EyesType');
+            const savedMouth = await AsyncStorage.getItem('MouthType');
 
-    // ✅ Restore selections from AsyncStorage
-    useFocusEffect(
-        useCallback(() => {
-            const restoreSelections = async () => {
-                try {
-                    const savedEyeColor = await AsyncStorage.getItem('EyeColor');
-                    const savedHat = await AsyncStorage.getItem('HatType');
-                    const savedEyes = await AsyncStorage.getItem('EyesType');
-                    const savedMouth = await AsyncStorage.getItem('MouthType');
-
-                    const newOptions: OptionMap = {
-                        color: savedEyeColor
-                            ? categoryOptions.color.find(opt => opt.value === parseInt(savedEyeColor))?.id || null
-                            : null,
-                        hat: savedHat
-                            ? categoryOptions.hat.find(opt => opt.value === parseInt(savedHat))?.id || null
-                            : null,
-                        eyes: savedEyes
-                            ? categoryOptions.eyes.find(opt => opt.value === parseInt(savedEyes))?.id || null
-                            : null,
-                        mouth: savedMouth
-                            ? categoryOptions.mouth.find(opt => opt.value === parseInt(savedMouth))?.id || null
-                            : null,
-                    };
-
-                    setSelectedOptions(newOptions);
-                } catch (e) {
-                    console.error('Error restoring selections', e);
-                }
+            const newOptions: OptionMap = {
+            color: savedEyeColor
+                ? categoryOptions.color.find(opt => opt.value === parseInt(savedEyeColor))?.id || null
+                : null,
+            hat: savedHat
+                ? categoryOptions.hat.find(opt => opt.value === parseInt(savedHat))?.id || null
+                : null,
+            eyes: savedEyes
+                ? categoryOptions.eyes.find(opt => opt.value === parseInt(savedEyes))?.id || null
+                : null,
+            mouth: savedMouth
+                ? categoryOptions.mouth.find(opt => opt.value === parseInt(savedMouth))?.id || null
+                : null,
             };
-            restoreSelections();
-        }, [categoryOptions])
-    );
 
-    // ✅ APPLY ALL SELECTIONS AN CHONK ON RIVE WHEN ALL IS READY
+            setSelectedOptions(newOptions);
+        } catch (e) {
+            console.error('Error restoring selections', e);
+        }
+        };
+
+        restoreSelections();
+    }, [categoryOptions]);
+
+    // Appliquer sur Rive avec vérification que la machine est prête
     useEffect(() => {
-        if (!riveReady || !riveRef.current) return;
+        if (!riveRef.current || Object.keys(selectedOptions).length === 0) return;
 
+        const applyInputs = () => {
+        if (!riveRef.current) return false;
+
+        let allReady = true;
         Object.entries(selectedOptions).forEach(([category, optionId]) => {
             if (!optionId) return;
             const value = categoryOptions[category as keyof CategoryOptions]
-                .find(opt => opt.id === optionId)?.value;
+            .find(opt => opt.id === optionId)?.value;
             const mapping = riveMappings[category];
             if (value !== undefined && mapping) {
-                riveRef.current.setInputState(mapping.machine, mapping.input, value);
+            const success = riveRef.current.setInputState(mapping.machine, mapping.input, value);
+            if (!success) allReady = false; // setInputState renvoie false si machine non prête
             }
         });
 
-        // Apply chonk
-        riveRef.current.setInputState("StateMachineChangeEyesColor", "Chonk", chonkValue);
-    }, [riveReady, selectedOptions, categoryOptions, riveMappings, riveRef, chonkValue]);
+        // Chonk
+        const chonkSuccess = riveRef.current.setInputState("StateMachineChangeEyesColor", "Chonk", chonkValue);
+        if (!chonkSuccess) allReady = false;
+
+        return allReady;
+        };
+
+        // 🔁 Retry jusqu’à ce que la machine soit prête
+        let retries = 0;
+        const interval = setInterval(() => {
+            const ready = applyInputs();
+            if (ready || retries > 20) { // max 20 tentatives
+                clearInterval(interval);
+            }
+            retries++;
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, [selectedOptions, categoryOptions, riveMappings, chonkValue]);
 
     return { selectedOptions, setSelectedOptions };
 };

@@ -169,7 +169,7 @@ const ProfileScreen = () => {
       {/* <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
       </Skeleton> */}
-        <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
+      <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
           <Rive
               ref={riveRef}
               source={require("../assets/rive/panda_neutral (18).riv")}
