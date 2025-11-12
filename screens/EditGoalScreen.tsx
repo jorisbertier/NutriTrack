@@ -10,6 +10,8 @@ import CustomButton from '@/components/button/CustomButton';
 import GoalToggle from '@/components/GoalToggle';
 import AnimatedToast from '@/components/AnimatedToastProps';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { fetchUserData } from '@/redux/userSlice';
 
 type Goal = 'lose' | 'maintain' | 'gain';
 
@@ -21,11 +23,12 @@ const EditGoalScreen = () => {
   const db = getFirestore();
   const uid = auth.currentUser?.uid;
 
+  const dispatch = useDispatch();
 
   const [ calories, setCalories] = useState<number>(0);
-  const [proteins, setProteins] = useState<string>('');
-  const [carbs, setCarbs] = useState<string>('');
-  const [fats, setFats] = useState<string>('');
+  const [proteins, setProteins] = useState<string>('0');
+  const [carbs, setCarbs] = useState<string>('0');
+  const [fats, setFats] = useState<string>('0');
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
@@ -53,6 +56,8 @@ const EditGoalScreen = () => {
           goalLogs: { calories: 0, proteins: 0, carbs: 0, fats: 0 }
         });
           showFeedback('success', t('updated'));
+          //@ts-ignore
+          dispatch(fetchUserData(auth.currentUser?.email));
           setTimeout(() => navigation.goBack(), 1000);
       } catch (error) {
         console.error("Error durantly update edit goal :", error);
@@ -62,9 +67,9 @@ const EditGoalScreen = () => {
     }
 
     // Sinon, valider macros :
-    const proteinVal = Number(proteins);
-    const carbVal = Number(carbs);
-    const fatVal = Number(fats);
+    const proteinVal = Number(proteins || 0);
+    const carbVal = Number(carbs || 0);
+    const fatVal = Number(fats || 0);
 
     const isValidNumber = (val: number) => !isNaN(val) && val >= 0 && val <= 100;
 

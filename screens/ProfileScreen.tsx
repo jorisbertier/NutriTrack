@@ -4,13 +4,13 @@ import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Skeleton } from 'moti/skeleton';
 import { colorMode } from '@/constants/Colors';
 import { useTheme } from '@/hooks/ThemeProvider';
 import { deleteByCollection, getIdAvatarProfile } from '@/functions/function';
-import { useDispatch } from 'react-redux';
-import { clearUser } from '@/redux/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUser, fetchUserData } from '@/redux/userSlice';
 import { useTranslation } from 'react-i18next';
 import '../locales/i18n';
 import EditLink from '@/components/EditLink';
@@ -18,6 +18,7 @@ import Rive, { RiveRef } from 'rive-react-native';
 import BMIBar from '@/components/BMIBar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRiveRestore } from '@/hooks/useRiveSelections';
+import { RootState, AppDispatch } from '@/redux/store';
 
 
 const ProfileScreen = () => {
@@ -28,10 +29,11 @@ const ProfileScreen = () => {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  
+  const userRedux = useSelector((state: RootState) => state.user.user);
+
   const [userData, setUserData] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [ modalVisible, setModalVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   
@@ -43,36 +45,48 @@ const ProfileScreen = () => {
   //@ts-ignore
   useRiveRestore(riveRef);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (user !== null) {
-        const email = user.email;
-        const uid = user.uid;
+useEffect(() => {
+  const fetchUserFromFirestore = async () => {
+    if (user !== null) {
+      const email = user.email;
+      const uid = user.uid;
 
-        const userCollection = collection(firestore, 'User');
-        const userSnapshot = await getDocs(userCollection);
+      const userCollection = collection(firestore, 'User');
+      const userSnapshot = await getDocs(userCollection);
 
-        const userList = userSnapshot.docs.map(doc => ({
-          id: doc.id,
-          email: doc.data().email,
-          name: doc.data().name,
-          firstName: doc.data().firstName,
-          dateOfBirth: doc.data().dateOfBirth,
-          gender: doc.data().gender,
-          height: doc.data().height,
-          weight: doc.data().weight,
-          activityLevel: doc.data().activityLevel,
-          profilPicture: doc.data().profilPicture,
-        }));
+      const userList = userSnapshot.docs.map(doc => ({
+        id: doc.id,
+        email: doc.data().email,
+        name: doc.data().name,
+        firstName: doc.data().firstName,
+        dateOfBirth: doc.data().dateOfBirth,
+        gender: doc.data().gender,
+        height: doc.data().height,
+        weight: doc.data().weight,
+        activityLevel: doc.data().activityLevel,
+        profilPicture: doc.data().profilPicture,
+        goalLogs: doc.data().goalLogs,
+        goal: doc.data().goal,
+      }));
 
-        const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
-        setUserData(sortByUniqueUserConnected)
-        setIsLoading(false);
-      }
+      const sortByUniqueUserConnected = userList.filter((user) => user.email === email);
+      setUserData(sortByUniqueUserConnected);
+      setIsLoading(false);
     }
-    fetchUserData();
-  }, [])
+  };
 
+  fetchUserFromFirestore();
+}, []);
+
+    
+  useFocusEffect(
+    React.useCallback(() => {
+      if (user?.email) {
+        dispatch(fetchUserData(user.email));
+      }
+    }, [user])
+  );
+  
   const avatar = getIdAvatarProfile(Number(userData[0]?.profilPicture))
 
   const handleSignOut = async () => {
@@ -172,6 +186,7 @@ const ProfileScreen = () => {
       <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
           <Rive
               ref={riveRef}
+              // source={require("../assets/rive/panda_neutral (25).riv")}
               source={require("../assets/rive/panda_neutral (18).riv")}
               autoplay={true}
               style={{ width: 200, height: 200, marginTop: 50 }}
@@ -260,10 +275,55 @@ const ProfileScreen = () => {
         {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('weight')}: {userData[0]?.weight} kg</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
 
-      <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('activity')}</Text>
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('activityLevel')}: {`${t(`${userData[0]?.activityLevel}`)}`}</Text> : <Skeleton colorMode={colorMode} width={250}/> }
-      </View>
+    <View style={[styles.section, {backgroundColor: colors.white}]}>
+      <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('activity')}</Text>
+
+      {!isLoading ? (
+        <>
+          <Text style={[styles.infoText, {color: colors.black}]}>
+            {t('activityLevel')}: {t(userRedux?.activityLevel || 'unknown')}
+          </Text>
+
+          <Text style={[styles.infoText, {color: colors.black}]}>
+            {t('goal')}: {t(userRedux?.goal || 'unknown')}
+          </Text>
+
+          {['calories', 'proteins', 'carbs', 'fats'].map((key) => {
+            const value = userRedux?.goalLogs?.[key];
+            if (!value) return null;
+
+            let displayValue = value;
+
+            if (key === 'calories') {
+              const sign =
+                userRedux?.goal === 'gain'
+                  ? '+ '
+                  : userRedux?.goal === 'lose'
+                  ? '- '
+                  : '';
+              displayValue = `${sign}${value}`;
+            } else {
+              displayValue = `+ ${value}`;
+            }
+
+            return (
+              <Text key={key} style={[styles.infoText, { color: colors.black }]}>
+                {t(key)}: {displayValue}
+              </Text>
+            );
+          })}
+        </>
+      ) : (
+        <>
+          <Skeleton colorMode={colorMode} width={250} />
+          <Skeleton colorMode={colorMode} width={250} />
+          <Skeleton colorMode={colorMode} width={250} />
+          <Skeleton colorMode={colorMode} width={250} />
+          <Skeleton colorMode={colorMode} width={250} />
+          <Skeleton colorMode={colorMode} width={250} />
+        </>
+      )}
+    </View>
 
       <View style={[styles.section, {backgroundColor: colors.white}]}>
         <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('goal')}</Text>

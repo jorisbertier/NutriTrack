@@ -16,6 +16,8 @@ interface UserState {
     proteinsTotal?: any,
     carbsTotal?: any,
     fatsTotal?: any,
+    goalLogs?: any,
+    goal?: any,
     [key: string]: any;
   } | null;
   status: 'idle' | 'loading' | 'failed';
