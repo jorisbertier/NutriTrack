@@ -235,7 +235,7 @@ const ProfileScreen = () => {
           navigateTo="Avatar"
         />
         <BMIBar weight={70} height={180}/>
-      <View style={{ flexDirection: 'row',  marginBottom: 20}}>
+      {/* <View style={{ flexDirection: 'row',  marginBottom: 20}}>
         <View style={{width: '50%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 5, borderBottomColor: "black"}}>
         <Text style={{}} >Profile</Text>
           
@@ -244,7 +244,7 @@ const ProfileScreen = () => {
         <Text>Achievments</Text>
 
         </View>
-      </View>
+      </View> */}
       <View style={[styles.section, {backgroundColor: colors.white}]}>
         <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('personal_information')}</Text>
         {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('firstName')}: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={100}/> }
