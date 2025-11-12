@@ -82,7 +82,7 @@ export default function Dashboard() {
     const [notificationVisible, setNotificationVisible] = useState(false);
     const [updateCounter, setUpdateCounter] = useState(0);
 
-    const showIcon = (userData[0]?.goalLogs?.calories ?? 0) > 0;
+    const showIcon = userData[0]?.goal === "gain" || userData[0]?.goal === "lose";
     let date = new Date();
 
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
