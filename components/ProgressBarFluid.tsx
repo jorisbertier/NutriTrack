@@ -67,7 +67,13 @@ export default function ProgressBarFluid({
         outputRange: ['-40%', '40%'],
     });
 
-    const percentage = Math.round((safeValue / safeMax) * 100);
+    //for displaying percentage
+    const safeValueDisplay = Number(value.toFixed(2));
+    const safeMaxDispay = Number(maxValue.toFixed(2));
+    console.log('value ', value)
+    console.log('maxvalue ', maxValue)
+    // console.log('Value:', safeValueDisplay, 'Max:', safeMaxDispay);
+    const percentage = ((safeValueDisplay / safeMaxDispay) * 100).toFixed(1);
 
     return (
         <View style={[styles.container, style]}>

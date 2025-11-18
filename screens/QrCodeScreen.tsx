@@ -483,7 +483,7 @@ export default function QrCodeScreen({ route }) {
               <View style={{ marginTop: 8 }}>
                 <ProgressBarFluid
                   value={percentageValue}
-                  maxValue={maxForBar}
+                  maxValue={totalMax}
                   nutri={nutrient.unit}
                   colorBarProgresse={nutrient.color || "#4CAF50"}
                   backgroundBarprogress="rgba(237, 237, 237, 1)"
