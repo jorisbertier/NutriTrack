@@ -1,5 +1,6 @@
 import { useTheme } from "@/hooks/ThemeProvider";
 import { useRiveSelections } from "@/hooks/useRiveSelections";
+import { RootState } from "@/redux/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import {
     Dimensions,
     ActivityIndicator,
 } from "react-native";
+import { useSelector } from "react-redux";
 import Rive, { RiveRef } from "rive-react-native";
 
 const { width } = Dimensions.get("window");
@@ -28,6 +30,7 @@ type Option = {
     source?: ImageSourcePropType;
     color?: string; 
     value?: number; 
+    requiredLevel?: number;
 };
 
 const categories: Category[] = [
@@ -53,14 +56,14 @@ const categoryOptions: Record<string, Option[]> = {
     ],
     hat: [
         { id: "1", source: "", value: 0 },
-        { id: "2", source: require("../../assets/avatar/hat/hat1.png"), value: 1 },
+        { id: "2", source: require("../../assets/avatar/hat/hat1.png"), value: 1,  },
         { id: "3", source: require("../../assets/avatar/hat/hat2.png"), value: 2 },
-        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3 },
-        { id: "5", source: require("../../assets/avatar/hat/hat4.png"), value: 4 },
-        { id: "6", source: require("../../assets/avatar/hat/hat5.png"), value: 5 },
-        { id: "7", source: require("../../assets/avatar/hat/hat6.png"), value: 6 },
-        { id: "8", source: require("../../assets/avatar/hat/hat7.png"), value: 7 },
-        { id: "9", source: require("../../assets/avatar/hat/hat8.png"), value: 8 },
+        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3, requiredLevel: 10   },
+        { id: "5", source: require("../../assets/avatar/hat/hat4.png"), value: 4, requiredLevel: 10 },
+        { id: "6", source: require("../../assets/avatar/hat/hat5.png"), value: 5, requiredLevel: 10 },
+        { id: "7", source: require("../../assets/avatar/hat/hat6.png"), value: 6, requiredLevel: 10 },
+        { id: "8", source: require("../../assets/avatar/hat/hat7.png"), value: 7, requiredLevel: 10 },
+        { id: "9", source: require("../../assets/avatar/hat/hat8.png"), value: 8, requiredLevel: 10 },
         { id: "10", source: require("../../assets/avatar/hat/hat9.png"), value: 9 },
         { id: "11", source: require("../../assets/avatar/hat/hat10.png"), value: 10 },
     ],
@@ -91,6 +94,8 @@ export const AvatarCustomizer = () => {
     const { colors } = useTheme();
     // const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
     const riveRef = React.useRef<RiveRef>(null);
+    const userLevel = useSelector((state: RootState) => state.user.user?.level ?? 0);
+    console.log("User level:", userLevel);
     //@ts-ignore
     const { selectedOptions, setSelectedOptions, riveReady } = useRiveSelections(
         riveRef,
@@ -258,18 +263,22 @@ return (
             style={styles.optionScroll}
             contentContainerStyle={styles.optionScrollContent}
         >
-            {(categoryOptions[selectedCategory] || []).map((opt) => (
+            {(categoryOptions[selectedCategory] || []).map((opt) => {
+            const isLocked = (opt.requiredLevel ?? 0) > userLevel;
+            return (
                 <TouchableOpacity
                     key={opt.id}
                     style={[
                         styles.optionItem,
                         selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
-                        { backgroundColor: '#FFFFFF', height: opt.color ? 60: 100, width: opt.color ? 60 : 100, elevation : selectedCategory === 'color' ? 0 : 2 },
+                        { backgroundColor: '#FFFFFF', height: opt.color ? 60: 100, width: opt.color ? 60 : 100, elevation : selectedCategory === 'color' ? 0 : 2,  },
+                        isLocked && { opacity: 0.4 }
                     ]}
                     onPress={() => {
+                        if (isLocked) return;
                         setSelectedOptions(prev => ({ ...prev, [selectedCategory]: opt.id }));
                         setColorIndex(Number(opt.value));
-
+                        
                         const mapping = riveMappings[selectedCategory];
                         if (mapping && riveRef.current) {
                             riveRef.current.setInputState(
@@ -283,7 +292,7 @@ return (
                             console.warn("⚠️ Aucun mapping trouvé pour", selectedCategory);
                         }
                     }}
-                    activeOpacity={0.8}
+                    activeOpacity={isLocked ? 1 : 0.5}
                 >
                     {selectedCategory !== "color"  ? (
                     <>
@@ -311,7 +320,8 @@ return (
                     <View style={[styles.itemColor ,{backgroundColor: opt.color}]}></View>
                 )}
                 </TouchableOpacity>
-            ))}
+                );
+})}
 
             {/* Message si aucune option */}
             {categoryOptions[selectedCategory]?.length === 0 && (
