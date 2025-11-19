@@ -97,6 +97,16 @@ export const AvatarCustomizer = () => {
         categoryOptions,
         riveMappings
     );
+
+    // code tomporary for rive
+    const [showRive, setShowRive] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowRive(true);
+        }, 2300); // 300ms pour laisser le hook appliquer les options, tu peux ajuster
+        return () => clearTimeout(timer);
+    }, [selectedOptions]);
     
     console.log('selectedOption', selectedOptions);
 
@@ -185,18 +195,27 @@ export const AvatarCustomizer = () => {
     //     }
     // }, [riveReady, selectedOptions]);
     console.log('rive reday' , riveReady)
+
+    
 return (
     <View style={styles.container}>
         {/* --- Image principale avec fond décoratif --- */}
         <View style={[styles.avatarContainer, { backgroundColor: colors.grayPress }]}>
             <View style={styles.avatarBackground}>
             </View>
-            <Rive
-                ref={riveRef}
-                source={require("../../assets/rive/panda_neutral (25).riv")}
-                autoplay={true}
-                style={styles.riveAnimation}
-            />
+            {showRive ? (
+                <Rive
+                    ref={riveRef}
+                    source={require("../../assets/rive/panda_neutral (25).riv")}
+                    autoplay={true}
+                    style={styles.riveAnimation}
+                />
+            ) : (
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    {/* Loader, texte, ou même un espace vide */}
+                    <ActivityIndicator size="large" />
+                </View>
+            )}
         </View>
 
         {/* --- Scroll vertical (catégories) - Position absolue à droite --- */}
