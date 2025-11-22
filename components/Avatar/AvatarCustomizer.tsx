@@ -3,7 +3,7 @@ import { useRiveSelections } from "@/hooks/useRiveSelections";
 import { RootState } from "@/redux/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     View,
     Text,
@@ -14,6 +14,7 @@ import {
     StyleSheet,
     Dimensions,
     ActivityIndicator,
+    Animated,
 } from "react-native";
 import { useSelector } from "react-redux";
 import Rive, { RiveRef } from "rive-react-native";
@@ -200,140 +201,163 @@ export const AvatarCustomizer = () => {
     //     }
     // }, [riveReady, selectedOptions]);
     console.log('rive reday' , riveReady)
+    //ANIMATIONS SHAKES FOR OPTIONS LOCKED
 
+    const shakeMap = useRef({});
+    const getShakeAnim = (id) => {
+        //@ts-ignore
+        if (!shakeMap.current[id]) {
+            //@ts-ignore
+            shakeMap.current[id] = new Animated.Value(0);
+        }
+        //@ts-ignore
+        return shakeMap.current[id];
+    };
+
+    const triggerShake = (id) => {
+        const shakeAnim = getShakeAnim(id);
+        shakeAnim.setValue(0);
+
+        Animated.sequence([
+            Animated.timing(shakeAnim, { toValue: 6, duration: 50, useNativeDriver: true }),
+            Animated.timing(shakeAnim, { toValue: -6, duration: 50, useNativeDriver: true }),
+            Animated.timing(shakeAnim, { toValue: 4, duration: 40, useNativeDriver: true }),
+            Animated.timing(shakeAnim, { toValue: 0, duration: 40, useNativeDriver: true }),
+        ]).start();
+    };
     
-return (
-    <View style={styles.container}>
-        {/* --- Image principale avec fond décoratif --- */}
-        <View style={[styles.avatarContainer, { backgroundColor: colors.grayPress }]}>
-            <View style={styles.avatarBackground}>
-            </View>
-            {showRive ? (
-                <Rive
-                    ref={riveRef}
-                    source={require("../../assets/rive/panda_neutral (25).riv")}
-                    autoplay={true}
-                    style={styles.riveAnimation}
-                />
-            ) : (
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    {/* Loader, texte, ou même un espace vide */}
-                    <ActivityIndicator size="large" />
+    return (
+        <View style={styles.container}>
+            {/* --- Image principale avec fond décoratif --- */}
+            <View style={[styles.avatarContainer, { backgroundColor: colors.grayPress }]}>
+                <View style={styles.avatarBackground}>
                 </View>
-            )}
-        </View>
+                {showRive ? (
+                    <Rive
+                        ref={riveRef}
+                        source={require("../../assets/rive/panda_neutral (25).riv")}
+                        autoplay={true}
+                        style={styles.riveAnimation}
+                    />
+                ) : (
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        {/* Loader, texte, ou même un espace vide */}
+                        <ActivityIndicator size="large" />
+                    </View>
+                )}
+            </View>
 
-        {/* --- Scroll vertical (catégories) - Position absolue à droite --- */}
-        <View style={[styles.categorySidebar, , { borderBottomColor: colors.grayPress }]}>
-            <ScrollView
-                horizontal={true} // 👈 active le scroll horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={[styles.categoryScrollContent]}
-            >
-                {categories.map((cat) => (
-                    <TouchableOpacity
-                        key={cat.id}
-                        style={[
-                            styles.categoryButton,
-                            selectedCategory === cat.id && styles.categoryButtonSelected,
-                        ]}
-                        onPress={() => setSelectedCategory(cat.id)}
-                        activeOpacity={0.7}
-                    >
-                        {/* Icône/Logo de la catégorie */}
-                        <View style={styles.categoryIconContainer}>
-                            <Image
-                                style={{ width: 24, height: 24, tintColor: selectedCategory === cat.id ? 'black' : '#CBD5E1', opacity: selectedCategory === cat.id ? 1 : 0.8, }}
-                                source={cat.source}
-                            />
-                        </View>
-                        
-                        {/* Point indicateur sous l'icône */}
-                        {selectedCategory === cat.id && (
-                            <View style={styles.categoryDot} />
-                        )}
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
-        </View>
-
-        {/* --- Scroll vertical (options à choisir) --- */}
-        <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={styles.optionScroll}
-            contentContainerStyle={styles.optionScrollContent}
-        >
-            {(categoryOptions[selectedCategory] || []).map((opt) => {
-            const isLocked = (opt.requiredLevel ?? 0) > userLevel;
-            return (
-                <TouchableOpacity
-                    key={opt.id}
-                    style={[
-                        styles.optionItem,
-                        selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
-                        { backgroundColor: '#FFFFFF', height: opt.color ? 60: 100, width: opt.color ? 60 : 100, elevation : selectedCategory === 'color' ? 0 : 2,  },
-                        isLocked && { opacity: 0.4 }
-                    ]}
-                    onPress={() => {
-                        if (isLocked) return;
-                        setSelectedOptions(prev => ({ ...prev, [selectedCategory]: opt.id }));
-                        setColorIndex(Number(opt.value));
-                        
-                        const mapping = riveMappings[selectedCategory];
-                        if (mapping && riveRef.current) {
-                            riveRef.current.setInputState(
-                                mapping.machine,
-                                mapping.input,
-                                Number(opt.value)
-                            );
-                            saveSelection(mapping.input, Number(opt.value));
-                            console.log(`🎨 ${mapping.input} changé =`, opt.value);
-                        } else {
-                            console.warn("⚠️ Aucun mapping trouvé pour", selectedCategory);
-                        }
-                    }}
-                    activeOpacity={isLocked ? 1 : 0.5}
+            {/* --- Scroll vertical (catégories) - Position absolue à droite --- */}
+            <View style={[styles.categorySidebar, , { borderBottomColor: colors.grayPress }]}>
+                <ScrollView
+                    horizontal={true} // 👈 active le scroll horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={[styles.categoryScrollContent]}
                 >
-                    {selectedCategory !== "color"  ? (
-                    <>
-                        {selectedCategory === "mouth" ? (
-                            <View style={{ overflow: 'hidden', height: 150, width: 150 }}>
+                    {categories.map((cat) => (
+                        <TouchableOpacity
+                            key={cat.id}
+                            style={[
+                                styles.categoryButton,
+                                selectedCategory === cat.id && styles.categoryButtonSelected,
+                            ]}
+                            onPress={() => setSelectedCategory(cat.id)}
+                            activeOpacity={0.7}
+                        >
+                            {/* Icône/Logo de la catégorie */}
+                            <View style={styles.categoryIconContainer}>
                                 <Image
-                                    source={opt.source}
-                                    style={styles.itemImage}
-                                    resizeMode="cover"
+                                    style={{ width: 24, height: 24, tintColor: selectedCategory === cat.id ? 'black' : '#CBD5E1', opacity: selectedCategory === cat.id ? 1 : 0.8, }}
+                                    source={cat.source}
                                 />
                             </View>
-                        ): (
-                            <Image
-                                style={[styles.optionImage, selectedCategory === "mouth" ? { width: 150, height: 150, paddingTop: 50 } : { resizeMode: 'contain' }]}
-                                source={opt.source}
-                            />
-                        )}
-                        {selectedOptions[selectedCategory] === opt.id && (
-                            <View style={styles.checkmarkContainer}>
-                                <View style={styles.checkmark} />
-                            </View>
-                        )}
-                    </>
-                ): (
-                    <View style={[styles.itemColor ,{backgroundColor: opt.color}]}></View>
-                )}
-                </TouchableOpacity>
-                );
-})}
+                            
+                            {/* Point indicateur sous l'icône */}
+                            {selectedCategory === cat.id && (
+                                <View style={styles.categoryDot} />
+                            )}
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            </View>
 
-            {/* Message si aucune option */}
-            {categoryOptions[selectedCategory]?.length === 0 && (
-                <View style={styles.emptyState}>
-                    <Text style={styles.emptyStateText}>
-                        Aucune option disponible
-                    </Text>
-                </View>
-            )}
-        </ScrollView>
-    </View>
-);
+            {/* --- Scroll vertical (options à choisir) --- */}
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={styles.optionScroll}
+                contentContainerStyle={styles.optionScrollContent}
+            >
+            {(categoryOptions[selectedCategory] || []).map((opt) => {
+                const isLocked = (opt.requiredLevel ?? 0) > userLevel;
+                const shakeAnim = getShakeAnim(opt.id);
+                return (
+                    <Animated.View
+                        key={opt.id}
+                        style={{ transform: [{ translateX: shakeAnim }] }}
+                    >
+                        <TouchableOpacity
+                            style={[
+                                styles.optionItem,
+                                selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
+                                {
+                                    backgroundColor: '#FFFFFF',
+                                    height: opt.color ? 60 : 100,
+                                    width: opt.color ? 60 : 100,
+                                    elevation: selectedCategory === 'color' ? 0 : 2,
+                                },
+                                isLocked && { opacity: 0.4 }
+                            ]}
+                            activeOpacity={isLocked ? 1 : 0.5}
+                            onPress={() => {
+                                if (isLocked) {
+                                    triggerShake(opt.id);   // 👈 maintenant c’est INDIVIDUEL
+                                    return;
+                                }
+
+                                // ton comportement normal
+                                setSelectedOptions(prev => ({ ...prev, [selectedCategory]: opt.id }));
+                                setColorIndex(Number(opt.value));
+
+                                const mapping = riveMappings[selectedCategory];
+                                if (mapping && riveRef.current) {
+                                    riveRef.current.setInputState(
+                                        mapping.machine,
+                                        mapping.input,
+                                        Number(opt.value)
+                                    );
+                                    saveSelection(mapping.input, Number(opt.value));
+                                }
+                            }}
+                        >
+                            {/* contenu */}
+                            {selectedCategory !== "color" ? (
+                                <Image source={opt.source} style={styles.optionImage} resizeMode="contain" />
+                            ) : (
+                                <View style={[styles.itemColor, { backgroundColor: opt.color }]} />
+                            )}
+
+                            {/* Badge lvl */}
+                            {isLocked && (
+                                <View style={styles.levelBadge}>
+                                    <Text style={styles.levelBadgeText}>LV {opt.requiredLevel}</Text>
+                                </View>
+                            )}
+                        </TouchableOpacity>
+                    </Animated.View>
+                );
+            })}
+
+                {/* Message si aucune option */}
+                {categoryOptions[selectedCategory]?.length === 0 && (
+                    <View style={styles.emptyState}>
+                        <Text style={styles.emptyStateText}>
+                            Aucune option disponible
+                        </Text>
+                    </View>
+                )}
+            </ScrollView>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -411,7 +435,7 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
         gap: 12,
     },
- optionItem: {
+    optionItem: {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 24,
@@ -482,5 +506,19 @@ const styles = StyleSheet.create({
         color: "#94A3B8",
         fontSize: 15,
         fontWeight: "500",
+    },
+    levelBadge: {
+        position: "absolute",
+        bottom: 6,
+        right: 6,
+        backgroundColor: "#1E293B",
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        borderRadius: 6,
+    },
+    levelBadgeText: {
+        color: "white",
+        fontWeight: "700",
+        fontSize: 11,
     },
 });
