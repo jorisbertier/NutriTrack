@@ -110,7 +110,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                             <View style={{backgroundColor: colors.white, overflow: "hidden", borderRadius: "50%",justifyContent: 'center', alignItems: 'center', height: 90, width: 90, marginTop: -8}}>
                                 <Rive
                                     ref={riveRef}
-                                    source={require("../assets/rive/panda_neutral (22).riv")}
+                                    source={require("../assets/rive/panda_neutral (25).riv")}
                                     autoplay={true}
                                     style={{ width: 130, height: 130, marginTop: 30 }}
                                 />

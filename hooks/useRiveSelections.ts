@@ -16,7 +16,10 @@ type CategoryOptions = {
 };
 
 type RiveMapping = {
-    
+    color: { machine: string; input: string };
+    hat: { machine: string; input: string };
+    eyes: { machine: string; input: string };
+    mouth: { machine: string; input: string };
 };
 
 // export const useRiveSelections = (
@@ -320,6 +323,11 @@ export const useRiveRestore = (riveRef: React.RefObject<RiveRef>) => {
             try {
             const eyeColor = await AsyncStorage.getItem("EyeColor");
             const hatType = await AsyncStorage.getItem("HatType");
+            const eyesType = await AsyncStorage.getItem('EyesType');
+            console.log("Restoring Rive selections:", {  eyesType });
+            const mouthType = await AsyncStorage.getItem('MouthType');
+            console.log("Restoring Rive selections:", { eyeColor, hatType, eyesType, mouthType });
+
 
             if (eyeColor !== null) {
                 riveRef.current.setInputState(
@@ -334,6 +342,22 @@ export const useRiveRestore = (riveRef: React.RefObject<RiveRef>) => {
                 "StateMachineChangeEyesColor",
                 "HatType",
                 parseInt(hatType)
+                );
+            }
+
+            if (eyesType !== null) {
+                riveRef.current.setInputState(
+                "StateMachineChangeEyesColor",
+                "EyesType",
+                parseInt(eyesType)
+                );
+            }
+
+            if (mouthType !== null) {
+                riveRef.current.setInputState(
+                "StateMachineChangeEyesColor",
+                "MouthType",
+                parseInt(mouthType)
                 );
             }
 

@@ -187,7 +187,7 @@ useEffect(() => {
           <Rive
               ref={riveRef}
               // source={require("../assets/rive/panda_neutral (25).riv")}
-              source={require("../assets/rive/panda_neutral (18).riv")}
+              source={require("../assets/rive/panda_neutral (25).riv")}
               autoplay={true}
               style={{ width: 200, height: 200, marginTop: 50 }}
           />
