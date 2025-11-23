@@ -57,9 +57,9 @@ const categoryOptions: Record<string, Option[]> = {
     ],
     hat: [
         { id: "1", source: "", value: 0 },
-        { id: "2", source: require("../../assets/avatar/hat/hat1.png"), value: 1,  },
+        { id: "2", source: require("../../assets/avatar/hat/hat1.png"), value: 1 },
         { id: "3", source: require("../../assets/avatar/hat/hat2.png"), value: 2 },
-        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3, requiredLevel: 10   },
+        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3, requiredLevel: 10 },
         { id: "5", source: require("../../assets/avatar/hat/hat4.png"), value: 4, requiredLevel: 10 },
         { id: "6", source: require("../../assets/avatar/hat/hat5.png"), value: 5, requiredLevel: 10 },
         { id: "7", source: require("../../assets/avatar/hat/hat6.png"), value: 6, requiredLevel: 10 },
@@ -103,6 +103,13 @@ export const AvatarCustomizer = () => {
         categoryOptions,
         riveMappings
     );
+
+    //dynamic size
+    const screenWidth = Dimensions.get('window').width;
+    const numColumns = 3;
+    const spacing = 15;
+    const itemSize = (screenWidth - spacing * (numColumns + 1)) / numColumns;
+    console.log("Item size:", screenWidth);
 
     // code tomporary for rive
     const [showRive, setShowRive] = useState(false);
@@ -267,15 +274,15 @@ export const AvatarCustomizer = () => {
                             {/* Icône/Logo de la catégorie */}
                             <View style={styles.categoryIconContainer}>
                                 <Image
-                                    style={{ width: 24, height: 24, tintColor: selectedCategory === cat.id ? 'black' : '#CBD5E1', opacity: selectedCategory === cat.id ? 1 : 0.8, }}
+                                    style={{ width: 28, height: 28, tintColor: selectedCategory === cat.id ? 'black' : '#CBD5E1', opacity: selectedCategory === cat.id ? 1 : 0.8, }}
                                     source={cat.source}
                                 />
                             </View>
                             
                             {/* Point indicateur sous l'icône */}
-                            {selectedCategory === cat.id && (
+                            {/* {selectedCategory === cat.id && (
                                 <View style={styles.categoryDot} />
-                            )}
+                            )} */}
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
@@ -301,9 +308,10 @@ export const AvatarCustomizer = () => {
                                 selectedOptions[selectedCategory] === opt.id && styles.optionItemSelected,
                                 {
                                     backgroundColor: '#FFFFFF',
-                                    height: opt.color ? 60 : 100,
-                                    width: opt.color ? 60 : 100,
+                                    height: opt.color ? 60 : itemSize,
+                                    width: opt.color ? 60 : itemSize,
                                     elevation: selectedCategory === 'color' ? 0 : 2,
+                                    margin: spacing / 2,
                                 },
                                 isLocked && { opacity: 0.4 }
                             ]}
@@ -339,7 +347,7 @@ export const AvatarCustomizer = () => {
                             {/* Badge lvl */}
                             {isLocked && (
                                 <View style={styles.levelBadge}>
-                                    <Text style={styles.levelBadgeText}>LV {opt.requiredLevel}</Text>
+                                    <Text style={styles.levelBadgeText}>lvl {opt.requiredLevel}</Text>
                                 </View>
                             )}
                         </TouchableOpacity>
@@ -386,18 +394,16 @@ const styles = StyleSheet.create({
     },
     categorySidebar: {
         borderBottomWidth: 2,
-        height: 80,
-        maxHeight: 80,
+        height: 60,
+        maxHeight: 60,
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 3,
         alignSelf: "center",
     },
     categoryScrollContent: {
         alignItems: "center",
         flexDirection: "row",
-        paddingVertical: 5,
         gap: 18,
     },
     categoryButton: {
@@ -425,15 +431,13 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     optionScroll: {
-        marginTop: 35,
-        paddingHorizontal: 20,
+        marginTop: 20,
     },
     optionScrollContent: {
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-between",
         paddingBottom: 40,
-        gap: 12,
+        justifyContent: "center",
     },
     optionItem: {
         alignItems: "center",
@@ -514,7 +518,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#1E293B",
         paddingHorizontal: 6,
         paddingVertical: 2,
-        borderRadius: 6,
+        borderRadius: 10,
     },
     levelBadgeText: {
         color: "white",
