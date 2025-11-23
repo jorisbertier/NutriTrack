@@ -166,7 +166,7 @@ export default function HomeScreen() {
           <Row style={{marginTop: 40}}>
             <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
           </Row>
-          <NutritrackWaveLogo width={300} height={100} waveHeight={30} />
+          {/* <NutritrackWaveLogo width={300} height={100} waveHeight={30} /> */}
           <Row style={{marginTop: 20}} >
           <Pressable onPress={() => navigation.navigate('dashboard')} style={{
             alignItems: 'center',

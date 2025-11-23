@@ -5,7 +5,7 @@ import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
 import NutritionItem from "@/components/Screens/Details/NutritionItem";
 import { useRoute } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from "@/interface/FoodItem";
 import { useTheme } from "@/hooks/ThemeProvider";
@@ -18,7 +18,8 @@ import LottieView from "lottie-react-native";
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
-import { updateNutritionRedux } from "@/functions/function";
+import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculProteins, updateNutritionRedux } from "@/functions/function";
+import ProgressBarFluid from "@/components/ProgressBarFluid";
 
 export default function DetailsFood() {
 
@@ -40,6 +41,16 @@ export default function DetailsFood() {
     const dispatch = useDispatch();
     const userRedux = useSelector((state: RootState) => state.user.user);
 
+      const basalMetabolicRate =
+          BasalMetabolicRate(
+              Number(userRedux?.weight),
+              Number(userRedux?.height),
+              Number(calculAge(userRedux?.dateOfBirth)),
+              userRedux?.gender,
+              userRedux?.activityLevel
+            )
+        ;
+
     useEffect(() => {
         try {
                 setData(foodData);
@@ -53,9 +64,6 @@ export default function DetailsFood() {
     };
 
     const nutrients = [
-        { key: 'proteins', label: t('proteins'), unit: 'g' },
-        { key: 'carbohydrates', label: t('carbs'), unit: 'g' },
-        { key: 'fats', label: t('fats'), unit: 'g' },
         { key: 'potassium', label: t('potassium'), unit: 'g' },
         { key: 'magnesium', label: t('magnesium'), unit: 'g' },
         { key: 'calcium', label: t('calcium'), unit: 'g' },
@@ -116,20 +124,58 @@ export default function DetailsFood() {
         } catch (error) {
             console.error("Erreur lors de l’ajout :", error);
         }
-        }
-        const calculateValueWithOneDecimal = (baseValue: number | undefined, quantity: string) => {
-            if (!baseValue || isNaN(Number(quantity))) return 0;
-            const qty = parseFloat(quantity);
-            return Math.round((baseValue * qty) / 100 * 10) / 10;
-        };
+    }
 
-        const calculateValueRoundingUp = (baseValue: number | undefined, quantity: string) => {
-            if (!baseValue || isNaN(Number(quantity))) return 0;
-            const qty = parseFloat(quantity);
-            return Math.round((baseValue * qty) / 100 * 10 / 10);
-        };
+    const calculateValueWithOneDecimal = (baseValue: number | undefined, quantity: string) => {
+        if (!baseValue || isNaN(Number(quantity))) return 0;
+        const qty = parseFloat(quantity);
+        return Math.round((baseValue * qty) / 100 * 10) / 10;
+    };
 
+    const calculateValueRoundingUp = (baseValue: number | undefined, quantity: string) => {
+        if (!baseValue || isNaN(Number(quantity))) return 0;
+        const qty = parseFloat(quantity);
+        return Math.round((baseValue * qty) / 100 * 10 / 10);
+    };
 
+    const nutritionValues = [
+    {
+        key: 'calories',
+        label: t('calories'),
+        value: calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || "0"),
+        maxValue: basalMetabolicRate,
+        unit: 'kcal',
+        color: colors.blue,
+        reduxKey: 'calories',
+    },
+    {
+        key: 'proteins',
+        label: t('proteins'),
+        value: calculateValueWithOneDecimal(filterUniqueFood?.proteins || 0, quantityGrams || "0"),
+        maxValue: calculProteins(Number(userRedux?.weight)),
+        unit: 'g',
+        color: colors.blue,
+        reduxKey: 'proteins',
+    },
+    {
+        key: 'carbs',
+        label: t('carbs'),
+        value: calculateValueWithOneDecimal(filterUniqueFood?.carbohydrates || 0, quantityGrams || "0"),
+        maxValue: calculCarbohydrates(basalMetabolicRate),
+        unit: 'g',
+        color: colors.blue,
+        reduxKey: 'carbs',
+    },
+    {
+        key: 'fats',
+        label: t('fats'),
+        value: calculateValueWithOneDecimal(filterUniqueFood?.fats || 0, quantityGrams || "0"),
+        maxValue: calculFats(basalMetabolicRate),
+        unit: 'g',
+        color: colors.blue,
+        reduxKey: 'fats',
+    },
+    ];
     return (
     <>
         <ScrollView persistentScrollbar={true}>
@@ -212,6 +258,47 @@ export default function DetailsFood() {
                             source={require('@/assets/images/nutritional/water.png')}
                         />
                     </Row>
+                </View>
+                <View style={styles.nutritionRow}>
+                {nutritionValues.map((item) => {
+                    if (item.value === undefined || item.value === null) return null;
+
+                    // valeur du redux si nécessaire
+                    const reduxValue = item.reduxKey ? Number(userRedux?.goalLogs?.[item.reduxKey] || 0) : 0;
+                    const totalMax = item.maxValue ? Number(item.maxValue) + reduxValue : undefined;
+                    const totalValue = Number(item.value) + reduxValue;
+
+                    return (
+                    <View key={item.key} style={{ marginBottom: 16 }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center' }}>
+                        <Text style={[styles.nutritionLabel, { color: colors.black }]}>{item.label}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={styles.nutritionValue}>
+                            {item.maxValue ? `${item.value} / ${totalMax} ${item.unit}` : `${item.value} ${item.unit}`}
+                            </Text>
+                            {reduxValue > 0 && (
+                            <Image
+                                source={require('@/assets/images/icon/goal.png')}
+                                style={{ width: 20, height: 20, marginLeft: 5 }}
+                            />
+                            )}
+                        </View>
+                        </View>
+                        {item.maxValue && (
+                        <View style={{ marginTop: 8 }}>
+                            <ProgressBarFluid
+                            value={item.value}
+                            maxValue={totalMax}
+                            nutri={item.unit}
+                            colorBarProgresse={item.color || "#4CAF50"}
+                            backgroundBarprogress="rgba(237, 237, 237, 1)"
+                            height={18}
+                            />
+                        </View>
+                        )}
+                    </View>
+                    );
+                })}
                 </View>
                 <View style={{flexDirection: 'column', paddingBottom: (filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml")  ? 90 : 10}}>
                 {nutrients.map(({ key, label, unit }) => {
@@ -401,4 +488,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginRight: 10
     },
+    nutritionRow: { flexDirection: "column", paddingVertical: 14, paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: "#eee", borderRadius: 8, gap: 10 },
+    nutritionLabel: { fontSize: 16, fontWeight: "500" },
+    nutritionValue: { fontSize: 16, fontWeight: "500" },
 })
