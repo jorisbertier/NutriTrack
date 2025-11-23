@@ -41,15 +41,15 @@ export default function DetailsFood() {
     const dispatch = useDispatch();
     const userRedux = useSelector((state: RootState) => state.user.user);
 
-      const basalMetabolicRate =
-          BasalMetabolicRate(
-              Number(userRedux?.weight),
-              Number(userRedux?.height),
-              Number(calculAge(userRedux?.dateOfBirth)),
-              userRedux?.gender,
-              userRedux?.activityLevel
-            )
-        ;
+    const basalMetabolicRate =
+        BasalMetabolicRate(
+            Number(userRedux?.weight),
+            Number(userRedux?.height),
+            Number(calculAge(userRedux?.dateOfBirth)),
+            userRedux?.gender,
+            userRedux?.activityLevel
+        )
+    ;
 
     useEffect(() => {
         try {
@@ -139,43 +139,44 @@ export default function DetailsFood() {
     };
 
     const nutritionValues = [
-    {
-        key: 'calories',
-        label: t('calories'),
-        value: calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || "0"),
-        maxValue: basalMetabolicRate,
-        unit: 'kcal',
-        color: colors.blue,
-        reduxKey: 'calories',
-    },
-    {
-        key: 'proteins',
-        label: t('proteins'),
-        value: calculateValueWithOneDecimal(filterUniqueFood?.proteins || 0, quantityGrams || "0"),
-        maxValue: calculProteins(Number(userRedux?.weight)),
-        unit: 'g',
-        color: colors.blue,
-        reduxKey: 'proteins',
-    },
-    {
-        key: 'carbs',
-        label: t('carbs'),
-        value: calculateValueWithOneDecimal(filterUniqueFood?.carbohydrates || 0, quantityGrams || "0"),
-        maxValue: calculCarbohydrates(basalMetabolicRate),
-        unit: 'g',
-        color: colors.blue,
-        reduxKey: 'carbs',
-    },
-    {
-        key: 'fats',
-        label: t('fats'),
-        value: calculateValueWithOneDecimal(filterUniqueFood?.fats || 0, quantityGrams || "0"),
-        maxValue: calculFats(basalMetabolicRate),
-        unit: 'g',
-        color: colors.blue,
-        reduxKey: 'fats',
-    },
+        {
+            key: 'calories',
+            label: t('calories'),
+            value: calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || "0"),
+            maxValue: basalMetabolicRate,
+            unit: 'kcal',
+            color: colors.blue,
+            reduxKey: 'calories',
+        },
+        {
+            key: 'proteins',
+            label: t('proteins'),
+            value: calculateValueWithOneDecimal(filterUniqueFood?.proteins || 0, quantityGrams || "0"),
+            maxValue: calculProteins(Number(userRedux?.weight)),
+            unit: 'g',
+            color: colors.blue,
+            reduxKey: 'proteins',
+        },
+        {
+            key: 'carbs',
+            label: t('carbs'),
+            value: calculateValueWithOneDecimal(filterUniqueFood?.carbohydrates || 0, quantityGrams || "0"),
+            maxValue: calculCarbohydrates(basalMetabolicRate),
+            unit: 'g',
+            color: colors.blue,
+            reduxKey: 'carbs',
+        },
+        {
+            key: 'fats',
+            label: t('fats'),
+            value: calculateValueWithOneDecimal(filterUniqueFood?.fats || 0, quantityGrams || "0"),
+            maxValue: calculFats(basalMetabolicRate),
+            unit: 'g',
+            color: colors.blue,
+            reduxKey: 'fats',
+        },
     ];
+
     return (
     <>
         <ScrollView persistentScrollbar={true}>
@@ -266,7 +267,6 @@ export default function DetailsFood() {
                     // valeur du redux si nécessaire
                     const reduxValue = item.reduxKey ? Number(userRedux?.goalLogs?.[item.reduxKey] || 0) : 0;
                     const totalMax = item.maxValue ? Number(item.maxValue) + reduxValue : undefined;
-                    const totalValue = Number(item.value) + reduxValue;
 
                     return (
                     <View key={item.key} style={{ marginBottom: 16 }}>
