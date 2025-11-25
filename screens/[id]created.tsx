@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
         height: 30,
         width: 30
     },
-    nutritionRow: { flexDirection: "column", paddingVertical: 14, paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: "#eee", borderRadius: 8, gap: 10 },
+    nutritionRow: { flexDirection: "column", paddingVertical: 14, paddingHorizontal: 12, borderRadius: 8, gap: 10 },
     nutritionLabel: { fontSize: 16, fontWeight: "500" },
     nutritionValue: { fontSize: 16, fontWeight: "500" },
 })

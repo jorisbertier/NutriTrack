@@ -28,7 +28,7 @@ export default function NutritionItem({keyName, name, quantity, unit, isPremium}
         <View style={styles.nutri}>
             <ThemedText color={colors.black} variant="title1">{name}</ThemedText>
             {showValue ? (
-                <Text style={{height: 20, color: colors.black, fontSize: 15}}>
+                <Text style={{height: 20, color: colors.black, fontSize: 16, fontWeight: "500"}}>
                     {formattedQuantity} {unit}
                 </Text>
             ) : (
@@ -44,9 +44,10 @@ export default function NutritionItem({keyName, name, quantity, unit, isPremium}
 const styles = StyleSheet.create({
     nutri : {
         borderBottomWidth: 1,
-        borderBlockColor: 'gray',
+        borderBottomColor: "#eee",
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 14,
+        paddingVertical: 14,
+        paddingHorizontal: 12
     }
 })
