@@ -34,7 +34,6 @@ export default function BottomInputBarQr({
         Number(quantityGrams) <= 0 ||
         Number(quantityGrams) > 999;
 
-    console.log("second loading", secondLoading)
         return (
         <>
             <View style={[styles.wrapper, { backgroundColor: colors.gray, borderTopColor: colors.grayDark }]}>
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10
     },
-        pickerWrapper: {
+    pickerWrapper: {
         flex: 1.8,
         overflow: 'hidden',
         borderTopRightRadius: 15,

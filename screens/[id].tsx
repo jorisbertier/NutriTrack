@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText"
-import { Image, Pressable, StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
+import { Image, Pressable, StyleSheet, View, ScrollView, ActivityIndicator, KeyboardAvoidingView, Keyboard } from "react-native";
 import { useNavigation } from "expo-router";
 import Row from "@/components/Row";
 import NutritionStatCard from "@/components/Screens/Details/NutritionStatCard";
@@ -14,10 +14,8 @@ import { Text } from "react-native";
 import { addDoc, collection } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import BottomInputBar from "@/components/BottomBar";
-import LottieView from "lottie-react-native";
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateMacronutrients, updateUserCaloriesByDay } from "@/redux/userSlice";
 import { BasalMetabolicRate, calculAge, calculCarbohydrates, calculFats, calculProteins, updateNutritionRedux } from "@/functions/function";
 import ProgressBarFluid from "@/components/ProgressBarFluid";
 
@@ -29,6 +27,17 @@ export default function DetailsFood() {
     const { t, i18n } = useTranslation();
     const route = useRoute<any>();
     const { id, date } = route.params;
+    const [keyboardShown, setKeyboardShown] = useState(false);
+
+useEffect(() => {
+  const show = Keyboard.addListener('keyboardDidShow', () => setKeyboardShown(true));
+  const hide = Keyboard.addListener('keyboardDidHide', () => setKeyboardShown(false));
+
+  return () => {
+    show.remove();
+    hide.remove();
+  };
+}, []);
 
     const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
@@ -179,7 +188,9 @@ export default function DetailsFood() {
 
     return (
     <>
-        <ScrollView persistentScrollbar={true}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={0}>
+    <View style={{ flex: 1, backgroundColor: colors.white }}>
+        <ScrollView persistentScrollbar={true}  keyboardShouldPersistTaps="handled">
             <View style={styles.banner}>
                 {loading && (
                     <ActivityIndicator
@@ -210,7 +221,6 @@ export default function DetailsFood() {
                     {(filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml") 
                         ? `${calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || "0")} kcal`
                         : `${filterUniqueFood?.calories} kcal`}
-
                     </ThemedText>
                 </Row>
                 <Row>
@@ -334,6 +344,8 @@ export default function DetailsFood() {
             isPremium={isPremium}
             loading={loadingCreateAliment}
         />
+        </View>
+        </KeyboardAvoidingView>
     </>
     )
 }

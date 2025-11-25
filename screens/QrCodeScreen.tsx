@@ -308,13 +308,13 @@ export default function QrCodeScreen({ route }) {
               from={{ scale: 1 }}
               animate={{ scale: liked ? 1.2 : 1 }}
               transition={{ type: "spring", stiffness: 200 }}
-                  style={{
-              justifyContent: "center",
-              alignItems: "center",
-              width: 40,
-              top: 12,
-              opacity: isProcessing ? 0.5 : 1,
-            }}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                width: 40,
+                top: 12,
+                opacity: isProcessing ? 0.5 : 1,
+              }}
             >
               <Ionicons
                 name={liked ? "heart" : "heart-outline"}
