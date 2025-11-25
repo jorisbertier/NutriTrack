@@ -185,7 +185,7 @@ useEffect(() => {
             reduxKey: 'fats',
         },
     ];
-
+console.log('quantity gtams', quantityGrams)
     return (
     <>
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={0}>
@@ -216,10 +216,19 @@ useEffect(() => {
             <View style={[styles.header, {backgroundColor: colors.white}]}>
                 <Row style={styles.wrapperTitle}>
                     <ThemedText color={colors.black} variant="title" style={styles.title}>{filterUniqueFood?.[`name_${i18n.language}`]}</ThemedText>
-                    <ThemedText color={colors.black} style={[styles.subtitle, {borderColor: colors.grayDark}]} variant='title1'>{filterUniqueFood?.quantity + " " + t(`units.${filterUniqueFood?.unit}`)}</ThemedText>
+                    <ThemedText 
+                        color={colors.black} 
+                        style={[styles.subtitle, {borderColor: colors.grayDark}]} 
+                        variant='title1'
+                        >
+                        {(filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml")
+                            ? `${quantityGrams === '' ? '0' : quantityGrams} ${t(`units.${filterUniqueFood?.unit}`)}`
+                            : `${filterUniqueFood?.quantity} ${t(`units.${filterUniqueFood?.unit}`)}`
+                        }
+                    </ThemedText>
                     <ThemedText color={colors.black} variant="title1" style={styles.title}>
                     {(filterUniqueFood?.unit === "g" || filterUniqueFood?.unit === "ml") 
-                        ? `${calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || "0")} kcal`
+                        ? `${calculateValueRoundingUp(filterUniqueFood?.calories, quantityGrams || '0')} kcal`
                         : `${filterUniqueFood?.calories} kcal`}
                     </ThemedText>
                 </Row>
