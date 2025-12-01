@@ -68,7 +68,7 @@ export default function RootLayout() {
     const unsubscribe = NetInfo.addEventListener(state => {
       setIsConnected(state.isConnected);
     });
-
+// app mobile
     if (Platform.OS === 'android') {
       NavigationBar.setVisibilityAsync('hidden').then(() => {
         NavigationBar.setBehaviorAsync('immersiveSticky');
