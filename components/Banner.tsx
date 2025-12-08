@@ -71,7 +71,8 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
     const riveRef = useRef<RiveRef>(null);
     //@ts-ignore
     useRiveRestore(riveRef);
-    
+    const { restoreSelections } = useRiveRestore(riveRef);
+
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentGreeting((currentGreeting) => (currentGreeting + 1) % greetings.length)
@@ -112,6 +113,9 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                                     ref={riveRef}
                                     source={require("../assets/rive/panda_neutral (25).riv")}
                                     autoplay={true}
+                                    onStateChanged={() => {
+                                        restoreSelections();
+                                    }}
                                     style={{ width: 130, height: 130, marginTop: 30 }}
                                 />
                             </View>

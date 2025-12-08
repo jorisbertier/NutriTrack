@@ -306,82 +306,33 @@ export const useRiveSelections = (
 };
 
 export const useRiveRestore = (riveRef: React.RefObject<RiveRef>) => {
-    const [riveReady, setRiveReady] = useState(false);
     const user = useSelector((state: RootState) => state.user.user);
     const chonkValue = calculateBMIRive(user?.weight ?? 0, user?.height ?? 0);
-    console.log("Chonk value:", chonkValue);
 
-    useEffect(() => {
-        if (riveRef.current) setRiveReady(true);
-    }, [riveRef]);
+    const restoreSelections = async () => {
+        if (!riveRef.current) return;
 
-    // ✅ Utilise useFocusEffect pour relancer la restauration à chaque retour sur la page
-    useFocusEffect(
-        useCallback(() => {
-        const restoreSelections = async () => {
-            if (!riveRef.current) return;
-            try {
-            const eyeColor = await AsyncStorage.getItem("EyeColor");
-            const hatType = await AsyncStorage.getItem("HatType");
-            const eyesType = await AsyncStorage.getItem('EyesType');
-            console.log("Restoring Rive selections:", {  eyesType });
-            const mouthType = await AsyncStorage.getItem('MouthType');
-            console.log("Restoring Rive selections:", { eyeColor, hatType, eyesType, mouthType });
+        const sm = "StateMachineChangeEyesColor";
 
+        const eyeColor = await AsyncStorage.getItem("EyeColor");
+        const hatType = await AsyncStorage.getItem("HatType");
+        const eyesType = await AsyncStorage.getItem("EyesType");
+        const mouthType = await AsyncStorage.getItem("MouthType");
 
-            if (eyeColor !== null) {
-                riveRef.current.setInputState(
-                "StateMachineChangeEyesColor",
-                "EyeColor",
-                parseInt(eyeColor)
-                );
-            }
+        if (eyeColor !== null)
+            riveRef.current.setInputState(sm, "EyeColor", Number(eyeColor));
 
-            if (hatType !== null) {
-                riveRef.current.setInputState(
-                "StateMachineChangeEyesColor",
-                "HatType",
-                parseInt(hatType)
-                );
-            }
+        if (hatType !== null)
+            riveRef.current.setInputState(sm, "HatType", Number(hatType));
 
-            if (eyesType !== null) {
-                riveRef.current.setInputState(
-                "StateMachineChangeEyesColor",
-                "EyesType",
-                parseInt(eyesType)
-                );
-            }
+        if (eyesType !== null)
+            riveRef.current.setInputState(sm, "EyesType", Number(eyesType));
 
-            if (mouthType !== null) {
-                riveRef.current.setInputState(
-                "StateMachineChangeEyesColor",
-                "MouthType",
-                parseInt(mouthType)
-                );
-            }
+        if (mouthType !== null)
+            riveRef.current.setInputState(sm, "MouthType", Number(mouthType));
 
-            riveRef.current.setInputState("StateMachineChangeEyesColor", "Chonk", chonkValue);
+        riveRef.current.setInputState(sm, "Chonk", chonkValue);
+    };
 
-            } catch (e) {
-            console.error("Error restoring Rive inputs", e);
-            }
-        };
-
-        // ✅ Si rive est déjà prêt, on restaure immédiatement
-        if (riveReady) {
-            restoreSelections();
-        } else {
-            // sinon on attend qu'il soit prêt
-            const interval = setInterval(() => {
-            if (riveRef.current) {
-                setRiveReady(true);
-                restoreSelections();
-                clearInterval(interval);
-            }
-            }, 200);
-            return () => clearInterval(interval);
-        }
-        }, [riveRef, riveReady])
-    );
+    return { restoreSelections };
 };

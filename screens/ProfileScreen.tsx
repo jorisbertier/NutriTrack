@@ -44,6 +44,7 @@ const ProfileScreen = () => {
   const riveRef = useRef<RiveRef>(null);
   //@ts-ignore
   useRiveRestore(riveRef);
+  const { restoreSelections } = useRiveRestore(riveRef);
 
 useEffect(() => {
   const fetchUserFromFirestore = async () => {
@@ -189,6 +190,9 @@ useEffect(() => {
               // source={require("../assets/rive/panda_neutral (25).riv")}
               source={require("../assets/rive/panda_neutral (25).riv")}
               autoplay={true}
+              onStateChanged={() => {
+                restoreSelections();
+              }}
               style={{ width: 200, height: 200, marginTop: 50 }}
           />
       </View>
