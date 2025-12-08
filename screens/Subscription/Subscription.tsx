@@ -1,5 +1,5 @@
 import React, { useState, useEffect, use } from 'react';
-import { Platform } from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
 import { 
   View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, Alert, Dimensions 
 } from 'react-native';
@@ -21,7 +21,8 @@ const Subscription = () => {
 
   const [selectedPlan, setSelectedPlan] = useState<'Monthly' | 'Annual'>('Monthly');
   const [offerings, setOfferings] = useState<PurchasesOffering | null>(null);
-  const [notificationVisible, setNotificationVisible] = useState(false); 
+  const [notificationVisible, setNotificationVisible] = useState(false);
+  const [isLoadingOffers, setIsLoadingOffers] = useState(true);
 
   const [isConfigured, setIsConfigured] = useState(false);
   useRevenueCatSubscription();
@@ -81,6 +82,7 @@ async function getCustomerInfo() {
 
   const fetchOfferings = async () => {
     try {
+      setIsLoadingOffers(true); 
       const offerData = await Purchases.getOfferings();
       console.log('OfferData.current:', JSON.stringify(offerData.current, null, 2));
       if (offerData.current) {
@@ -96,6 +98,8 @@ async function getCustomerInfo() {
     } catch (e) {
       console.log("Erreur fetching offerings:", e);
       console.log('Offerings', JSON.stringify(offerings, null, 2))
+    } finally {
+      setIsLoadingOffers(false);
     }
   };
 
@@ -182,27 +186,33 @@ async function getCustomerInfo() {
 
         <Text style={styles.chooseText}>{t('offer')}</Text>
 
-        {offerings && (
-          <>
-            {offerings.monthly && (
-              <PlanOption
-                selected={selectedPlan === 'Monthly'}
-                onPress={() => setSelectedPlan('Monthly')}
-                title={offerings.monthly.product.title.replace(' (Nutri Track)', '')}
-                price={offerings.monthly.product.priceString}
-                description={offerings.monthly.product.description}
-              />
-            )}
-            {offerings.annual && (
-              <PlanOption
-                selected={selectedPlan === 'Annual'}
-                onPress={() => setSelectedPlan('Annual')}
-                title={offerings.annual.product.title.replace(' (Nutri Track)', '')}
-                price={offerings.annual.product.priceString}
-                description={offerings.annual.product.description}
-              />
-            )}
-          </>
+        {isLoadingOffers ? (
+          <View style={{ marginVertical: 100 }}>
+            <ActivityIndicator size="large" color={colors.blackFix} />
+          </View>
+        ) : (
+          offerings && (
+            <>
+              {offerings.monthly && (
+                <PlanOption
+                  selected={selectedPlan === 'Monthly'}
+                  onPress={() => setSelectedPlan('Monthly')}
+                  title={offerings.monthly.product.title.replace(' (Nutri Track)', '')}
+                  price={offerings.monthly.product.priceString}
+                  description={offerings.monthly.product.description}
+                />
+              )}
+              {offerings.annual && (
+                <PlanOption
+                  selected={selectedPlan === 'Annual'}
+                  onPress={() => setSelectedPlan('Annual')}
+                  title={offerings.annual.product.title.replace(' (Nutri Track)', '')}
+                  price={offerings.annual.product.priceString}
+                  description={offerings.annual.product.description}
+                />
+              )}
+            </>
+          )
         )}
         <TouchableOpacity
           style={[styles.button, { backgroundColor: colors.blackFix }]}
