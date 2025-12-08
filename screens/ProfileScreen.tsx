@@ -1,7 +1,7 @@
 import { User } from '@/interface/User';
 import { deleteUser, getAuth, signOut } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
 import {  firestore } from '@/firebaseConfig';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -45,6 +45,13 @@ const ProfileScreen = () => {
   //@ts-ignore
   useRiveRestore(riveRef);
   const { restoreSelections } = useRiveRestore(riveRef);
+
+    useFocusEffect(
+        useCallback(() => {
+            if (!riveRef.current) return;
+            restoreSelections();
+        }, [riveRef, restoreSelections])
+    );
 
 useEffect(() => {
   const fetchUserFromFirestore = async () => {

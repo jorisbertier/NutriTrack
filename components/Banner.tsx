@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, View, Modal, TouchableOpacity, TouchableWithou
 import { ThemedText } from "./ThemedText";
 import { capitalizeFirstLetter, fetchUserDataConnected, getIdAvatarProfile } from "@/functions/function";
 import Row from "./Row";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Skeleton } from "moti/skeleton";
 import { useTheme } from "@/hooks/ThemeProvider";
 import ExperienceBar from "./game/ExperienceBar";
@@ -14,6 +14,7 @@ import { fetchUserData } from "@/redux/userSlice";
 import { useTranslation } from "react-i18next";
 import Rive, { RiveRef } from "rive-react-native";
 import { useRiveRestore } from "@/hooks/useRiveSelections";
+import { useFocusEffect } from "@react-navigation/native";
 
 type Props = {
     name: string;
@@ -70,9 +71,16 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
     /**RIVE SETUP*/
     const riveRef = useRef<RiveRef>(null);
     //@ts-ignore
-    useRiveRestore(riveRef);
+    // useRiveRestore(riveRef);
     const { restoreSelections } = useRiveRestore(riveRef);
 
+    useFocusEffect(
+        useCallback(() => {
+            if (!riveRef.current) return;
+            restoreSelections();
+        }, [riveRef, restoreSelections])
+    );
+    
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentGreeting((currentGreeting) => (currentGreeting + 1) % greetings.length)
