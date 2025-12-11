@@ -141,70 +141,87 @@ const openSubscriptions = () => {
 };
   return (
         <View style={{ flex: 1 }}>
-      {isPremium ? (
-        <View
-    style={{
-      backgroundColor: colors.whiteFix,
-      padding: 25,
-      borderRadius: 25,
-      alignItems: 'center',
-      marginTop: 50,
-      width: '90%',
-      alignSelf: 'center',
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 6 },
-      shadowOpacity: 0.1,
-      shadowRadius: 10,
-      elevation: 6,
-    }}
-  >
-    {/* Badge couronne */}
-    <View
-      style={{
-        backgroundColor: '#FFD700',
-        borderRadius: 50,
-        padding: 15,
-        marginBottom: 15,
-      }}
-    >
-      <Image
-        source={require('@/assets/images/icon/crown.png')}
-        style={{ width: 50, height: 50 }}
-        resizeMode="contain"
-      />
-    </View>
+        {isPremium ? (
+          <View>
+            <View
+              style={{
+                backgroundColor: colors.whiteFix,
+                padding: 25,
+                borderRadius: 25,
+                alignItems: 'center',
+                marginTop: 50,
+                width: '90%',
+                alignSelf: 'center',
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.1,
+                shadowRadius: 10,
+                elevation: 6,
+              }}
+            >
+            {/* Badge couronne */}
+            <View
+              style={{
+                backgroundColor: '#FFD700',
+                borderRadius: 50,
+                padding: 15,
+                marginBottom: 15,
+              }}
+            >
+              <Image
+                source={require('@/assets/images/icon/crown.png')}
+                style={{ width: 50, height: 50 }}
+                resizeMode="contain"
+              />
+            </View>
 
-    {/* Titre */}
-    <Text style={{ fontSize: 24, fontWeight: '700', color: colors.blackFix, textAlign: 'center' }}>
-      Vous êtes Premium 🎉
-    </Text>
+            {/* Titre */}
+            <Text style={{ fontSize: 24, fontWeight: '700', color: colors.blackFix, textAlign: 'center'}}>
+              {t('planText')}
+            </Text>
 
-    {/* Abonnement actif */}
-    <Text style={{ fontSize: 16, color: '#666', marginTop: 8, textAlign: 'center' }}>
-      Abonnement actif
-    </Text>
+            {/* Abonnement actif */}
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 15}}>
+              <Text style={{ fontSize: 16, color: '#666', textAlign: 'center', marginRight: 10}}>
+                {t('planText2')}
+              </Text>
+                  <Image
+                    source={require('@/assets/images/verify2.png')}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+            </View>
 
-    {/* Bouton moderne */}
-    <TouchableOpacity
-      onPress={openSubscriptions}
-      style={{
-        marginTop: 20,
-        paddingVertical: 14,
-        paddingHorizontal: 30,
-        borderRadius: 20,
-        backgroundColor: '#FFD700',
-        shadowColor: '#FFD700',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4,
-      }}
-    >
-      <Text style={{ fontSize: 16, fontWeight: '600', color: colors.blackFix }}>
-        Gérer mon abonnement
-      </Text>
-    </TouchableOpacity>
-  </View>
+            {/* Bouton moderne */}
+            <TouchableOpacity
+              onPress={openSubscriptions}
+              style={{
+                marginTop: 20,
+                paddingVertical: 14,
+                paddingHorizontal: 30,
+                borderRadius: 20,
+                backgroundColor: '#FFD700',
+                shadowColor: '#FFD700',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 6,
+                elevation: 4,
+              }}
+            >
+              <Text style={{ fontSize: 16, fontWeight: '600', color: colors.blackFix }}>
+                {t('planButton')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ alignItems: 'center', marginTop: 30 }}>
+            <LottieView
+                source={require('@/assets/lottie/Crown.json')}
+                loop={true}
+                style={{ width: 250, height: 250 }}
+                autoPlay={true}
+            />
+          </View>
+        </View>
       ) : (
     <ScrollView style={{ flex: 1, backgroundColor: colors.gray}}>
 
@@ -252,13 +269,6 @@ const openSubscriptions = () => {
             <Text style={styles.text}>{t('premium4')}</Text>
         </View>
       </View>
-        {/* <View style={styles.features}>
-          <Feature emoji="🥗" title="Créer & personnaliser vos aliments" desc="Modifiez les quantités et les macros selon vos besoins." />
-          <Feature emoji="🧬" title="Accès à tous les macronutriments" desc="Suivez précisément protéines, glucides, lipides, et plus." />
-          <Feature emoji="🎯" title="Gestion avancée des objectifs" desc="Perdez, gagnez ou maintenez votre poids facilement." />
-          <Feature emoji="📊" title="Suivi du poids" desc="Visualisez votre évolution pour rester motivé." />
-          <Feature emoji="🚫" title="Zéro publicité" desc="Profitez d'une expérience fluide et sans interruption." />
-        </View> */}
 
         <Text style={styles.chooseText}>{t('offer')}</Text>
 

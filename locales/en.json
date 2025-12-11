@@ -343,5 +343,8 @@
         "happy3": "Plan your next goal with a balanced meal tomorrow to stay consistent.",
         "happy4": "Note your success or share it with someone — it boosts your motivation.",
         "happy5": "A piece of dark chocolate (70% or more, 1-2g) or a handful of berries (raspberries, blueberries) to satisfy cravings without overdoing it.",
-        "happy6": "Draw, read, or listen to your favorite music — rewards that lift your mood without calorie impact."
+        "happy6": "Draw, read, or listen to your favorite music — rewards that lift your mood without calorie impact.",
+        "planText": "You have joined the Premium club",
+        "planText2": "Active subscription",
+        "planButton": "Manage my subscription"
 }
