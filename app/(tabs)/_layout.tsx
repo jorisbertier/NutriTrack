@@ -68,28 +68,6 @@ export default function TabLayout() {
       },
     }} 
     />
-
-    {/* Onglet 3 : Dashboard */}
-    {/* <Tab.Screen 
-      name="Dashboard" 
-      component={Dashboard}
-      options={{
-        tabBarLabel: ()=> null, 
-        tabBarIcon: ({ color, size }) => (
-        <Feather name="bar-chart-2" color={color} size={size} />
-      ),
-      tabBarActiveTintColor : colors.black,
-      headerShown: true,
-      headerTitle: 'Nutrition track',
-      headerTitleAlign: 'center',
-      headerStyle: {
-        backgroundColor: '#000',
-      },
-      headerTitleStyle: {
-        color: 'white',
-      },
-    }} 
-    /> */}
     <Tab.Screen 
       name="NutriStats" 
       component={Stats}
@@ -130,26 +108,26 @@ export default function TabLayout() {
       },
     }} 
     />
-    <Tab.Screen 
+    {/* <Tab.Screen 
       name="Coach"
       component={CoachScreen}
       options={{
-        tabBarLabel: ()=> null, 
-        tabBarIcon: ({ color, size }) => (
-          <MaterialIcons name="stars" size={26} color={color} />
-      ),
-      tabBarActiveTintColor : colors.black,
-      headerShown: true,
-      headerTitle: "Nutri coach",
-      headerTitleAlign: 'center',
-      headerStyle: {
-        backgroundColor: '#000',
-      },
-      headerTitleStyle: {
-        color: 'white',
-      },
-    }} 
-    />
+          tabBarLabel: ()=> null, 
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="stars" size={26} color={color} />
+        ),
+        tabBarActiveTintColor : colors.black,
+        headerShown: true,
+        headerTitle: "Nutri coach",
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#000',
+        },
+        headerTitleStyle: {
+          color: 'white',
+        },
+      }} 
+    /> */}
     <Tab.Screen 
       name="Premium" 
       component={Subscription}
