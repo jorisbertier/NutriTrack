@@ -17,16 +17,15 @@ import { ThemeProvider, useTheme } from '@/hooks/ThemeProvider';
 import { FoodProvider } from "@/hooks/FoodContext";
 // import { StatusBar } from 'expo-status-bar';
 import * as NavigationBar from 'expo-navigation-bar';
-import { Platform, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { AppState, Platform, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import CreateAliment from '@/screens/CreateAliment';
 import SearchAlimentCreated from '@/screens/SearchAlimentCreated';
 import DetailsFoodCreated from '@/screens/[id]created';
 import PrivacyPolicy from '@/screens/Conditions/PrivacyPolicy';
 import Terms from '@/screens/Conditions/Terms';
 import ReportIssue from '@/screens/Report';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { store } from '@/redux/store'
-import Subscription from '@/screens/Subscription/Subscription';
 import { useTranslation } from 'react-i18next';
 import EditWeight from '@/screens/EditWeight';
 import EditGoalScreen from '@/screens/EditGoalScreen';
@@ -39,10 +38,13 @@ import QrCodeScreen from '@/screens/QrCodeScreen';
 import ScannerScreen from '@/components/Scan/ScannerScreen';
 import BadgeScreen from '@/screens/BadgeScreen';
 import { AvatarCustomizer } from '@/components/Avatar/AvatarCustomizer';
+import { setPremium } from '@/redux/subscriptionSlice';
+import Purchases from 'react-native-purchases';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
 SplashScreen.preventAutoHideAsync();
+
 
 export default function RootLayout() {
 
@@ -54,72 +56,64 @@ export default function RootLayout() {
     Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
   });
 
-  // Empêche l'écran de démarrage de se cacher avant la fin du chargement des assets
   const [isConnected, setIsConnected] = useState<boolean | null>(null);
 
-  
   const checkConnection = () => {
-    NetInfo.fetch().then(state => {
-      setIsConnected(state.isConnected);
-    });
+    NetInfo.fetch().then(state => setIsConnected(state.isConnected));
   };
-
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      setIsConnected(state.isConnected);
-    });
-    
-    if (Platform.OS === 'android') {
-      NavigationBar.setVisibilityAsync('hidden').then(() => {
-        NavigationBar.setBehaviorAsync('immersiveSticky');
-      });
-    }
-
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-
-    return () => unsubscribe();
-  }, [loaded]);
 
   if (isConnected === false) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center',gap: 20, alignItems: 'center', backgroundColor: '#D6E4FD' }}>
+      <View style={{ flex: 1, justifyContent: 'center', gap: 20, alignItems: 'center', backgroundColor: '#D6E4FD' }}>
         <StatusBar hidden={true} />
         <LottieView
-            source={require('@/assets/lottie/Connection.json')}
-            loop={true}
-            style={{ width: 250, height: 250 }}
-            autoPlay={true}
+          source={require('@/assets/lottie/Connection.json')}
+          loop
+          style={{ width: 250, height: 250 }}
+          autoPlay
         />
-        <Text style={{ color: 'black', fontSize: 26, fontWeight: 500, textAlign: 'center' }}>Ooops ...</Text>
+        <Text style={{ color: 'black', fontSize: 26, fontWeight: '500', textAlign: 'center' }}>Ooops ...</Text>
         <Text style={{ color: 'black', fontSize: 18, textAlign: 'center' }}>{t('network')}</Text>
-        <TouchableOpacity
-          onPress={checkConnection}
-          style={{
-            backgroundColor: '#000',
-            paddingVertical: 14,
-            paddingHorizontal: 26,
-            borderRadius: 12,
-            marginTop: 20,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.3,
-            shadowRadius: 4,
-            elevation: 5,
-          }}
-        >
-          <Text style={{ color: 'white', fontSize: 16, fontWeight: '600', letterSpacing: 0.5 }}>
-            {t('try')}
-          </Text>
+        <TouchableOpacity onPress={checkConnection} style={{ backgroundColor: '#000', padding: 14, paddingHorizontal: 26, borderRadius: 12, marginTop: 20 }}>
+          <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>{t('try')}</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
-  if (!loaded) {
-    return null;
-  }
+  if (!loaded) return null;
+
+  return (
+    <Provider store={store}>
+      <RootLayoutWithRedux />
+    </Provider>
+  );
+}
+function RootLayoutWithRedux() {
+  
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const checkSubscription = async () => {
+      try {
+        const customerInfo = await Purchases.getCustomerInfo();
+        const entitlements = customerInfo.entitlements.active;
+        const isSubscribed = entitlements && Object.keys(entitlements).length > 0;
+        dispatch(setPremium(isSubscribed));
+      } catch (error) {
+        console.log('Erreur récupération abonnement:', error);
+        dispatch(setPremium(false));
+      }
+    };
+
+    checkSubscription();
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'active') checkSubscription();
+    });
+
+    return () => subscription.remove();
+  }, []);
   
   return (
     <ThemeProvider>
