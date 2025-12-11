@@ -1,5 +1,5 @@
 import React, { useState, useEffect, use } from 'react';
-import { ActivityIndicator, Platform } from 'react-native';
+import { ActivityIndicator, Platform, Linking } from 'react-native';
 import { 
   View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, Alert, Dimensions 
 } from 'react-native';
@@ -128,8 +128,84 @@ async function getCustomerInfo() {
   };
 
   const selectedPackage = getSelectedPackage();
-
+const openSubscriptions = () => {
+  if (Platform.OS === 'android') {
+    // Redirige vers la page générale des abonnements Google Play
+    Linking.openURL('https://play.google.com/store/account/subscriptions')
+      .catch(() => console.log('Impossible d’ouvrir Google Play'));
+  } else {
+    // Redirige vers la page des abonnements Apple
+    Linking.openURL('https://apps.apple.com/account/subscriptions')
+      .catch(() => console.log('Impossible d’ouvrir App Store'));
+  }
+};
   return (
+        <View style={{ flex: 1 }}>
+      {isPremium ? (
+        <View
+    style={{
+      backgroundColor: colors.whiteFix,
+      padding: 25,
+      borderRadius: 25,
+      alignItems: 'center',
+      marginTop: 50,
+      width: '90%',
+      alignSelf: 'center',
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.1,
+      shadowRadius: 10,
+      elevation: 6,
+    }}
+  >
+    {/* Badge couronne */}
+    <View
+      style={{
+        backgroundColor: '#FFD700',
+        borderRadius: 50,
+        padding: 15,
+        marginBottom: 15,
+      }}
+    >
+      <Image
+        source={require('@/assets/images/icon/crown.png')}
+        style={{ width: 50, height: 50 }}
+        resizeMode="contain"
+      />
+    </View>
+
+    {/* Titre */}
+    <Text style={{ fontSize: 24, fontWeight: '700', color: colors.blackFix, textAlign: 'center' }}>
+      Vous êtes Premium 🎉
+    </Text>
+
+    {/* Abonnement actif */}
+    <Text style={{ fontSize: 16, color: '#666', marginTop: 8, textAlign: 'center' }}>
+      Abonnement actif
+    </Text>
+
+    {/* Bouton moderne */}
+    <TouchableOpacity
+      onPress={openSubscriptions}
+      style={{
+        marginTop: 20,
+        paddingVertical: 14,
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        backgroundColor: '#FFD700',
+        shadowColor: '#FFD700',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 4,
+      }}
+    >
+      <Text style={{ fontSize: 16, fontWeight: '600', color: colors.blackFix }}>
+        Gérer mon abonnement
+      </Text>
+    </TouchableOpacity>
+  </View>
+      ) : (
     <ScrollView style={{ flex: 1, backgroundColor: colors.gray}}>
 
       <View style={styles.container}>
@@ -238,6 +314,8 @@ async function getCustomerInfo() {
           )}
       </View>
     </ScrollView>
+          )}
+    </View>
   );
 };
 
