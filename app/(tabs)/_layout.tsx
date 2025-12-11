@@ -1,5 +1,4 @@
 import React from 'react';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '.';
 import Search from './Search';
