@@ -23,7 +23,7 @@ export default function TabLayout() {
     // <Tab.Navigator tabBar={(props) => <TabBar {...props} />} screenOptions={{ headerShown: false }}>
     <Tab.Navigator screenOptions={{
         headerShown: false,
-        tabBarStyle : { backgroundColor: colors.white, height: 70},
+        tabBarStyle : { backgroundColor: colors.white, height: 100},
         tabBarButton: (props) => (
           <TouchableWithoutFeedback onPress={props.onPress}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>{props.children}</View>

@@ -115,7 +115,6 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <InitRevenueCat />
       <RootLayoutWithRedux />
     </Provider>
   );
@@ -129,6 +128,7 @@ function RootLayoutWithRedux() {
       <UserProvider>
       <FoodProvider>
         <StatusBar backgroundColor="white" barStyle="light-content" hidden={true}/>
+        <InitRevenueCat />
         {/* <StatusBar style="auto" /> */}
         {/* <NavigationContainer independent={true} ref={navigationRef}> */}
           <Stack.Navigator

@@ -1,6 +1,6 @@
 import { StyleSheet, View, ScrollView, Text } from "react-native";
 import RNDateTimePicker, { DateTimePickerEvent} from "@react-native-community/datetimepicker";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { foodData } from "@/data/food";
 import { FoodItem } from '@/interface/FoodItem';
 import { UserMeals, UserMealsCreated, UserMealsCustom } from "@/interface/UserMeals";
@@ -24,6 +24,8 @@ import { RootState } from "@/redux/store";
 import { FoodItemQr } from "@/interface/FoodItemQr";
 import { DailyIntakeCard } from "@/components/DailyIntakeCard";
 import { DayCarousel } from "@/components/DayCarousel";
+import LottieView from "lottie-react-native";
+import Rive, { RiveRef } from "rive-react-native";
 
 export default function Dashboard() {
     
@@ -620,7 +622,7 @@ console.log('resume custom', resultCustom)
 
                         setTimeout(() => {
                             setNotificationVisible(false)
-                        }, 3200);
+                        }, 6000);
                     } else {
                         console.log("The maximum XP of 20 is already reached today");
                     }
@@ -703,7 +705,18 @@ console.log('resume custom', resultCustom)
         }
     }, [proteins, carbs, fats])
 
-    // console.log('progress prot ', Number(proteins.toFixed(1)))
+    //CODE RIVE STAR
+    const riveRef = useRef<RiveRef>(null);
+    const playedRef = useRef(false);
+
+    useEffect(() => {
+    if (!playedRef.current && riveRef.current) {
+        riveRef.current.play();
+
+        playedRef.current = true; // mark as already played
+    }
+    }, []);
+
     return (
         <View style={{ backgroundColor: colors.whiteMode, paddingBottom: 10}}>
             <View style={{flexDirection: "row", width: "100%", marginTop: 10, paddingBottom: 10, justifyContent: "space-around", backgroundColor: colors.whiteMode}}>
@@ -743,11 +756,33 @@ console.log('resume custom', resultCustom)
                     {DisplayResultFoodByMeal(sortByDinner, resultDinnerCreated, sortByDinnerCustom, resultDinnerQr, t('dinner'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom,handleDeleteFoodQr, !isLoading || false)}
                     {DisplayResultFoodByMeal(sortBySnack,resultSnackCreated, sortBySnackCustom, resultSnackQr, t('snack'), handleDeleteFood, handleDeleteFoodCreated, handleDeleteFoodCustom, handleDeleteFoodQr, !isLoading || false)}
                 </View>
-                
                 <View style={{marginBottom: 60}}>
                     <NutritionList data={nutritionData} isPremium={isPremium}/>
                 </View>
             </ScrollView>
+            {/* {!notificationVisible && (
+                <Rive
+                    ref={riveRef}
+                    source={require("../assets/rive/25021-46695-star.riv")}
+                    autoplay={false}
+                    style={{ width: 300, height: 300, top: 300,position: "absolute", alignSelf: "center",marginLeft: 5, zIndex: 10 }}
+                />
+            )} */}
+            {notificationVisible && (
+                <LottieView
+                    source={require('@/assets/lottie/rocket share.json')}
+                    loop
+                    autoPlay
+                    style={{
+                    width: 400,
+                    height: 400,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "absolute",
+                    top: 300
+                    }}
+                />
+            )}
         </View>
     )
 }
@@ -884,3 +919,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 })
+
