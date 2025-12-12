@@ -177,7 +177,7 @@ const openSubscriptions = () => {
 
             {/* Titre */}
             <Text style={{ fontSize: 24, fontWeight: '700', color: colors.blackFix, textAlign: 'center'}}>
-              {t('planText')}
+              {t('premium')}
             </Text>
 
             {/* Abonnement actif */}
@@ -214,12 +214,29 @@ const openSubscriptions = () => {
             </TouchableOpacity>
           </View>
           <View style={{ alignItems: 'center', marginTop: 30 }}>
-            <LottieView
+              <LottieView
                 source={require('@/assets/lottie/Crown.json')}
-                loop={true}
-                style={{ width: 250, height: 250 }}
-                autoPlay={true}
-            />
+                loop
+                autoPlay
+                style={{
+                  width: 250,
+                  height: 250,
+                  position: "absolute",
+                  zIndex: 10,
+                }}
+              />
+              <LottieView
+                source={require('@/assets/lottie/Reward_light_effect.json')}
+                loop
+                autoPlay
+                style={{
+                  width: 400,
+                  height: 400,
+                  position: "absolute",
+                  zIndex: 1,
+                  marginTop: -70
+                }}
+              />
           </View>
         </View>
       ) : (
