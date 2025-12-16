@@ -97,7 +97,7 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
                     <ThemedText variant="title3" color={colors.black} style={{ fontSize: 12 }}>
                     {capitalizeFirstLetter(previousDay.toLocaleString("default", { weekday: "short" }))}
                     </ThemedText>
-                    <Text style={{ fontSize: 18, fontWeight: "500" }}>{previousDay.getDate()}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: "500", color: colors.black }}>{previousDay.getDate()}</Text>
                 </TouchableOpacity>
 
                 {/* Jour sélectionné (animé) */}
@@ -117,7 +117,7 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
                         <View style={{ alignItems: "center", gap: 3 }}>
                             <ThemedText
                             variant="title3"
-                            color={colors.black}
+                            color={colors.blackFix}
                             style={{ fontSize: 12, textAlign: "center" }}
                             >
                             {capitalizeFirstLetter(selectedDate.toLocaleString("default", { weekday: "short" }))}
@@ -126,7 +126,7 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
                             {selectedDate.getDate()}
                             </Text>
                             <Text
-                            style={{ fontSize: 16, textAlign: "center", fontWeight: "500", color: colors.black }}
+                            style={{ fontSize: 16, textAlign: "center", fontWeight: "500", color: colors.blackFix }}
                             >
                             {capitalizeFirstLetter(selectedDate.toLocaleString("default", { month: "short" }))}
                             </Text>
@@ -151,7 +151,7 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
                     <ThemedText variant="title3" color={colors.black} style={{ fontSize: 12 }}>
                     {capitalizeFirstLetter(nextDay.toLocaleString("default", { weekday: "short" }))}
                     </ThemedText>
-                    <Text style={{ fontSize: 18, fontWeight: "500" }}>{nextDay.getDate()}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: "500", color: colors.black }}>{nextDay.getDate()}</Text>
                 </TouchableOpacity>
             </View>
     )

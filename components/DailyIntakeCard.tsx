@@ -38,7 +38,6 @@ export const DailyIntakeCard: React.FC<Props> = ({
     showIcon,
     duration = 900,
     style,
-    // bgColor = "#E8F9C9", // card background
 }) => {
 
     const { colors } = useTheme();
@@ -81,12 +80,12 @@ export const DailyIntakeCard: React.FC<Props> = ({
                             <Image source={require('@/assets/images/icon/goal.png')} style={{ width: 20, height: 20 }} />
                         )}
                     </View>
-                    <Text style={[styles.titleText, { color: colors.black }]}>
+                    <Text style={[styles.titleText, { color: colors.blackFix }]}>
                         Daily intake
                     </Text>
                 </View>
 
-                <Text style={[styles.bigPercent, { color: colors.black }]}>
+                <Text style={[styles.bigPercent, { color: colors.blackFix }]}>
                 {displayPercent}%
                 </Text>
             </View>
@@ -136,11 +135,11 @@ export const DailyIntakeCard: React.FC<Props> = ({
 
                 {/* Center texts (current / goal) */}
                 <View style={styles.centerTextContainer}>
-                    <Text style={[styles.centerCurrent, { color: colors.black }]}>
+                    <Text style={[styles.centerCurrent, { color: colors.blackFix }]}>
                     {current}
                     </Text>
                     <View style={styles.centerDivider} />
-                    <Text style={[styles.centerGoal, { color: colors.black }]}>
+                    <Text style={[styles.centerGoal, { color: colors.blackFix }]}>
                     {safeGoal}
                     </Text>
                 </View>

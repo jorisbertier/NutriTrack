@@ -63,7 +63,7 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "5", source: require("../../assets/avatar/hat/hat4.png"), value: 4, requiredLevel: 10 },
         { id: "6", source: require("../../assets/avatar/hat/hat5.png"), value: 5, requiredLevel: 10 },
         { id: "7", source: require("../../assets/avatar/hat/hat6.png"), value: 6, requiredLevel: 10 },
-        { id: "8", source: require("../../assets/avatar/hat/hat7.png"), value: 7, requiredLevel: 10 },
+        { id: "8", source: require("../../assets/avatar/hat/hat7.png"), value: 7 },
         { id: "9", source: require("../../assets/avatar/hat/hat8.png"), value: 8, requiredLevel: 10 },
         { id: "10", source: require("../../assets/avatar/hat/hat9.png"), value: 9 },
         { id: "11", source: require("../../assets/avatar/hat/hat10.png"), value: 10 },
@@ -207,7 +207,6 @@ export const AvatarCustomizer = () => {
     //         }
     //     }
     // }, [riveReady, selectedOptions]);
-    console.log('rive reday' , riveReady)
     //ANIMATIONS SHAKES FOR OPTIONS LOCKED
 
     const shakeMap = useRef({});

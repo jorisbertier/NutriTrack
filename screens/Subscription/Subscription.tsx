@@ -326,7 +326,7 @@ const openSubscriptions = () => {
         >
           <Text style={[styles.buttonText, { color: colors.whiteFix }]}>{t('subscribe')}</Text>
         </TouchableOpacity>
-          {notificationVisible && (
+          {/* {notificationVisible && (
             <View style={styles.notification}>
                 <View style={styles.wrapperNotification}>
                     <LottieView
@@ -338,7 +338,7 @@ const openSubscriptions = () => {
                 <Text style={styles.notificationText}>{t('premium')}</Text>
                 </View>
             </View>
-          )}
+          )} */}
       </View>
     </ScrollView>
           )}

@@ -30,6 +30,7 @@ const ProfileScreen = () => {
   const user = auth.currentUser;
 
   const userRedux = useSelector((state: RootState) => state.user.user);
+  const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
   const [userData, setUserData] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -191,7 +192,7 @@ useEffect(() => {
       {/* <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
       {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
       </Skeleton> */}
-      <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
+      <View style={{backgroundColor: colors.whiteFix, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
           <Rive
               ref={riveRef}
               // source={require("../assets/rive/panda_neutral (25).riv")}
@@ -255,53 +256,47 @@ useEffect(() => {
         {/* {!isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.name} {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
         {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> } */}
       </View>
-        <EditLink
-          label="Avatar"
-          iconSource={require('@/assets/images/icon/goal.png')}
-          navigateTo="Avatar"
-        />
-        <TouchableOpacity
-  onPress={() => navigation.navigate("Avatar")}
-  activeOpacity={0.7}
-  style={{
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 16,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  }}
->
-  {/* Cercle avec icône */}
-  <View
-    style={{
-      backgroundColor: "#E8F0FE",
-      padding: 12,
-      borderRadius: 50,
-      marginRight: 16,
-    }}
-  >
-    <Image
-      source={require('@/assets/images/icon/goal.png')}
-      style={{ width: 24, height: 24, tintColor: "#4B7BEC" }}
-    />
-  </View>
-
-  {/* Label */}
-  <Text style={{ flex: 1, fontSize: 16, fontWeight: "600", color: "#1F2937" }}>
-    Avatar
-  </Text>
-
-  {/* Chevron */}
-  <Text style={{ fontSize: 20, color: "#B0B0B0" }}>›</Text>
-</TouchableOpacity>
-        <BMIBar weight={70} height={180}/>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Avatar")}
+        activeOpacity={0.7}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: colors.white,
+          padding: 6,
+          marginVertical: 0,
+          marginHorizontal: 0,
+          borderRadius: 12,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+        }}
+      >
+        {/* Cercle avec icône */}
+        <View
+          style={{
+            backgroundColor: colors.white,
+            padding: 12,
+            borderRadius: 50,
+            marginRight: 16,
+          }}
+        >
+          <Image
+            source={require('@/assets/images/icon/gear.png')}
+            style={{ width: 24, height: 24, tintColor: colors.black }}
+          />
+        </View>
+        <Text style={{ flex: 1, fontSize: 16, fontWeight: "600", color: colors.black }}>
+          Avatar
+        </Text>
+        <Image
+              source={require('@/assets/images/arrow-right.png')}
+              style={[{ tintColor: colors.black, width: 15, height: 15, marginRight: 16 }]}
+          />
+      </TouchableOpacity>
+      <BMIBar weight={70} height={180}/>
       {/* <View style={{ flexDirection: 'row',  marginBottom: 20}}>
         <View style={{width: '50%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 5, borderBottomColor: "black"}}>
         <Text style={{}} >Profile</Text>
@@ -353,9 +348,9 @@ useEffect(() => {
                   : userRedux?.goal === 'lose'
                   ? '- '
                   : '';
-              displayValue = `${sign}${value}`;
+              displayValue = `${sign}${value} kcal`;
             } else {
-              displayValue = `+ ${value}`;
+              displayValue = `+ ${value} g`;
             }
 
             return (
