@@ -1,7 +1,7 @@
 import { useTheme } from '@/hooks/ThemeProvider';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, ScrollView, StyleSheet } from 'react-native';
+import { Text, ScrollView, StyleSheet, Linking, Pressable } from 'react-native';
 
 const Terms = () => {
     const { t } = useTranslation();
@@ -51,6 +51,24 @@ const Terms = () => {
                 {"\n"}{"\n"}nutritrack.contact@gmail.com
                 {/* {"\n"}[Physical address, if applicable] */}
             </Text>
+            <Pressable
+            onPress={async () => {
+                const url = 'mailto:nutritrack.contact@gmail.com';
+                const supported = await Linking.canOpenURL(url);
+
+                console.log('MAIL SUPPORTED:', supported);
+
+                if (supported) {
+                Linking.openURL(url);
+                } else {
+                alert('Aucune application mail détectée');
+                }
+            }}
+            >
+                <Text style={styles.email}>
+                    nutritrack.contact@gmail.com
+                </Text>
+            </Pressable>
         </ScrollView>
     );
 };
@@ -87,6 +105,11 @@ const styles = StyleSheet.create({
         marginBottom: 100,
         lineHeight: 20,
     },
+    email: {
+        color: '#4A90E2',
+        textDecorationLine: 'underline',
+        fontWeight: '500',
+    }
 });
 
 export default Terms;
