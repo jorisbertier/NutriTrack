@@ -414,6 +414,12 @@
     "faq_technical_issue": {
         "question": "Je rencontre un problème technique, que faire ?",
         "answer": "Contactez notre support via la section 'Contact support' dans les paramètres de l'application pour obtenir de l'aide."
-    }
+    },
+    "Underweight": "Poids insuffisant",
+    "Healthy": "Poids normal",
+    "Overweight": "Surpoids",
+    "Obese": "Obésité",
+    "data_bmi_error": "Veuillez fournir un poids et une taille valides.",
+    "bmi_subtitle": "L’IMC indique votre poids par rapport à votre taille"
 
 }

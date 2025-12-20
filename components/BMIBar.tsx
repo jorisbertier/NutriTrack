@@ -1,5 +1,6 @@
 import { calculateBMI } from "@/functions/function";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { View, Text, StyleSheet, Animated, LayoutChangeEvent } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
@@ -9,13 +10,16 @@ type BMIBarProps = {
 };
 
 export default function BMIBar({ weight, height }: BMIBarProps) {
+
     const bmi = calculateBMI(weight, height);
+
+    const { t } = useTranslation();
     
     const categories = [
-        { label: "Underweight", min: 0, max: 18.5, color: "#4DA6FF" },
-        { label: "Healthy", min: 18.5, max: 25, color: "#4CAF50" },
-        { label: "Overweight", min: 25, max: 30, color: "#FFC107" },
-        { label: "Obese", min: 30, max: 40, color: "#F44336" },
+        { label: t('Underweight'), min: 0, max: 18.5, color: "#4DA6FF" },
+        { label: t("Healthy"), min: 18.5, max: 25, color: "#4CAF50" },
+        { label: t("Overweight"), min: 25, max: 30, color: "#FFC107" },
+        { label: t("Obese"), min: 30, max: 40, color: "#F44336" },
     ];
 
     const currentCategory = categories.find((cat) => bmi >= cat.min && bmi < cat.max) || categories[3];
@@ -26,7 +30,7 @@ export default function BMIBar({ weight, height }: BMIBarProps) {
     useEffect(() => {
         if (barWidth > 0 && bmi > 0) {
         const position = (normalizedBMI / 40) * (barWidth - 6);
-        console.log("Bar width:", barWidth, "Starting animation with position:", position);
+
         Animated.spring(animatedValue, {
             toValue: position,
             useNativeDriver: true,
@@ -89,14 +93,14 @@ export default function BMIBar({ weight, height }: BMIBarProps) {
                 />
                 </View>
                 <Animated.View
-                style={[
-                    styles.indicator,
-                    {
-                    transform: [{ translateX: animatedValue }],
-                    backgroundColor: "black",
-                    },
-                ]}
-                onLayout={() => console.log("Indicator rendered")}
+                    style={[
+                        styles.indicator,
+                        {
+                        transform: [{ translateX: animatedValue }],
+                        backgroundColor: "black",
+                        },
+                    ]}
+                    onLayout={() => console.log("Indicator rendered")}
                 />
             </View>
 

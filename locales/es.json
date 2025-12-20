@@ -401,6 +401,11 @@
     "faq_technical_issue": {
         "question": "Tengo un problema técnico, ¿qué debo hacer?",
         "answer": "Contacta con nuestro soporte a través de la sección 'Contact support' en la configuración de la aplicación para obtener ayuda."
-    }
-
+    },
+    "Underweight": "Bajo peso",
+    "Healthy": "Peso normal",
+    "Overweight": "Sobrepeso",
+    "Obese": "Obesidad",
+    "data_bmi_error": "Por favor, proporciona un peso y altura válidos.",
+    "bmi_subtitle": "El IMC indica tu peso en relación con tu altura"
 }

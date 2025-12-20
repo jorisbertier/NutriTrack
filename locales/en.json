@@ -402,5 +402,11 @@
         "faq_technical_issue": {
             "question": "I have a technical problem, what should I do?",
             "answer": "Contact our support via the 'Contact support' section in the app settings to get help."
-        }
+        },
+        "Underweight": "Underweight",
+        "Healthy": "Healthy",
+        "Overweight": "Overweight",
+        "Obese": "Obese",
+        "data_bmi_error": "Please provide a valid weight and height.",
+        "bmi_subtitle": "BMI indicates your weight relative to your height"
 }
