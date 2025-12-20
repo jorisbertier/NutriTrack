@@ -345,5 +345,62 @@
         "happy6": "Dibuja, lee o escucha tu música favorita — recompensas que levantan el ánimo sin impacto calórico.",
         "planText": "Te uniste al club Premium !",
         "planText2": "Suscripción activa",
-        "planButton": "Administrar mi suscripción"
+        "planButton": "Administrar mi suscripción",
+    "faq_add_food": {
+        "question": "¿Cómo agregar un alimento?",
+        "answer": "Seleccione el día deseado y luego presione el botón '+' para agregar un nuevo alimento. Luego, elija la comida a la que se asociará el alimento."
+    },
+    "faq_avatar": {
+        "question": "¿Por qué no puedo cambiar mi avatar?",
+        "answer": "La personalización del avatar es una función reservada para usuarios Premium. Suscríbete para desbloquear esta opción."
+    },
+    "faq_goal_icon": {
+        "question": "¿Qué significa el ícono de objetivo 🎯?",
+        "answer": "El ícono 🎯 indica que tu objetivo nutricional diario ha sido ajustado. Esto significa que la distribución de tus macronutrientes se ha modificado para aumentar o disminuir tu ingesta calórica respecto a tu objetivo diario."
+    },
+    "faq_update_weight": {
+        "question": "¿Por qué debo actualizar mi peso regularmente?",
+        "answer": "Actualizar tu peso regularmente asegura un seguimiento más preciso de tu progreso y un ajuste adecuado de tus objetivos nutricionales. Un peso actualizado garantiza cálculos fiables sobre tus necesidades calóricas y de macronutrientes."
+    },
+    "faq_mascot_bmi": {
+        "question": "¿Por qué la mascota tiene el mismo IMC que yo?",
+        "answer": "La mascota refleja tu IMC (Índice de Masa Corporal) para representar visualmente tu progreso. Evoluciona según tus datos personales, haciendo el seguimiento más intuitivo y motivador."
+    },
+    "faq_xp": {
+        "question": "No gané experiencia después de completar mis objetivos diarios, ¿por qué?",
+        "answer": "La ganancia de experiencia está limitada a 20 XP por día para el día actual. Completar objetivos de un día pasado no otorga experiencia. Asegúrate de que la ingesta calórica de hoy coincida con el objetivo definido para ganar experiencia; se agrega automáticamente una vez que se cumplan las condiciones."
+    },
+    "faq_modify_food": {
+        "question": "¿Puedo modificar un alimento ya agregado?",
+        "answer": "Modificar un alimento ya agregado aún no está disponible. Para realizar cambios, elimina el alimento y agrégalo nuevamente con los valores deseados."
+    },
+    "faq_gram_precision": {
+        "question": "¿Por qué no puedo agregar alimentos con precisión en gramos?",
+        "answer": "Agregar alimentos con precisión en gramos es una función Premium. Sin suscripción, las cantidades se proponen como porciones predeterminadas."
+    },
+    "faq_custom_food": {
+        "question": "¿Puedo crear mis propios alimentos personalizados?",
+        "answer": "La creación de alimentos personalizados está exclusivamente disponible para suscriptores Premium. Esta función permite agregar tus propios alimentos con sus valores nutricionales exactos."
+    },
+    "faq_food_database": {
+        "question": "¿Por qué algunos alimentos no están disponibles en la base de datos?",
+        "answer": "La base de datos nutricional se actualiza regularmente. Algunos alimentos específicos o locales pueden no estar listados aún. En este caso, los usuarios Premium pueden crear alimentos personalizados."
+    },
+    "faq_data_saved": {
+        "question": "¿Mis datos se guardan?",
+        "answer": "Sí. Todos tus datos se guardan de manera segura, garantizando confidencialidad y protección."
+    },
+    "faq_delete_food": {
+        "question": "¿Puedo eliminar un alimento agregado por error?",
+        "answer": "Sí. Puedes eliminar un alimento en cualquier momento retirándolo de la comida a la que fue agregado."
+    },
+    "faq_modify_goals": {
+        "question": "¿Puedo modificar mis objetivos nutricionales?",
+        "answer": "Sí. Puedes modificar tus objetivos nutricionales en cualquier momento desde la configuración. Los cambios impactarán inmediatamente tus metas diarias y el seguimiento de macronutrientes."
+    },
+    "faq_technical_issue": {
+        "question": "Tengo un problema técnico, ¿qué debo hacer?",
+        "answer": "Contacta con nuestro soporte a través de la sección 'Contact support' en la configuración de la aplicación para obtener ayuda."
+    }
+
 }

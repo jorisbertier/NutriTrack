@@ -346,5 +346,61 @@
         "happy6": "Draw, read, or listen to your favorite music — rewards that lift your mood without calorie impact.",
         "planText": "You have joined the Premium club !",
         "planText2": "Active subscription",
-        "planButton": "Manage my subscription"
+        "planButton": "Manage my subscription",
+        "faq_add_food": {
+            "question": "How to add a food item?",
+            "answer": "Select the desired day, then press the '+' button to add a new food item. Then choose the meal to associate the food with."
+        },
+        "faq_avatar": {
+            "question": "Why can't I change my avatar?",
+            "answer": "Avatar customization is a feature reserved for Premium users. Subscribe to unlock this option."
+        },
+        "faq_goal_icon": {
+            "question": "What does the goal 🎯 icon mean?",
+            "answer": "The 🎯 icon indicates that your daily nutritional goal has been adjusted. Your macronutrient distribution has been modified to increase or decrease your caloric intake relative to your daily goal."
+        },
+        "faq_update_weight": {
+            "question": "Why should I update my weight regularly?",
+            "answer": "Regularly updating your weight ensures more accurate tracking of your progress and proper adjustment of nutritional goals. An up-to-date weight guarantees reliable calculations for your caloric and macronutrient needs."
+        },
+        "faq_mascot_bmi": {
+            "question": "Why does the mascot have the same BMI as me?",
+            "answer": "The mascot reflects your BMI (Body Mass Index) to visually represent your progress. It evolves based on your personal data, making tracking more intuitive and motivating."
+        },
+        "faq_xp": {
+            "question": "I didn't gain experience after completing my daily goals, why?",
+            "answer": "Experience gain is limited to 20 XP per day for the current day. Completing goals for a past day does not grant experience. Make sure today's caloric intake matches the defined goal to earn experience; it is added automatically once conditions are met."
+        },
+        "faq_modify_food": {
+            "question": "Can I modify an already added food?",
+            "answer": "Modifying an already added food is not yet available. To make changes, delete the food and add it again with the desired values."
+        },
+        "faq_gram_precision": {
+            "question": "Why can't I add food with gram precision?",
+            "answer": "Adding foods with gram precision is a Premium feature. Without a subscription, quantities are proposed as predefined portions."
+        },
+        "faq_custom_food": {
+            "question": "Can I create my own custom foods?",
+            "answer": "Creating custom foods is exclusively for Premium subscribers. This feature allows you to add your own foods with their exact nutritional values."
+        },
+        "faq_food_database": {
+            "question": "Why are some foods not available in the database?",
+            "answer": "The nutritional database is regularly updated. Some specific or local foods may not be listed yet. Premium users can create custom foods in this case."
+        },
+        "faq_data_saved": {
+            "question": "Are my data saved?",
+            "answer": "Yes. All your data is securely saved, ensuring confidentiality and protection."
+        },
+        "faq_delete_food": {
+            "question": "Can I delete a food added by mistake?",
+            "answer": "Yes. You can delete a food at any time by removing it from the meal it was added to."
+        },
+        "faq_modify_goals": {
+            "question": "Can I modify my nutritional goals?",
+            "answer": "Yes. You can modify your nutritional goals anytime from settings. Changes will immediately impact your daily targets and macronutrient tracking."
+        },
+        "faq_technical_issue": {
+            "question": "I have a technical problem, what should I do?",
+            "answer": "Contact our support via the 'Contact support' section in the app settings to get help."
+        }
 }
