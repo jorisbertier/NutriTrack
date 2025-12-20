@@ -361,14 +361,14 @@ useEffect(() => {
           })}
         </>
       ) : (
-        <>
+        <View style={{ gap: 10 }}>
           <Skeleton colorMode={colorMode} width={250} />
           <Skeleton colorMode={colorMode} width={250} />
           <Skeleton colorMode={colorMode} width={250} />
           <Skeleton colorMode={colorMode} width={250} />
           <Skeleton colorMode={colorMode} width={250} />
           <Skeleton colorMode={colorMode} width={250} />
-        </>
+        </View>
       )}
     </View>
 

@@ -73,7 +73,7 @@ const WeightPicker = ({ selectedWeight, onChange, weight, isLoading }) => {
             <View style={{marginBottom: 20, display: 'flex', flexDirection: 'row',alignItems: 'center', justifyContent: 'space-evenly', width: '100%'}}>
                 <View style={{backgroundColor: colors.gray, height: 100, width: 120,borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}>
                     {isLoading ? (
-                        <ActivityIndicator size="large" color={colors.black} />
+                        <ActivityIndicator size="large" color={colors.blackFix} />
                     ) : (
                     <Text style={styles.weightText}>{weight}</Text>
                     )}
