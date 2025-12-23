@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useTranslation } from 'react-i18next';
 import LottieView from 'lottie-react-native';
+import Rive from 'rive-react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -128,28 +129,29 @@ async function getCustomerInfo() {
   };
 
   const selectedPackage = getSelectedPackage();
-const openSubscriptions = () => {
-  if (Platform.OS === 'android') {
-    // Redirige vers la page générale des abonnements Google Play
-    Linking.openURL('https://play.google.com/store/account/subscriptions')
-      .catch(() => console.log('Impossible d’ouvrir Google Play'));
-  } else {
-    // Redirige vers la page des abonnements Apple
-    Linking.openURL('https://apps.apple.com/account/subscriptions')
-      .catch(() => console.log('Impossible d’ouvrir App Store'));
-  }
-};
+  const openSubscriptions = () => {
+    if (Platform.OS === 'android') {
+      // Redirige vers la page générale des abonnements Google Play
+      Linking.openURL('https://play.google.com/store/account/subscriptions')
+        .catch(() => console.log('Impossible d’ouvrir Google Play'));
+    } else {
+      // Redirige vers la page des abonnements Apple
+      Linking.openURL('https://apps.apple.com/account/subscriptions')
+        .catch(() => console.log('Impossible d’ouvrir App Store'));
+    }
+  };
+
   return (
         <View style={{ flex: 1 }}>
         {isPremium ? (
-          <View>
+          <View style={{ flex: 1 }}>
             <View
               style={{
                 backgroundColor: colors.whiteFix,
                 padding: 25,
                 borderRadius: 25,
                 alignItems: 'center',
-                marginTop: 50,
+                marginTop: 25,
                 width: '90%',
                 alignSelf: 'center',
                 shadowColor: "#000",
@@ -213,14 +215,14 @@ const openSubscriptions = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={{ alignItems: 'center', marginTop: 30 }}>
+          <View style={{ alignItems: 'center', marginTop: 30, backgroundColor: 'red' }}>
               <LottieView
                 source={require('@/assets/lottie/Crown.json')}
                 loop
                 autoPlay
                 style={{
-                  width: 250,
-                  height: 250,
+                  width: 200,
+                  height: 200,
                   position: "absolute",
                   zIndex: 10,
                 }}
@@ -230,14 +232,21 @@ const openSubscriptions = () => {
                 loop
                 autoPlay
                 style={{
-                  width: 400,
-                  height: 400,
+                  width: 300,
+                  height: 300,
                   position: "absolute",
                   zIndex: 1,
                   marginTop: -70
                 }}
               />
           </View>
+              <View style={{ position: 'absolute', alignSelf: "center", bottom: 0 }}>
+                  <Rive
+                      source={require("../../assets/rive/panda_subscription.riv")}
+                      autoplay={true}
+                      style={{ width: 250, height: 230}}
+                  />
+              </View>
         </View>
       ) : (
     <ScrollView style={{ flex: 1, backgroundColor: colors.gray}}>
