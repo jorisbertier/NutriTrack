@@ -119,7 +119,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                             <View style={{backgroundColor: colors.whiteFix, overflow: "hidden", borderRadius: "50%",justifyContent: 'center', alignItems: 'center', height: 90, width: 90, marginTop: -8}}>
                                 <Rive
                                     ref={riveRef}
-                                    source={require("../assets/rive/panda_neutral (25).riv")}
+                                    source={require("../assets/rive/panda_neutral (29).riv")}
                                     autoplay={true}
                                     onStateChanged={() => {
                                         restoreSelections();

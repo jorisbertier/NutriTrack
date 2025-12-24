@@ -13,6 +13,7 @@ type CategoryOptions = {
     hat: { id: string; value: number }[];
     eyes: { id: string; value: number }[];
     mouth: { id: string; value: number }[];
+    glass: { id: string; value: number }[];
 };
 
 type RiveMapping = {
@@ -20,6 +21,7 @@ type RiveMapping = {
     hat: { machine: string; input: string };
     eyes: { machine: string; input: string };
     mouth: { machine: string; input: string };
+    glass: { machine: string; input: string };
 };
 
 // export const useRiveSelections = (
@@ -193,11 +195,12 @@ export const useRiveSelections = (
     let mounted = true;
     const restoreSelections = async () => {
       try {
-        const [savedEyeColor, savedHat, savedEyes, savedMouth] = await Promise.all([
+        const [savedEyeColor, savedHat, savedEyes, savedMouth, savedGlass] = await Promise.all([
           AsyncStorage.getItem('EyeColor'),
           AsyncStorage.getItem('HatType'),
           AsyncStorage.getItem('EyesType'),
           AsyncStorage.getItem('MouthType'),
+          AsyncStorage.getItem('GlassType'),
         ]);
 
         const newOptions: OptionMap = {
@@ -212,6 +215,9 @@ export const useRiveSelections = (
             : null,
           mouth: savedMouth
             ? categoryOptions.mouth.find(opt => opt.value === parseInt(savedMouth, 10))?.id ?? null
+            : null,
+          glass: savedGlass
+            ? categoryOptions.glass.find(opt => opt.value === parseInt(savedGlass, 10))?.id ?? null
             : null,
         };
 
@@ -318,6 +324,7 @@ export const useRiveRestore = (riveRef: React.RefObject<RiveRef>) => {
         const hatType = await AsyncStorage.getItem("HatType");
         const eyesType = await AsyncStorage.getItem("EyesType");
         const mouthType = await AsyncStorage.getItem("MouthType");
+        const glassType = await AsyncStorage.getItem("GlassType");
 
         if (eyeColor !== null)
             riveRef.current.setInputState(sm, "EyeColor", Number(eyeColor));
@@ -330,6 +337,9 @@ export const useRiveRestore = (riveRef: React.RefObject<RiveRef>) => {
 
         if (mouthType !== null)
             riveRef.current.setInputState(sm, "MouthType", Number(mouthType));
+
+        if (glassType !== null)
+            riveRef.current.setInputState(sm, "GlassType", Number(glassType));
 
         riveRef.current.setInputState(sm, "Chonk", chonkValue);
     };
