@@ -60,12 +60,12 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "1", source: "", value: 0 },
         { id: "2", source: require("../../assets/avatar/hat/hat1.png"), value: 1 },
         { id: "3", source: require("../../assets/avatar/hat/hat2.png"), value: 2 },
-        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3, requiredLevel: 10 },
-        { id: "5", source: require("../../assets/avatar/hat/hat4.png"), value: 4, requiredLevel: 10 },
-        { id: "6", source: require("../../assets/avatar/hat/hat5.png"), value: 5, requiredLevel: 10 },
-        { id: "7", source: require("../../assets/avatar/hat/hat6.png"), value: 6, requiredLevel: 10 },
+        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3, requiredLevel: 1 },
+        { id: "5", source: require("../../assets/avatar/hat/hat4.png"), value: 4, requiredLevel: 1 },
+        { id: "6", source: require("../../assets/avatar/hat/hat5.png"), value: 5, requiredLevel: 1 },
+        { id: "7", source: require("../../assets/avatar/hat/hat6.png"), value: 6, requiredLevel: 1 },
         { id: "8", source: require("../../assets/avatar/hat/hat7.png"), value: 7 },
-        { id: "9", source: require("../../assets/avatar/hat/hat8.png"), value: 8, requiredLevel: 10 },
+        { id: "9", source: require("../../assets/avatar/hat/hat8.png"), value: 8, requiredLevel: 1 },
         { id: "10", source: require("../../assets/avatar/hat/hat9.png"), value: 9 },
         { id: "11", source: require("../../assets/avatar/hat/hat10.png"), value: 10 },
     ],
@@ -88,6 +88,7 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "7", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 6 },
         { id: "8", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 7 },
         { id: "9", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 8 },
+        { id: "10", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 9 },
     ],
     glass: [
         { id: "1", source: require("../../assets/avatar/mouth/mouth_00.png"), value: 0 },
@@ -98,6 +99,8 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "6", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 5 },
         { id: "7", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 6 },
         { id: "8", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 7 },
+        { id: "9", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 8 },
+        { id: "10", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 9 },
     ],
 };
 
@@ -260,7 +263,7 @@ export const AvatarCustomizer = () => {
                 {showRive ? (
                     <Rive
                         ref={riveRef}
-                        source={require("../../assets/rive/panda_neutral (29).riv")}
+                        source={require("../../assets/rive/panda_neutral (31).riv")}
                         autoplay={true}
                         style={styles.riveAnimation}
                     />

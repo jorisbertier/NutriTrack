@@ -196,7 +196,7 @@ useEffect(() => {
           <Rive
               ref={riveRef}
               // source={require("../assets/rive/panda_neutral (25).riv")}
-              source={require("../assets/rive/panda_neutral (29).riv")}
+              source={require("../assets/rive/panda_neutral (31).riv")}
               autoplay={true}
               onStateChanged={() => {
                 restoreSelections();
