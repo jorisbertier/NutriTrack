@@ -68,6 +68,7 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "9", source: require("../../assets/avatar/hat/hat8.png"), value: 8, requiredLevel: 1 },
         { id: "10", source: require("../../assets/avatar/hat/hat9.png"), value: 9 },
         { id: "11", source: require("../../assets/avatar/hat/hat10.png"), value: 10 },
+        { id: "12", source: require("../../assets/avatar/hat/hat11.png"), value: 11 },
     ],
     eyes: [
         { id: "1", source: "", value: 0 },
@@ -84,11 +85,11 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "3", source: require("../../assets/avatar/mouth/mouth_02.png"), value: 2 },
         { id: "4", source: require("../../assets/avatar/mouth/mouth_03.png"), value: 3 },
         { id: "5", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 4 },
-        { id: "6", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 5 },
-        { id: "7", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 6 },
-        { id: "8", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 7 },
-        { id: "9", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 8 },
-        { id: "10", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 9 },
+        { id: "6", source: require("../../assets/avatar/mouth/mouth_05.png"), value: 5 },
+        { id: "7", source: require("../../assets/avatar/mouth/mouth_06.png"), value: 6 },
+        { id: "8", source: require("../../assets/avatar/mouth/mouth_07.png"), value: 7 },
+        { id: "9", source: require("../../assets/avatar/mouth/mouth_08.png"), value: 8 },
+        { id: "10", source: require("../../assets/avatar/mouth/mouth_09.png"), value: 9 },
     ],
     glass: [
         { id: "1", source: require("../../assets/avatar/mouth/mouth_00.png"), value: 0 },
@@ -360,7 +361,12 @@ export const AvatarCustomizer = () => {
                         >
                             {/* contenu */}
                             {selectedCategory !== "color" ? (
-                                <Image source={opt.source} style={styles.optionImage} resizeMode="contain" />
+                                <Image source={opt.source} style={[styles.optionImage,
+                                    {
+                                        width: selectedCategory === "mouth" ? "180%" : "60%",
+                                        height: selectedCategory === "mouth" ? "180%" : "60%",
+                                        marginTop: selectedCategory === "mouth" ? 40 : 0,
+                                    }]} resizeMode="contain" />
                             ) : (
                                 <View style={[styles.itemColor, { backgroundColor: opt.color }]} />
                             )}
@@ -488,8 +494,6 @@ const styles = StyleSheet.create({
         transform: [{ scale: 1.08 }],
     },
     optionImage: {
-        width: "60%",
-        height: "60%",
         borderRadius: 12,
     },
     checkmarkContainer: {
