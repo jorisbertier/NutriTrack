@@ -371,6 +371,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
         top: -35,
+        marginBottom: 40
         
     },
     image: {

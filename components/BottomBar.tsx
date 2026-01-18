@@ -3,6 +3,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/ThemeProvider';
 import LottieView from 'lottie-react-native';
+import { Platform, StatusBar } from 'react-native';
 
 type BottomInputBarProps = {
     filterUniqueFood: {
@@ -38,7 +39,7 @@ export default function BottomInputBar({
     return (
         <>
         {(filterUniqueFood?.unit === 'g' || filterUniqueFood?.unit === "ml") && (
-            <View style={[styles.wrapper, { backgroundColor: colors.gray, borderTopColor: colors.grayDark }]}>
+            <View style={[styles.wrapper, { borderTopColor: colors.grayDark }]}>
             {/* Single compact row */}
             <View style={styles.row}>
                 {/* Picker */}
@@ -115,14 +116,18 @@ export default function BottomInputBar({
 const styles = StyleSheet.create({
     wrapper: {
         position: 'absolute',
-        bottom: 0,
-        width: '100%',
+        // bottom: Platform.OS === 'android' ? (StatusBar.currentHeight ?? 0) : StatusBar.currentHeight ?? 0,
+        bottom: 50,
+        backgroundColor: 'rgba(162, 162, 162, 0.3)',
+        width: '95%',
+        alignSelf: 'center',
         paddingHorizontal: 12,
         zIndex: 999,
         height: 110,
         justifyContent: 'center',
         borderTopWidth: 0,
-        marginBottom: 0
+        marginHorizontal: "5%",
+        borderRadius: 30
     },
     row: {
         flex: 1,
@@ -132,10 +137,8 @@ const styles = StyleSheet.create({
     },
     pickerWrapper: {
         flex: 1.8,
-        overflow: 'hidden',
         borderTopRightRadius: 15,
         borderRadius: 15,
-        borderWidth: 1,
         borderColor: '#ccc',
     },
     picker: {
@@ -147,7 +150,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 8,
-        borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 15,
     },

@@ -145,10 +145,10 @@ export default function StopWatch({selectedChallenge, email }: any) {
                 ) : (
                 <>
                     <TouchableOpacity
-                    style={[styles.button, styles.startButton, { backgroundColor: colors.primary }]}
-                    onPress={startStopwatch}
-                    >
-                    <Text style={styles.buttonText}>Start</Text>
+                        style={[styles.button, styles.startButton, { backgroundColor: colors.primary }]}
+                        onPress={startStopwatch}
+                        >
+                        <Text style={styles.buttonText}>Start</Text>
                     </TouchableOpacity>
                 </>
                 )}
