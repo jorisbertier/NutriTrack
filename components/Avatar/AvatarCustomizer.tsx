@@ -72,12 +72,12 @@ const categoryOptions: Record<string, Option[]> = {
     ],
     eyes: [
         { id: "1", source: "", value: 0 },
-        { id: "2", source: require("../../assets/avatar/hat/hat1.png"), value: 1 },
-        { id: "3", source: require("../../assets/avatar/hat/hat2.png"), value: 2 },
-        { id: "4", source: require("../../assets/avatar/hat/hat3.png"), value: 3 },
-        { id: "5", source: require("../../assets/avatar/hat/hat3.png"), value: 4 },
-        { id: "6", source: require("../../assets/avatar/hat/hat3.png"), value: 5 },
-        { id: "7", source: require("../../assets/avatar/hat/hat3.png"), value: 6 },
+        { id: "2", source: require("../../assets/avatar/eyes/eyes_00.png"), value: 1 },
+        { id: "3", source: require("../../assets/avatar/eyes/eyes_01.png"), value: 2 },
+        { id: "4", source: require("../../assets/avatar/eyes/eyes_02.png"), value: 3 },
+        { id: "5", source: require("../../assets/avatar/eyes/eyes_03.png"), value: 4 },
+        { id: "6", source: require("../../assets/avatar/eyes/eyes_04.png"), value: 5 },
+        { id: "7", source: require("../../assets/avatar/eyes/eyes_05.png"), value: 6 },
     ],
     mouth: [
         { id: "1", source: require("../../assets/avatar/mouth/mouth_00.png"), value: 0 },
@@ -92,16 +92,16 @@ const categoryOptions: Record<string, Option[]> = {
         { id: "10", source: require("../../assets/avatar/mouth/mouth_09.png"), value: 9 },
     ],
     glass: [
-        { id: "1", source: require("../../assets/avatar/mouth/mouth_00.png"), value: 0 },
-        { id: "2", source: require("../../assets/avatar/mouth/mouth_01.png"), value: 1 },
-        { id: "3", source: require("../../assets/avatar/mouth/mouth_02.png"), value: 2 },
-        { id: "4", source: require("../../assets/avatar/mouth/mouth_03.png"), value: 3 },
-        { id: "5", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 4 },
-        { id: "6", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 5 },
-        { id: "7", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 6 },
-        { id: "8", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 7 },
-        { id: "9", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 8 },
-        { id: "10", source: require("../../assets/avatar/mouth/mouth_04.png"), value: 9 },
+        { id: "1", source: "", value: 0 },
+        { id: "2", source: require("../../assets/avatar/glasses/glasses_01.png"), value: 1 },
+        { id: "3", source: require("../../assets/avatar/glasses/glasses_02.png"), value: 2 },
+        { id: "4", source: require("../../assets/avatar/glasses/glasses_03.png"), value: 3 },
+        { id: "5", source: require("../../assets/avatar/glasses/glasses_04.png"), value: 4 },
+        { id: "6", source: require("../../assets/avatar/glasses/glasses_05.png"), value: 5 },
+        { id: "7", source: require("../../assets/avatar/glasses/glasses_06.png"), value: 6 },
+        { id: "8", source: require("../../assets/avatar/glasses/glasses_07.png"), value: 7 },
+        { id: "9", source: require("../../assets/avatar/glasses/glasses_08.png"), value: 8 },
+        { id: "10", source: require("../../assets/avatar/glasses/glasses_09.png"), value: 9 },
     ],
 };
 
@@ -113,13 +113,16 @@ const riveMappings: Record<string, { machine: string; input: string }> = {
     glass: { machine: "StateMachineChangeEyesColor", input: "GlassType" },
 };
 
+
 export const AvatarCustomizer = () => {
+
     const [selectedCategory, setSelectedCategory] = useState("glasses");
     const { colors } = useTheme();
-    // const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
     const riveRef = React.useRef<RiveRef>(null);
     const userLevel = useSelector((state: RootState) => state.user.user?.level ?? 0);
-    console.log("User level:", userLevel);
+    const isInclude = ["mouth", "eyes"].includes(selectedCategory);
+
+
     //@ts-ignore
     const { selectedOptions, setSelectedOptions, riveReady } = useRiveSelections(
         riveRef,
@@ -144,36 +147,8 @@ export const AvatarCustomizer = () => {
         return () => clearTimeout(timer);
     }, [selectedOptions]);
     
-    console.log('selectedOption', selectedOptions);
-
-    //     if (riveRef.current) {
-    // exemple d’API hypothétique : setInputState(stateMachineName, inputName, value)
-    //@ts-ignore
-    //   riveRef.current.setInputState("MyStateMachine", inputName, value);
-    // }
-    // const test = riveRef.current?.setInputState("MyStateMachine", "EyeColor", 2);
-    const handlePlay = () => { riveRef.current?.play() };
     const [colorIndex, setColorIndex] = useState(0);
     
-    // const handleChangeColor = () => {
-    
-    //     // Cycle entre 0 → 1 → 2 → 0
-    //     const nextColor = (colorIndex + 1) % 5;
-    
-    //     // Change l’input "EyeColor" dans la state machine
-    //     riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", nextColor);
-    //     console.log("🎨 set EyeColor =", nextColor, riveRef.current);
-    
-    //     // Met à jour l’état React
-    //     setColorIndex(nextColor);
-    
-    //     console.log("👁 Couleur changée :", nextColor);
-    // };
-    
-    // const handleCategorySelect = (catId: string) => {
-    //     setSelectedCategory(catId);
-    //     setSelectedOption(null); // Reset selection
-    // };
 
     console.log("selectedOption", selectedOptions);
 
@@ -187,50 +162,6 @@ export const AvatarCustomizer = () => {
             console.error("Error saving selection", e);
         }
     };
-
-    //     const [riveReady, setRiveReady] = useState(false);
-
-// useEffect(() => {
-//   if (riveRef.current) setRiveReady(true);
-// }, []);
-
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         const restoreSelections = async () => {
-    //         try {
-    //             const savedEyeColor = await AsyncStorage.getItem("EyeColor");
-    //             const savedHat = await AsyncStorage.getItem("HatType");
-
-    //             setSelectedOptions({
-    //             color: savedEyeColor ? categoryOptions.color.find(opt => opt.value === parseInt(savedEyeColor))?.id || null : null,
-    //             hat: savedHat ? categoryOptions.hat.find(opt => opt.value === parseInt(savedHat))?.id || null : null,
-    //             });
-    //         } catch (e) {
-    //             console.error("Error restoring selections", e);
-    //         }
-    //         };
-
-    //         restoreSelections();
-    //     }, [])
-    // );
-    // useEffect(() => {
-    //     if (!riveReady) return;
-
-    //     if (selectedOptions.color) {
-    //         const value = categoryOptions.color.find(opt => opt.id === selectedOptions.color)?.value;
-    //         if (value !== undefined) {
-    //         riveRef.current?.setInputState("StateMachineChangeEyesColor", "EyeColor", value);
-    //         }
-    //     }
-
-    //     if (selectedOptions.hat) {
-    //         const value = categoryOptions.hat.find(opt => opt.id === selectedOptions.hat)?.value;
-    //         if (value !== undefined) {
-    //         riveRef.current?.setInputState("StateMachineChangeEyesColor", "HatType", value);
-    //         }
-    //     }
-    // }, [riveReady, selectedOptions]);
-    //ANIMATIONS SHAKES FOR OPTIONS LOCKED
 
     const shakeMap = useRef({});
     const getShakeAnim = (id) => {
@@ -363,9 +294,9 @@ export const AvatarCustomizer = () => {
                             {selectedCategory !== "color" ? (
                                 <Image source={opt.source} style={[styles.optionImage,
                                     {
-                                        width: selectedCategory === "mouth" ? "180%" : "60%",
-                                        height: selectedCategory === "mouth" ? "180%" : "60%",
-                                        marginTop: selectedCategory === "mouth" ? 40 : 0,
+                                        width: isInclude ? "180%" : "60%",
+                                        height: isInclude ? "180%" : "60%",
+                                        marginTop: isInclude ? 40 : 0,
                                     }]} resizeMode="contain" />
                             ) : (
                                 <View style={[styles.itemColor, { backgroundColor: opt.color }]} />
