@@ -36,7 +36,7 @@ export default function BottomInputBarQr({
 
         return (
         <>
-            <View style={[styles.wrapper, { backgroundColor: colors.gray, borderTopColor: colors.grayDark }]}>
+            <View style={[styles.wrapper, { borderTopColor: colors.grayDark }]}>
             {/* Single compact row */}
             <View style={styles.row}>
                 {/* Picker */}
@@ -113,14 +113,18 @@ export default function BottomInputBarQr({
 const styles = StyleSheet.create({
     wrapper: {
         position: 'absolute',
-        bottom: 0,
-        width: '100%',
+        bottom: 50,
+        backgroundColor: 'rgba(162, 162, 162, 0.3)',
+        width: '95%',
+        alignSelf: 'center',
+        marginHorizontal: "5%",
         paddingHorizontal: 12,
         zIndex: 999,
         height: 110,
         justifyContent: 'center',
         borderTopWidth: 0,
-        marginBottom: 0
+        marginBottom: 0,
+        borderRadius: 30
     },
     row: {
         flex: 1,
