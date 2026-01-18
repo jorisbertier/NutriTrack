@@ -161,8 +161,8 @@ export default function HomeScreen() {
     <>
       <StatusBar barStyle="light-content" />
       <Banner name={userData[0]?.name} isLoading={isLoading} profilePictureId={Number(userData[0]?.profilPicture)} isPremium={isPremium}/>
-      <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+      <SafeAreaView style={[styles.header, {backgroundColor: colors.white}]} edges={['left', 'right']} >
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 0 }}>
           <Row style={{marginTop: 40}}>
             <ThemedText variant='title' color={colors.black}>Nutri track</ThemedText>
           </Row>
@@ -290,11 +290,10 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    position: 'relative',
+    // position: 'relative',
     paddingHorizontal: 12,
-    paddingBottom: 8,
     flex: 1,
-    marginTop: -35
+    marginTop: -15,
   },
   rowTwoItems: {
     flexDirection: 'row',
@@ -309,7 +308,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     padding: 0,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
 })
 
