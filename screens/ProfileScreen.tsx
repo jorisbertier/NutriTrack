@@ -1,5 +1,5 @@
 import { User } from '@/interface/User';
-import { deleteUser, getAuth, signOut } from 'firebase/auth';
+import { deleteUser, EmailAuthProvider, getAuth, reauthenticateWithCredential, signOut } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
@@ -40,6 +40,8 @@ const ProfileScreen = () => {
   
   const navigation = useNavigation()
   const genderKey = userData[0]?.gender;
+
+  const [password, setPassword] = useState('');
 
   /**RIVE SETUP*/
   const riveRef = useRef<RiveRef>(null);
@@ -119,51 +121,52 @@ useEffect(() => {
     setModalVisible(true);
   };
 
+  const reauthenticate = async (password: string) => {
+    const user = auth.currentUser;
+    if (!user || !user.email) throw new Error("No user");
+
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      password
+    );
+
+    await reauthenticateWithCredential(user, credential);
+  };
+
   const handleDeleteAccount = async () => {
     try {
-      if(auth.currentUser) {
-        const lastSignInTime = auth.currentUser.metadata.lastSignInTime;
-        if (!lastSignInTime) {
-          console.log("Last sign-in time is undefined.");
-          return;
-        }
-        const currentTime = new Date().getTime();
-        const sessionDuration = currentTime - new Date(lastSignInTime).getTime();
-  
-        // Si la session dure plus de 1 heure (3600000 ms), demandez à l'utilisateur de se déconnecter et de se reconnecter
-        if (sessionDuration > 3600000) {
-          Alert.alert(
-            'Security Alert',
-            'You have been logged in for too long. Please log out and log in again for security reasons.',
-            [
-              { text: 'OK' },
-            ],
-          );
-          return;
-        }
+      if (!auth.currentUser) return;
 
-        deleteByCollection('UserMealsCreated',auth.currentUser.uid, 'userId')
-        deleteByCollection('UserCreatedFoods',auth.currentUser.uid, 'idUser')
-        deleteByCollection('UserMeals',auth.currentUser.uid, 'userId')
+      const uid = auth.currentUser.uid;
+      const userId = userData[0]?.id;
 
-        const userDocRef = doc(firestore, "User", auth.currentUser.uid);
-        await deleteDoc(userDocRef);
-        console.log("User document deleted from Firestore");
-    
-        await deleteUser(auth.currentUser);
-        console.log("User deleted from authentication");
+      await reauthenticate(password);
 
-        dispatch(clearUser());
-        setModalVisible(false)
-        
-        handleSignOut()
-      }else {
-        console.log("No current user found");
+      await Promise.all([
+        deleteByCollection('UserMealsCreated', uid, 'userId'),
+        deleteByCollection('UserCreatedFoods', uid, 'idUser'),
+        deleteByCollection('UserMeals', uid, 'userId'),
+      ]);
+
+      if (userId) {
+        await deleteDoc(doc(firestore, "User", userId));
       }
+
+      await deleteUser(auth.currentUser);
+
+      dispatch(clearUser());
+      setModalVisible(false);
+
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'auth' }],
+      });
+
     } catch (error) {
-      console.log("Error during the deletion of account", error);
+      console.error("Delete account error:", error);
+      Alert.alert("Error", "Please re-login and try again.");
     }
-  }
+  };
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -469,6 +472,13 @@ useEffect(() => {
                 value={confirmationText}
                 onChangeText={setConfirmationText}
                 autoCapitalize="none"
+              />
+              <TextInput
+                style={modal.textInput}
+                placeholder={t('password')}
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
               />
 
               <View style={modal.modalButtons}>
