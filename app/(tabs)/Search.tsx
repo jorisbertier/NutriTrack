@@ -15,6 +15,13 @@ import { useSelector } from "react-redux";
 import Svg, { Path } from "react-native-svg";
 import { DayCarousel } from "@/components/DayCarousel";
 
+const localeMap: Record<string, string> = {
+    fr: 'fr-FR',
+    es: 'es-ES',
+    en: 'en-US',
+};
+
+
 export default function Search() {
 
     const { colors } = useTheme();
@@ -30,6 +37,8 @@ export default function Search() {
     const colorMode: 'light' | 'dark' = 'light';
     const [error, setError] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const locale = localeMap[i18n.language] || 'en-US';
+    
 
     const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
 
@@ -40,7 +49,13 @@ export default function Search() {
             setSelectedDate(date);
         }
     };
-    console.log(selectedDate)
+    const formattedDate = new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        timeZone: timeZone,
+    }).format(selectedDate);
+    
     
     useEffect(() => {
 

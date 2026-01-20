@@ -3,11 +3,18 @@ import React, { useRef } from 'react'
 import { Animated, Easing, Text, TouchableOpacity, View } from 'react-native'
 import { ThemedText } from './ThemedText'
 import { useTheme } from '@/hooks/ThemeProvider'
+import { useTranslation } from 'react-i18next'
 
 type DayCarouselProps = {
     selectedDate: Date;
     setSelectedDate: (date: Date) => void;
     handleOpenCalendar: () => void;
+};
+
+const localeMap: Record<string, string> = {
+    fr: 'fr-FR',
+    es: 'es-ES',
+    en: 'en-US',
 };
 
 export const DayCarousel: React.FC<DayCarouselProps> = ({
@@ -17,6 +24,8 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
 }) => {
 
     const { colors } = useTheme();
+    const { i18n } = useTranslation();
+    const locale = localeMap[i18n.language] || 'en-US';
 
     const fadeAnim = useRef(new Animated.Value(1)).current;
     const translateY = useRef(new Animated.Value(0)).current;
@@ -95,7 +104,7 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
                     }}
                 >
                     <ThemedText variant="title3" color={colors.black} style={{ fontSize: 12 }}>
-                    {capitalizeFirstLetter(previousDay.toLocaleString("default", { weekday: "short" }))}
+                    {capitalizeFirstLetter(previousDay.toLocaleString(locale, { weekday: "short" }))}
                     </ThemedText>
                     <Text style={{ fontSize: 18, fontWeight: "500", color: colors.black }}>{previousDay.getDate()}</Text>
                 </TouchableOpacity>
@@ -120,7 +129,7 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
                             color={colors.blackFix}
                             style={{ fontSize: 12, textAlign: "center" }}
                             >
-                            {capitalizeFirstLetter(selectedDate.toLocaleString("default", { weekday: "short" }))}
+                            {capitalizeFirstLetter(selectedDate.toLocaleString(locale , { weekday: "short" }))}
                             </ThemedText>
                             <Text style={{ fontSize: 20, fontWeight: "600", textAlign: "center" }}>
                             {selectedDate.getDate()}
@@ -128,7 +137,7 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
                             <Text
                             style={{ fontSize: 16, textAlign: "center", fontWeight: "500", color: colors.blackFix }}
                             >
-                            {capitalizeFirstLetter(selectedDate.toLocaleString("default", { month: "short" }))}
+                            {capitalizeFirstLetter(nextDay.toLocaleString(locale, { month: "short" }))}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -149,7 +158,7 @@ export const DayCarousel: React.FC<DayCarouselProps> = ({
                     }}
                 >
                     <ThemedText variant="title3" color={colors.black} style={{ fontSize: 12 }}>
-                    {capitalizeFirstLetter(nextDay.toLocaleString("default", { weekday: "short" }))}
+                    {capitalizeFirstLetter(nextDay.toLocaleString(locale, { weekday: "short" }))}
                     </ThemedText>
                     <Text style={{ fontSize: 18, fontWeight: "500", color: colors.black }}>{nextDay.getDate()}</Text>
                 </TouchableOpacity>
