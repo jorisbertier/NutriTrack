@@ -297,7 +297,7 @@ export default function QrCodeScreen({ route }) {
       behavior="padding"
       keyboardVerticalOffset={0}
     >
-      <View style={{ flex: 1, backgroundColor: colors.white }}>
+      <View style={{ flex: 1, backgroundColor: colors.white, paddingBottom: 120 }}>
         <View style={{flexDirection: "row", justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center'}}>
         <Pressable onPress={() => router.back() } style={{ padding: 16, marginTop: 20 }}>
           <Image source={require('@/assets/images/back.png')} style={styles.icon} />
