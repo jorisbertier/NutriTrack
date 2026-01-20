@@ -407,5 +407,8 @@
     "Overweight": "Sobrepeso",
     "Obese": "Obesidad",
     "data_bmi_error": "Por favor, proporciona un peso y altura válidos.",
-    "bmi_subtitle": "El IMC indica tu peso en relación con tu altura"
+    "bmi_subtitle": "El IMC indica tu peso en relación con tu altura",
+    "hi": "Hola",
+    "dailyintake": "Ingesta diaria",
+    "kcalleft": "calorías restantes"
 }

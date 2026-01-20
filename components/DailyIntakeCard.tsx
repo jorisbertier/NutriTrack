@@ -41,6 +41,7 @@ export const DailyIntakeCard: React.FC<Props> = ({
 }) => {
 
     const { colors } = useTheme();
+    const { t } = useTranslation();
     
     const safeGoal = Math.max(1, Math.round(basalMetabolicRate || 0));
     const current = Math.max(0, Math.round(totalKcalConsumeToday || 0));
@@ -81,7 +82,7 @@ export const DailyIntakeCard: React.FC<Props> = ({
                         )}
                     </View>
                     <Text style={[styles.titleText, { color: colors.blackFix }]}>
-                        Daily intake
+                        {t('dailyintake')}
                     </Text>
                 </View>
 
@@ -150,7 +151,7 @@ export const DailyIntakeCard: React.FC<Props> = ({
             {typeof remaining === "number" && remaining > 0 &&(
                 <View style={[styles.badge, { backgroundColor: colors.grayMode }]}>
                     <Text style={[styles.badgeText, { color: colors.black }]}>
-                        {Math.round(remaining)} kcal left
+                        {Math.round(remaining)} {t('kcalleft')}
                     </Text>
                 </View>
             )}

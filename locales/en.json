@@ -408,5 +408,8 @@
         "Overweight": "Overweight",
         "Obese": "Obese",
         "data_bmi_error": "Please provide a valid weight and height.",
-        "bmi_subtitle": "BMI indicates your weight relative to your height"
+        "bmi_subtitle": "BMI indicates your weight relative to your height",
+        "hi": "Hi",
+        "dailyintake": "Daily intake",
+        "kcalleft": "kcal left"
 }

@@ -131,7 +131,7 @@ export default function Banner({name, isLoading, profilePictureId, isPremium}: P
                     </Skeleton>
                         <View style={{flexDirection: 'column'}}>
                         {isLoading ? 
-                            <Text style={{color: 'white', fontSize: 28, maxWidth: 280, fontWeight: 800, letterSpacing: 2, flexWrap: 'wrap'}}>{greetings[currentGreeting]}, {name}!</Text>
+                            <Text style={{color: 'white', fontSize: 28, maxWidth: 280, fontWeight: 800, letterSpacing: 2, flexWrap: 'wrap'}}>{t('hi')}, {name}!</Text>
                         :
                         <Skeleton colorMode={colorMode} width={200} height={30} />
                         }

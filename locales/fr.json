@@ -420,6 +420,9 @@
     "Overweight": "Surpoids",
     "Obese": "Obésité",
     "data_bmi_error": "Veuillez fournir un poids et une taille valides.",
-    "bmi_subtitle": "L’IMC indique votre poids par rapport à votre taille"
+    "bmi_subtitle": "L’IMC indique votre poids par rapport à votre taille",
+    "hi": "Bonjour",
+    "dailyintake": "Apport quotidien",
+    "kcalleft": "calories restantes"
 
 }
