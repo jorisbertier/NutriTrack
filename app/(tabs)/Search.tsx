@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, TextInput, Image, View, FlatList, TouchableOpacity, Text, ScrollView, Animated, Easing} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import Row from "@/components/Row";
 import CardFood from "@/components/Search/CardFood";
 import { foodData } from "@/data/food.js";
@@ -41,6 +41,7 @@ export default function Search() {
     
 
     const isPremium = useSelector((state: RootState) => state.subscription.isPremium);
+    const insets = useSafeAreaInsets();
 
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const setDate = (event: DateTimePickerEvent, date: Date | undefined) => {
@@ -220,7 +221,10 @@ export default function Search() {
                         keyExtractor={(item, index) =>
                             item.userMealId ? `meal-${item.userMealId}` : `id-${item.id}-${index}`
                     }
-                        contentContainerStyle={styles.wrapperFood}
+                        contentContainerStyle={{
+                            paddingBottom: 100,
+                            gap: 10
+                            }}
                     />
                     
                 {filteredFood.length === 0 && <Text style={{color: colors.black}}>
@@ -299,7 +303,6 @@ const styles = StyleSheet.create({
     wrapperFood : {
         flexDirection: 'column',
         gap: 10,
-        paddingBottom: 100,
         
     },
     wrapperCreate : {
