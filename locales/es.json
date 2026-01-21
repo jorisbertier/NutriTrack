@@ -410,5 +410,7 @@
     "bmi_subtitle": "El IMC indica tu peso en relación con tu altura",
     "hi": "Hola",
     "dailyintake": "Ingesta diaria",
-    "kcalleft": "calorías restantes"
+    "kcalleft": "calorías restantes",
+    "bmi": "IMC",
+    "bmi_text": "El IMC indica tu peso en relación con tu altura."
 }

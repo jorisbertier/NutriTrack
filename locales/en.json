@@ -411,5 +411,7 @@
         "bmi_subtitle": "BMI indicates your weight relative to your height",
         "hi": "Hi",
         "dailyintake": "Daily intake",
-        "kcalleft": "kcal left"
+        "kcalleft": "kcal left",
+        "bmi": "BMI",
+        "bmi_text": "BMI indicates your weight relative to your height."
 }

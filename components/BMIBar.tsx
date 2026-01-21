@@ -77,7 +77,7 @@ export default function BMIBar({ weight, height }: BMIBarProps) {
                     </View>
                 </View>
                 {/* <Text style={styles.subtitle}>Your current BMI Mass Index</Text> */}
-                <Text style={styles.subtitle}>BMI indicates your weight relative to your height.</Text>
+                <Text style={styles.subtitle}>{t("bmi_text")}</Text>
                 {/* <Text style={styles.helperText}>
                     BMI indicates your weight relative to your height.
                 </Text> */}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         width: "100%",
         alignSelf: "center",
         backgroundColor: "#FFF",
-        borderRadius: 16,
+        borderRadius: 40,
         padding: 20,
         marginTop: 20,
         marginBottom: 20,

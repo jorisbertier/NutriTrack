@@ -192,72 +192,17 @@ useEffect(() => {
           </View>
         </View>
       <View style={styles.profileHeader}>
-      {/* <Skeleton colorMode={colorMode} width={120} height={120} radius={'round'}>
-      {!isLoading ? <Image source={avatar} style={styles.profileImage} />  : null }
-      </Skeleton> */}
-      <View style={{backgroundColor: colors.whiteFix, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
-          <Rive
-              ref={riveRef}
-              // source={require("../assets/rive/panda_neutral (25).riv")}
-              source={require("../assets/rive/panda_neutral (31).riv")}
-              autoplay={true}
-              onStateChanged={() => {
-                restoreSelections();
-              }}
-              style={{ width: 200, height: 200, marginTop: 50 }}
-          />
-      </View>
-                {/* <Rive
-              ref={riveRef}
-              source={require("../assets/rive/panda_neutral (22).riv")}
-              autoplay={true}
-              style={{ width: 200, height: 200, marginTop: 50 }}
-          /> */}
-          {/* <Rive
-              ref={riveRef}
-              source={require("../assets/rive/panda_neutral (19).riv")}
-              autoplay={true}
-              style={{ width: 200, height: 200, marginTop: 50 }}
-          /> */}
-
-{/* TEST DIFFERENT SIZE PANDA  */}
-        {/* <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
-          <Rive
-              source={require("../assets/rive/panda_neutral (8).riv")}
-              autoplay={true}
-              style={{ width: 200, height: 200, marginTop: 70 }}
-          />
-      </View>
-              <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
-          <Rive
-              source={require("../assets/rive/panda_neutral.riv")}
-              autoplay={true}
-              style={{ width: 200, height: 200, marginTop: 70 }}
-          />
-      </View>
-        <View style={{backgroundColor: colors.white, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
-          <Rive
-              source={require("../assets/rive/panda_neutral (7).riv")}
-              autoplay={true}
-              style={{ width: 200, height: 200, marginTop: 70 }}
-          />
-      </View>
-          <Rive
-              source={require("../assets/rive/panda_neutral (9).riv")}
-              autoplay={true}
-              style={{ width: 200, height: 200, marginTop: 70 }}
-          />          <Rive
-              source={require("../assets/rive/panda_neutral (10).riv")}
-              autoplay={true}
-              style={{ width: 200, height: 200, marginTop: 70 }}
-          />    <Rive
-              source={require("../assets/rive/panda_neutral (11).riv")}
-              autoplay={true}
-              style={{ width: 200, height: 200, marginTop: 70 }}
-          /> */}
-      {/* {isLoading ? <Image source={{ uri: `data:image/jpeg;base64,${userData[0]?.profilPicture}` }} style={styles.profileImage} />  : <Skeleton colorMode={colorMode} height={120} width={120} radius={'round'}/> } */}
-        {/* {!isLoading ? <Text style={[styles.name, { color: colors.black}]}>{userData[0]?.name} {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
-        {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> } */}
+        <View style={{backgroundColor: colors.whiteFix, borderRadius: "50%",overflow: 'hidden', justifyContent: 'center', alignItems: 'center', height: 150, width: 150, marginTop: -8}}>
+            <Rive
+                ref={riveRef}
+                source={require("../assets/rive/panda_neutral (31).riv")}
+                autoplay={true}
+                onStateChanged={() => {
+                  restoreSelections();
+                }}
+                style={{ width: 200, height: 200, marginTop: 50 }}
+            />
+        </View>
       </View>
       <TouchableOpacity
         onPress={() => navigation.navigate("Avatar")}
@@ -266,10 +211,10 @@ useEffect(() => {
           flexDirection: "row",
           alignItems: "center",
           backgroundColor: colors.white,
-          padding: 6,
+          padding: 10,
           marginVertical: 0,
           marginHorizontal: 0,
-          borderRadius: 12,
+          borderRadius: 40,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.1,
@@ -300,83 +245,64 @@ useEffect(() => {
           />
       </TouchableOpacity>
       <BMIBar weight={70} height={180}/>
-      {/* <View style={{ flexDirection: 'row',  marginBottom: 20}}>
-        <View style={{width: '50%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 5, borderBottomColor: "black"}}>
-        <Text style={{}} >Profile</Text>
-          
-        </View>
-        <View style={{width: '50%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 5, borderBottomColor: "black"}}>
-        <Text>Achievments</Text>
 
-        </View>
-      </View> */}
       <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('personal_information')}</Text>
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('firstName')}: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={100}/> }
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('lastName')}: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('gender')}: {t(`gender_${genderKey}`)}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={200}/></View> }
-        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('dateOfBirth')}: {userData[0]?.dateOfBirth}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
-        
-        {!isLoading ? <Text style={[styles.email, { color: colors.black}]}>{t('email')} : {userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
-        </View>
+        <Text style={[styles.sectionTitle, {color: colors.grayDarkFix}]}>{t('activity')}</Text>
+
+        {!isLoading ? (
+          <>
+            <Text style={[styles.infoText, {color: colors.black}]}>
+              {t('activityLevel')}: {t(userRedux?.activityLevel || 'unknown')}
+            </Text>
+
+            <Text style={[styles.infoText, {color: colors.black}]}>
+              {t('goal')}: {t(userRedux?.goal || 'unknown')}
+            </Text>
+
+            {['calories', 'proteins', 'carbs', 'fats'].map((key) => {
+              const value = userRedux?.goalLogs?.[key];
+              if (!value) return null;
+
+              let displayValue = value;
+
+              if (key === 'calories') {
+                const sign =
+                  userRedux?.goal === 'gain'
+                    ? '+ '
+                    : userRedux?.goal === 'lose'
+                    ? '- '
+                    : '';
+                displayValue = `${sign}${value} kcal`;
+              } else {
+                displayValue = `+ ${value} g`;
+              }
+
+              return (
+                <Text key={key} style={[styles.infoText, { color: colors.black }]}>
+                  {t(key)}: {displayValue}
+                </Text>
+              );
+            })}
+          </>
+        ) : (
+          <View style={{ gap: 10 }}>
+            <Skeleton colorMode={colorMode} width={250} />
+            <Skeleton colorMode={colorMode} width={250} />
+            <Skeleton colorMode={colorMode} width={250} />
+            <Skeleton colorMode={colorMode} width={250} />
+            <Skeleton colorMode={colorMode} width={250} />
+            <Skeleton colorMode={colorMode} width={250} />
+          </View>
+        )}
+      </View>
       <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('healthDetails')}</Text>
+        <Text style={[styles.sectionTitle, {color: colors.grayDarkFix}]}>{t('healthDetails')}</Text>
         {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('height')}: {userData[0]?.height} cm</Text> : <Skeleton colorMode={colorMode} width={200}/> }
         {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('weight')}: {userData[0]?.weight} kg</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
       </View>
 
-    <View style={[styles.section, {backgroundColor: colors.white}]}>
-      <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('activity')}</Text>
-
-      {!isLoading ? (
-        <>
-          <Text style={[styles.infoText, {color: colors.black}]}>
-            {t('activityLevel')}: {t(userRedux?.activityLevel || 'unknown')}
-          </Text>
-
-          <Text style={[styles.infoText, {color: colors.black}]}>
-            {t('goal')}: {t(userRedux?.goal || 'unknown')}
-          </Text>
-
-          {['calories', 'proteins', 'carbs', 'fats'].map((key) => {
-            const value = userRedux?.goalLogs?.[key];
-            if (!value) return null;
-
-            let displayValue = value;
-
-            if (key === 'calories') {
-              const sign =
-                userRedux?.goal === 'gain'
-                  ? '+ '
-                  : userRedux?.goal === 'lose'
-                  ? '- '
-                  : '';
-              displayValue = `${sign}${value} kcal`;
-            } else {
-              displayValue = `+ ${value} g`;
-            }
-
-            return (
-              <Text key={key} style={[styles.infoText, { color: colors.black }]}>
-                {t(key)}: {displayValue}
-              </Text>
-            );
-          })}
-        </>
-      ) : (
-        <View style={{ gap: 10 }}>
-          <Skeleton colorMode={colorMode} width={250} />
-          <Skeleton colorMode={colorMode} width={250} />
-          <Skeleton colorMode={colorMode} width={250} />
-          <Skeleton colorMode={colorMode} width={250} />
-          <Skeleton colorMode={colorMode} width={250} />
-          <Skeleton colorMode={colorMode} width={250} />
-        </View>
-      )}
-    </View>
-
       <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('goal')}</Text>
+        <Text style={[styles.sectionTitle, {color: colors.grayDarkFix}]}>{t('goal')}</Text>
         <EditLink
           label={t('editGoal')}
           iconSource={require('@/assets/images/icon/goal.png')}
@@ -395,9 +321,18 @@ useEffect(() => {
           pro
         />
       </View>
+      <View style={[styles.section, {backgroundColor: colors.white}]}>
+        <Text style={[styles.sectionTitle, {color: colors.grayDarkFix}]}>{t('personal_information')}</Text>
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('firstName')}: {userData[0]?.name}</Text> : <Skeleton colorMode={colorMode} width={100}/> }
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('lastName')}: {userData[0]?.firstName}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={150} /></View> }
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('gender')}: {t(`gender_${genderKey}`)}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={200}/></View> }
+        {!isLoading ? <Text style={[styles.infoText, {color: colors.black}]}>{t('dateOfBirth')}: {userData[0]?.dateOfBirth}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250}/></View> }
+        
+        {!isLoading ? <Text style={[styles.infoText, { color: colors.black}]}>{t('email')} : {userData[0]?.email}</Text> : <View style={{marginTop: 5}}><Skeleton colorMode={colorMode} width={250} /></View> }
+      </View>
 
       <View style={[styles.section, {backgroundColor: colors.white}]}>
-        <Text style={[styles.sectionTitle, {color: colors.black}]}>{t('Options')}</Text>
+        <Text style={[styles.sectionTitle, {color: colors.grayDarkFix}]}>{t('Options')}</Text>
 
         {/* <TouchableOpacity style={styles.optionButton} onPress={() => navigation.navigate('EditProfile')}>
           <View style={{flexDirection: 'row', justifyContent:'center', alignItems: 'center', gap: 15}}>
@@ -556,8 +491,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   section: {
-    padding: 15,
-    borderRadius: 15,
+    padding: 25,
+    borderRadius: 40,
     marginBottom: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
@@ -571,7 +506,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   infoText: {
-    fontSize: 16,
+    fontSize: 17,
+    fontWeight: '500',
     marginBottom: 5,
   },
   optionButton: {
@@ -581,11 +517,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent:'space-between'
   },
-  // optionButton: {
-  //   paddingVertical: 10,
-  //   borderBottomWidth: 1,
-  //   borderBottomColor: '#ddd',
-  // },
   optionText: {
         fontSize: 15,
         fontWeight: '400',
@@ -597,6 +528,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     fontSize: 16,
+    fontWeight: '500',
     color: '#FF4D4D',
   },
   langButton: {

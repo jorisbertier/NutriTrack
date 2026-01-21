@@ -56,7 +56,7 @@ const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPr
             ): (
                 <Image
                     source={require('@/assets/images/arrow-right.png')}
-                    style={[styles.arrowIcon, { tintColor: colors.black }]}
+                    style={[styles.arrowIcon, { tintColor: colors.grayDarkFix }]}
                 />
             )}
         </TouchableOpacity>
@@ -65,7 +65,7 @@ const EditLink: React.FC<EditLinkProps> = ({ label, iconSource, navigateTo, onPr
 
 const styles = StyleSheet.create({
     optionButton: {
-        paddingVertical: 10,
+        paddingVertical: 15,
         flexDirection: 'row',
         justifyContent:'space-between'
     },
@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
         height: 20,
     },
     arrowIcon: {
-        width: 15,
-        height: 15,
+        width: 18,
+        height: 18,
     },
     optionText: {
-        fontSize: 15,
-        fontWeight: '400',
+        fontSize: 17,
+        fontWeight: '500',
     },
 });
 

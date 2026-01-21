@@ -423,6 +423,8 @@
     "bmi_subtitle": "L’IMC indique votre poids par rapport à votre taille",
     "hi": "Bonjour",
     "dailyintake": "Apport quotidien",
-    "kcalleft": "calories restantes"
+    "kcalleft": "calories restantes",
+    "bmi": "IMC",
+    "bmi_text": "L’IMC indique votre poids par rapport à votre taille."
 
 }
