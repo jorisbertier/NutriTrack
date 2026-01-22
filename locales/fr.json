@@ -425,6 +425,7 @@
     "dailyintake": "Apport quotidien",
     "kcalleft": "calories restantes",
     "bmi": "IMC",
-    "bmi_text": "L’IMC indique votre poids par rapport à votre taille."
+    "bmi_text": "L’IMC indique votre poids par rapport à votre taille.",
+    "values": "Valeurs nutritionnelles pour "
 
 }

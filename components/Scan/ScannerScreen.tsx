@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, Button, StyleSheet, Pressable } from "react-native";
+import { View, Text, Button, StyleSheet, Pressable, Image } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useNavigation, useIsFocused, useFocusEffect, useRoute } from "@react-navigation/native";
 import { useTheme } from "@/hooks/ThemeProvider";
@@ -70,7 +70,6 @@ export default function ScannerScreen() {
       </Pressable>
       <View style={[styles.scan, { backgroundColor: "rgba(0, 0, 0, 0.5)" }]}>
         <Text style={{color: colors.white, fontWeight: 500, fontSize: 16}}>Scanning</Text>
-
       </View>
       <View style={styles.loading}>
         <LottieView
@@ -78,6 +77,13 @@ export default function ScannerScreen() {
             loop={true}
             style={{ width: 90, height: 90, borderRadius: 30 }}
             autoPlay={true}
+        />
+      </View>
+      <View style={styles.overlayContainer}>
+        <Image 
+          source={require('@/assets/images/scan.png')} 
+          style={styles.scanImage} 
+          resizeMode="contain" 
         />
       </View>
     </View>
@@ -113,5 +119,15 @@ const styles = StyleSheet.create({
     bottom: 150,
     position: "absolute",
     alignSelf: "center",
-  }
+  },
+  overlayContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    pointerEvents: 'none',
+  },
+  scanImage: {
+    width: '85%',
+    height: '50%',
+  },
 });

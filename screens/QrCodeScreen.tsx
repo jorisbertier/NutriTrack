@@ -429,15 +429,15 @@ export default function QrCodeScreen({ route }) {
               </Text>
             </View>
 
-            {getGenericName(productInfo, i18n.language) !== '' && (
+            {getGenericName(productInfo, i18n.language) !== '' ? (
               <Text style={styles.productDesc}>
                 {String(getGenericName(productInfo, i18n.language))}
               </Text>
-            )}
-    <View style={styles.nutritionContainer}>
-      <Text style={styles.nutritionTitle}>
-        Valeurs nutritionnelles pour ({quantityGrams} {productInfo?.product_quantity_unit || "g"})
-      </Text>
+            ) : null}
+          <View style={styles.nutritionContainer}>
+            <Text style={styles.nutritionTitle}>
+              {t("values")} ({quantityGrams} {productInfo?.product_quantity_unit || "g"})
+            </Text>
 
       {[
         { key: "energy-kcal_100g", label: "Calories", unit: "kcal", maxValue: basalMetabolicRate, color: colors.blue, reduxKey: "calories" },

@@ -413,5 +413,6 @@
         "dailyintake": "Daily intake",
         "kcalleft": "kcal left",
         "bmi": "BMI",
-        "bmi_text": "BMI indicates your weight relative to your height."
+        "bmi_text": "BMI indicates your weight relative to your height.",
+        "values": "Nutritional values for "
 }
