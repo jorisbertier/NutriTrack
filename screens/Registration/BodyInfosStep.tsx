@@ -35,14 +35,14 @@ const BodyInfoStep = ({
 
     // Weight items
     const weightItems = Array.from({ length: 236 }, (_, i) => {
-        const kg = i + 15;
+        const kg = i + 25;
         const label = isSwitchOn ? `${kgToLbs(kg)} lbs` : `${kg} kg`;
         return { label, value: kg };
     });
 
     // Height items — toujours en cm
     const heightItems = Array.from({ length: 201 }, (_, i) => {
-        const cm = i + 50;
+        const cm = i + 100;
         return { label: `${cm} cm`, value: cm };
     });
 

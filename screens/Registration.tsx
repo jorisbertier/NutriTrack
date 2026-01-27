@@ -301,10 +301,18 @@ const Registration = () => {
         )}
       </View>
       {currentStep !== 6 ? (
-      <TouchableOpacity style={[styles.nextButton, {backgroundColor: colors.black}]} onPress={handleNext}>
-        <Text style={{ color: 'white', fontSize: 18 }}>
-          <Image source={require('@/assets/images/arrow-right.png')} style={{tintColor: colors.white, alignSelf: 'center', height: 18, width: 18 }} />
-        </Text>
+      <TouchableOpacity
+        style={[styles.nextButton, { backgroundColor: colors.black }]}
+        onPress={handleNext}
+      >
+        <Image
+          source={require('@/assets/images/arrow-right.png')}
+          style={{
+            tintColor: colors.white,
+            height: 18,
+            width: 18,
+          }}
+        />
       </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={handleSubmit}>
@@ -324,12 +332,13 @@ const styles = StyleSheet.create({
     nextButton: {
         position: 'absolute',
         right: 20,
-        bottom: 30,
+        bottom: 70,
         backgroundColor: 'black',
         borderRadius: 50,
         padding: 15,
         alignItems: 'center',
         justifyContent: 'center',
+        overflow: 'visible',
     },
     button: {
       marginTop: 30,

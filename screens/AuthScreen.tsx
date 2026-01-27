@@ -97,8 +97,8 @@ const AuthScreen = () => {
       {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" />}
 
       <View style={styles.header}>
-        <Image source={require('@/assets/images/logo/logo2.png')} style={styles.logo} />
         <ThemedText variant="title" color={colors.whiteFix}>Nutri Track</ThemedText>
+        <Image source={require('@/assets/images/logo/logo2.png')} style={styles.logo} />
         <ThemedText variant="subtitle" color={colors.grayDark}>{t('textInformAuthscreen')}</ThemedText>
       </View>
 
