@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, TextInput, StyleSheet, Text, Image, TouchableOpacity, ActivityIndicator, Modal } from 'react-native';
 import { auth } from '../firebaseConfig';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 const AuthScreen = () => {
 
   const [email, setEmail] = useState('');
+  const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const {theme, colors} = useTheme();
@@ -92,19 +93,24 @@ const AuthScreen = () => {
     }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.whiteMode }]}>
+    <View style={[styles.container, { backgroundColor: colors.blackFix }]}>
       {theme === "light" ? <StatusBar style="dark" /> : <StatusBar style="light" />}
 
       <View style={styles.header}>
         <Image source={require('@/assets/images/logo/logo2.png')} style={styles.logo} />
-        <ThemedText variant="title" color={colors.black}>Nutri Track</ThemedText>
+        <ThemedText variant="title" color={colors.whiteFix}>Nutri Track</ThemedText>
         <ThemedText variant="subtitle" color={colors.grayDark}>{t('textInformAuthscreen')}</ThemedText>
       </View>
 
       <View style={styles.form}>
-        <View style={styles.wrapper}>
+          <View style={[
+            styles.modernInputWrapper, 
+            isEmailFocused && styles.inputFocused, 
+            { backgroundColor: colors.whiteMode }
+          ]}>
+          <Image source={require('@/assets/images/profil/user.png')} style={[styles.modernIcon, { tintColor: isEmailFocused ? colors.primary : colors.grayDarkFix }]}  />
           <TextInput
-            style={[styles.inputField, { color: colors.blackFix, borderColor: isEmailFocused ? colors.blackBorder : colors.grayDarkBorder }]}
+            style={[styles.modernInput, { color: colors.blackFix, borderColor: isEmailFocused ? colors.blackBorder : colors.grayDarkBorder }]}
             placeholder={t('email')}
             placeholderTextColor={colors.grayDarkFix}
             value={email}
@@ -114,11 +120,21 @@ const AuthScreen = () => {
             onFocus={() => setIsEmailFocused(true)}
             onBlur={() => setIsEmailFocused(false)}
           />
-          <Image source={require('@/assets/images/profil/user.png')} style={[styles.logoForm, { tintColor: isEmailFocused ? colors.blackFix : colors.grayDarkFix}]} />
         </View>
-        <View style={styles.wrapper}>
+        <View style={[
+          styles.modernInputWrapper, 
+          isPasswordFocused && styles.inputFocused, 
+          { backgroundColor: colors.whiteMode }
+        ]}>
+          {/* Icône de gauche (Clé) */}
+          <Image 
+            source={require('@/assets/images/profil/key.png')} 
+            style={[styles.modernIcon, { tintColor: isPasswordFocused ? colors.primary : colors.grayDarkFix }]} 
+          />
+
+          {/* Champ de saisie */}
           <TextInput
-            style={[styles.inputField, { flex: 1, color: colors.blackFix, borderColor: isPasswordFocused ? colors.black : colors.grayDark }]}
+            style={[styles.modernInput, { color: colors.blackFix }]}
             placeholder={t('password')}
             placeholderTextColor={colors.grayDarkFix}
             secureTextEntry={showPassword}
@@ -127,30 +143,40 @@ const AuthScreen = () => {
             onFocus={() => setIsPasswordFocused(true)}
             onBlur={() => setIsPasswordFocused(false)}
           />
-            <Image source={require('@/assets/images/profil/key.png')} style={[styles.logoForm, { tintColor: isPasswordFocused ? colors.blackFix : colors.grayDarkFix}]} />
-          {showPassword ? (
-            <TouchableOpacity style={styles.wrapperLogo} onPress={() => setShowPassword(false)}>
-              <Image source={require('@/assets/images/eye-show.png')} style={[styles.logoPassword, { tintColor: isPasswordFocused ? colors.blackFix : colors.grayDarkFix}]} />
 
-            </TouchableOpacity>
-          ):  (
-            <TouchableOpacity style={styles.wrapperLogo} onPress={() => setShowPassword(true)}>
-              <Image source={require('@/assets/images/eye-off.png')} style={[styles.logoPassword, { tintColor: theme === "light" ? colors.grayDarkFix : colors.grayDarkFix}]} />
-            </TouchableOpacity>
-              
-          )}
+          {/* Icône de droite (Œil) */}
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <Image 
+              source={showPassword 
+                ? require('@/assets/images/eye-show.png') 
+                : require('@/assets/images/eye-off.png')
+              } 
+              style={[styles.modernIcon, { tintColor: colors.grayDarkFix, opacity: 0.6 }]} 
+            />
+          </TouchableOpacity>
         </View>
 
         {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
         <TouchableOpacity
           onPress={signIn}
-          style={[styles.signInButton, { backgroundColor: colors.black }]}
+          style={[styles.signInButton, { backgroundColor: colors.whiteFix }]}
         >
-          <Text style={[styles.signInText, { color: colors.white}]}>{t('login')}</Text>
+          <Text style={[styles.signInText, { color: colors.blackFix}]}>{t('login')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ backgroundColor: colors.whiteFix, marginTop: 10, height: 50, width: '100%', borderRadius: 30, justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Text style={{ color: colors.blackFix, borderRadius: 30, fontSize: 17, fontWeight: "600"}}>Commencer </Text>
         </TouchableOpacity>
 
-        <Text style={[styles.footerText, { color: colors.black}]}>
+        <TouchableOpacity onPress={() => setIsLoginVisible(true)}>
+        <Text style={{color: colors.whiteFix, fontWeight: "500", fontSize: 17, marginTop: 15}}>
+          J'ai déjà un compte
+        </Text>
+      </TouchableOpacity>
+
+        <Text style={[styles.footerText, { color: colors.whiteFix}]}>
           {t('textAuthscreen')}{' '}
           <Text
             style={[styles.link, { color: colors.primary }]}
@@ -159,8 +185,45 @@ const AuthScreen = () => {
             {t('registerHere')}
           </Text>
         </Text>
-        <Text style={{marginTop: 20, color: colors.black}} onPress={() => navigation.navigate('forgotpassword')}>{t('forgot')}</Text>
+        <Text style={{marginTop: 20, color: colors.whiteFix}} onPress={() => navigation.navigate('forgotpassword')}>{t('forgot')}</Text>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isLoginVisible}
+        onRequestClose={() => setIsLoginVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={[styles.sheetContainer, { backgroundColor: colors.whiteMode }]}>
+            
+            <TouchableOpacity 
+              style={styles.dragHandle} 
+              onPress={() => setIsLoginVisible(false)} 
+            />
+
+            <ThemedText variant="title" color={colors.black} style={{ marginBottom: 20 }}>
+              Connexion
+            </ThemedText>
+
+            <View style={styles.form}>
+              
+              <TouchableOpacity
+                onPress={signIn}
+                style={[styles.signInButton, { backgroundColor: colors.black }]}
+              >
+                <Text style={[styles.signInText, { color: colors.white}]}>{t('login')}</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity 
+              style={{ marginTop: 20 }} 
+              onPress={() => setIsLoginVisible(false)}
+            >
+              <Text style={{ color: colors.grayDark }}>Annuler</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -215,44 +278,103 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -17 }],
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  logoPassword : {
-    width: 20,
-    height: 20
-  },
-  signInButton: {
-    height: 50,
-    width: '100%',
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
-    elevation: 2,
-  },
-  signInText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  footerText: {
-    marginTop: 20,
-    color: '#666',
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  link: {
-    fontWeight: 'bold',
-  },
-  errorText: {
-    color: 'red',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  loadingContainer: {
+    },
+    logoPassword : {
+      width: 20,
+      height: 20
+    },
+    signInButton: {
+      height: 50,
+      width: '100%',
+      borderRadius: 12,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 16,
+      elevation: 2,
+    },
+    signInText: {
+      color: '#fff',
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    footerText: {
+      marginTop: 20,
+      color: '#666',
+      fontSize: 14,
+      textAlign: 'center',
+    },
+    link: {
+      fontWeight: 'bold',
+    },
+    errorText: {
+      color: 'red',
+      marginBottom: 10,
+      textAlign: 'center',
+    },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
   },
+  sheetContainer: {
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 24,
+    paddingBottom: 60,
+    alignItems: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+  },
+  dragHandle: {
+    width: 40,
+    height: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  modernInputWrapper: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  width: '100%',
+  height: 60, // Un peu plus haut pour plus de confort
+  borderRadius: 20, // Coins très arrondis (style iOS/Moderne)
+  paddingHorizontal: 20,
+  marginBottom: 20,
+  // Shadow pour iOS
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.05,
+  shadowRadius: 8,
+  // Elevation pour Android
+  elevation: 3,
+  borderWidth: 1,
+  borderColor: 'transparent', // On commence sans bordure visible
+},
+inputFocused: {
+  borderColor: '#E0E0E0', // Une bordure très fine en focus
+  backgroundColor: '#FFFFFF',
+  shadowOpacity: 0.15, // L'ombre s'accentue quand on clique
+  transform: [{ scale: 1.01 }], // Effet de zoom très léger
+},
+modernInput: {
+  flex: 1,
+  height: '100%',
+  fontSize: 16,
+  fontWeight: '500',
+  marginLeft: 15,
+},
+modernIcon: {
+  width: 22,
+  height: 22,
+},
 });
 
 export default AuthScreen;

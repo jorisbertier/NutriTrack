@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     // position: 'relative',
     paddingHorizontal: 12,
     flex: 1,
-    marginTop: -15,
+    marginTop: -30,
   },
   rowTwoItems: {
     flexDirection: 'row',
