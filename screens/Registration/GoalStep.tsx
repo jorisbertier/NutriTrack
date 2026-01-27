@@ -22,7 +22,7 @@ const GoalStep = ({
     <>
     <Text style={[styles.label, { color: colors.black, marginTop: 20, marginBottom: 10 }]}>{t('goalTitle')}</Text>
     <TouchableOpacity
-        style={[styles.goal, { backgroundColor: goal === "loss" ? colors.blueLight : colors.whiteFix, borderColor: goal === "loss" ? colors.blackFix : colors.grayDarkFix}]}
+        style={[styles.goal, { backgroundColor: goal === "loss" ? colors.blueLight : colors.whiteFix, borderColor: '#E0E0E0' }]}
         onPress={() => setGoal('loss')} 
     >
         <View style={styles.text}>
@@ -30,33 +30,33 @@ const GoalStep = ({
         <Text>{t('loseRegistration')}</Text>
 
         </View>
-        <View style={[styles.circle, { backgroundColor: goal === "loss" ? colors.blackFix : colors.whiteFix}]}>
+        {/* <View style={[styles.circle, { backgroundColor: goal === "loss" ? colors.blackFix : colors.whiteFix}]}>
             {goal === "loss" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
-        </View>
+        </View> */}
     </TouchableOpacity>
     <TouchableOpacity
-        style={[styles.goal, { backgroundColor: goal === "maintain" ? colors.blueLight : colors.whiteFix, borderColor: goal === "maintain" ? colors.blackFix : colors.grayDarkFix}]}
+        style={[styles.goal, { backgroundColor: goal === "maintain" ? colors.blueLight : colors.whiteFix, borderColor: '#E0E0E0' }]}
         onPress={() => setGoal('maintain')} 
     >   
         <View style={styles.text}>
             <Text>⚖️</Text>
             <Text>{t('maintainRegistration')}</Text>
         </View>
-        <View style={[styles.circle, { backgroundColor: goal === "maintain" ? colors.blackFix : colors.whiteFix}]}>
+        {/* <View style={[styles.circle, { backgroundColor: goal === "maintain" ? colors.blackFix : colors.whiteFix}]}>
             {goal === "maintain" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
-        </View>
+        </View> */}
     </TouchableOpacity>
     <TouchableOpacity
-        style={[styles.goal, { backgroundColor: goal === "gain" ? colors.blueLight : colors.whiteFix, borderColor: goal === "gain" ? colors.blackFix : colors.grayDarkFix}]}
+        style={[styles.goal, { backgroundColor: goal === "gain" ? colors.blueLight : colors.whiteFix, borderColor: '#E0E0E0' }]}
         onPress={() => setGoal('gain')} 
     >
         <View style={styles.text}>
             <Text>➕</Text>
             <Text>{t('gainRegistration')}</Text>
         </View>
-        <View style={[styles.circle, { backgroundColor: goal === "gain" ? colors.blackFix : colors.whiteFix}]}>
+        {/* <View style={[styles.circle, { backgroundColor: goal === "gain" ? colors.blackFix : colors.whiteFix}]}>
             {goal === "gain" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
-        </View>
+        </View> */}
     </TouchableOpacity>
     {goalError && <Text style={styles.errorText}>{goalError}</Text>}
     </>
@@ -64,9 +64,9 @@ const GoalStep = ({
 }
 
 const styles = StyleSheet.create({
-        label : {
+    label : {
         fontWeight: 500,
-        fontSize: 15,
+        fontSize: 20,
         marginBottom: 5
     },
     circle : {
@@ -82,20 +82,28 @@ const styles = StyleSheet.create({
     goal : {
         borderWidth: 1,
         padding: 10,
-        borderRadius: 15,
-        height: 50,
+        borderRadius: 20,
+        height: 60,
         marginBottom: 10,
         display: 'flex',
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems:'center',
         paddingHorizontal: 20,
+                elevation: 2,
+        // Shadow pour iOS
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
     },
     image: {
         height: 15,
         width: 15,
     },
     text: {
+        fontSize: 16,
+        fontWeight: '500',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',

@@ -84,15 +84,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderWidth: 1,
         padding: 10,
-        borderRadius: 15,
-        height: 50,
+        borderRadius: 20,
+        height: 60,
         marginBottom: 20,
         fontSize: 15,
         fontWeight: 500
     },
     label : {
         fontWeight: 500,
-        fontSize: 15,
+        fontSize: 20,
         marginBottom: 5
     },
     errorText: {
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
     },
     dateInput: {
         padding: 10,
-        borderRadius: 15,
-        height: 50,
+        borderRadius: 20,
+        height: 60,
         marginBottom: 20,
         display: "flex",
         flexDirection: 'row',

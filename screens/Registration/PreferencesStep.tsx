@@ -1,12 +1,7 @@
-import React, { useState } from 'react';
-import { Text, View, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React from 'react';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@/hooks/ThemeProvider';
-import LottieView from 'lottie-react-native';
 import { useTranslation } from 'react-i18next';
-import { capitalizeFirstLetter } from '../../functions/function';
-
-
 
 type Props = {
     activityLevel: string;
@@ -17,7 +12,6 @@ type Props = {
     genderError: string;
 }
 
-
 const PreferencesStep = ({
     activityLevel,
     setActivityLevel,
@@ -26,101 +20,152 @@ const PreferencesStep = ({
     setGender,
     genderError,
 }: Props) => {
-    console.log(gender)
-
-    const {colors} = useTheme();
+    const { colors } = useTheme();
     const { t } = useTranslation();
 
-    return (
-    <>
-        <Text style={[styles.label, { color: colors.black, marginTop: 20 }]}>{t('activityLevel')}</Text>
-        <View style={styles.picker}>
-            <Picker
-                selectedValue={activityLevel}
-                style={[{ backgroundColor: colors.whiteFix }]}
-                onValueChange={(itemValue) => setActivityLevel(itemValue)}
-            >
-            <Picker.Item label={t('sedentary')} value="sedentary" />
-            <Picker.Item label={t('lowactive')} value="lowactive" />
-            <Picker.Item label={t('moderate')} value="moderate" />
-            <Picker.Item label={t('active')} value="active" />
-            <Picker.Item label={t('superactive')} value="superactive" />
-            </Picker>
-        </View>
-        {activityError ? <Text style={styles.errorText}>{activityError}</Text> : null}
+    const activityOptions = [
+        { id: 'sedentary', label: t('sedentary') },
+        { id: 'lowactive', label: t('lowactive') },
+        { id: 'moderate', label: t('moderate') },
+        { id: 'active', label: t('active') },
+        { id: 'superactive', label: t('superactive') },
+    ];
 
-        <Text style={[styles.label, { color: colors.black }]}>{t('select_gender')}</Text>
-        <TouchableOpacity
-            style={[styles.genderContainer, { backgroundColor: gender === "male" ? colors.blueLight : colors.whiteFix, borderColor: gender === "male" ? colors.blackFix : colors.grayDarkFix }]}
-            onPress={() => setGender('male')}
-        >
-            <Text style={{textTransform: 'capitalize'}}>{t('gender_male')}</Text>
-            <View style={[styles.circle, { backgroundColor : gender === "male" ? colors.blackFix : colors.whiteFix}]}>
-                {gender === "male" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
+    const renderOption = (currentValue: string, value: string, label: string, onSelect: (v: string) => void) => {
+        const isSelected = currentValue === value;
+        return (
+            <TouchableOpacity
+                key={value}
+                activeOpacity={0.7}
+                style={[
+                    styles.card,
+                    { 
+                        backgroundColor: isSelected ? colors.blueLight : colors.whiteFix, 
+                        borderColor: '#E0E0E0' 
+                    }
+                ]}
+                onPress={() => onSelect(value)}
+            >
+                <Text style={[styles.cardText, { color: colors.black }]}>{label}</Text>
+                {/* <View style={[
+                    styles.customRadio, 
+                    { borderColor: isSelected ? colors.blackFix : '#CCC', backgroundColor: isSelected ? colors.blackFix : 'transparent' }
+                ]}>
+                    {isSelected && <Image style={styles.checkIcon} source={require('@/assets/images/icon/check-light.png')} />}
+                </View> */}
+            </TouchableOpacity>
+        );
+    };
+
+    return (
+        <View style={styles.container}>
+            {/* Niveau d'activité - Version Modern Chips/Cards */}
+            <Text style={[styles.label, { color: colors.black }]}>{t('activityLevel')}</Text>
+            <View style={styles.optionsGrid}>
+                {activityOptions.map((opt) => renderOption(activityLevel, opt.id, opt.label, setActivityLevel))}
             </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-            style={[styles.genderContainer, { backgroundColor: gender === "female" ? colors.blueLight : colors.whiteFix, borderColor: gender === "female" ? colors.blackFix : colors.grayDarkFix}]}
-            onPress={() => setGender('female')} 
-        >
-            <Text style={{textTransform: 'capitalize'}}>{t('gender_female')}</Text>
-            <View style={[styles.circle, { backgroundColor: gender === "female" ? colors.blackFix : colors.whiteFix}]}>
-                {gender === "female" && <Image style={styles.image} source={require('@/assets/images/icon/check-light.png')}/>}
+            {activityError ? <Text style={styles.errorText}>{activityError}</Text> : null}
+
+            <View style={{ height: 20 }} />
+
+            {/* Genre */}
+            <Text style={[styles.label, { color: colors.black }]}>{t('select_gender')}</Text>
+            <View style={styles.row}>
+                {['male', 'female'].map((g) => (
+                    <TouchableOpacity
+                        key={g}
+                        style={[
+                            styles.genderCard,
+                            { 
+                                backgroundColor: gender === g ? colors.blueLight : colors.whiteFix, 
+                                borderColor: '#E0E0E0' 
+                            }
+                        ]}
+                        onPress={() => setGender(g)}
+                    >
+                        <Text style={styles.genderText}>{t(`gender_${g}`)}</Text>
+                    </TouchableOpacity>
+                ))}
             </View>
-        </TouchableOpacity>
-        {genderError ? <Text style={styles.errorTextGender}>{genderError}</Text> : null}
-    </>
-    )
+            {genderError ? <Text style={styles.errorText}>{genderError}</Text> : null}
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-    label : {
-        fontWeight: 500,
-        fontSize: 15,
-        marginBottom: 5
+    container: {
+        paddingVertical: 10,
     },
-    circle : {
-        height: 20,
-        width: 20,
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 5,
-        display: 'flex',
+    label: {
+        fontWeight: '700',
+        fontSize: 20,
+        marginBottom: 12,
+        letterSpacing: 0.5,
+    },
+    optionsGrid: {
+        gap: 10,
+    },
+    card: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 20,
+        borderRadius: 20,
+        borderWidth: 1.5,
+        // Elevation pour Android
+        elevation: 2,
+        // Shadow pour iOS
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+    },
+    cardText: {
+        fontSize: 16,
+        fontWeight: '500',
+        textTransform: 'capitalize',
+    },
+    customRadio: {
+        height: 22,
+        width: 22,
+        borderRadius: 11,
+        borderWidth: 2,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
-    image: {
-        height: 15,
-        width: 15,
+    checkIcon: {
+        height: 12,
+        width: 12,
+    },
+    row: {
+        flexDirection: 'row',
+        gap: 10,
+    },
+    genderCard: {
+        flex: 1,
+        height: 55,
+        borderRadius: 20,
+        borderWidth: 1.5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+    },
+    genderText: {
+        fontSize: 16,
+        fontWeight: '500',
+        textTransform: 'capitalize',
     },
     errorText: {
-        color: 'red',
-        marginTop: -10,
-        marginBottom: 10
+        color: '#FF3B30',
+        fontSize: 12,
+        marginTop: 6,
+        marginLeft: 4,
     },
-    errorTextGender: {
-        color: 'red',
-        marginTop: -5,
-        marginBottom: 15
-    },
-    genderContainer : {
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 15,
-        height: 50,
-        marginBottom: 10,
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        alignItems:'center',
-        paddingHorizontal: 20,
-    },
-    picker : {
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        overflow: 'hidden',
-        marginBottom: 20
-    }
-})
+});
+
 export default PreferencesStep;
